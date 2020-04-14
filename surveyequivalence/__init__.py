@@ -89,6 +89,58 @@ def generate_labels(item_states, num_labels_per_item=10):
         columns = ["r{}".format(i) for i in range(1, num_labels_per_item+1)]
     )
 
+############# prediction functions ###################
+
+def frequency_predictor(allowable_labels, labels, item_id=None, to_predict_for=None):
+    """
+    Ignore item_id and to_predict_for
+    return a vector of frequencies with which the allowable labels occur
+
+    >>> frequency_predictor(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]))
+    {0.3333333333333333, 0.6666666666666666}
+
+    >>> frequency_predictor(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]))
+    {0.0, 1.0}
+    """
+    freqs = {k: 0 for k in allowable_labels}
+    for label in labels[:, 1]:
+        freqs[label] += 1
+    tot = sum(freqs.values())
+    return {freqs[k] / tot for k in allowable_labels}
+
+
+############# scoring functions ######################
+
+def convert_to_discrete_prediction(allowable_labels, probabilities):
+    """
+    Return the single label that has the highest predicted probability.
+    Break ties by taking the first one
+
+    >>> discrete_prediction(['a', 'b', 'c'], [.3, .4, .3])
+    'b'
+    >>> discrete_prediction(['a', 'b', 'c'], [.4, .4, .2])
+    'a'
+    """
+    return allowable_labels[np.argmax(probabilities)]
+
+
+def agreement_score(allowable_labels, classifier_predictions, rater_labels):
+    """
+    Resolve predictions to identify the most likely single label;
+    Return the fraction where predicted matches actual
+
+    >>> agreement_score(['a', 'b'], [[.3, .7], [.4, .6], [.6, .4]], ['b', 'b', 'b'])
+    0.6666666666666666
+
+    >>> agreement_score(['a', 'b'], [[.3, .7], [.4, .6], [.6, .4]], ['a', 'b', 'b'])
+    0.3333333333333333
+    """
+    classifier_labels = [convert_to_discrete_prediction(allowable_labels, pred)
+                         for pred in classifier_predictions]
+    return np.mean([a == b for (a, b) in zip(classifier_labels, rater_labels)])
+
+
+
 def make_test_datasets():
     num_items_per_dataset = 1000
     num_labels_per_item = 10
