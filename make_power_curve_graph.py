@@ -72,48 +72,58 @@ def make_power_curve_graph(expert_scores, amateur_scores ,classifier_scores, poi
                 axhline(y=score,  color=classifier_scores['colors'].iloc[i],linewidth=2, linestyle='dashed',label=classifier_scores['names'].iloc[i])
 
 
-        #If  Points_to_show_SurveyEquiv exists:
+    #If  Points_to_show_SurveyEquiv exists:
     if points_to_show_surveyEquiv is not None:
 
-        classifier_copy = classifier_scores.copy()
-        f = expert_scores['Power_curve']['k']==0
-        classifier_copy.where(f, inplace = True)
+
+        expert_scores_copy = expert_scores['Power_curve'].copy()
+        f = expert_scores_copy['k']==0
+
+        expert_scores_copy.where(f, inplace = True)
+
+        expert_score_at_0 = expert_scores_copy.dropna()['score'].iloc[0]
 
     #if  (score, which is the y value at point x)<expert score at 0 return 0
-    #[assuming this means plot at point 0,0?]-------------------------------
-        if (classifier_copy.dropna().empty is  True):
-            plt.scatter(0, 0,c='black')
+    #[does this means plot at point 0,0?]-------------------------------
+        x_intercepts=[0,54]
 
-        else:
-            for i in se:
+        for i in range(len(se)):
                 #else: get min(k:where expert score at k>our score)
 
                 #if expert line never above our score, return 1> maximum number of expert raters.
 
-                if i['which_type'] == 'classifier':
+                if se[i]['which_type'] == 'classifier':
+
                     classifier_copy = classifier_scores.copy()
-                    f = classifier_copy['names']==i['name']
+                    f = classifier_copy['names']==se[i]['name']
                     classifier_copy.where(f, inplace = True)
                     y= float( classifier_copy.dropna()['scores'].iloc[0])
                     x_intercept = np.interp(y, expert_scores['Power_curve']['score'].to_list(), expert_scores['Power_curve']['k'].to_list())
+
+                    x_intercepts.append(x_intercept)
                     plt.scatter(x_intercept, y,c='black')
                     plt.axvline(x=x_intercept,  color='black',linewidth=2, linestyle='dashed',ymax =y)
 
 
-                if i['which_type'] == 'amateur':
+                if se[i]['which_type'] == 'amateur':
+
                     for j in amateur_scores:
-                        if i['name'] == j['name']:
+                        if se[i]['name'] == j['name']:
                             #find the points that make up the line
                             x = j['Power_curve']['k'].tolist()
                             y = j['Power_curve']['score'].tolist()
                             #given x_value, find the corresponding y value for that point on the line
-                            y_intercept_at_x_value= np.interp(i['which_x_value'], x,y)
-                            if (y_intercept_at_x_value<expert_score_at_0):
-                                print('y_intercept_at_x_value<expert_score_at_0')
+                            y_intercept_at_x_value= np.interp(se[i]['which_x_value'], x,y)
+#                             if (y_intercept_at_x_value<expert_score_at_0):
+#                                 print('y_intercept_at_x_value<expert_score_at_0')
 
                             x_intercept = np.interp(y_intercept_at_x_value, expert_scores['Power_curve']['score'].to_list(), expert_scores['Power_curve']['k'].to_list())
+                            x_intercepts.append(x_intercept)
                             plt.scatter(x_intercept, y_intercept_at_x_value,c='black')
                             plt.axvline(x=x_intercept,  color='black',linewidth=2, linestyle='dashed',ymax =y_intercept_at_x_value)
+        x_intercepts.sort()
+        plt.xticks([i for i in x_intercepts])
+        plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}'))
 
 
 
