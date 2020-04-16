@@ -8,14 +8,8 @@ import pandas as pd
 class State:
 
     @abstractmethod
-    def __init__(self,
-                 state_name: str,
-                 labels: Sequence[str],
-                 probabilities: Sequence[float]
-                 ):
-        self.state_name = state_name
-        self.labels = labels
-        self.probabilities = probabilities
+    def __init__(self):
+        pass
 
     @abstractmethod
     def draw_labels(self, n):
@@ -29,8 +23,10 @@ class DiscreteState(State):
                  labels: Sequence[str],
                  probabilities: Sequence[float]
                  ):
-        super().__init__(state_name, labels, probabilities)
-
+        super().__init__()
+        self.state_name = state_name
+        self.labels = labels
+        self.probabilities = probabilities
 
     def draw_labels(self, n: int):
         return np.random.choice(
@@ -67,7 +63,7 @@ class DiscreteDistributionOverStates(DistributionOverStates):
         )
 
 class DiscreteLabelsWithNoise(DiscreteDistributionOverStates):
-    def __init__(self, states: Sequence[State], probabilities: Sequence[float]):
+    def __init__(self, states: Sequence[DiscreteState], probabilities: Sequence[float]):
         # check that state names match the label names
         labels_names = [s.state_name for s in states]
         for s in states:
