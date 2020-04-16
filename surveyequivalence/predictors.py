@@ -10,6 +10,7 @@ class Prediction(ABC):
 
 class DiscreteDistributionPrediction(Prediction):
     def __init__(self, label_names, probabilities):
+        super().__init__()
         self.label_names = label_names
         self.probabilities = probabilities
 
@@ -47,7 +48,6 @@ def frequency_predictor(allowable_labels: Sequence['str'],
     for label in labels[:, 1]:
         freqs[label] += 1
     tot = sum(freqs.values())
-    return DiscreteDistributionPrediction(allowable_labels,
-                              freqs[k] / tot for k in allowable_labels)
+    return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
 
 
