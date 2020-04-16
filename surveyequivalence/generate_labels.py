@@ -8,8 +8,14 @@ import pandas as pd
 class State:
 
     @abstractmethod
-    def __init__(self):
-        pass
+    def __init__(self,
+                 state_name: str,
+                 labels: Sequence[str],
+                 probabilities: Sequence[float]
+                 ):
+        self.state_name = state_name
+        self.labels = labels
+        self.probabilities = probabilities
 
     @abstractmethod
     def draw_labels(self, n):
@@ -23,9 +29,8 @@ class DiscreteState(State):
                  labels: Sequence[str],
                  probabilities: Sequence[float]
                  ):
-        self.state_name = state_name
-        self.labels = labels
-        self.probabilities = probabilities
+        super().__init__(state_name, labels, probabilities)
+
 
     def draw_labels(self, n: int):
         return np.random.choice(
@@ -44,16 +49,17 @@ class DistributionOverStates(ABC):
         pass
 
     @abstractmethod
-    def draw_states(self):
+    def draw_states(self, n: int):
         pass
 
 
 class DiscreteDistributionOverStates(DistributionOverStates):
     def __init__(self, states: Sequence[State], probabilities: Sequence[float]):
+        super().__init__()
         self.probabilities = probabilities
         self.states = states
 
-    def draw_states(self, n) -> Sequence[DiscreteState]:
+    def draw_states(self, n: int) -> Sequence[DiscreteState]:
         return np.random.choice(
             self.states,
             size=n,
@@ -74,6 +80,7 @@ class DiscreteLabelsWithNoise(DiscreteDistributionOverStates):
 
 class MixtureOfBetas(DistributionOverStates):
     def __init__(self):
+        super().__init__()
         pass
 
     def draw_states(self, n) -> Sequence[DiscreteState]:
