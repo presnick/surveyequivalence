@@ -8,6 +8,19 @@ class Prediction(ABC):
     def __init__(self):
         pass
 
+    @abstractmethod
+    @property
+    def value(self):
+        pass
+
+    @abstractmethod
+    def combiner(self,
+                 allowable_labels: Sequence['str'],
+                            labels: np.array,
+                            rater_id=None,
+                            to_predict_for=None):
+        pass
+
 class DiscreteDistributionPrediction(Prediction):
     def __init__(self, label_names, probabilities):
         super().__init__()
@@ -30,24 +43,24 @@ class DiscreteDistributionPrediction(Prediction):
         return self.label_names[np.argmax(self.probabilities)]
 
 
-def frequency_predictor(allowable_labels: Sequence['str'],
-                        labels: np.array,
-                        item_id=None,
-                        to_predict_for=None):
-    """
-    Ignore item_id and to_predict_for
-    return a vector of frequencies with which the allowable labels occur
+    def frequency_combiner(allowable_labels: Sequence['str'],
+                            labels: np.array,
+                            rater_id=None,
+                            to_predict_for=None):
+        """
+        Ignore item_id and to_predict_for
+        return a vector of frequencies with which the allowable labels occur
 
-    >>> frequency_predictor(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')])).probabilities
-    {0.3333333333333333, 0.6666666666666666}
+        >>> frequency_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')])).probabilities
+        {0.3333333333333333, 0.6666666666666666}
 
-    >>> frequency_predictor(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')])).probabilities
-    {0.0, 1.0}
-    """
-    freqs = {k: 0 for k in allowable_labels}
-    for label in labels[:, 1]:
-        freqs[label] += 1
-    tot = sum(freqs.values())
-    return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
+        >>> frequency_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')])).probabilities
+        {0.0, 1.0}
+        """
+        freqs = {k: 0 for k in allowable_labels}
+        for label in labels[:, 1]:
+            freqs[label] += 1
+        tot = sum(freqs.values())
+        return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
 
 
