@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 from .predictors import Prediction
 from .scoring_functions import Score
 
@@ -21,6 +22,10 @@ class PowerCurve():
     def compute_cis(self, width=.95):
         # if we had many runs, get the 2.5th and 97.5th centiles of the distribution at each k
         pass
+
+    def plot(self, ax: plt.axes.Axes):
+        pass
+
 
 
 class AnalysisPipeline():
