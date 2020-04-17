@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
 import numpy as np
+import pandas as pd
 import random
 
 from .combiners import Prediction
 from matplotlib import pyplot as plt
+import matplotlib
 
 N = 1000
 
@@ -24,7 +26,7 @@ class PowerCurve:
         # if we had many runs, get the 2.5th and 97.5th centiles of the distribution at each k
         pass
 
-    def plot(self, ax: plt.axes.Axes):
+    def plot(self, ax: matplotlib.axes.Axes):
         pass
 
 
@@ -32,29 +34,46 @@ class PowerCurve:
 class AnalysisPipeline:
 
     def __init__(self,
-                 W: np.matrix,
+                 W: pd.DataFrame,
                  combiner: Callable[[Sequence[str], np.array, str, str], Prediction],
-                 scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float]
+                 scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
+                 allowable_labels: Sequence[str]
                  ):
         self.W = W
         self.combiner = combiner
         self.scoring_function = scoring_function
+        self.allowable_labels = allowable_labels
         self.power_curve = PowerCurve()  # a sequence of results from calling compute_power_curve some number of times
 
     def compute_one_power_run(self, K: int) -> Dict[int, float]:
         assert(K>0)
+
+        result = dict()
+
+        N = len(self.W.index)
+
         for k in range(1,K+1): #TODO check 1, and K
+            predictions = list()
+            reference_ratings = list()
+
             # Sample N rows from the rating matrix W with replacement
-            I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
+            # I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
+            I = self.W.sample(N, replace=True, axis='index')
+            predictions = list()
+            reference_ratings = list()
 
             #for each item/row in sample
-            for item in I:
+            for index, item in I.iterrows():
                 #sample ratings from nonzero ratings of the item
-                sample_ratings = np.random.choice(item[np.nonzero(item)], k+1)
-                predictor_ratings = sample_ratings[0:-1]
-                reference_rater = sample_ratings[-1:]
-                combiner()  #TODO stopped here.
-        return {}
+                # sample_ratings = np.random.choice(item[np.nonzero(item)], k+1)
+                sample_ratings = item.sample(k+1)
+                rating_tups = list(zip(sample_ratings.index, sample_ratings))
+                reference_ratings.append(rating_tups[-1][1])
+                predictions.append(self.combiner(self.allowable_labels,
+                                            rating_tups[0:-1]))
+
+            result[k] = self.scoring_function(predictions, reference_ratings)
+        return result
 
 
 

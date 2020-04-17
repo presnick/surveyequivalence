@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Tuple
 import numpy as np
 
 
@@ -36,12 +36,12 @@ class DiscreteDistributionPrediction(Prediction):
         return self.label_names[np.argmax(self.probabilities)]
 
 
-def frequency_combiner(allowable_labels: Sequence['str'],
-                       labels: np.array,
-                       rater_id=None,
+def frequency_combiner(allowable_labels: Sequence[str],
+                       labels: Sequence[Tuple[str, str]],
+                       item_id=None,
                        to_predict_for=None) -> float:
     """
-    Ignore item_id and to_predict_for
+    Ignore item_id, rater_ids (first element of each tuple in labels), and rater_id to_predict_for
     return a vector of frequencies with which the allowable labels occur
 
     >>> frequency_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')])).probabilities
@@ -51,7 +51,7 @@ def frequency_combiner(allowable_labels: Sequence['str'],
     [0.0, 1.0]
     """
     freqs = {k: 0 for k in allowable_labels}
-    for label in labels[:, 1]:
+    for label in [l[1] for l in labels]:
         freqs[label] += 1
     tot = sum(freqs.values())
     return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])

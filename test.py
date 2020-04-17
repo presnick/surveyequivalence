@@ -6,7 +6,9 @@ import numpy as np
 from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     frequency_combiner, DiscreteDistributionPrediction, \
-    agreement_score
+    agreement_score, \
+    AnalysisPipeline
+
 
 def make_test_datasets():
     num_items_per_dataset = 1000
@@ -39,6 +41,9 @@ def main():
     print("*****testing scoring functions*******")
     assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b']) == 0.6666666666666666
     assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b']) == 0.3333333333333333
+
+    p = AnalysisPipeline(d1, frequency_combiner, agreement_score, allowable_labels=['pos', 'neg'])
+    print(p.compute_one_power_run(6))
 
 if __name__ == '__main__':
     main()
