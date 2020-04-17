@@ -2,15 +2,16 @@ from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
 import numpy as np
 import random
-import matplotlib.pyplot as plt
-from .predictors import Prediction
-from .scoring_functions import Score
+
+from .combiners import Prediction
+from matplotlib import pyplot as plt
 
 N = 1000
 
-class PowerCurve():
 
-    def __init__(self, means=None: Dict[int, float], cis=None: Dict[int, Tuple[float, float]):
+class PowerCurve:
+
+    def __init__(self, means: Dict[int, float] = None, cis: Dict[int, Tuple[float, float]] = None):
         self.means = means
         self.cis = cis
         self.results = []  # each item will be one dictionary with scores at different k
@@ -28,24 +29,23 @@ class PowerCurve():
 
 
 
-class AnalysisPipeline():
+class AnalysisPipeline:
 
     def __init__(self,
                  W: np.matrix,
-                 combiner: Callable[[Sequence['str'], np.array, str, str], Prediction],
+                 combiner: Callable[[Sequence[str], np.array, str, str], Prediction],
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float]
                  ):
         self.W = W
         self.combiner = combiner
         self.scoring_function = scoring_function
-        self.power_curve = PowerCurve() # a sequence of results from calling compute_power_curve some number of times
+        self.power_curve = PowerCurve()  # a sequence of results from calling compute_power_curve some number of times
 
-
-    def compute_one_power_run(self, K: int): -> Dict[int, float]
+    def compute_one_power_run(self, K: int) -> Dict[int, float]:
         assert(K>0)
         for k in range(1,K+1): #TODO check 1, and K
             # Sample N rows from the rating matrix W with replacement
-            I = W[np.random.choice(W.shape[0], N, replace=True)]
+            I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
 
             #for each item/row in sample
             for item in I:
@@ -54,6 +54,7 @@ class AnalysisPipeline():
                 predictor_ratings = sample_ratings[0:-1]
                 reference_rater = sample_ratings[-1:]
                 combiner()  #TODO stopped here.
+        return {}
 
 
 
