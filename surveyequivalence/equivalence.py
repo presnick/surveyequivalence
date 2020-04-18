@@ -13,20 +13,19 @@ N = 1000
 
 class PowerCurve:
 
-    def __init__(self, means: Dict[int, float] = None, cis: Dict[int, Tuple[float, float]] = None):
-        self.means = means
-        self.cis = cis
-        self.results = []  # each item will be one dictionary with scores at different k
+    def __init__(self,
+                 runs: Sequence[Dict[int, float]]):
+        # each run will be one dictionary with scores at different k
+        self.df  = pd.DataFrame(runs)
+        self.compute_means_and_cis()
 
-    def compute_means(self):
-        # if we had many runs, get the mean at each k
-        pass
+    def compute_means_and_cis(self):
+        self.means = self.df.mean()
+        self.cis = self.df.std() * 2
 
-    def compute_cis(self, width=.95):
-        # if we had many runs, get the 2.5th and 97.5th centiles of the distribution at each k
-        pass
 
     def plot(self, ax: matplotlib.axes.Axes):
+        # use indexes, means,  and cis as x, y and yerror in call to .errorbar in matplotlib
         pass
 
 
@@ -37,13 +36,18 @@ class AnalysisPipeline:
                  W: pd.DataFrame,
                  combiner: Callable[[Sequence[str], np.array, str, str], Prediction],
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
-                 allowable_labels: Sequence[str]
+                 allowable_labels: Sequence[str],
+                 null_prediction: Prediction,
+                 num_runs=10
                  ):
         self.W = W
         self.combiner = combiner
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
-        self.power_curve = PowerCurve()  # a sequence of results from calling compute_power_curve some number of times
+        self.null_prediction = null_prediction
+        max_raters = self.W.shape[1] - 1
+        self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)])
+
 
     def compute_one_power_run(self, K: int) -> Dict[int, float]:
         assert(K>0)
@@ -52,7 +56,7 @@ class AnalysisPipeline:
 
         N = len(self.W.index)
 
-        for k in range(1,K+1): #TODO check 1, and K
+        for k in range(0,K+1):
             predictions = list()
             reference_ratings = list()
 
@@ -69,10 +73,13 @@ class AnalysisPipeline:
                 sample_ratings = item.sample(k+1)
                 rating_tups = list(zip(sample_ratings.index, sample_ratings))
                 reference_ratings.append(rating_tups[-1][1])
-                predictions.append(self.combiner(self.allowable_labels,
-                                            rating_tups[0:-1]))
-
+                if k==0:
+                    pred = self.null_prediction
+                else:
+                    pred = self.combiner(self.allowable_labels, rating_tups[0:-1])
+                predictions.append(pred)
             result[k] = self.scoring_function(predictions, reference_ratings)
+
         return result
 
 
