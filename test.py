@@ -43,7 +43,11 @@ def main():
     assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b']) == 0.3333333333333333
 
     p = AnalysisPipeline(d1, frequency_combiner, agreement_score, allowable_labels=['pos', 'neg'])
-    print(p.compute_one_power_run(6))
+
+    for i in range(10):
+        print(p.compute_one_power_run(6))
+
+
 
 if __name__ == '__main__':
     main()

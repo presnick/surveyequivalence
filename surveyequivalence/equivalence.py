@@ -1,12 +1,11 @@
-from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
+
+import matplotlib
 import numpy as np
 import pandas as pd
-import random
+from matplotlib import pyplot as plt
 
 from .combiners import Prediction
-from matplotlib import pyplot as plt
-import matplotlib
 
 N = 1000
 
@@ -30,23 +29,23 @@ class PowerCurve:
         pass
 
 
-
 class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
-                 combiner: Callable[[Sequence[str], np.array, str, str], Prediction],
+                 combiner: Callable[[Sequence[str], np.array], Prediction],
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
                  allowable_labels: Sequence[str]
                  ):
-        self.cols = W.columns[:-1]
+        self.cols = W.columns
         self.W = W.to_numpy()
         self.combiner = combiner
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.power_curve = PowerCurve()  # a sequence of results from calling compute_power_curve some number of times
 
-    def array_choice(self, k: int, n: int):
+    @staticmethod
+    def array_choice(k: int, n: int):
         choice = np.zeros(k, dtype=int)
         arr = np.zeros(n, dtype=int)
         arr[:k] = 1
@@ -56,6 +55,7 @@ class AnalysisPipeline:
             if c == 1:
                choice[idx] = i
                idx += 1
+        np.random.shuffle(choice)
         return choice
 
     def compute_one_power_run(self, K: int) -> Dict[int, float]:
@@ -65,40 +65,36 @@ class AnalysisPipeline:
 
         N = len(self.W)
 
-        for k in range(1,K+1): #TODO check 1, and K
-            predictions = list()
-            reference_ratings = list()
+        for k in range(1,K+1):
 
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
-            #I = self.W.sample(N, replace=True, axis='index')
+
             predictions = list()
             reference_ratings = list()
 
-            #for each item/row in sample
+            # for each item/row in sample
             for index, item in enumerate(I):
-                item = item[:-1]
-                true_label = item[-1]
-
-                #sample ratings from nonzero ratings of the item
+                """
+                Sample ratings from nonzero ratings of the item. This code needs to randomly choose columns 
+                and ratings, but because these are seperate variables, we need to first pick a random mask and 
+                then apply that mask to the two arrays so that they align.
+                """
                 nonzero_itm_mask = np.nonzero(item)
                 nonzero_itms = item[nonzero_itm_mask]
                 nonzero_cols = self.cols[nonzero_itm_mask]
+
                 assert(len(nonzero_itms) == len(nonzero_cols))
                 choice_mask = self.array_choice(k+1, len(nonzero_cols))
                 sample_ratings = nonzero_itms[choice_mask]
                 sample_cols = list(nonzero_cols[choice_mask])
 
-                #sample_ratings = np.random.choice(item[np.nonzero(item)], k+1) # CANT HAAVE MISSINGS
-                #sample_ratings = item.sample(k+1)
                 rating_tups = list(zip(sample_cols, sample_ratings))
-                reference_ratings.append(true_label)
-                predictions.append(self.combiner(self.allowable_labels,
-                                            rating_tups))
+                reference_ratings.append(rating_tups[-1][1])
+                predictions.append(self.combiner(self.allowable_labels, rating_tups[0:-1]))
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
-
 
 
 def make_power_curve_graph(expert_scores, amateur_scores, classifier_scores, points_to_show_surveyEquiv=None):
