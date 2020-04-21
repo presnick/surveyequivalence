@@ -39,38 +39,62 @@ class AnalysisPipeline:
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
                  allowable_labels: Sequence[str]
                  ):
-        self.W = W
+        self.cols = W.columns[:-1]
+        self.W = W.to_numpy()
         self.combiner = combiner
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.power_curve = PowerCurve()  # a sequence of results from calling compute_power_curve some number of times
+
+    def array_choice(self, k: int, n: int):
+        choice = np.zeros(k, dtype=int)
+        arr = np.zeros(n, dtype=int)
+        arr[:k] = 1
+        np.random.shuffle(arr)
+        idx = 0
+        for i, c in enumerate(arr):
+            if c == 1:
+               choice[idx] = i
+               idx += 1
+        return choice
 
     def compute_one_power_run(self, K: int) -> Dict[int, float]:
         assert(K>0)
 
         result = dict()
 
-        N = len(self.W.index)
+        N = len(self.W)
 
         for k in range(1,K+1): #TODO check 1, and K
             predictions = list()
             reference_ratings = list()
 
             # Sample N rows from the rating matrix W with replacement
-            # I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
-            I = self.W.sample(N, replace=True, axis='index')
+            I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
+            #I = self.W.sample(N, replace=True, axis='index')
             predictions = list()
             reference_ratings = list()
 
             #for each item/row in sample
-            for index, item in I.iterrows():
+            for index, item in enumerate(I):
+                item = item[:-1]
+                true_label = item[-1]
+
                 #sample ratings from nonzero ratings of the item
-                # sample_ratings = np.random.choice(item[np.nonzero(item)], k+1)
-                sample_ratings = item.sample(k+1)
-                rating_tups = list(zip(sample_ratings.index, sample_ratings))
-                reference_ratings.append(rating_tups[-1][1])
+                nonzero_itm_mask = np.nonzero(item)
+                nonzero_itms = item[nonzero_itm_mask]
+                nonzero_cols = self.cols[nonzero_itm_mask]
+                assert(len(nonzero_itms) == len(nonzero_cols))
+                choice_mask = self.array_choice(k+1, len(nonzero_cols))
+                sample_ratings = nonzero_itms[choice_mask]
+                sample_cols = list(nonzero_cols[choice_mask])
+
+                #sample_ratings = np.random.choice(item[np.nonzero(item)], k+1) # CANT HAAVE MISSINGS
+                #sample_ratings = item.sample(k+1)
+                rating_tups = list(zip(sample_cols, sample_ratings))
+                reference_ratings.append(true_label)
                 predictions.append(self.combiner(self.allowable_labels,
-                                            rating_tups[0:-1]))
+                                            rating_tups))
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
