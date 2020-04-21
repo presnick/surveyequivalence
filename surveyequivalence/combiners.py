@@ -39,7 +39,7 @@ class DiscreteDistributionPrediction(Prediction):
 def frequency_combiner(allowable_labels: Sequence[str],
                        labels: Sequence[Tuple[str, str]],
                        item_id=None,
-                       to_predict_for=None) -> float:
+                       to_predict_for=None) -> Prediction:
     """
     Ignore item_id, rater_ids (first element of each tuple in labels), and rater_id to_predict_for
     return a vector of frequencies with which the allowable labels occur
@@ -57,3 +57,5 @@ def frequency_combiner(allowable_labels: Sequence[str],
     return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
 
 
+def anonymous_bayesian_combiner():
+    pass
