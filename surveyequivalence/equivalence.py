@@ -24,9 +24,24 @@ class PowerCurve:
         self.cis = self.df.std() * 2
 
 
-    def plot(self, ax: matplotlib.axes.Axes):
+    def plot_curve(self, ax: matplotlib.axes.Axes, label='Experts', color='black', show_lines=True):
         # use indexes, means,  and cis as x, y and yerror in call to .errorbar in matplotlib
+
+        if show_lines:
+            linestyle = '-'
+        else:
+            linestyle = ''
+
+        ax.errorbar(self.means.index, self.means, yerr=self.cis,
+                    marker='o', color=color,
+                    elinewidth=2, capsize=5,
+                    label=label, linestyle=linestyle)
+
+    def plot_equivalence(self, ax: matplotlib.axes.Axes, equivalence_value, color='red'):
         pass
+
+    def compute_equivalence(self, classifier_score):
+        return 1
 
 
 class AnalysisPipeline:
@@ -37,7 +52,7 @@ class AnalysisPipeline:
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
-                 num_runs=10
+                 num_runs=1
                  ):
         self.cols = W.columns
         self.W = W.to_numpy()
