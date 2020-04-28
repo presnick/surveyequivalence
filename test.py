@@ -9,11 +9,11 @@ from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     frequency_combiner, DiscreteDistributionPrediction, \
     agreement_score, \
-    AnalysisPipeline
+    AnalysisPipeline, anonymous_bayesian_combiner
 
 
 def make_test_datasets():
-    num_items_per_dataset = 100
+    num_items_per_dataset = 1000
     num_labels_per_item = 10
     state_generator_1 = \
         DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
@@ -37,21 +37,30 @@ def main():
     d1 = make_test_datasets()
     print(d1)
     print("*****testing combiners********")
-    pred1 = frequency_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]))
-    pred2 = frequency_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]))
+    pred1 = frequency_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+    pred2 = frequency_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+
+
     assert pred1.probabilities == [0.3333333333333333, 0.6666666666666666]
     assert pred2.probabilities == [0.0, 1.0]
+
+    pred1 = anonymous_bayesian_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+    pred2 = anonymous_bayesian_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+
+    #TODO make new assertions for anonymous combiner
+
+
     print("*****testing scoring functions*******")
     assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b']) == 0.6666666666666666
     assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b']) == 0.3333333333333333
 
     print("******running analysis pipeline on the generated sample dataset***********")
     p = AnalysisPipeline(d1,
-                         frequency_combiner,
+                         anonymous_bayesian_combiner,
                          agreement_score,
                          allowable_labels=['pos', 'neg'],
                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                         num_runs=5
+                         num_runs=2
                          )
     # print("Power curve means")
     # print(p.power_curve.means)
