@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 # from numpy.random import binomial, beta
 # from scipy.special import comb
-from matplotlib import pyplot as plt
+
 
 from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
@@ -60,18 +60,12 @@ def main():
     results = pd.concat([p.power_curve.means,p.power_curve.cis], axis=1)
     results.columns = ['mean', 'ci_width']
     print(results)
+    for i in range (15):
+        thresh = .75 + .01*i
+        print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
 
-    fig = plt.figure()
-    fig.set_size_inches(18.5, 10.5)
-    ax = fig.add_subplot(111)
+    p.plot()
 
-    p.power_curve.plot_curve(ax)
-
-    ax.axis([0, 54, 0, 1])
-    ax.set_xlabel('Number of other journalists', fontsize = 16)
-    ax.set_ylabel('Correlation with reference journalist', fontsize = 16)
-    plt.legend(loc='upper right')
-    plt.show()
 
 if __name__ == '__main__':
     main()

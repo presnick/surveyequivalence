@@ -7,6 +7,8 @@ import random
 from .combiners import Prediction
 from matplotlib import pyplot as plt
 import matplotlib
+from datetime import datetime
+
 
 N = 1000
 
@@ -15,7 +17,8 @@ class PowerCurve:
 
     def __init__(self,
                  runs: Sequence[Dict[int, float]]):
-        # each run will be one dictionary with scores at different k
+        """each run will be one dictionary with scores at different k
+        """
         self.df  = pd.DataFrame(runs)
         self.compute_means_and_cis()
 
@@ -24,9 +27,7 @@ class PowerCurve:
         self.cis = self.df.std() * 2
 
 
-    def plot_curve(self, ax: matplotlib.axes.Axes, label='Experts', color='black', show_lines=True):
-        # use indexes, means,  and cis as x, y and yerror in call to .errorbar in matplotlib
-
+    def plot_curve(self, ax: matplotlib.axes.Axes, label=None, color='black', show_lines=True):
         if show_lines:
             linestyle = '-'
         else:
@@ -40,8 +41,23 @@ class PowerCurve:
     def plot_equivalence(self, ax: matplotlib.axes.Axes, equivalence_value, color='red'):
         pass
 
-    def compute_equivalence(self, classifier_score):
-        return 1
+    def compute_equivalence(self, classifier_score: int):
+        """
+        :param classifier_score:
+        :return: number of raters s.t. expected score == classifier_score
+        """
+
+        means = self.means.to_dict()
+        better_ks = [k for (k, v) in means.items() if v>classifier_score]
+        first_better_k = min(better_ks, default=0)
+        if len(better_ks) == 0:
+            return f">{max([k for (k, v) in means.items()])}"
+        elif first_better_k-1 in means:
+            dist_to_prev = means[first_better_k] - means[first_better_k-1]
+            y_dist = means[first_better_k] - classifier_score
+            return first_better_k - (y_dist / dist_to_prev)
+        else:
+            return f"<{first_better_k}"
 
 
 class AnalysisPipeline:
@@ -119,6 +135,22 @@ class AnalysisPipeline:
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
+
+    def plot(self, xlabel='Number of raters', ylabel='Agreement with reference rater'):
+        fig = plt.figure()
+        fig.set_size_inches(18.5, 10.5)
+        ax = fig.add_subplot(111)
+
+        self.power_curve.plot_curve(ax)
+
+        ax.axis([0, 1 + max(self.power_curve.means.index), 0, 1])
+        ax.set_xlabel(xlabel, fontsize=16)
+        ax.set_ylabel(ylabel, fontsize=16)
+        plt.legend(loc='upper right')
+
+        plt.savefig(f'plots/power_curve{str(datetime.now())[:-5]}.png')
+
+        pass
 
 
 def make_power_curve_graph(expert_scores, amateur_scores, classifier_scores, points_to_show_surveyEquiv=None):
