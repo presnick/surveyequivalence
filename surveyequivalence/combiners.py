@@ -42,7 +42,7 @@ def frequency_combiner(allowable_labels: Sequence[str],
                        labels: Sequence[Tuple[str, str]],
                        W: np.matrix,
                        item_id=None,
-                       to_predict_for=None) -> Prediction:
+                       to_predict_for=None) -> DiscreteDistributionPrediction:
     """
     Ignore item_id, rater_ids (first element of each tuple in labels), and rater_id to_predict_for
     return a vector of frequencies with which the allowable labels occur
@@ -64,7 +64,7 @@ def anonymous_bayesian_combiner(allowable_labels: Sequence[str],
                        labels: Sequence[Tuple[str, str]],
                        W: np.matrix,
                        item_id=None,
-                       to_predict_for=None) -> Prediction:
+                       to_predict_for=None) -> DiscreteDistributionPrediction:
     """
     Compute the anonymous bayesian combiner. Combines rater labels like frequency_combiner, but this uses the
     information from the item/rating dataset W.
@@ -87,11 +87,18 @@ def anonymous_bayesian_combiner(allowable_labels: Sequence[str],
 
     prediction = np.zeros(number_of_labels)
 
+    memo = dict()
+
     for label_idx in range(0,number_of_labels):
         one_hot_label = np.zeros(number_of_labels)
         one_hot_label[label_idx] = 1
-        prediction[label_idx] = D_k(m + one_hot_label, W, allowable_labels)
-    prediction = prediction / D_k(m, W, allowable_labels)
+        if str(m + one_hot_label) not in memo:
+            memo[str(m + one_hot_label)] = D_k(m + one_hot_label, W, allowable_labels)
+        prediction[label_idx] = memo[str(m + one_hot_label)]
+
+    if str(m) not in memo:
+        memo[str(m)] = prediction / D_k(m, W, allowable_labels)
+    prediction = prediction / memo[str(m)]
     # TODO check that prediction is valid
 
     output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
@@ -111,10 +118,11 @@ def D_k(m: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> float:
     number_of_labels = len(allowable_labels)
 
     k = np.sum(m)  # the number of raters
-    sample_size = 100
+    sample_size = 1000
 
     # Sample rows from the rating matrix W with replacement
-    I = W[np.random.choice(W.shape[0], sample_size, replace=True)]
+    # TODO - do we need sub-sampling for efficiency?
+    I = W #[np.random.choice(W.shape[0], sample_size, replace=True)]
 
     v = 0
 
