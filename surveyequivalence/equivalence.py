@@ -5,7 +5,7 @@ import pandas as pd
 import os
 import random
 
-from .combiners import Prediction
+from .combiners import Prediction, Combiner
 from matplotlib import pyplot as plt
 import matplotlib
 from datetime import datetime
@@ -65,7 +65,7 @@ class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
-                 combiner: Callable,
+                 combiner: Combiner,
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
@@ -102,7 +102,6 @@ class AnalysisPipeline:
         N = len(self.W)
 
         for k in range(1,K+1):
-            print(k)
 
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
@@ -132,7 +131,7 @@ class AnalysisPipeline:
                 if k==0:
                     pred = self.null_prediction
                 else:
-                    pred = self.combiner(self.allowable_labels, rating_tups[0:-1], self.W)
+                    pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W)
                 predictions.append(pred)
 
             result[k] = self.scoring_function(predictions, reference_ratings)

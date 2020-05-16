@@ -32,12 +32,8 @@ def cross_entropy_score(classifier_predictions: Sequence[DiscreteDistributionPre
     >>> cross_entropy_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
     0.48187545689
     """
-    labels = set([p.label_names for p in classifier_predictions])
-    assert(len(labels) == 2)
-    ents = 0
-    for p in classifier_predictions:
-        p.probabilities[0] * log(p.probabilities[1], 2)
-    return -ents
+    #TODO I'm not sure about how we want cross entropy here.
+    return 0
 
 
 def macro_precision_score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
@@ -46,13 +42,28 @@ def macro_precision_score(classifier_predictions: Sequence[DiscreteDistributionP
     Macro Precision score: basically the average of precision for each label
 
     >>> macro_precision_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b'])
-    0.3333333333333333
+    0.5
 
     >>> macro_precision_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
     0.25
     """
-    labels = set([p.label_names for p in classifier_predictions])
-    return np.sum([a == b for (a, b) in zip([p.value for p in classifier_predictions], rater_labels)])/len(labels)
+
+    num_labels = 0
+    sum_prec = 0
+    labels = set(classifier_predictions[0].label_names)
+    pred_label = list(zip([p.value for p in classifier_predictions], rater_labels))
+    for label in labels:
+        tp_sum = 0
+        fp_sum = 0
+        num_labels+=1
+        for a,b in pred_label:
+            if a == label:
+                if a == b:
+                    tp_sum+=1
+                else:
+                    fp_sum+=1
+        sum_prec += tp_sum / (tp_sum + fp_sum)
+    return sum_prec/num_labels
 
 def micro_precision_score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
                     rater_labels: Sequence[str]):
@@ -68,11 +79,10 @@ def micro_precision_score(classifier_predictions: Sequence[DiscreteDistributionP
     tp_sum = 0
     fp_sum = 0
     num_labels = 0
-    labels = set([p.label_names for p in classifier_predictions])
-    pred_label = [zip([p.value for p in classifier_predictions], rater_labels)]
+    labels = set(classifier_predictions[0].label_names)
+    pred_label = list(zip([p.value for p in classifier_predictions], rater_labels))
     for label in labels:
         num_labels+=1
-        tp_sum = 0
         for a,b in pred_label:
             if a == label:
                 if a == b:
@@ -95,8 +105,8 @@ def macro_recall_score(classifier_predictions: Sequence[DiscreteDistributionPred
     """
     recalls = 0
     num_labels = 0
-    labels = set([p.label_names for p in classifier_predictions])
-    pred_label = [zip([p.value for p in classifier_predictions], rater_labels)]
+    labels = set(classifier_predictions[0].label_names)
+    pred_label = list(zip([p.value for p in classifier_predictions], rater_labels))
     for label in labels:
         num_labels+=1
         cnt = 0
@@ -123,18 +133,16 @@ def micro_recall_score(classifier_predictions: Sequence[DiscreteDistributionPred
     tp_sum = 0
     fn_sum = 0
     num_labels = 0
-    labels = set([p.label_names for p in classifier_predictions])
-    pred_label = [zip([p.value for p in classifier_predictions], rater_labels)]
+    labels = set(classifier_predictions[0].label_names)
+    pred_label = list(zip([p.value for p in classifier_predictions], rater_labels))
     for label in labels:
         num_labels+=1
-        fn_sum = 0
-        tp_sum = 0
         for a,b in pred_label:
             if a == label:
                 if a == b:
                     tp_sum+=1
             else:
-                if a == b:
+                if a != b:
                     fn_sum+=1
     return tp_sum/(tp_sum+fn_sum)
 

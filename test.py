@@ -1,80 +1,181 @@
-# import pandas as pd
 import numpy as np
 import pandas as pd
-# from numpy.random import binomial, beta
-# from scipy.special import comb
-
+import unittest
 
 from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
-    frequency_combiner, DiscreteDistributionPrediction, \
-    agreement_score, \
-    AnalysisPipeline, anonymous_bayesian_combiner
+    DiscreteDistributionPrediction, \
+    agreement_score, FrequencyCombiner, AnonymousBayesianCombiner, \
+    AnalysisPipeline, cross_entropy_score, micro_precision_score, micro_f1_score, micro_recall_score, macro_f1_score, macro_recall_score, macro_precision_score
 
 
-def make_test_datasets():
-    num_items_per_dataset = 1000
-    num_labels_per_item = 10
-    state_generator_1 = \
-        DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
-                                                      labels=['pos', 'neg'],
-                                                      probabilities=[.9, .1]),
-                                        DiscreteState(state_name='neg',
-                                                      labels=['pos', 'neg'],
-                                                      probabilities=[.25, .75])
-                                        ],
-                                probabilities=[.8, .2]
-                                )
+class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
-    item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
-    dataset_1 = generate_labels(item_states_1, num_labels_per_item)
-    # Add a column with the "true" noiseless label
-    # dataset_1['true_state'] = [s.state_name for s in item_states_1]
+    def setUp(self):
+        self.datasets = self.make_test_datasets()
 
-    return dataset_1
+    def make_test_datasets(cls):
+        num_items_per_dataset = 1000
+        num_labels_per_item = 10
+        state_generator_1 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.9, .1]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.25, .75])
+                                            ],
+                                    probabilities=[.8, .2]
+                                    )
 
-def main():
-    d1 = make_test_datasets()
-    print(d1)
-    print("*****testing combiners********")
-    pred1 = frequency_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
-    pred2 = frequency_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+        item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
+        dataset_1 = generate_labels(item_states_1, num_labels_per_item)
 
 
-    assert pred1.probabilities == [0.3333333333333333, 0.6666666666666666]
-    assert pred2.probabilities == [0.0, 1.0]
+        state_generator_2 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.5, .5]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.3, .7])
+                                            ],
+                                    probabilities=[.5, .5]
+                                    )
 
-    pred1 = anonymous_bayesian_combiner(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
-    pred2 = anonymous_bayesian_combiner(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]), d1.to_numpy())
+        item_states_2 = state_generator_2.draw_states(num_items_per_dataset)
+        dataset_2 = generate_labels(item_states_2, num_labels_per_item)
 
-    #TODO make new assertions for anonymous combiner
+        state_generator_3 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.4, .6]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.7, .3])
+                                            ],
+                                    probabilities=[.4, .6]
+                                    )
 
+        item_states_3 = state_generator_3.draw_states(num_items_per_dataset)
+        dataset_3 = generate_labels(item_states_3, num_labels_per_item)
 
-    print("*****testing scoring functions*******")
-    assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b']) == 0.6666666666666666
-    assert agreement_score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b']) == 0.3333333333333333
+        # Add a column with the "true" noiseless label
+        # dataset_1['true_state'] = [s.state_name for s in item_states_1]
 
-    print("******running analysis pipeline on the generated sample dataset***********")
-    p = AnalysisPipeline(d1,
-                         anonymous_bayesian_combiner,
-                         agreement_score,
-                         allowable_labels=['pos', 'neg'],
-                         null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                         num_runs=2
-                         )
-    # print("Power curve means")
-    # print(p.power_curve.means)
-    # print("Power curve widths of confidence intervals")
-    # print(p.power_curve.cis)
-    results = pd.concat([p.power_curve.means,p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print(results)
-    for i in range (15):
-        thresh = .75 + .01*i
-        print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
+        return [dataset_1, dataset_2, dataset_3]
 
-    p.plot()
+    def test_frequency_combiner(self):
+        frequency = FrequencyCombiner()
+        pred = frequency.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]))
+        self.assertEqual(pred.probabilities[0], 0.3333333333333333)
+        self.assertEqual(pred.probabilities[1], 0.6666666666666666)
+
+        pred = frequency.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]))
+        self.assertEqual(pred.probabilities[0], 0.0)
+        self.assertEqual(pred.probabilities[1], 1.0)
+
+    def test_anonymous_bayesian_combiner(self):
+        anonymous_bayesian = AnonymousBayesianCombiner()
+        data = self.datasets[0]
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.293153527, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0]+pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.6773972603, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.8876987131, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+
+        anonymous_bayesian = AnonymousBayesianCombiner()
+        data = self.datasets[1]
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.3675675676, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.4086956522, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.4470588235, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+
+        anonymous_bayesian = AnonymousBayesianCombiner()
+        data = self.datasets[2]
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.4818181818, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.5702702703, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0], 0.6463687151, delta=0.03)
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+
+    def test_scoring_functions(self):
+        small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
+
+        score = agreement_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.6666666666, places=3)
+        score = agreement_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.3333333333, places=3)
+
+        #score = cross_entropy_score(small_dataset, ['b', 'b', 'b'])
+        #self.assertAlmostEqual(score, 1.24231504645, places=3)
+        #score = cross_entropy_score(small_dataset, ['a', 'b', 'b'])
+        #self.assertAlmostEqual(score, 1.24231504645, places=3)
+
+        score = micro_precision_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.66666666666, places=3)
+        score = micro_precision_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.33333333333, places=3)
+
+        score = macro_precision_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.5, places=3)
+        score = macro_precision_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.25, places=3)
+
+        score = micro_recall_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.66666666666, places=3)
+        score = micro_recall_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.33333333333, places=3)
+
+        score = macro_recall_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.5, places=3)
+        score = macro_recall_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.25, places=3)
+
+        score = micro_f1_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.66666666666, places=3)
+        score = micro_f1_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.33333333333, places=3)
+
+        score = macro_f1_score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.5, places=3)
+        score = macro_f1_score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.25, places=3)
+
+    def test_analysis_pipeline(self):
+        for dataset in self.datasets:
+            for combiner in [AnonymousBayesianCombiner(), FrequencyCombiner()]:
+                for scorer in [agreement_score, cross_entropy_score, micro_precision_score, macro_precision_score,
+                               micro_recall_score, micro_precision_score, micro_f1_score, macro_f1_score]:
+                    p = AnalysisPipeline(dataset, combiner, scorer, allowable_labels=['pos', 'neg'],
+                                         null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                         num_runs=2)
+
+                    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
+                    results.columns = ['mean', 'ci_width']
+                    print("*****RESULTS*****")
+                    print(combiner, scorer)
+                    print(results)
+                    for i in range (15):
+                        thresh = .75 + .01*i
+                        print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
+
+#def main():
+    #p.plot()
 
 
 if __name__ == '__main__':
-    main()
+    unittest.main()
