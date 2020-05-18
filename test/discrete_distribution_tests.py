@@ -5,8 +5,8 @@ import unittest
 from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     DiscreteDistributionPrediction, \
-    agreement_score, FrequencyCombiner, AnonymousBayesianCombiner, \
-    AnalysisPipeline, cross_entropy_score, micro_precision_score, micro_f1_score, micro_recall_score, macro_f1_score, macro_recall_score, macro_precision_score
+    FrequencyCombiner, AnonymousBayesianCombiner, \
+    AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore
 
 
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
@@ -115,52 +115,49 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
     def test_scoring_functions(self):
         small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
 
-        score = agreement_score(small_dataset, ['b', 'b', 'b'])
+        score = AgreementScore.score(small_dataset, ['b', 'b', 'b'])
         self.assertAlmostEqual(score, 0.6666666666, places=3)
-        score = agreement_score(small_dataset, ['a', 'b', 'b'])
+        score = AgreementScore.score(small_dataset, ['a', 'b', 'b'])
         self.assertAlmostEqual(score, 0.3333333333, places=3)
 
-        #score = cross_entropy_score(small_dataset, ['b', 'b', 'b'])
-        #self.assertAlmostEqual(score, 1.24231504645, places=3)
-        #score = cross_entropy_score(small_dataset, ['a', 'b', 'b'])
-        #self.assertAlmostEqual(score, 1.24231504645, places=3)
+        score = CrossEntropyScore.score(small_dataset, ['b', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.59459709985, places=3)
+        score = CrossEntropyScore.score(small_dataset, ['a', 'b', 'b'])
+        self.assertAlmostEqual(score, 0.87702971998, places=3)
 
-        score = micro_precision_score(small_dataset, ['b', 'b', 'b'])
+        score = PrecisionScore.score(small_dataset, ['b', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.66666666666, places=3)
-        score = micro_precision_score(small_dataset, ['a', 'b', 'b'])
+        score = PrecisionScore.score(small_dataset, ['a', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.33333333333, places=3)
-
-        score = macro_precision_score(small_dataset, ['b', 'b', 'b'])
+        score = PrecisionScore.score(small_dataset, ['b', 'b', 'b'], average='macro')
         self.assertAlmostEqual(score, 0.5, places=3)
-        score = macro_precision_score(small_dataset, ['a', 'b', 'b'])
+        score = PrecisionScore.score(small_dataset, ['a', 'b', 'b'], average='macro')
         self.assertAlmostEqual(score, 0.25, places=3)
 
-        score = micro_recall_score(small_dataset, ['b', 'b', 'b'])
+        score = RecallScore.score(small_dataset, ['b', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.66666666666, places=3)
-        score = micro_recall_score(small_dataset, ['a', 'b', 'b'])
+        score = RecallScore.score(small_dataset, ['a', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.33333333333, places=3)
-
-        score = macro_recall_score(small_dataset, ['b', 'b', 'b'])
-        self.assertAlmostEqual(score, 0.5, places=3)
-        score = macro_recall_score(small_dataset, ['a', 'b', 'b'])
+        score = RecallScore.score(small_dataset, ['b', 'b', 'b'], average='macro')
+        self.assertAlmostEqual(score, 0.3333333333, places=3)
+        score = RecallScore.score(small_dataset, ['a', 'b', 'b'], average='macro')
         self.assertAlmostEqual(score, 0.25, places=3)
 
-        score = micro_f1_score(small_dataset, ['b', 'b', 'b'])
+        score = F1Score.score(small_dataset, ['b', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.66666666666, places=3)
-        score = micro_f1_score(small_dataset, ['a', 'b', 'b'])
+        score = F1Score.score(small_dataset, ['a', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.33333333333, places=3)
-
-        score = macro_f1_score(small_dataset, ['b', 'b', 'b'])
-        self.assertAlmostEqual(score, 0.5, places=3)
-        score = macro_f1_score(small_dataset, ['a', 'b', 'b'])
+        score = F1Score.score(small_dataset, ['b', 'b', 'b'], average='macro')
+        self.assertAlmostEqual(score, 0.4, places=3)
+        score = F1Score.score(small_dataset, ['a', 'b', 'b'], average='macro')
         self.assertAlmostEqual(score, 0.25, places=3)
 
     def test_analysis_pipeline(self):
         for dataset in self.datasets:
-            for combiner in [AnonymousBayesianCombiner(), FrequencyCombiner()]:
-                for scorer in [agreement_score, cross_entropy_score, micro_precision_score, macro_precision_score,
-                               micro_recall_score, micro_precision_score, micro_f1_score, macro_f1_score]:
-                    p = AnalysisPipeline(dataset, combiner, scorer, allowable_labels=['pos', 'neg'],
+            for combiner in [FrequencyCombiner(), AnonymousBayesianCombiner()]:
+                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore,
+                               AUCScore]:
+                    p = AnalysisPipeline(dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
                                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                          num_runs=2)
 
@@ -172,9 +169,6 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                     for i in range (15):
                         thresh = .75 + .01*i
                         print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
-
-#def main():
-    #p.plot()
 
 
 if __name__ == '__main__':

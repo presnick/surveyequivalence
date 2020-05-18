@@ -37,6 +37,20 @@ class DiscreteDistributionPrediction(Prediction):
 
         return self.label_names[np.argmax(self.probabilities)]
 
+    @property
+    def value_prob(self):
+        """
+        Return the probability of the majority class
+
+        >>> DiscreteDistributionPrediction(['a', 'b', 'c'], [.3, .4, .3]).value
+        .4
+        >>> DiscreteDistributionPrediction(['a', 'b', 'c'], [.4, .4, .2]).value
+        .4
+
+        """
+
+        return np.max(self.probabilities)
+
 
 class Combiner(ABC):
     @abstractmethod
