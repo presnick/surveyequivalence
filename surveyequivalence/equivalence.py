@@ -159,23 +159,23 @@ def make_power_curve_graph(expert_scores, amateur_scores, classifier_scores, poi
     fig.set_size_inches(18.5, 10.5)
     ax = fig.add_subplot(111)
 
-    # If there are expert_scores and show lines is false:
-    if expert_scores and not expert_scores['Show_lines']:
-            x = list(expert_scores['Power_curve']['k'])
-            y = list(expert_scores['Power_curve']['score'])
-            yerr = list(expert_scores['Power_curve']['confidence_radius'])
-
-            ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='')
-
-
-    # If there are expert_scores and show_lines is true:
-    if expert_scores and expert_scores['Show_lines']:
-        x = list(expert_scores['Power_curve']['k'])
-        y = list(expert_scores['Power_curve']['score'])
-        yerr = list(expert_scores['Power_curve']['confidence_radius'])
-
-        ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='-')
-
+    # # If there are expert_scores and show lines is false:
+    # if expert_scores and not expert_scores['Show_lines']:
+    #         x = list(expert_scores['Power_curve']['k'])
+    #         y = list(expert_scores['Power_curve']['score'])
+    #         yerr = list(expert_scores['Power_curve']['confidence_radius'])
+    #
+    #         ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='')
+    #
+    #
+    # # If there are expert_scores and show_lines is true:
+    # if expert_scores and expert_scores['Show_lines']:
+    #     x = list(expert_scores['Power_curve']['k'])
+    #     y = list(expert_scores['Power_curve']['score'])
+    #     yerr = list(expert_scores['Power_curve']['confidence_radius'])
+    #
+    #     ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='-')
+    #
 
 
     # If there are amateur_scores show_lines is false
