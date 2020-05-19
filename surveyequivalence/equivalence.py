@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
 import numpy as np
 import pandas as pd
+import os
 import random
 
-from .combiners import Prediction
+from .combiners import Prediction, Combiner
 from matplotlib import pyplot as plt
 import matplotlib
 from datetime import datetime
@@ -64,7 +65,7 @@ class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
-                 combiner: Callable[[Sequence[str], np.array, str, str], Prediction],
+                 combiner: Combiner,
                  scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
@@ -130,7 +131,7 @@ class AnalysisPipeline:
                 if k==0:
                     pred = self.null_prediction
                 else:
-                    pred = self.combiner(self.allowable_labels, rating_tups[0:-1])
+                    pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W)
                 predictions.append(pred)
 
             result[k] = self.scoring_function(predictions, reference_ratings)
@@ -147,8 +148,9 @@ class AnalysisPipeline:
         ax.set_xlabel(xlabel, fontsize=16)
         ax.set_ylabel(ylabel, fontsize=16)
         plt.legend(loc='upper right')
-
-        plt.savefig(f'plots/power_curve{str(datetime.now())[:-5]}.png')
+        if not os.path.isdir('plots'):
+            os.mkdir('plots')
+        plt.savefig(f'plots/power_curve{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
         pass
 
