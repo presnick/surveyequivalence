@@ -131,7 +131,7 @@ class AnalysisPipeline:
                 if k==0:
                     pred = self.null_prediction
                 else:
-                    pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W)
+                    pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W, item_id=index)
                 predictions.append(pred)
 
             result[k] = self.scoring_function(predictions, reference_ratings)

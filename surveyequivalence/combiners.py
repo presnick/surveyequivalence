@@ -95,7 +95,7 @@ class AnonymousBayesianCombiner(Combiner):
         :param allowable_labels: the set of labels/ratings allowed
         :param labels: the k ratings
         :param W: item and rating dataset
-        :param item_id: not used currently
+        :param item_id: item index in W
         :param to_predict_for: not used currently
         :return: Prediction based on anonymous bayesian combiner
         """
@@ -115,13 +115,45 @@ class AnonymousBayesianCombiner(Combiner):
         for label_idx in range(0,number_of_labels):
             one_hot_label = np.zeros(number_of_labels)
             one_hot_label[label_idx] = 1
-            if str(m + one_hot_label) not in self.memo:
-                self.memo[str(m + one_hot_label)] = AnonymousBayesianCombiner.D_k(m + one_hot_label, W, allowable_labels)
-            prediction[label_idx] = self.memo[str(m + one_hot_label)]
 
+            # TODO check W[item_id]
+            k = int(np.sum(m + one_hot_label))
+            # Calculate the contribution of the held out item
+            i_v_onehot, i_r_onehot = AnonymousBayesianCombiner.D_k_item_contribution(m + one_hot_label, W[item_id], allowable_labels, k)
+
+            if str(m + one_hot_label) not in self.memo:
+                overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(m + one_hot_label, W, allowable_labels)
+                self.memo[str(m + one_hot_label)] = overall_joint_dist, num_items
+            overall_joint_dist_onehot, num_items = self.memo[str(m + one_hot_label)]
+
+            holdout_joint_dist_onehot = overall_joint_dist_onehot
+            if i_r_onehot == 1:
+                product = 1
+                for idx in range(0, len(allowable_labels)):
+                    product = product * factorial(m[idx]+one_hot_label[idx])
+                coef = product / factorial(k)
+
+                v = overall_joint_dist_onehot * num_items / coef - i_v_onehot
+                holdout_joint_dist_onehot = v * coef / (num_items - 1)
+            prediction[label_idx] = holdout_joint_dist_onehot
+
+        k = int(np.sum(m))
+        i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(m, W[item_id], allowable_labels, k)
         if str(m) not in self.memo:
-            self.memo[str(m)] = AnonymousBayesianCombiner.D_k(m, W, allowable_labels)
-        prediction = prediction / self.memo[str(m)]
+            overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(m, W, allowable_labels)
+            self.memo[str(m)] = overall_joint_dist, num_items
+        overall_joint_dist_m, num_items = self.memo[str(m)]
+        holdout_joint_dist_m = overall_joint_dist_m
+        if i_r_m == 1:
+            product = 1
+            for idx in range(0, len(allowable_labels)):
+                product = product * factorial(m[idx])
+            coef = product / factorial(k)
+
+            v = overall_joint_dist_m * num_items / coef - i_v_m
+            holdout_joint_dist_m = v * coef / (num_items - 1)
+
+        prediction = prediction / holdout_joint_dist_m
         # TODO check that prediction is valid
 
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
@@ -129,55 +161,79 @@ class AnonymousBayesianCombiner(Combiner):
         return output
 
     @staticmethod
-    def D_k(m: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> float:
+    def D_k_item_contribution(m: np.array, item: np.array, allowable_labels: Sequence[str], k: int) -> (float, float):
+        """
+
+        :param m:
+        :param item:
+        :param allowable_labels:
+        :param number_of_labels:
+        :param k:
+        :return: item contribution, and whether it counts towards number of items
+        """
+        def comb(n, k):
+            return factorial(n) / factorial(k) / factorial(n - k)
+
+        # count number of ratings in the item.
+        num_rate = 0
+        for r in item:
+            if r is not None:
+                num_rate += 1
+        # only proceed if num_rate < k
+        if num_rate < k:
+            return 0, 0
+
+        #no_count = 0
+        freqs = {lab: 0 for lab in allowable_labels}
+        for label in item:
+            freqs[label] += 1
+        mi = np.array([freqs[i] for i in freqs.keys()])
+
+        for label_idx in range(0, len(allowable_labels)):
+            if mi[label_idx] < m[label_idx]:
+                #no_count = 1
+                return 0, 1
+
+        ki = sum(mi)
+        product = 1
+        for label_idx in range(0, len(allowable_labels)):
+            product = product * comb(mi[label_idx], m[label_idx])
+
+        return product / comb(ki, k), 1
+
+    @staticmethod
+    def D_k(m: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> (float, int):
         """
         Compute the joint distribution over k anonymous ratings
 
         :param m: rating counts of k anonymous raters
         :param W: item and rating dataset
         :param allowable_labels: the set of labels/ratings allowed
-        :return: joint distribution
+        :return: joint distribution, and num_items
         """
-        number_of_labels = len(allowable_labels)
 
-        k = np.sum(m)  # the number of raters
-        sample_size = 1000
+        k = int(np.sum(m))  # the number of raters
+        #sample_size = 1000
+        # TODO - consider subsampling?
 
         # Sample rows from the rating matrix W with replacement
-        # TODO - do we need sub-sampling for efficiency?
-        I = W #[np.random.choice(W.shape[0], sample_size, replace=True)]
+        I = W#[np.random.choice(W.shape[0], sample_size, replace=True)]
 
         v = 0
 
-        def comb(n, k):
-            return factorial(n) / factorial(k) / factorial(n - k)
-
         # rating counts for that item i
-        mi = np.zeros(number_of_labels)
+        mi = np.zeros(len(allowable_labels))
+        num_items = 0
         for item in I:
-            no_count = 0
-            freqs = {lab: 0 for lab in allowable_labels}
-            for label in item:
-                freqs[label] += 1
-            mi = np.array([freqs[i] for i in freqs.keys()])
-
-            for label_idx in range(0,number_of_labels):
-                if mi[label_idx] < m[label_idx]:
-                    no_count = 1
-
-            ki = sum(mi)
-            if no_count == 0:
-                product = 1
-                for label_idx in range(0,number_of_labels):
-                    product = product * comb(mi[label_idx], m[label_idx])
-
-                v = v + product / comb(ki, k)
+            i_v,i_r = AnonymousBayesianCombiner.D_k_item_contribution(m, item, allowable_labels, k)
+            v += i_v
+            num_items += i_r
 
         product = 1
-        for label_idx in range(0,number_of_labels):
+        for label_idx in range(0,len(allowable_labels)):
             product = product * factorial(m[label_idx])
-        v = v * product / (factorial(k) * sample_size)
-        return v
+        v = v * product / (factorial(k) * num_items)
+        return v, num_items
 
 
 
