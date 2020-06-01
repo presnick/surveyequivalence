@@ -155,8 +155,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
     def test_analysis_pipeline(self):
         for dataset in self.datasets:
             for combiner in [FrequencyCombiner(), AnonymousBayesianCombiner()]:
-                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore,
-                               AUCScore]:
+                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore]:
                     p = AnalysisPipeline(dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
                                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                          num_runs=2)
