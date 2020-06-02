@@ -6,15 +6,17 @@ from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
-    AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore
-
+    AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
+    MockClassifier
 
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
     def setUp(self):
         self.datasets = self.make_test_datasets()
 
-    def make_test_datasets(cls):
+    def make_test_datasets(self):
+        self.mock_classifiers = []
+        self.item_state_sequences = []
         num_items_per_dataset = 1000
         num_labels_per_item = 10
         state_generator_1 = \
@@ -29,7 +31,17 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                     )
 
         item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
+        self.item_state_sequences.append(item_states_1)
         dataset_1 = generate_labels(item_states_1, num_labels_per_item)
+        self.mock_classifiers.append([
+            MockClassifier(name='.95 .2',
+                           pos_state_predictor=[.95, .05],
+                           neg_state_predictor=[.2, .8])
+                       ,
+            MockClassifier(name='.92 .24',
+                           pos_state_predictor=[.92, .08],
+                           neg_state_predictor=[.24, .76])
+        ])
 
 
         state_generator_2 = \

@@ -6,6 +6,7 @@ import os
 import random
 
 from .combiners import Prediction, Combiner
+from .scoring_functions import Scorer
 from matplotlib import pyplot as plt
 import matplotlib
 from datetime import datetime
@@ -34,6 +35,7 @@ class PowerCurve:
         else:
             linestyle = ''
 
+        print(f"plotting a curve {self.means}")
         ax.errorbar(self.means.index, self.means, yerr=self.cis,
                     marker='o', color=color,
                     elinewidth=2, capsize=5,
@@ -66,7 +68,7 @@ class AnalysisPipeline:
     def __init__(self,
                  W: pd.DataFrame,
                  combiner: Combiner,
-                 scoring_function: Callable[[Sequence[Prediction], Sequence[str]], float],
+                 scoring_function: Scorer,
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
                  num_runs=1
@@ -137,17 +139,55 @@ class AnalysisPipeline:
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
 
-    def plot(self, xlabel='Number of raters', ylabel='Agreement with reference rater'):
+
+class Plot:
+    def __init__(self, expert_power_curve, amateur_power_curve=None, classifiers=[]):
+        self.expert_power_curve = expert_power_curve
+        self.amateur_power_curve = amateur_power_curve
+        self.classifiers = classifiers
+
+    def add_classifier_line(self, ax, name, score, color):
+        ax.axhline(y=score, color=color, linewidth=2, linestyle='dashed', label=name)
+
+    def plot(self):
         fig = plt.figure()
         fig.set_size_inches(18.5, 10.5)
         ax = fig.add_subplot(111)
 
-        self.power_curve.plot_curve(ax)
-
-        ax.axis([0, 1 + max(self.power_curve.means.index), 0, 1])
+        xlabel='Number of raters',
+        ylabel='Agreement with reference rater'
         ax.set_xlabel(xlabel, fontsize=16)
         ax.set_ylabel(ylabel, fontsize=16)
-        plt.legend(loc='upper right')
+
+        self.expert_power_curve.plot_curve(ax)
+        if self.amateur_power_curve:
+            self.amateur_power_curve.plot_curve(ax)
+
+        for c in self.classifiers:
+            self.add_classifier_line(ax, c.name, c.score, c.color)
+
+
+        max_x_val = 1 + max(max(self.expert_power_curve.means.index),
+                            max(self.amateur_power_curve.means.index) if (self.amateur_power_curve!=None) else 0)
+        max_y_val = max(self.expert_power_curve.means)
+        if (self.amateur_power_curve):
+            max_y_val = max(max_y_val, max(self.amateur_power_curve.means))
+        for c in self.classifiers:
+            max_y_val = max(max_y_val, c.score)
+        if max_y_val < 0 or max_y_val > 1:
+            max_y_val += 1
+        min_y_val = min(self.expert_power_curve.means)
+        if (self.amateur_power_curve):
+            min_y_val = min(min_y_val, min(self.amateur_power_curve.means))
+        for c in self.classifiers:
+            min_y_val = min(min_y_val, c.score)
+        if min_y_val < 0 or min_y_val > 1:
+            min_y_val -= 1
+        ax.axis([0, max_x_val, min_y_val, max_y_val])
+
+        if len(self.classifiers) > 0:
+            plt.legend(loc='upper right')
+
         if not os.path.isdir('plots'):
             os.mkdir('plots')
         plt.savefig(f'plots/power_curve{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')

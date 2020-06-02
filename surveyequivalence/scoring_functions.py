@@ -54,7 +54,7 @@ class CrossEntropyScore(Scorer):
         >>> CrossEntropyScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
         0.87702971998
         """
-        return log_loss(rater_labels, [p.probabilities for p in classifier_predictions], normalize=True, labels=classifier_predictions[0].label_names)
+        return -log_loss(rater_labels, [p.probabilities for p in classifier_predictions], normalize=True, labels=classifier_predictions[0].label_names)
 
 
 class PrecisionScore(Scorer):
