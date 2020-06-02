@@ -132,6 +132,11 @@ class AUCScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str], average: str = 'macro', multi_class: str = 'ovr') -> float:
-        #I'm having a hard time conceptualizing this.
-        raise NotImplementedError()
+              rater_labels: Sequence[str]) -> float:
+        if len(set(rater_labels)) == 1:
+            print("AUC isn't defined for single class")
+            return 0
+        if len(set(rater_labels)) == 2:
+            return roc_auc_score(rater_labels, [p.value_prob for p in classifier_predictions])
+        if len(set(rater_labels)) > 2:
+            return roc_auc_score(rater_labels, [p.probabilities for p in classifier_predictions], multi_class='ovr', labels=classifier_predictions[0].label_names)

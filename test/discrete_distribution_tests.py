@@ -164,10 +164,24 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         score = F1Score.score(small_dataset, ['a', 'b', 'b'], average='macro')
         self.assertAlmostEqual(score, 0.25, places=3)
 
+        # score = AUCScore.score(small_dataset, ['b', 'b', 'b'])
+        # self.assertAlmostEqual(score, 0.4, places=3)
+        # ROC doesn't make sense with only one class
+        score = AUCScore.score(small_dataset, ['b', 'b', 'a'])
+        self.assertAlmostEqual(score, 0.75, places=3)
+
     def test_analysis_pipeline(self):
         for dataset in self.datasets:
             for combiner in [FrequencyCombiner(), AnonymousBayesianCombiner()]:
-                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore]:
+                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore,
+                               AUCScore]:
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer(), CrossEntropyScore):
+                        print("Cross entropy not well defined for Frequency combiner - no probabilities")
+                        continue
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer(), AUCScore):
+                        print("AUC not well defined for Frequency combiner - no probabilities")
+                        continue
+
                     p = AnalysisPipeline(dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
                                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                          num_runs=2)
