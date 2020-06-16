@@ -77,6 +77,28 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
         return [dataset_1, dataset_2, dataset_3]
 
+    def test_leave_one_item_out(self):
+        W = np.zeros((9, 15), dtype=str)
+        W[0] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[1] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[2] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[3] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[4] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[5] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[6] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+        W[7] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+        W[8] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+
+        res = AnonymousBayesianCombiner().combine(['p','n'], [('x','p'),('x','p'),('x','p'),('x','n'),('x','n'),('x','n'),('x','n')], W, 1)
+        self.assertAlmostEqual(res.probabilities[0], 0.1934, delta=0.001)
+
+        res = AnonymousBayesianCombiner().combine(['p', 'n'],
+                                            [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'), ('x', 'n'),
+                                             ('x', 'n')], W, 7)
+
+        self.assertAlmostEqual(res.probabilities[0], 0.21505, delta=0.001)
+
+
     def test_frequency_combiner(self):
         frequency = FrequencyCombiner()
         pred = frequency.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]))

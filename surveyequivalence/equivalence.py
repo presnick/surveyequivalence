@@ -103,7 +103,11 @@ class AnalysisPipeline:
 
         N = len(self.W)
 
-        for k in range(1,K+1):
+        # limit K to 10, for now
+        K = min(10, K)
+
+        for k in range(0, K+1):
+            print(k)
 
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]

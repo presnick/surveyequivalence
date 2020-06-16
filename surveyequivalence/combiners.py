@@ -190,8 +190,12 @@ class AnonymousBayesianCombiner(Combiner):
 
         # count number of ratings in the item.
         num_rate = 0
+
+        nonzero_itm_mask = np.nonzero(item)
+        item = item[nonzero_itm_mask]
+
         for r in item:
-            if r is not None:
+            if r is not None and r is not '':
                 num_rate += 1
         # only proceed if num_rate < k
         if num_rate < k:
