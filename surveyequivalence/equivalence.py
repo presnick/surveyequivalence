@@ -18,30 +18,46 @@ N = 1000
 class PowerCurve:
 
     def __init__(self,
-                 runs: Sequence[Dict[int, float]]):
+                 runs: Sequence[Dict[int, float]],
+                 color,
+                 legend_label):
         """each run will be one dictionary with scores at different k
         """
         self.df  = pd.DataFrame(runs)
         self.compute_means_and_cis()
+        self.color = color
+        self.legend_label = legend_label
 
     def compute_means_and_cis(self):
         self.means = self.df.mean()
         self.cis = self.df.std() * 2
 
 
-    def plot_curve(self, ax: matplotlib.axes.Axes, label=None, color='black', show_lines=True):
-        if show_lines:
+    def plot_curve(self,
+                   ax: matplotlib.axes.Axes,
+                   points,
+                   connect
+                   ):
+        if connect:
             linestyle = '-'
         else:
             linestyle = ''
 
-        ax.errorbar(self.means.index, self.means, yerr=self.cis,
-                    marker='o', color=color,
-                    elinewidth=2, capsize=5,
-                    label=label, linestyle=linestyle)
+        if points=="all":
+            points = range(len(self.means))
 
-    def plot_equivalence(self, ax: matplotlib.axes.Axes, equivalence_value, color='red'):
-        pass
+        def select_idxs(seq, idxs):
+            return [elt for (idx, elt) in enumerate(seq) if idx in idxs]
+
+        ax.errorbar(self.means.index,
+                    select_idxs(self.means, points),
+                    yerr=select_idxs(self.cis, points),
+                    marker='o',
+                    color=self.color,
+                    elinewidth=2,
+                    capsize=5,
+                    label=self.legend_label,
+                    linestyle=linestyle)
 
     def compute_equivalence(self, classifier_score: int):
         """
@@ -70,7 +86,9 @@ class AnalysisPipeline:
                  scoring_function: Scorer,
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
-                 num_runs=1
+                 num_runs=1,
+                 color='black',
+                 legend_label=None
                  ):
         self.cols = W.columns
         self.W = W.to_numpy()
@@ -79,7 +97,9 @@ class AnalysisPipeline:
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
         max_raters = self.W.shape[1] - 1
-        self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)])
+        self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)],
+                                      color=color,
+                                      legend_label=legend_label)
 
     @staticmethod
     def array_choice(k: int, n: int):
@@ -155,16 +175,17 @@ class Plot:
         if ci:
             ax.axhspan(score - ci, score + ci, alpha=0.5, color=color)
 
-    def add_survey_equivalence_point(self, ax, survey_equiv, score, color, drop_line=True):
+    def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
         print(f'x_intercept: {survey_equiv}; {type(survey_equiv)}')
         print(f'type of score: {type(score)}')
-        if (type(survey_equiv) == float):
-            print("adding point")
+        if (type(survey_equiv) != str):
             plt.scatter(survey_equiv, score, c=color)
-            if drop_line:
+            if include_droplines:
+                print(f"adding dropline at {survey_equiv} from {self.ymin} to {score}")
                 self.x_intercepts.append(survey_equiv)
-                print(f"line from {(survey_equiv, self.ymin)} to {(survey_equiv, score)}")
                 plt.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.ymin, ymax=score)
+            else:
+                print("include_droplines is False")
 
     def set_ymin(self):
         ymin = min(self.expert_power_curve.means)
@@ -186,7 +207,14 @@ class Plot:
         self.xmax = 1 + max(max(self.expert_power_curve.means.index),
                             max(self.amateur_power_curve.means.index) if (self.amateur_power_curve!=None) else 0)
 
-    def plot(self):
+    def plot(self,
+             include_expert_points='all',
+             connect_expert_points=True,
+             include_classifiers=True,
+             include_classifier_equivalences=True,
+             include_droplines=True,
+             include_amateur_curve=True,
+             amateur_equivalences=[]):
         fig = plt.figure()
         fig.set_size_inches(18.5, 10.5)
         ax = fig.add_subplot(111)
@@ -196,24 +224,45 @@ class Plot:
         ax.set_xlabel(xlabel, fontsize=16)
         ax.set_ylabel(ylabel, fontsize=16)
 
-        self.expert_power_curve.plot_curve(ax)
-        if self.amateur_power_curve:
-            self.amateur_power_curve.plot_curve(ax)
+        self.expert_power_curve.plot_curve(ax,
+                                           points=include_expert_points,
+                                           connect=connect_expert_points,
+                                           )
+        if self.amateur_power_curve and include_amateur_curve:
+            self.amateur_power_curve.plot_curve(ax,
+                                                points='all',
+                                                connect=True,
+                                                )
 
         self.set_ymax()
         self.set_ymin()
         self.set_xmax()
 
-        for c in self.classifiers:
-            self.add_classifier_line(ax, c.name, c.score, c.color)
-            self.add_survey_equivalence_point(ax, self.expert_power_curve.compute_equivalence(c.score), c.score, c.color)
-            self.ymax = max(self.ymax, c.score)
-            self.ymin = min(self.ymin, c.score)
+        if include_classifiers:
+            for c in self.classifiers:
+                self.add_classifier_line(ax, c.name, c.score, c.color)
+                if include_classifier_equivalences:
+                    self.add_survey_equivalence_point(ax,
+                                                      self.expert_power_curve.compute_equivalence(c.score),
+                                                      c.score,
+                                                      c.color,
+                                                      include_droplines=include_droplines)
+                self.ymax = max(self.ymax, c.score)
+                self.ymin = min(self.ymin, c.score)
 
-        self.add_survey_equivalence_point(ax, 2.3, self.classifiers[0].score, self.classifiers[0].color)
-
-
-
+        for idx in amateur_equivalences:
+            print(f"amateur equivalence at k={idx}")
+            score = self.amateur_power_curve.means[idx]
+            plt.hlines(y=score,
+                       xmin=self.expert_power_curve.compute_equivalence(score),
+                       xmax=idx,
+                       color=self.amateur_power_curve.color,
+                       linewidths=2, linestyles='dashed')
+            self.add_survey_equivalence_point(ax,
+                                              self.expert_power_curve.compute_equivalence(score),
+                                              score,
+                                              self.amateur_power_curve.color,
+                                              include_droplines=include_droplines)
 
         ax.axis([0, self.xmax, self.ymin, self.ymax])
 

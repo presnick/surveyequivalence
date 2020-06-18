@@ -20,14 +20,18 @@ def main():
 
     amateur_pipeline = AnalysisPipeline(amateur_dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                         num_runs=2)
+                         num_runs=1,
+                         color='purple',
+                         legend_label='Higher noise amateurs')
 
 
     expert_pipeline = AnalysisPipeline(expert_dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                         num_runs=2)
+                         num_runs=1,
+                         color='black',
+                         legend_label='Expert raters')
 
-    colors = ['red', 'blue', 'yellow']
+    colors = ['red', 'blue', 'navy']
     for c, color in zip(mock_classifiers, colors):
         c.predictions = c.make_predictions(expert_states)
         c.score = scorer.score(c.predictions, expert_dataset['r1'])
@@ -49,7 +53,14 @@ def main():
               amateur_power_curve = amateur_pipeline.power_curve,
               classifiers=mock_classifiers)
 
-    pl.plot()
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_amateur_curve=True,
+            amateur_equivalences=[2, 8]
+            )
 
 if __name__ == '__main__':
     main()
