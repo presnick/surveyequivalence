@@ -11,6 +11,93 @@ from surveyequivalence import generate_labels, State, DiscreteState, \
 
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
+    def setUp(self):
+        self.datasets = self.make_test_datasets()
+
+    def make_test_datasets(self):
+        self.mock_classifiers = []
+        self.item_state_sequences = []
+        num_items_per_dataset = 1000
+        num_labels_per_item = 10
+        state_generator_1 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.9, .1]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.25, .75])
+                                            ],
+                                    probabilities=[.8, .2]
+                                    )
+
+        item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
+        self.item_state_sequences.append(item_states_1)
+        dataset_1 = generate_labels(item_states_1, num_labels_per_item)
+        self.mock_classifiers.append([
+            MockClassifier(name='.95 .2',
+                           pos_state_predictor=[.95, .05],
+                           neg_state_predictor=[.2, .8])
+                       ,
+            MockClassifier(name='.92 .24',
+                           pos_state_predictor=[.92, .08],
+                           neg_state_predictor=[.24, .76])
+        ])
+
+
+        state_generator_2 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.5, .5]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.3, .7])
+                                            ],
+                                    probabilities=[.5, .5]
+                                    )
+
+        item_states_2 = state_generator_2.draw_states(num_items_per_dataset)
+        dataset_2 = generate_labels(item_states_2, num_labels_per_item)
+
+        state_generator_3 = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.4, .6]),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.7, .3])
+                                            ],
+                                    probabilities=[.4, .6]
+                                    )
+
+        item_states_3 = state_generator_3.draw_states(num_items_per_dataset)
+        dataset_3 = generate_labels(item_states_3, num_labels_per_item)
+
+        # Add a column with the "true" noiseless label
+        # dataset_1['true_state'] = [s.state_name for s in item_states_1]
+
+        return [dataset_1, dataset_2, dataset_3]
+
+    def test_leave_one_item_out(self):
+        W = np.zeros((9, 15), dtype=str)
+        W[0] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[1] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[2] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[3] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[4] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[5] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+        W[6] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+        W[7] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+        W[8] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
+
+        res = AnonymousBayesianCombiner().combine(['p','n'], [('x','p'),('x','p'),('x','p'),('x','n'),('x','n'),('x','n'),('x','n')], W, 1)
+        self.assertAlmostEqual(res.probabilities[0], 0.1934, delta=0.001)
+
+        res = AnonymousBayesianCombiner().combine(['p', 'n'],
+                                            [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'), ('x', 'n'),
+                                             ('x', 'n')], W, 7)
+
+        self.assertAlmostEqual(res.probabilities[0], 0.21505, delta=0.001)
+
     def test_frequency_combiner(self):
         frequency = FrequencyCombiner()
         pred = frequency.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'neg'), (4, 'neg')]))
