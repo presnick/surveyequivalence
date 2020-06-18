@@ -1,7 +1,29 @@
 from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, MockClassifier, generate_labels
+import numpy as np
 
 num_items_per_dataset = 1000
 num_labels_per_item = 10
+
+def make_noisier_binary_states(states, multiplier):
+
+    def make_noisier_state(state, multiplier):
+        pr_pos, pr_neg = state.probabilities
+        if pr_pos >= .5:
+            new_pr_pos = pr_pos / multiplier
+
+        else:
+            new_pr_pos = pr_pos * multiplier
+        new_pr_neg = 1 - new_pr_pos
+        print([new_pr_pos, new_pr_neg])
+
+        return DiscreteState(state_name=state.state_name,
+                             labels=state.labels,
+                             probabilities=[new_pr_pos, new_pr_neg])
+
+    unique_states = list(set(states))
+    d = {s: make_noisier_state(s, multiplier) for s in unique_states}
+
+    return np.array([d[s] for s in states])
 
 def make_discrete_dataset_1():
     state_generator = \

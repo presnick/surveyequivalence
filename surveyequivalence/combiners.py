@@ -85,9 +85,21 @@ class FrequencyCombiner(Combiner):
         >>> FrequencyCombiner().combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')])).probabilities
         [0.0, 1.0]
         """
+
         freqs = {k: 0 for k in allowable_labels}
-        for label in [l[1] for l in labels]:
-            freqs[label] += 1
+
+        if len(labels) > 0:
+            # k>0; use the actual labels
+            for label in [l[1] for l in labels]:
+                freqs[label] += 1
+
+        else:
+            # no labels yet; use the Bayesian prior, based on overall frequencies in the dataset
+            # TODO: loop through items in W
+            # for each, loop through all labels
+            for label in np.nditer(W, flags=['refs_ok']):
+                freqs[str(label)] += 1
+
         tot = sum(freqs.values())
         return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
 

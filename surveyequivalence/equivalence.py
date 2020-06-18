@@ -133,10 +133,10 @@ class AnalysisPipeline:
                 rating_tups = list(zip(sample_cols, sample_ratings))
                 reference_ratings.append(rating_tups[-1][1])
 
-                if k==0:
-                    pred = self.null_prediction
-                else:
-                    pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W, item_id=index)
+                # if k==0:
+                #     pred = self.null_prediction
+                # else:
+                pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W, item_id=index)
                 predictions.append(pred)
 
             result[k] = self.scoring_function(predictions, reference_ratings)
@@ -207,10 +207,10 @@ class Plot:
         for c in self.classifiers:
             self.add_classifier_line(ax, c.name, c.score, c.color)
             self.add_survey_equivalence_point(ax, self.expert_power_curve.compute_equivalence(c.score), c.score, c.color)
-            self.add_survey_equivalence_point(ax, 2.3, c.score, c.color)
             self.ymax = max(self.ymax, c.score)
             self.ymin = min(self.ymin, c.score)
 
+        self.add_survey_equivalence_point(ax, 2.3, self.classifiers[0].score, self.classifiers[0].color)
 
 
 
