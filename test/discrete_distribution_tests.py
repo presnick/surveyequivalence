@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import unittest
 
+##TODO: update this to use the generate_labels method; it's no longer a function
 from surveyequivalence import generate_labels, State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     DiscreteDistributionPrediction, \

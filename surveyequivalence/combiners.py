@@ -22,6 +22,9 @@ class DiscreteDistributionPrediction(Prediction):
         self.label_names = label_names
         self.probabilities = probabilities
 
+    def __str__(self):
+        return f"{self.probabilities}"
+
     @property
     def value(self):
         """

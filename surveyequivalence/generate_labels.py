@@ -29,6 +29,9 @@ class DiscreteState(State):
         self.labels = labels
         self.probabilities = probabilities
 
+    def __str__(self):
+        return f"DiscreteState: {self.probabilities}"
+
     def draw_labels(self, n: int):
         return np.random.choice(
             self.labels,
@@ -85,30 +88,9 @@ class MixtureOfBetas(DistributionOverStates):
 
 
 
-def generate_labels(item_states: Sequence[State], num_labels_per_item=10):
-    return pd.DataFrame(
-        [state.draw_labels(num_labels_per_item) for state in item_states],
-        columns = ["r{}".format(i) for i in range(1, num_labels_per_item+1)]
-    )
+# def generate_labels(item_states: Sequence[State], num_labels_per_item=10):
+#     return pd.DataFrame(
+#         [state.draw_labels(num_labels_per_item) for state in item_states],
+#         columns = ["r{}".format(i) for i in range(1, num_labels_per_item+1)]
+#     )
 
-############ Mock Classifier ###############
-
-class MockClassifier:
-    def __init__(self,
-                 name,
-                 pos_state_predictor: Sequence[float],
-                 neg_state_predictor: Sequence[float],
-                 ):
-        self.name = name
-        self.pos_state_predictor = pos_state_predictor
-        self.neg_state_predictor = neg_state_predictor
-
-    def make_predictions(self, item_states):
-        def classifier_item_state(state):
-            if state.state_name == 'pos':
-                return self.pos_state_predictor
-            else:
-                return self.neg_state_predictor
-
-        return [DiscreteDistributionPrediction(['pos', 'neg'], classifier_item_state(s))
-                for s in item_states]

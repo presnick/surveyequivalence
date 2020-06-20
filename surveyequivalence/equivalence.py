@@ -19,13 +19,11 @@ class PowerCurve:
 
     def __init__(self,
                  runs: Sequence[Dict[int, float]],
-                 color,
                  legend_label):
         """each run will be one dictionary with scores at different k
         """
         self.df  = pd.DataFrame(runs)
         self.compute_means_and_cis()
-        self.color = color
         self.legend_label = legend_label
 
     def compute_means_and_cis(self):
@@ -36,7 +34,8 @@ class PowerCurve:
     def plot_curve(self,
                    ax: matplotlib.axes.Axes,
                    points,
-                   connect
+                   connect,
+                   color
                    ):
         if connect:
             linestyle = '-'
@@ -53,7 +52,7 @@ class PowerCurve:
                     select_idxs(self.means, points),
                     yerr=select_idxs(self.cis, points),
                     marker='o',
-                    color=self.color,
+                    color=color,
                     elinewidth=2,
                     capsize=5,
                     label=self.legend_label,
@@ -164,10 +163,12 @@ class AnalysisPipeline:
 
 
 class Plot:
-    def __init__(self, expert_power_curve, amateur_power_curve=None, classifiers=[]):
+    def __init__(self, expert_power_curve, amateur_power_curve=None, classifier_scores=None,
+                 color_map={'expert_power_curve': 'black', 'amateur_power_curve': 'blue', 'classifier': 'green'}):
         self.expert_power_curve = expert_power_curve
         self.amateur_power_curve = amateur_power_curve
-        self.classifiers = classifiers
+        self.classifier_scores = classifier_scores
+        self.color_map=color_map
         self.x_intercepts = []
 
     def add_classifier_line(self, ax, name, score, color, ci=None):
@@ -232,6 +233,7 @@ class Plot:
             self.amateur_power_curve.plot_curve(ax,
                                                 points='all',
                                                 connect=True,
+                                                color=self.color_map['expert_power_curve']
                                                 )
 
         self.set_ymax()
@@ -239,16 +241,19 @@ class Plot:
         self.set_xmax()
 
         if include_classifiers:
-            for c in self.classifiers:
-                self.add_classifier_line(ax, c.name, c.score, c.color)
+            # self.classifier_scores is df with classifier names as column names and single row with values
+            for classifier_name in self.classifier_scores.columns:
+                score = self.classifier_scores.lookup(0, self.classifier_scores[classifier_name])
+                color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
+                self.add_classifier_line(ax, c.classifier_name, score, color)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
-                                                      self.expert_power_curve.compute_equivalence(c.score),
-                                                      c.score,
-                                                      c.color,
+                                                      self.expert_power_curve.compute_equivalence(score),
+                                                      score,
+                                                      color,
                                                       include_droplines=include_droplines)
-                self.ymax = max(self.ymax, c.score)
-                self.ymin = min(self.ymin, c.score)
+                self.ymax = max(self.ymax, score)
+                self.ymin = min(self.ymin, score)
 
         for idx in amateur_equivalences:
             print(f"amateur equivalence at k={idx}")
@@ -256,12 +261,12 @@ class Plot:
             plt.hlines(y=score,
                        xmin=self.expert_power_curve.compute_equivalence(score),
                        xmax=idx,
-                       color=self.amateur_power_curve.color,
+                       color=self.color_map['amateur_power_curve'],
                        linewidths=2, linestyles='dashed')
             self.add_survey_equivalence_point(ax,
                                               self.expert_power_curve.compute_equivalence(score),
                                               score,
-                                              self.amateur_power_curve.color,
+                                              self.color_map['amateur_power_curve'],
                                               include_droplines=include_droplines)
 
         ax.axis([0, self.xmax, self.ymin, self.ymax])
