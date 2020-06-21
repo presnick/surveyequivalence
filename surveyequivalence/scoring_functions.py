@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Sequence, Dict
 import numpy as np
-from sklearn.metrics import precision_score, recall_score, f1_score, log_loss, roc_auc_score
+from sklearn.metrics import precision_score, recall_score, f1_score, log_loss, roc_auc_score, accuracy_score
 from scipy.stats import entropy
 from sklearn.preprocessing import LabelBinarizer
 from .combiners import Prediction, DiscreteDistributionPrediction
@@ -55,8 +55,8 @@ class CrossEntropyScore(Scorer):
         >>> CrossEntropyScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
         0.87702971998
         """
-        d = [p.probabilities for p in classifier_predictions]
-        return log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)
+        d = [list([p.probabilities[1], p.probabilities[0]]) for p in classifier_predictions]
+        return log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)#/np.log(2)
 
 
 class PrecisionScore(Scorer):

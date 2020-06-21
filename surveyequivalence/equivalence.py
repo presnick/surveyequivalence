@@ -71,6 +71,7 @@ class AnalysisPipeline:
                  scoring_function: Scorer,
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
+                 max_k=None,
                  num_runs=1
                  ):
         self.cols = W.columns
@@ -79,8 +80,9 @@ class AnalysisPipeline:
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
-        max_raters = self.W.shape[1] - 1
-        self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)])
+        if max_k is None:
+            max_k = self.W.shape[1] - 1
+        self.power_curve = PowerCurve([self.compute_one_power_run(max_k) for _ in range(num_runs)])
 
     @staticmethod
     def array_choice(k: int, n: int):
@@ -103,11 +105,9 @@ class AnalysisPipeline:
 
         N = len(self.W)
 
-        # limit K to 10, for now
-        K = min(10, K)
 
         for k in range(0, K+1):
-            print(k)
+            #print(k)
 
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]

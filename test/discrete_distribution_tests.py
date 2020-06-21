@@ -109,6 +109,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertEqual(pred.probabilities[0], 0.0)
         self.assertEqual(pred.probabilities[1], 1.0)
 
+
     def test_anonymous_bayesian_combiner(self):
         anonymous_bayesian = AnonymousBayesianCombiner()
         data = self.datasets[0]
