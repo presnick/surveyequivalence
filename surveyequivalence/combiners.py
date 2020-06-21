@@ -179,6 +179,9 @@ class AnonymousBayesianCombiner(Combiner):
             v = overall_joint_dist_m * num_items / coef - i_v_m
             holdout_joint_dist_m = v * coef / (num_items - 1)
 
+        if overall_joint_dist_m == 0:
+            print()
+
         prediction = prediction / holdout_joint_dist_m
         # TODO check that prediction is valid
 
@@ -207,7 +210,7 @@ class AnonymousBayesianCombiner(Combiner):
         item = item[nonzero_itm_mask]
 
         for r in item:
-            if r is not None and r is not '':
+            if r is not None and r != '':
                 num_rate += 1
         # only proceed if num_rate < k
         if num_rate < k:
