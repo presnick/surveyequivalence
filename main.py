@@ -15,19 +15,24 @@ def main():
 
     ds = make_discrete_dataset_1()
 
+    color_map = {
+        'expert_power_curve': 'black',
+        'amateur_power_curve': 'purple',
+    }
+    color_map.update({nm: color for (nm, color) in zip(ds.classifier_predictions.columns, ['red', 'blue', 'navy'])})
+    print(color_map)
+
     amateur_pipeline = AnalysisPipeline(ds.amateur_dataset, combiner, scorer.score,
                          allowable_labels=['pos', 'neg'],
                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                          num_runs=1,
-                         color='purple',
                          legend_label='Higher noise amateurs')
 
 
-    expert_pipeline = AnalysisPipeline(ds.expert_dataset, combiner, scorer.score,
+    expert_pipeline = AnalysisPipeline(ds.dataset, combiner, scorer.score,
                          allowable_labels=['pos', 'neg'],
                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                          num_runs=1,
-                         color='black',
                          legend_label='Expert raters')
 
     # colors = ['red', 'blue', 'navy']
@@ -48,12 +53,7 @@ def main():
     #     thresh = .75 + .01 * i
     #     print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
 
-    color_map = {
-        'expert_power_curve': 'black',
-        'amateur_power_curve': 'purple',
-    }
-    color_map.update({nm: color} for (nm, color) in zip(self.classifier_labels.columns, ['red', 'blue', 'navy']))
-    print(color_map)
+
 
     pl = Plot(expert_pipeline.power_curve,
               amateur_power_curve = amateur_pipeline.power_curve,

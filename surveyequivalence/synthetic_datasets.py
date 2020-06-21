@@ -82,7 +82,7 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
         unique_states = list(set(self.expert_item_states))
         d = {s: make_noisier_state(s, noise_multiplier) for s in unique_states}
 
-        return np.array([d[s] for s in unique_states])
+        return np.array([d[s] for s in self.expert_item_states])
 
 class Dataset():
     def __init__(self, dataset, amateur_dataset, classifiers):
@@ -96,9 +96,7 @@ class Dataset():
         def score_against_random_rater(col):
             return scorer.score(col, self.dataset['r1'])
 
-        print(self.classifiers.apply(score_against_random_rater, axis=0))
-        foobar
-        return self.classifiers.apply(score_against_random_rater, axis=0)
+        return self.classifier_predictions.apply(score_against_random_rater, axis=0)
 
 class SyntheticDataset(Dataset):
     def __init__(self, ds_generator):

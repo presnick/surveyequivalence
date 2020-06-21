@@ -86,7 +86,6 @@ class AnalysisPipeline:
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
                  num_runs=1,
-                 color='black',
                  legend_label=None
                  ):
         self.cols = W.columns
@@ -97,7 +96,6 @@ class AnalysisPipeline:
         self.null_prediction = null_prediction
         max_raters = self.W.shape[1] - 1
         self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)],
-                                      color=color,
                                       legend_label=legend_label)
 
     @staticmethod
@@ -228,12 +226,13 @@ class Plot:
         self.expert_power_curve.plot_curve(ax,
                                            points=include_expert_points,
                                            connect=connect_expert_points,
+                                           color=self.color_map['expert_power_curve']
                                            )
         if self.amateur_power_curve and include_amateur_curve:
             self.amateur_power_curve.plot_curve(ax,
                                                 points='all',
                                                 connect=True,
-                                                color=self.color_map['expert_power_curve']
+                                                color=self.color_map['amateur_power_curve']
                                                 )
 
         self.set_ymax()
@@ -242,10 +241,10 @@ class Plot:
 
         if include_classifiers:
             # self.classifier_scores is df with classifier names as column names and single row with values
-            for classifier_name in self.classifier_scores.columns:
-                score = self.classifier_scores.lookup(0, self.classifier_scores[classifier_name])
+            for (classifier_name, score) in self.classifier_scores.items():
+                print(classifier_name, score)
                 color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
-                self.add_classifier_line(ax, c.classifier_name, score, color)
+                self.add_classifier_line(ax, classifier_name, score, color)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
                                                       self.expert_power_curve.compute_equivalence(score),
@@ -271,8 +270,7 @@ class Plot:
 
         ax.axis([0, self.xmax, self.ymin, self.ymax])
 
-        if len(self.classifiers) > 0:
-            plt.legend(loc='upper right')
+        plt.legend(loc='upper right')
 
 
         plt.gca().xaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter('{x:,.1f}'))
