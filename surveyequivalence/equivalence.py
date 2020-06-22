@@ -63,7 +63,6 @@ class PowerCurve:
         :param classifier_score:
         :return: number of raters s.t. expected score == classifier_score
         """
-
         means = self.means.to_dict()
         better_ks = [k for (k, v) in means.items() if v>classifier_score]
         first_better_k = min(better_ks, default=0)
@@ -86,7 +85,8 @@ class AnalysisPipeline:
                  allowable_labels: Sequence[str],
                  null_prediction: Prediction,
                  num_runs=1,
-                 legend_label=None
+                 legend_label=None,
+                 max_k=None
                  ):
         self.cols = W.columns
         self.W = W.to_numpy()
@@ -94,9 +94,12 @@ class AnalysisPipeline:
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
-        max_raters = self.W.shape[1] - 1
-        self.power_curve = PowerCurve([self.compute_one_power_run(max_raters) for _ in range(num_runs)],
-                                      legend_label=legend_label)
+
+        if max_k is None:
+            max_k = self.W.shape[1] - 1
+        self.power_curve = PowerCurve([self.compute_one_power_run(max_k) for _ in range(num_runs)],
+                                      legend_label=legend_label
+                                      )
 
     @staticmethod
     def array_choice(k: int, n: int):
@@ -119,11 +122,9 @@ class AnalysisPipeline:
 
         N = len(self.W)
 
-        # limit K to 10, for now
-        K = min(10, K)
 
         for k in range(0, K+1):
-            print(k)
+            #print(k)
 
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
@@ -175,8 +176,6 @@ class Plot:
             ax.axhspan(score - ci, score + ci, alpha=0.5, color=color)
 
     def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
-        print(f'x_intercept: {survey_equiv}; {type(survey_equiv)}')
-        print(f'type of score: {type(score)}')
         if (type(survey_equiv) != str):
             plt.scatter(survey_equiv, score, c=color)
             if include_droplines:
@@ -255,11 +254,13 @@ class Plot:
                 self.ymin = min(self.ymin, score)
 
         for idx in amateur_equivalences:
-            print(f"amateur equivalence at k={idx}")
             score = self.amateur_power_curve.means[idx]
+            survey_eq = self.expert_power_curve.compute_equivalence(score)
+            print(f"k={idx} amateurs is equivalent to {survey_eq} experts")
+            survey_eq = survey_eq if type(survey_eq)==float else 0
             plt.hlines(y=score,
-                       xmin=self.expert_power_curve.compute_equivalence(score),
-                       xmax=idx,
+                       xmin=min(survey_eq, idx),
+                       xmax=max(survey_eq, idx),
                        color=self.color_map['amateur_power_curve'],
                        linewidths=2, linestyles='dashed')
             self.add_survey_equivalence_point(ax,
@@ -398,8 +399,6 @@ def make_power_curve_graph(expert_scores, amateur_scores, classifier_scores, poi
                             y = j['Power_curve']['score'].tolist()
                             #given x_value, find the corresponding y value for that point on the line
                             y_intercept_at_x_value= np.interp(se[i]['which_x_value'], x,y)
-#                             if (y_intercept_at_x_value<expert_score_at_0):
-#                                 print('y_intercept_at_x_value<expert_score_at_0')
 
                             x_intercept = np.interp(y_intercept_at_x_value, expert_scores['Power_curve']['score'].to_list(), expert_scores['Power_curve']['k'].to_list())
                             x_intercepts.append(x_intercept)
