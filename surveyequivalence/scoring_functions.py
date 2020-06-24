@@ -56,7 +56,7 @@ class CrossEntropyScore(Scorer):
         0.87702971998
         """
         d = [list([p.probabilities[1], p.probabilities[0]]) for p in classifier_predictions]
-        return -log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)#/np.log(2)
+        return -log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)/np.log(2)
 
 
 class PrecisionScore(Scorer):

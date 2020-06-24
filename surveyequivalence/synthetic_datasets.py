@@ -145,22 +145,22 @@ def make_discrete_dataset_1():
                                 amateur_noise_multiplier=1.1
                                 )
 
-    dsg.mock_classifiers.append(MockClassifier(
-        name='.95 .2',
-        label_predictors={
-            'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.95, .05]),
-            'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.2, .8])
-        }))
+    # dsg.mock_classifiers.append(MockClassifier(
+    #     name='.95 .2',
+    #     label_predictors={
+    #         'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.95, .05]),
+    #         'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.2, .8])
+    #     }))
+    #
+    # dsg.mock_classifiers.append(MockClassifier(
+    #     name='.92 .24',
+    #     label_predictors={
+    #         'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.92, .08]),
+    #         'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.24, .76])
+    #     }))
 
     dsg.mock_classifiers.append(MockClassifier(
-        name='.92 .24',
-        label_predictors={
-            'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.92, .08]),
-            'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.24, .76])
-        }))
-
-    dsg.mock_classifiers.append(MockClassifier(
-        name='one expert',
+        name='h_infinity',
         label_predictors={
             'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
             'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.25, .75])

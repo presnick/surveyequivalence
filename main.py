@@ -58,7 +58,9 @@ def main():
     pl = Plot(expert_pipeline.power_curve,
               amateur_power_curve = amateur_pipeline.power_curve,
               classifier_scores = ds.compute_classifier_scores(scorer),
-              color_map=color_map
+              color_map=color_map,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True
               )
 
     pl.plot(include_classifiers=True,
