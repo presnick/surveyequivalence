@@ -122,6 +122,7 @@ class AnonymousBayesianCombiner(Combiner):
                    item_id=None,
                    to_predict_for=None) -> DiscreteDistributionPrediction:
         """
+        Algorithm 5
         Compute the anonymous bayesian combiner. Combines rater labels like frequency_combiner, but this uses the
         information from the item/rating dataset W.
 
@@ -135,7 +136,7 @@ class AnonymousBayesianCombiner(Combiner):
         # get number of labels in binary case, it's 2
         number_of_labels = len(allowable_labels)
 
-        # TODO: regularize by starting all counters at 1? every combination of labels is possible...
+        ## compute m_l counts for each label
         freqs = {k: 0 for k in allowable_labels}
         for label in [l[1] for l in labels]:
             freqs[label] += 1
