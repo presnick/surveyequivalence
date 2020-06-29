@@ -26,6 +26,10 @@ class DiscreteDistributionPrediction(Prediction):
         return f"{self.probabilities}"
 
     @property
+    def probabilities_with_extremes_cut_off(self):
+        return [min(.999, max(.001, pr)) for pr in self.probabilities]
+
+    @property
     def value(self):
         """
         Return the single label that has the highest predicted probability.
@@ -131,6 +135,7 @@ class AnonymousBayesianCombiner(Combiner):
         # get number of labels in binary case, it's 2
         number_of_labels = len(allowable_labels)
 
+        # TODO: regularize by starting all counters at 1? every combination of labels is possible...
         freqs = {k: 0 for k in allowable_labels}
         for label in [l[1] for l in labels]:
             freqs[label] += 1

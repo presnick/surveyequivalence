@@ -10,6 +10,7 @@ from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 from matplotlib import pyplot as plt
 import matplotlib
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from datetime import datetime
 
 
@@ -70,7 +71,19 @@ class AnalysisPipeline:
 
         if max_k is None:
             max_k = self.W.shape[1] - 1
-        self.power_curve = PowerCurve([self.compute_one_power_run(max_k) for _ in range(num_runs)],
+
+        run_results = []
+        print(f"{num_runs} runs to go:")
+        for i in range(num_runs):
+            run_results.append(self.compute_one_power_run(max_k))
+            remaining = num_runs-i
+            if remaining % 10 == 0:
+                print(remaining)
+            else:
+                print(".", end='', flush=True)
+
+        print("done")
+        self.power_curve = PowerCurve(run_results,
                                       legend_label=legend_label
                                       )
 
@@ -87,6 +100,12 @@ class AnalysisPipeline:
                idx += 1
         np.random.shuffle(choice)
         return choice
+
+    @staticmethod
+    def inverted_array_choice(chosen: Sequence, n: int):
+        # return a sequence consisting of those positions not present in chosen
+        # useful for selected the rest of the columns when chosen was used as a mask
+        return list(set(range(n)) - set(chosen))
 
     def compute_one_power_run(self, K: int) -> Dict[int, float]:
         assert(K>0)
@@ -113,22 +132,24 @@ class AnalysisPipeline:
                 then apply that mask to the two arrays so that they align.
                 """
                 nonzero_itm_mask = np.nonzero(item)
-                nonzero_itms = item[nonzero_itm_mask]
-                nonzero_cols = self.cols[nonzero_itm_mask]
+                nonmissing_labels = item[nonzero_itm_mask]
+                nonmissing_cols = self.cols[nonzero_itm_mask]
+                assert(len(nonmissing_labels) == len(nonmissing_cols))
 
-                assert(len(nonzero_itms) == len(nonzero_cols))
-                choice_mask = self.array_choice(k+1, len(nonzero_cols))
-                sample_ratings = nonzero_itms[choice_mask]
-                sample_cols = list(nonzero_cols[choice_mask])
+                ## pick a subset of k raters
+                choice_mask = self.array_choice(k, len(nonmissing_cols))
+                sample_ratings = nonmissing_labels[choice_mask]
+                sample_cols = list(nonmissing_cols[choice_mask])
 
-                rating_tups = list(zip(sample_cols, sample_ratings))
-                reference_ratings.append(rating_tups[-1][1])
+                # get the prediction from those k raters
+                rating_tups = zip(sample_cols, sample_ratings)
+                pred = self.combiner.combine(self.allowable_labels, rating_tups, self.W, item_id=index)
 
-                # if k==0:
-                #     pred = self.null_prediction
-                # else:
-                pred = self.combiner.combine(self.allowable_labels, rating_tups[0:-1], self.W, item_id=index)
-                predictions.append(pred)
+                # remaining ratings are the reference raters; score prediction against each of them
+                remaining_ratings = nonmissing_labels[self.inverted_array_choice(choice_mask, len(nonmissing_cols))]
+                for rating in remaining_ratings:
+                    predictions.append(pred)
+                    reference_ratings.append(rating)
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
@@ -138,14 +159,51 @@ class Plot:
     def __init__(self, expert_power_curve, amateur_power_curve=None, classifier_scores=None,
                  color_map={'expert_power_curve': 'black', 'amateur_power_curve': 'blue', 'classifier': 'green'},
                  y_axis_label = 'Agreement with reference rater',
-                 center_on_c0 = False):
+                 center_on_c0 = False,
+                 y_range = None,
+                 name = 'powercurve'):
         self.expert_power_curve = expert_power_curve
         self.amateur_power_curve = amateur_power_curve
         self.classifier_scores = classifier_scores
         self.color_map=color_map
         self.y_axis_label = y_axis_label
         self.center_on_c0 = center_on_c0 # whether the subtract out c_0 from all values, to plot gains over baseline
+        self.y_range = y_range
+        self.name = name
         self.x_intercepts = []
+        self.make_fig_and_axes()
+
+    def make_fig_and_axes(self):
+        fig, ax = plt.subplots()
+
+        fig.set_size_inches(18.5, 10.5)
+
+        xlabel = 'Number of raters'
+        ylabel = self.y_axis_label
+        ax.set_xlabel(xlabel, fontsize=16)
+        ax.set_ylabel(ylabel, fontsize=16)
+        ax.set_title(self.name)
+
+        self.fig = fig
+        self.ax = ax
+
+    def add_state_distribution_inset(self, dataset_generator):
+        ymax = self.y_range[1] if self.y_range else self.ymax
+
+        if self.possibly_center_score(self.expert_power_curve.means.iloc[-1]) < .66 *ymax:
+            print(f"loc 1. c_k = {self.possibly_center_score(self.expert_power_curve.means.iloc[-1])}; ymax={ymax}")
+            loc = 1
+        else:
+            print("loc 5")
+            loc = 5
+
+        inset_ax = inset_axes(self.ax, width='30%', height='20%', loc=loc)
+        dataset_generator.make_histogram(inset_ax)
+
+    def save_plot(self):
+        if not os.path.isdir('plots'):
+            os.mkdir('plots')
+        self.fig.savefig(f'plots/{self.name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
     def possibly_center_score(self, score):
         if self.center_on_c0 and len(self.expert_power_curve.means)>0:
@@ -222,7 +280,6 @@ class Plot:
                     label=curve.legend_label,
                     linestyle=linestyle)
 
-
     def plot(self,
              include_expert_points='all',
              connect_expert_points=True,
@@ -232,14 +289,7 @@ class Plot:
              include_amateur_curve=True,
              amateur_equivalences=[]):
 
-        fig, ax = plt.subplots()
-
-        fig.set_size_inches(18.5, 10.5)
-
-        xlabel = 'Number of raters'
-        ylabel = self.y_axis_label
-        ax.set_xlabel(xlabel, fontsize=16)
-        ax.set_ylabel(ylabel, fontsize=16)
+        fig, ax = self.fig, self.ax
 
         self.plot_power_curve(ax,
                               self.expert_power_curve,
@@ -291,7 +341,9 @@ class Plot:
                                               self.color_map['amateur_power_curve'],
                                               include_droplines=include_droplines)
 
-        ax.axis([0, self.xmax, self.ymin, self.ymax])
+        # ax.axis([0, self.xmax, self.ymin, self.ymax])
+        ax.set(xlim=(0, self.xmax))
+        ax.set(ylim = self.y_range if self.y_range else (self.ymin, self.ymax))
 
         fig.legend(loc='upper right')
 
@@ -310,10 +362,6 @@ class Plot:
             else:
                 return f"{x:.2f}"
         fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
-
-        if not os.path.isdir('plots'):
-            os.mkdir('plots')
-        fig.savefig(f'plots/power_curve{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
         pass
 

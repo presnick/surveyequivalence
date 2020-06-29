@@ -2,6 +2,11 @@ from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction
 from typing import Sequence, Dict
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
+import matplotlib
+import os
+from datetime import datetime
+
 
 ############ Mock Classifier ###############
 
@@ -30,19 +35,20 @@ class MockClassifier:
 ############ Synthetic Dataset Generator ###############
 
 class SyntheticDatasetGenerator:
-    def __init__(self, expert_state_generator, num_items_per_dataset = 1000, num_labels_per_item=10, mock_classifiers=None):
+    def __init__(self,
+                 expert_state_generator,
+                 num_items_per_dataset = 1000,
+                 num_labels_per_item=10,
+                 mock_classifiers=None,
+                 name=''):
         self.expert_state_generator = expert_state_generator
         self.num_items_per_dataset = num_items_per_dataset
         self.num_labels_per_item = num_labels_per_item
+        self.name = name
         # make a private empty list, not a shared default empty list if mock_classifiers not specified
         self.mock_classifiers = mock_classifiers if mock_classifiers else []
 
         self.expert_item_states = expert_state_generator.draw_states(num_items_per_dataset)
-
-    def plot_item_state_distribution(self):
-        # x-axis bins for probabilities of each label
-        # y-axis frequency of bin
-        pass
 
     def generate_labels(self, item_states, num_labels_per_item=None):
         if not num_labels_per_item:
@@ -55,8 +61,9 @@ class SyntheticDatasetGenerator:
 
 class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
     def __init__(self, expert_state_generator, num_items_per_dataset = 1000, num_labels_per_item=10,
-                 mock_classifiers=None, amateur_noise_multiplier=None, k_amateurs_per_label=1):
-        super().__init__(expert_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers)
+                 mock_classifiers=None, name=None,
+                 amateur_noise_multiplier=None, k_amateurs_per_label=1):
+        super().__init__(expert_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers, name)
 
         self.k_amateurs_per_label=k_amateurs_per_label
         if amateur_noise_multiplier:
@@ -83,6 +90,34 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
         d = {s: make_noisier_state(s, noise_multiplier) for s in unique_states}
 
         return np.array([d[s] for s in self.expert_item_states])
+
+    def plot_item_state_distribution(self):
+        # called if you are making a standalone graph; for insets, .make_histogram is called directly
+
+        # make Figure and axes objects
+        fig, ax = plt.subplots()
+
+        fig.set_size_inches(18.5, 10.5)
+
+        # add histogram
+        self.make_histogram(ax)
+
+        # save figure
+        if not os.path.isdir('plots'):
+            os.mkdir('plots')
+        fig.savefig(f'plots/{self.name} {datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+
+        pass
+
+    def make_histogram(self, ax):
+        ax.set_xlabel('State')
+        ax.set_ylabel('Frequency')
+        ax.set(xlim=(0,1))
+        ax.hist([s.probabilities[0] for s in self.expert_item_states],
+                25,
+                align='right')
+        # ax.set_yticks([])
+        # ax.set_xticks([])
 
 class Dataset():
     def __init__(self, dataset, amateur_dataset, classifiers):
@@ -127,6 +162,38 @@ class SyntheticDataset(Dataset):
         self.classifier_predictions = pd.DataFrame({mc.name : mc.make_predictions(ds_generator.expert_item_states)
                                                     for mc in ds_generator.mock_classifiers})
 
+def make_perceive_with_noise_datasets():
+
+    def make_perceive_with_noise_datasets(epsilon):
+        pos_state_probabilities = [1 - epsilon, epsilon]
+        neg_state_probabilities = [.05 + epsilon, .95 - epsilon]
+        expert_state_generator = \
+            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=pos_state_probabilities),
+                                            DiscreteState(state_name='neg',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=neg_state_probabilities)
+                                            ],
+                                    probabilities=[.8, .2]
+                                    )
+
+        dsg = SyntheticBinaryDatasetGenerator(expert_state_generator=expert_state_generator,
+                                              name=f'80% {pos_state_probabilities}; 20% {neg_state_probabilities}'
+                                              )
+
+        dsg.mock_classifiers.append(MockClassifier(
+            name='h_infinity',
+            label_predictors={
+                'pos': DiscreteDistributionPrediction(['pos', 'neg'], pos_state_probabilities),
+                'neg': DiscreteDistributionPrediction(['pos', 'neg'], neg_state_probabilities)
+            }))
+
+        return SyntheticDataset(dsg)
+
+    return [make_perceive_with_noise_datasets(pct/100) for pct in range(2, 42, 4)]
+
+
 
 def make_discrete_dataset_1():
     expert_state_generator = \
@@ -140,9 +207,9 @@ def make_discrete_dataset_1():
                                 probabilities=[.8, .2]
                                 )
 
-
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator= expert_state_generator,
-                                amateur_noise_multiplier=1.1
+                                amateur_noise_multiplier=1.1,
+                                name='dataset 1: 80% 90-10; 20% 25-75',
                                 )
 
     # dsg.mock_classifiers.append(MockClassifier(

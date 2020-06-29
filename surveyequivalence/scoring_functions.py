@@ -55,8 +55,21 @@ class CrossEntropyScore(Scorer):
         >>> CrossEntropyScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
         0.87702971998
         """
-        d = [list([p.probabilities[1], p.probabilities[0]]) for p in classifier_predictions]
-        return -log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)/np.log(2)
+
+        # diagnostics
+        d = [p.probabilities for p in classifier_predictions]
+        bad_predictions = [(p, l) for (p, l) in zip(d, rater_labels) if (p[0] < .001 and l=='pos') or (p[0] > .995 and l=='neg')]
+        if len(bad_predictions) > 0:
+            for p, l in bad_predictions:
+                print(p, l)
+
+        d = [[neg_pr, pos_pr] for (pos_pr, neg_pr) in [p.probabilities_with_extremes_cut_off for p in classifier_predictions]]
+        # d = [list([p.probabilities[1], p.probabilities[0]]) for p in classifier_predictions]
+        try:
+            return -log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)/np.log(2)
+        except:
+            print([(p, l) for (p, l) in zip(d, rater_labels) if p[0] < .001 or p[0] > .995])
+            foobar
 
 
 class PrecisionScore(Scorer):

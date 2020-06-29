@@ -39,7 +39,6 @@ class DiscreteState(State):
             p=self.probabilities
         )
 
-
 ############ Distributions over states ###############
 
 class DistributionOverStates(ABC):
