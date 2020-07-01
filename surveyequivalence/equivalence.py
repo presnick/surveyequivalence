@@ -54,6 +54,8 @@ class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
+                 expert_cols: Sequence[str] = None,
+                 amateur_cols: Sequence[str] = None,
                  combiner: Combiner,
                  scoring_function: Scorer,
                  allowable_labels: Sequence[str],
@@ -62,7 +64,11 @@ class AnalysisPipeline:
                  legend_label=None,
                  max_k=None
                  ):
-        self.cols = W.columns
+        if expert_cols:
+            self.expert_cols = expert_cols
+        else:
+            self.expert_cols = W.columns
+        self.amateur_cols = amateur_cols
         self.W = W.to_numpy()
         self.combiner = combiner
         self.scoring_function = scoring_function
@@ -70,22 +76,39 @@ class AnalysisPipeline:
         self.null_prediction = null_prediction
 
         if max_k is None:
-            max_k = self.W.shape[1] - 1
+            self.max_k = len(self.expert_cols) - 1
+        elif max_k > len(self.expert_cols) - 1:
+            raise Exception(f"Only {len(self.expert_cols)} raters. Can't compute power curve up to {max_k}")
+        else:
+            self.max_k = max_k
 
+        self.compute_power_curves(max_k)
+
+
+    def compute_power_curves(self):
         run_results = []
+        amateur_run_results = []
         print(f"{num_runs} runs to go:")
         for i in range(num_runs):
-            run_results.append(self.compute_one_power_run(max_k))
+            run_results.append(self.compute_one_power_run())
+            if self.amateur_cols:
+                amateur_run_results.append(self.compute_one_power_run(amateur=True))
             remaining = num_runs-i
             if remaining % 10 == 0:
                 print(remaining)
             else:
                 print(".", end='', flush=True)
 
+        self.expert_power_curve = PowerCurve(run_results,
+                                             legend_label=legend_label
+                                             )
+
+        if self.amateur_cols:
+            self.amateur_power_curve = PowerCurve(amateur_run_results,
+                                                  legend_label=amateur_legend_label,
+                                                  )
         print("done")
-        self.power_curve = PowerCurve(run_results,
-                                      legend_label=legend_label
-                                      )
+
 
     @staticmethod
     def array_choice(k: int, n: int):
@@ -107,13 +130,15 @@ class AnalysisPipeline:
         # useful for selected the rest of the columns when chosen was used as a mask
         return list(set(range(n)) - set(chosen))
 
-    def compute_one_power_run(self, K: int) -> Dict[int, float]:
+    def compute_one_power_run(self, amateur=False) -> Dict[int, float]:
         assert(K>0)
 
         result = dict()
 
-        N = len(self.W)
+        N = len(self.W) # number of rows in the labels dataframe
 
+        expert_df = self.W[self.expert_cols]
+        amateur_df = self.W[self.amateur_cols] if self.amateur_cols else None
 
         for k in range(0, K+1):
             #print(k)
@@ -121,14 +146,21 @@ class AnalysisPipeline:
             # Sample N rows from the rating matrix W with replacement
             I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
 
+            foobar
+
+            if amateur:
+                available_labels = I[self.amateur_cols]
+            else:
+                available_labels = I[self.expert_cols]
+
             predictions = list()
             reference_ratings = list()
 
             # for each item/row in sample
-            for index, item in enumerate(I):
+            for index, item in enumerate(available_labels):
                 """
-                Sample ratings from nonzero ratings of the item. This code needs to randomly choose columns 
-                and ratings, but because these are seperate variables, we need to first pick a random mask and 
+                Sample ratings from nonzero ratings of the item. This code needs to randomly choose column names 
+                and ratings, but because these are separate variables, we need to first pick a random mask and 
                 then apply that mask to the two arrays so that they align.
                 """
                 nonzero_itm_mask = np.nonzero(item)

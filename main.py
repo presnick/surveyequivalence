@@ -10,7 +10,6 @@ from surveyequivalence import State, DiscreteState, \
     Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets
 
 def main():
-    combiner = AnonymousBayesianCombiner()
     scorer = CrossEntropyScore
 
     # ds = make_discrete_dataset_1()
@@ -31,6 +30,7 @@ def main():
     # color_map.update({nm: color for (nm, color) in zip(ds.classifier_predictions.columns, ['red', 'blue', 'navy'])})
 
     for ds in make_perceive_with_noise_datasets():
+        combiner = AnonymousBayesianCombiner()
         expert_pipeline = AnalysisPipeline(ds.dataset, combiner, scorer.score,
                                            allowable_labels=['pos', 'neg'],
                                            null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
