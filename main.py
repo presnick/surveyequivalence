@@ -31,19 +31,24 @@ def main():
 
     for ds in make_perceive_with_noise_datasets():
         combiner = AnonymousBayesianCombiner()
-        expert_pipeline = AnalysisPipeline(ds.dataset, combiner, scorer.score,
+        expert_pipeline = AnalysisPipeline(ds.dataset,
+                                           expert_cols=list(ds.dataset.columns),
+                                           amateur_cols=[],
+                                           combiner=combiner,
+                                           scoring_function=scorer.score,
                                            allowable_labels=['pos', 'neg'],
                                            null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                           num_runs=2,
-                                           legend_label='Expert raters')
+                                           num_runs=2)
 
-        pl = Plot(expert_pipeline.power_curve,
+        pl = Plot(expert_pipeline.expert_power_curve,
                   classifier_scores=ds.compute_classifier_scores(scorer),
                   color_map=color_map,
                   y_axis_label='information gain (c_k - c_0)',
                   center_on_c0=True,
                   y_range=(0, .65),
-                  name=ds.ds_generator.name
+                  name=ds.ds_generator.name,
+                  legend_label='Expert raters',
+                  amateur_legend_label="Lay raters"
                   )
 
         pl.plot(include_classifiers=True,

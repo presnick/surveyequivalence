@@ -20,13 +20,11 @@ N = 1000
 class PowerCurve:
 
     def __init__(self,
-                 runs: Sequence[Dict[int, float]],
-                 legend_label):
+                 runs: Sequence[Dict[int, float]]):
         """each run will be one dictionary with scores at different k
         """
         self.df  = pd.DataFrame(runs)
         self.compute_means_and_cis()
-        self.legend_label = legend_label
 
     def compute_means_and_cis(self):
         self.means = self.df.mean()
@@ -54,38 +52,47 @@ class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
-                 expert_cols: Sequence[str] = None,
-                 amateur_cols: Sequence[str] = None,
-                 combiner: Combiner,
-                 scoring_function: Scorer,
-                 allowable_labels: Sequence[str],
-                 null_prediction: Prediction,
+                 expert_cols: Sequence[str] = [],
+                 amateur_cols: Sequence[str] = [],
+                 combiner: Combiner=None,
+                 scoring_function: Scorer=None,
+                 allowable_labels: Sequence[str]=None,
+                 null_prediction: Prediction=None,
                  num_runs=1,
-                 legend_label=None,
-                 max_k=None
+                 max_expert_k=None,
+                 max_amateur_k=None,
                  ):
         if expert_cols:
             self.expert_cols = expert_cols
         else:
             self.expert_cols = W.columns
         self.amateur_cols = amateur_cols
-        self.W = W.to_numpy()
+        # self.W = W.to_numpy()
+        self.W = W
+        self.W_as_array = W.to_numpy()
         self.combiner = combiner
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
 
-        if max_k is None:
-            self.max_k = len(self.expert_cols) - 1
-        elif max_k > len(self.expert_cols) - 1:
-            raise Exception(f"Only {len(self.expert_cols)} raters. Can't compute power curve up to {max_k}")
+        if max_expert_k is None:
+            self.max_expert_k = len(self.expert_cols) - 1
+        elif max_expert_k > len(self.expert_cols) - 1:
+            raise Exception(f"Only {len(self.expert_cols)} raters. Can't compute power curve up to {max_expert_k}")
         else:
-            self.max_k = max_k
+            self.max_expert_k = max_expert_k
 
-        self.compute_power_curves(max_k)
+        if max_amateur_k is None:
+            self.max_amateur_k = len(self.amateur_cols) - 1
+        elif max_amateur_k > len(self.amateur_cols) - 1:
+            raise Exception(f"Only {len(self.amateur_cols)} raters. Can't compute power curve up to {max_amateur_k}")
+        else:
+            self.max_amateur_k = max_amateur_k
+
+        self.compute_power_curves(num_runs)
 
 
-    def compute_power_curves(self):
+    def compute_power_curves(self, num_runs):
         run_results = []
         amateur_run_results = []
         print(f"{num_runs} runs to go:")
@@ -99,13 +106,11 @@ class AnalysisPipeline:
             else:
                 print(".", end='', flush=True)
 
-        self.expert_power_curve = PowerCurve(run_results,
-                                             legend_label=legend_label
+        self.expert_power_curve = PowerCurve(run_results
                                              )
 
         if self.amateur_cols:
-            self.amateur_power_curve = PowerCurve(amateur_run_results,
-                                                  legend_label=amateur_legend_label,
+            self.amateur_power_curve = PowerCurve(amateur_run_results
                                                   )
         print("done")
 
@@ -131,61 +136,80 @@ class AnalysisPipeline:
         return list(set(range(n)) - set(chosen))
 
     def compute_one_power_run(self, amateur=False) -> Dict[int, float]:
-        assert(K>0)
+        if amateur:
+            K = self.max_amateur_k
+        else:
+            K = self.max_expert_k
 
         result = dict()
 
         N = len(self.W) # number of rows in the labels dataframe
 
-        expert_df = self.W[self.expert_cols]
-        amateur_df = self.W[self.amateur_cols] if self.amateur_cols else None
-
         for k in range(0, K+1):
             #print(k)
 
             # Sample N rows from the rating matrix W with replacement
-            I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
+            # I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
 
-            foobar
+            I = self.W.sample(N, replace=True)
 
-            if amateur:
-                available_labels = I[self.amateur_cols]
-            else:
-                available_labels = I[self.expert_cols]
+
 
             predictions = list()
             reference_ratings = list()
 
             # for each item/row in sample
-            for index, item in enumerate(available_labels):
+            # for index, item in enumerate(available_labels):
+            for index, item in I.iterrows():
                 """
                 Sample ratings from nonzero ratings of the item. This code needs to randomly choose column names 
                 and ratings, but because these are separate variables, we need to first pick a random mask and 
                 then apply that mask to the two arrays so that they align.
                 """
-                nonzero_itm_mask = np.nonzero(item)
-                nonmissing_labels = item[nonzero_itm_mask]
-                nonmissing_cols = self.cols[nonzero_itm_mask]
-                assert(len(nonmissing_labels) == len(nonmissing_cols))
+
+                ## get the available raters with non-missing data
+                if amateur:
+                    available_raters = item[self.amateur_cols].dropna()
+                else:
+                    available_raters = item[self.expert_cols].dropna()
+
+                #
+                #
+                # nonzero_itm_mask = np.nonzero(item)
+                # nonmissing_labels = item[nonzero_itm_mask]
+                # nonmissing_cols = self.cols[nonzero_itm_mask]
+                # assert(len(nonmissing_labels) == len(nonmissing_cols))
+
+
 
                 ## pick a subset of k raters
-                choice_mask = self.array_choice(k, len(nonmissing_cols))
-                sample_ratings = nonmissing_labels[choice_mask]
-                sample_cols = list(nonmissing_cols[choice_mask])
+
+                # choice_mask = self.array_choice(k, len(nonmissing_cols))
+                # sample_ratings = nonmissing_labels[choice_mask]
+                # sample_cols = list(nonmissing_cols[choice_mask])
+
+                selected_raters = available_raters.sample(k)
 
                 # get the prediction from those k raters
-                rating_tups = zip(sample_cols, sample_ratings)
-                pred = self.combiner.combine(self.allowable_labels, rating_tups, self.W, item_id=index)
+                # rating_tups = zip(sample_cols, sample_ratings)
+                rating_tups = list(zip(selected_raters.index, selected_raters))
+                pred = self.combiner.combine(self.allowable_labels, rating_tups, self.W_as_array, item_id=index)
 
-                # remaining ratings are the reference raters; score prediction against each of them
-                remaining_ratings = nonmissing_labels[self.inverted_array_choice(choice_mask, len(nonmissing_cols))]
-                for rating in remaining_ratings:
+                # If k experts, remaining labels are the reference raters;
+                # If k amateurs, all expert labels are available as reference raters
+                if amateur:
+                    reference_raters = available_raters.drop(selected_raters)
+                    # print(f'amateurs: reference_raters = {reference_raters}')
+                else:
+                    reference_raters = item[self.expert_cols].dropna()
+                    # print(f'experts: reference_raters ={reference_raters}')
+                # score prediction against each of the reference raters
+                for rater, label in reference_raters.items():
                     predictions.append(pred)
-                    reference_ratings.append(rating)
+                    reference_ratings.append(label)
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
-
 
 class Plot:
     def __init__(self, expert_power_curve, amateur_power_curve=None, classifier_scores=None,
@@ -193,7 +217,10 @@ class Plot:
                  y_axis_label = 'Agreement with reference rater',
                  center_on_c0 = False,
                  y_range = None,
-                 name = 'powercurve'):
+                 name = 'powercurve',
+                 legend_label='Expert raters',
+                 amateur_legend_label="Lay raters"
+                 ):
         self.expert_power_curve = expert_power_curve
         self.amateur_power_curve = amateur_power_curve
         self.classifier_scores = classifier_scores
@@ -203,6 +230,8 @@ class Plot:
         self.y_range = y_range
         self.name = name
         self.x_intercepts = []
+        self.legend_label = legend_label
+        self.amateur_legend_label = amateur_legend_label
         self.make_fig_and_axes()
 
     def make_fig_and_axes(self):
@@ -287,7 +316,8 @@ class Plot:
                          curve: PowerCurve,
                          points,
                          connect,
-                         color
+                         color,
+                         legend_label='Power curve',
                          ):
 
 
@@ -309,7 +339,7 @@ class Plot:
                     color=color,
                     elinewidth=2,
                     capsize=5,
-                    label=curve.legend_label,
+                    label=legend_label,
                     linestyle=linestyle)
 
     def plot(self,
@@ -327,7 +357,8 @@ class Plot:
                               self.expert_power_curve,
                               points=include_expert_points,
                               connect=connect_expert_points,
-                              color=self.color_map['expert_power_curve']
+                              color=self.color_map['expert_power_curve'],
+                              legend_label=self.legend_label
                               )
 
 
@@ -336,7 +367,8 @@ class Plot:
                                   self.amateur_power_curve,
                                   points='all',
                                   connect=True,
-                                  color=self.color_map['amateur_power_curve']
+                                  color=self.color_map['amateur_power_curve'],
+                                  legend_label=self.amateur_legend_label
                                   )
 
 
