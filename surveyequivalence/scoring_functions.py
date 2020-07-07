@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics import precision_score, recall_score, f1_score, log_loss, roc_auc_score, accuracy_score
 from scipy.stats import entropy
 from sklearn.preprocessing import LabelBinarizer
-from .combiners import Prediction, DiscreteDistributionPrediction
+from .combiners import Prediction, DiscreteDistributionPrediction, NumericPrediction
 
 
 class Scorer(ABC):
@@ -18,6 +18,19 @@ class Scorer(ABC):
                     rater_labels: Sequence[str]) -> float:
         pass
 
+class Correlation(Scorer):
+
+    @staticmethod
+    def score(classifier_predictions: Sequence[NumericPrediction],
+                        rater_labels: Sequence[float]):
+        """
+        :param classifier_predictions: numeric values
+        :param rater_labels: numeric values
+        :return: Pearson correlation coefficient
+        """
+
+        return np.corrcoef([p.value for p in classifier_predictions],
+                           rater_labels)[1,0]
 
 class AgreementScore(Scorer):
     def __init__(self):

@@ -195,13 +195,13 @@ class AnalysisPipeline:
                 rating_tups = list(zip(selected_raters.index, selected_raters))
                 pred = self.combiner.combine(self.allowable_labels, rating_tups, self.W_as_array, item_id=index)
 
-                # If k experts, remaining labels are the reference raters;
                 # If k amateurs, all expert labels are available as reference raters
+                # If k experts, remaining labels are the reference raters;
                 if amateur:
-                    reference_raters = available_raters.drop(selected_raters)
+                    reference_raters = item[self.expert_cols].dropna()
                     # print(f'amateurs: reference_raters = {reference_raters}')
                 else:
-                    reference_raters = item[self.expert_cols].dropna()
+                    reference_raters = available_raters.drop(selected_raters.index).dropna()
                     # print(f'experts: reference_raters ={reference_raters}')
                 # score prediction against each of the reference raters
                 for rater, label in reference_raters.items():
@@ -293,8 +293,9 @@ class Plot:
         ymin = min(self.expert_power_curve.means)
         if (self.amateur_power_curve):
             ymin = min(ymin, min(self.amateur_power_curve.means))
-        for score in self.classifier_scores:
-            ymin = min(ymin, score)
+        if self.classifier_scores:
+            for score in self.classifier_scores:
+                ymin = min(ymin, score)
 
         self.ymin = self.possibly_center_score(ymin)
 
@@ -302,8 +303,9 @@ class Plot:
         ymax = max(self.expert_power_curve.means)
         if (self.amateur_power_curve):
             ymax = max(ymax, max(self.amateur_power_curve.means))
-        for score in self.classifier_scores:
-            ymax = max(ymax, score)
+        if self.classifier_scores:
+            for score in self.classifier_scores:
+                ymax = max(ymax, score)
 
         self.ymax = self.possibly_center_score(ymax)
 

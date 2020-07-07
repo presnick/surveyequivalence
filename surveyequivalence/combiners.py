@@ -15,6 +15,17 @@ class Prediction(ABC):
     def value(self):
         pass
 
+    def __repr__(self):
+        return f"Prediction: {self.value}"
+
+
+class NumericPrediction(Prediction):
+    def __init__(self, num):
+        self.num = num
+
+    @property
+    def value(self):
+        return self.num
 
 class DiscreteDistributionPrediction(Prediction):
     def __init__(self, label_names, probabilities):
@@ -60,7 +71,6 @@ class DiscreteDistributionPrediction(Prediction):
 
 
 class Combiner(ABC):
-    @abstractmethod
     def __init__(self):
         pass
 
@@ -72,6 +82,25 @@ class Combiner(ABC):
             to_predict_for=None) -> DiscreteDistributionPrediction:
         pass
 
+
+class MeanCombiner(Combiner):
+    def combine(self, allowable_labels: Sequence[str]=None,
+            labels: Sequence[Tuple[str, float]]=[],
+            W: np.matrix = None,
+            item_id=None,
+            to_predict_for=None) -> NumericPrediction:
+
+        """
+        :param allowable_labels: not used in this combiner
+        :param labels: numeric values from particular rater ids; rater ids are ignored
+        :param W: ignored in this combiner
+        :param item_id: ignored in this combiner
+        :param to_predict_for: ignored in this combiner
+        :return: the mean of the labels
+        """
+
+        return NumericPrediction(sum([val for rater, val in labels]) / \
+                                 len(labels))
 
 class FrequencyCombiner(Combiner):
     def __init__(self):

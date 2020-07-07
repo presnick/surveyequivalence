@@ -50,12 +50,12 @@ class SyntheticDatasetGenerator:
 
         self.expert_item_states = expert_state_generator.draw_states(num_items_per_dataset)
 
-    def generate_labels(self, item_states, num_labels_per_item=None):
+    def generate_labels(self, item_states, num_labels_per_item=None, rater_prefix="e"):
         if not num_labels_per_item:
             num_labels_per_item = self.num_labels_per_item
         return pd.DataFrame(
             [state.draw_labels(self.num_labels_per_item) for state in item_states],
-            columns=["r{}".format(i) for i in range(1, self.num_labels_per_item + 1)]
+            columns=[f"{rater_prefix}_{i}" for i in range(1, self.num_labels_per_item + 1)]
         )
 
 
@@ -148,12 +148,13 @@ class SyntheticDataset(Dataset):
         # create the amateur dataset if applicable
         if ds_generator.amateur_item_states is not None:
             amateur_dataset = ds_generator.generate_labels(ds_generator.amateur_item_states,
-                                              num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_amateurs_per_label)
+                                              num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_amateurs_per_label,
+                                                           rater_prefix='a')
             if ds_generator.k_amateurs_per_label > 1:
                 # get a group of k amateur labelers and take their majority label as the actual label
                 majority_winners = stats.mode(amateur_dataset.reshape(-1, k_amateurs_per_label))
                 print(majority_winners)
-                foobar
+                foobar # this code hasn't been tested yet, so break if someone tries using it
                 self.amateur_dataset = stats.mode(amateur_dataset.reshape(-1, k_amateurs_per_label)).mode
             else:
                 self.amateur_dataset = amateur_dataset

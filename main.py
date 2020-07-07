@@ -9,29 +9,18 @@ from surveyequivalence import State, DiscreteState, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets
 
-def main():
+def generate_and_plot_noise_datasets():
     scorer = CrossEntropyScore
-
-    # ds = make_discrete_dataset_1()
-    #
-    # pl = Plot(None,
-    #           y_axis_label='information gain (c_k - c_0)',
-    #           name='Test'
-    #           )
-    # pl.add_state_distribution_inset(ds.ds_generator)
-    # pl.save_plot()
-    # exit()
 
     color_map = {
         'expert_power_curve': 'black',
         'amateur_power_curve': 'purple',
         'h_infinity': 'red'
     }
-    # color_map.update({nm: color for (nm, color) in zip(ds.classifier_predictions.columns, ['red', 'blue', 'navy'])})
 
     for ds in make_perceive_with_noise_datasets():
         combiner = AnonymousBayesianCombiner()
-        expert_pipeline = AnalysisPipeline(ds.dataset,
+        pipeline = AnalysisPipeline(ds.dataset,
                                            expert_cols=list(ds.dataset.columns),
                                            amateur_cols=[],
                                            combiner=combiner,
@@ -40,7 +29,7 @@ def main():
                                            null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                            num_runs=2)
 
-        pl = Plot(expert_pipeline.expert_power_curve,
+        pl = Plot(pipeline.expert_power_curve,
                   classifier_scores=ds.compute_classifier_scores(scorer),
                   color_map=color_map,
                   y_axis_label='information gain (c_k - c_0)',
@@ -48,7 +37,6 @@ def main():
                   y_range=(0, .65),
                   name=ds.ds_generator.name,
                   legend_label='Expert raters',
-                  amateur_legend_label="Lay raters"
                   )
 
         pl.plot(include_classifiers=True,
@@ -59,6 +47,61 @@ def main():
                 )
         pl.add_state_distribution_inset(ds.ds_generator)
         pl.save_plot()
+
+def generate_and_plot_noisier_amateurs():
+    scorer = CrossEntropyScore
+    combiner = AnonymousBayesianCombiner()
+
+    color_map = {
+        'expert_power_curve': 'black',
+        'amateur_power_curve': 'purple',
+        'h_infinity': 'red'
+    }
+
+    ds = make_discrete_dataset_1()
+
+    # combine the two dataframes
+
+    pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
+                                expert_cols=list(ds.dataset.columns),
+                                amateur_cols=list(ds.amateur_dataset.columns),
+                                combiner=combiner,
+                                scoring_function=scorer.score,
+                                allowable_labels=['pos', 'neg'],
+                                null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                num_runs=2)
+
+    pl = Plot(pipeline.expert_power_curve,
+              pipeline.amateur_power_curve,
+              color_map=color_map,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, .65),
+              name=ds.ds_generator.name,
+              legend_label='Expert raters',
+              amateur_legend_label="Lay raters"
+              )
+
+    pl.plot(include_classifiers=False,
+            include_classifier_equivalences=False,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_amateur_curve=True,
+            amateur_equivalences=[2, 8]
+            )
+    pl.add_state_distribution_inset(ds.ds_generator)
+    pl.save_plot()
+
+    #
+    # pl = Plot(None,
+    #           y_axis_label='information gain (c_k - c_0)',
+    #           name='Test'
+    #           )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    # pl.save_plot()
+    # exit()
+
 
     # expert_pipeline = AnalysisPipeline(ds.dataset, combiner, scorer.score,
     #                      allowable_labels=['pos', 'neg'],
@@ -113,6 +156,14 @@ def main():
     #         )
     # pl.add_state_distribution_inset(ds.ds_generator)
     # pl.save_plot()
+
+
+def main():
+    # generate_and_plot_noise_datasets()
+    generate_and_plot_noisier_amateurs()
+
+
+
 
 if __name__ == '__main__':
     main()
