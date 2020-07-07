@@ -7,7 +7,7 @@ from surveyequivalence import State, DiscreteState, \
     DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
-    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets
+    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets, Correlation
 
 def generate_and_plot_noise_datasets():
     scorer = CrossEntropyScore

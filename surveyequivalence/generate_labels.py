@@ -22,15 +22,17 @@ class DiscreteState(State):
     def __init__(self,
                  state_name: str,
                  labels: Sequence[str],
-                 probabilities: Sequence[float]
+                 probabilities: Sequence[float],
+                 num_raters: int=0
                  ):
         super().__init__()
         self.state_name = state_name
         self.labels = labels
         self.probabilities = probabilities
+        self.num_raters = num_raters
 
     def __str__(self):
-        return f"DiscreteState: {self.probabilities}"
+        return f"DiscreteState {self.state_name} based on {self.num_raters}: {list(zip(self.labels, self.probabilities))}"
 
     def draw_labels(self, n: int):
         return np.random.choice(

@@ -4,8 +4,10 @@ import numpy as np
 from sklearn.metrics import precision_score, recall_score, f1_score, log_loss, roc_auc_score, accuracy_score
 from scipy.stats import entropy
 from sklearn.preprocessing import LabelBinarizer
+import scipy
 from .combiners import Prediction, DiscreteDistributionPrediction, NumericPrediction
-
+from surveyequivalence import DiscreteState
+from math import isclose
 
 class Scorer(ABC):
     @abstractmethod
@@ -15,22 +17,54 @@ class Scorer(ABC):
     @staticmethod
     @abstractmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-                    rater_labels: Sequence[str]) -> float:
+                    rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
 
 class Correlation(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[NumericPrediction],
-                        rater_labels: Sequence[float]):
+                        rater_labels: Sequence[DiscreteState]):
         """
         :param classifier_predictions: numeric values
-        :param rater_labels: numeric values
+        :param rater_labels: discrete distribution over labels, which should be numeric values
         :return: Pearson correlation coefficient
         """
 
-        return np.corrcoef([p.value for p in classifier_predictions],
-                           rater_labels)[1,0]
+        def convert_to_number(label):
+            if type(label) == int or type(label) == float:
+                return label
+            elif label == "pos":
+                return 1
+            else:
+                return 0
+
+        expanded_predictions = []
+        expanded_ratings = []
+
+        if len(set([ld.num_raters for ld in rater_labels])) == 1:
+            # all sets of reference raters have same length, so probabilities can be turned into integers and we
+            # can sample each reference rater exactly once, avoiding some noise from random sampling
+            for pred, label_dist in zip(classifier_predictions, rater_labels):
+                for label, pr in zip(label_dist.labels, label_dist.probabilities):
+                    assert isclose(pr * label_dist.num_raters, int(pr * label_dist.num_raters), abs_tol=.0001)
+                    for _ in range(int(pr * label_dist.num_raters)):
+                        expanded_predictions.append(convert_to_number(pred.value))
+                        expanded_ratings.append(convert_to_number(label))
+
+        else:
+            # sample 1000 times from each rater_labels distribution
+            print("unequal numbers of reference raters; using sample inside Correlation.score()")
+            for pred, label_dist in zip(classifier_predictions, rater_labels):
+
+                indexes = scipy.stats.rv_discrete(values=(range(len(label_dist.labels)),
+                                                          label_dist.probabilities)).rvs(size=1000)
+                labels = [label_dist.labels[i] for i in indexes]
+                for label in labels:
+                    expanded_predictions.append(convert_to_number(pred.value))
+                    expanded_ratings.append(convert_to_number(label))
+
+        return np.corrcoef([expanded_predictions, expanded_ratings])[1,0]
 
 class AgreementScore(Scorer):
     def __init__(self):

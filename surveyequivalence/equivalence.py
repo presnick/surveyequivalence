@@ -8,6 +8,7 @@ import math
 
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
+from surveyequivalence import DiscreteState
 from matplotlib import pyplot as plt
 import matplotlib
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
@@ -203,10 +204,17 @@ class AnalysisPipeline:
                 else:
                     reference_raters = available_raters.drop(selected_raters.index).dropna()
                     # print(f'experts: reference_raters ={reference_raters}')
-                # score prediction against each of the reference raters
-                for rater, label in reference_raters.items():
-                    predictions.append(pred)
-                    reference_ratings.append(label)
+                # intuitively: score prediction against each of the reference raters
+                # but we might have different number of reference raters for different items
+                # so determine proportions of the different labels among the reference raters
+                freqs = reference_raters.value_counts()/len(reference_raters)
+                ref_rater_dist = DiscreteState(state_name=f'Ref raters for Item {index}',
+                                     labels=freqs.index,
+                                     probabilities=freqs.tolist(),
+                                     num_raters=len(reference_raters))
+
+                predictions.append(pred)
+                reference_ratings.append(ref_rater_dist)
 
             result[k] = self.scoring_function(predictions, reference_ratings)
         return result
