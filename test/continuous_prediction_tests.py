@@ -20,7 +20,6 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
             ('r2', 6),
             ('r3', 6)
         ])
-        print(pred)
         self.assertEqual(pred.value, 5)
 
     def test_scoring_functions(self):
@@ -28,7 +27,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         def all_one_ref_rater(label):
             return DiscreteState(state_name='',
                                  labels=[label],
-                                 probabilities=[1])
+                                 probabilities=[1],
+                                 num_raters=1)
 
         predictions = [NumericPrediction(val) for val in [5, 6, 7, 8, 9]]
         ratings1 = [all_one_ref_rater(r) for r in [1, 2, 3, 4, 5]]
@@ -43,7 +43,6 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                   probabilities=[.75, .25],
                                   num_raters=4)
                     for r in [6, 5, 7, 8, 9]]
-        print(f'ratings4 correlation = {Correlation.score(predictions, ratings4)}')
         self.assertAlmostEqual(Correlation.score(predictions, ratings4), 0.7794, places=3)
 
     def test_analysis_pipeline(self):
