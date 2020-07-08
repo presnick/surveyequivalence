@@ -28,7 +28,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         def all_one_ref_rater(label):
             return DiscreteState(state_name='',
                                  labels=[label],
-                                 probabilities=[1])
+                                 probabilities=[1],
+                                 num_raters=1)
 
         predictions = [NumericPrediction(val) for val in [5, 6, 7, 8, 9]]
         ratings1 = [all_one_ref_rater(r) for r in [1, 2, 3, 4, 5]]
