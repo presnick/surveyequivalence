@@ -71,8 +71,8 @@ class DiscreteDistributionPrediction(Prediction):
 
 
 class Combiner(ABC):
-    def __init__(self):
-        pass
+    def __init__(self, verbosity=0):
+        self.verbosity = verbosity
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],

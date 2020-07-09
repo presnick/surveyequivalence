@@ -62,6 +62,8 @@ class AnalysisPipeline:
                  num_runs=1,
                  max_expert_k=None,
                  max_amateur_k=None,
+                 min_k=0,
+                 verbosity=0
                  ):
         if expert_cols:
             self.expert_cols = expert_cols
@@ -75,6 +77,8 @@ class AnalysisPipeline:
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
+        self.min_k = min_k
+        self.verbosity = verbosity
 
         if max_expert_k is None:
             self.max_expert_k = len(self.expert_cols) - 1
@@ -137,6 +141,7 @@ class AnalysisPipeline:
         return list(set(range(n)) - set(chosen))
 
     def compute_one_power_run(self, amateur=False) -> Dict[int, float]:
+        verbosity = self.verbosity
         if amateur:
             K = self.max_amateur_k
         else:
@@ -146,8 +151,10 @@ class AnalysisPipeline:
 
         N = len(self.W) # number of rows in the labels dataframe
 
-        for k in range(0, K+1):
-            #print(k)
+        print(f'min_k = {self.min_k} K={K}')
+        for k in range(self.min_k, K+1):
+            if verbosity >= 2:
+                print(f'\tk={k}')
 
             # Sample N rows from the rating matrix W with replacement
             # I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
@@ -171,25 +178,25 @@ class AnalysisPipeline:
                 ## get the available raters with non-missing data
                 if amateur:
                     available_raters = item[self.amateur_cols].dropna()
+                    min_held_out_raters = 0
                 else:
                     available_raters = item[self.expert_cols].dropna()
-
-                #
-                #
-                # nonzero_itm_mask = np.nonzero(item)
-                # nonmissing_labels = item[nonzero_itm_mask]
-                # nonmissing_cols = self.cols[nonzero_itm_mask]
-                # assert(len(nonmissing_labels) == len(nonmissing_cols))
-
-
+                    min_held_out_raters = 1
 
                 ## pick a subset of k raters
+                ## if not enough available, use the raters available?
 
-                # choice_mask = self.array_choice(k, len(nonmissing_cols))
-                # sample_ratings = nonmissing_labels[choice_mask]
-                # sample_cols = list(nonmissing_cols[choice_mask])
 
-                selected_raters = available_raters.sample(k)
+                if len(available_raters) - min_held_out_raters <= 0:
+                    if verbosity >= 3:
+                        print(f"\t\tskipping item {index}: not enough raters available")
+                    continue
+                elif len(available_raters) - min_held_out_raters < k :
+                    if verbosity >= 3:
+                        print(f"\t\tUsing fewer raters because only {len(available_raters)} available and {k} needed for item {index}")
+                    selected_raters = available_raters.sample(len(available_raters) - min_held_out_raters)
+                else:
+                    selected_raters = available_raters.sample(k)
 
                 # get the prediction from those k raters
                 # rating_tups = zip(sample_cols, sample_ratings)
@@ -200,14 +207,18 @@ class AnalysisPipeline:
                 # If k experts, remaining labels are the reference raters;
                 if amateur:
                     reference_raters = item[self.expert_cols].dropna()
-                    # print(f'amateurs: reference_raters = {reference_raters}')
                 else:
                     reference_raters = available_raters.drop(selected_raters.index).dropna()
-                    # print(f'experts: reference_raters ={reference_raters}')
+
                 # intuitively: score prediction against each of the reference raters
                 # but we might have different number of reference raters for different items
                 # so determine proportions of the different labels among the reference raters
+
                 freqs = reference_raters.value_counts()/len(reference_raters)
+                if len(freqs) == 0:
+                    if verbosity >=3:
+                        print(f"\t\tskipping item {index} because no reference raters. k={k}. freqs={freqs}")
+                    continue
                 ref_rater_dist = DiscreteState(state_name=f'Ref raters for Item {index}',
                                      labels=freqs.index,
                                      probabilities=freqs.tolist(),
@@ -216,7 +227,11 @@ class AnalysisPipeline:
                 predictions.append(pred)
                 reference_ratings.append(ref_rater_dist)
 
-            result[k] = self.scoring_function(predictions, reference_ratings)
+            result[k] = self.scoring_function(predictions, reference_ratings, verbosity)
+            if verbosity >= 3:
+                print(f'\tscore {result[k]}')
+        if verbosity == 2:
+            print(f'{result}')
         return result
 
 class Plot:

@@ -8,6 +8,7 @@ import scipy
 from .combiners import Prediction, DiscreteDistributionPrediction, NumericPrediction
 from surveyequivalence import DiscreteState
 from math import isclose
+import numbers
 
 class Scorer(ABC):
     @abstractmethod
@@ -24,7 +25,8 @@ class Correlation(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[NumericPrediction],
-                        rater_labels: Sequence[DiscreteState]):
+                        rater_labels: Sequence[DiscreteState],
+              verbosity=0):
         """
         :param classifier_predictions: numeric values
         :param rater_labels: discrete distribution over labels, which should be numeric values
@@ -32,7 +34,7 @@ class Correlation(Scorer):
         """
 
         def convert_to_number(label):
-            if type(label) == int or type(label) == float:
+            if isinstance(label, numbers.Number):
                 return label
             elif label == "pos":
                 return 1
@@ -54,16 +56,24 @@ class Correlation(Scorer):
 
         else:
             # sample 1000 times from each rater_labels distribution
-            print("unequal numbers of reference raters; using sample inside Correlation.score()")
+            if verbosity >= 2:
+                print("unequal numbers of reference raters; using sample inside Correlation.score()")
             for pred, label_dist in zip(classifier_predictions, rater_labels):
 
-                indexes = scipy.stats.rv_discrete(values=(range(len(label_dist.labels)),
-                                                          label_dist.probabilities)).rvs(size=1000)
+                try:
+                    indexes = scipy.stats.rv_discrete(values=(range(len(label_dist.labels)),
+                                                              label_dist.probabilities)).rvs(size=1000)
+                except:
+                    raise Exception(f"can't sample from {(range(len(label_dist.labels)), label_dist.probabilities)}")
                 labels = [label_dist.labels[i] for i in indexes]
+                if verbosity >= 4:
+                    print(f'labels = {labels[:10]}')
                 for label in labels:
                     expanded_predictions.append(convert_to_number(pred.value))
                     expanded_ratings.append(convert_to_number(label))
 
+        if verbosity >= 3:
+            print(f'computing correlation of {[expanded_predictions[:10], expanded_ratings[:10]]}')
         return np.corrcoef([expanded_predictions, expanded_ratings])[1,0]
 
 class AgreementScore(Scorer):
