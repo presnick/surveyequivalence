@@ -4,6 +4,7 @@ import pandas as pd
 import unittest
 from matplotlib import pyplot as plt
 import matplotlib
+from datetime import datetime
 
 from surveyequivalence import State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
@@ -12,10 +13,10 @@ from surveyequivalence import State, DiscreteState, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets, Correlation
 
-def save_plot(fig):
+def save_plot(fig, name):
     if not os.path.isdir('plots'):
         os.mkdir('plots')
-    fig.savefig(f'plots/{self.name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+    fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
 def generate_and_plot_noise_datasets():
     scorer = CrossEntropyScore
@@ -76,7 +77,7 @@ def generate_and_plot_noisier_amateurs():
                                 scoring_function=scorer.score,
                                 allowable_labels=['pos', 'neg'],
                                 null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                num_runs=2)
+                                num_runs=1)
 
     amateur_pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
                                 expert_cols=list(ds.dataset.columns),
@@ -85,7 +86,7 @@ def generate_and_plot_noisier_amateurs():
                                 scoring_function=scorer.score,
                                 allowable_labels=['pos', 'neg'],
                                 null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                num_runs=2)
+                                num_runs=1)
 
     fig, ax = plt.subplots()
 
@@ -111,8 +112,8 @@ def generate_and_plot_noisier_amateurs():
             include_amateur_curve=True,
             amateur_equivalences=[2, 8]
             )
-    pl.add_state_distribution_inset(ds.ds_generator)
-    save_plot(fig)
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, ds.ds_generator.name)
 
 
 def main():

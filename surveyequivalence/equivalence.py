@@ -11,7 +11,7 @@ from surveyequivalence import DiscreteState
 from matplotlib import pyplot as plt
 import matplotlib
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from datetime import datetime
+
 
 
 N = 1000
@@ -365,7 +365,7 @@ class Plot:
              include_amateur_curve=True,
              amateur_equivalences=[]):
 
-        fig, ax = self.fig, self.ax
+        ax = self.ax
 
         if include_expert_points:
             self.plot_power_curve(ax,
