@@ -102,7 +102,8 @@ class CrossEntropyScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str]):
+              rater_labels: Sequence[str],
+              verbosity=0):
         """
         Calculates the Cross Entropy of the two labels.
 
@@ -125,6 +126,7 @@ class CrossEntropyScore(Scorer):
         try:
             return -log_loss(rater_labels, d, normalize=True, labels=classifier_predictions[0].label_names)/np.log(2)
         except:
+            print(list(zip(d, rater_labels))[:10])
             print([(p, l) for (p, l) in zip(d, rater_labels) if p[0] < .001 or p[0] > .995])
             foobar
 

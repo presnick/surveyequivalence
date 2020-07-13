@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from typing import Sequence, Dict, Tuple, Callable
 import numpy as np
 import pandas as pd
-import os
 import random
 import math
 
@@ -63,7 +62,7 @@ class AnalysisPipeline:
                  max_expert_k=None,
                  max_amateur_k=None,
                  min_k=0,
-                 verbosity=0
+                 verbosity=1
                  ):
         if expert_cols:
             self.expert_cols = expert_cols
@@ -94,30 +93,25 @@ class AnalysisPipeline:
         else:
             self.max_amateur_k = max_amateur_k
 
-        self.compute_power_curves(num_runs)
+        # Either compute expert or amateur power curve; don't use same pipeline for both
+        self.compute_power_curve(num_runs, amateur = len(amateur_cols)>0)
 
+    def compute_power_curve(self, num_runs, amateur=False):
 
-    def compute_power_curves(self, num_runs):
-        run_results = []
-        amateur_run_results = []
-        print(f"{num_runs} runs to go:")
-        for i in range(num_runs):
-            run_results.append(self.compute_one_power_run())
-            if self.amateur_cols:
-                amateur_run_results.append(self.compute_one_power_run(amateur=True))
-            remaining = num_runs-i
-            if remaining % 10 == 0:
-                print(remaining)
+            run_results = []
+            if self.verbosity > 0:
+                print(f"starting {'amateur' if amateur else 'expert'} power curve: {num_runs} runs to go")
+            for i in range(num_runs):
+                remaining = num_runs-i
+                run_results.append(self.compute_one_power_run(amateur))
+                if remaining % 10 == 0 and self.verbosity > 0:
+                    print(remaining)
+                else:
+                    print(".", end='', flush=True)
+            if amateur:
+                self.amateur_power_curve = PowerCurve(run_results)
             else:
-                print(".", end='', flush=True)
-
-        self.expert_power_curve = PowerCurve(run_results
-                                             )
-
-        if self.amateur_cols:
-            self.amateur_power_curve = PowerCurve(amateur_run_results
-                                                  )
-        print("done")
+                self.expert_power_curve = PowerCurve(run_results)
 
 
     @staticmethod
@@ -235,7 +229,11 @@ class AnalysisPipeline:
         return result
 
 class Plot:
-    def __init__(self, expert_power_curve, amateur_power_curve=None, classifier_scores=None,
+    def __init__(self,
+                 ax,
+                 expert_power_curve,
+                 amateur_power_curve=None,
+                 classifier_scores:Dict =None,
                  color_map={'expert_power_curve': 'black', 'amateur_power_curve': 'blue', 'classifier': 'green'},
                  y_axis_label = 'Agreement with reference rater',
                  center_on_c0 = False,
@@ -249,27 +247,22 @@ class Plot:
         self.classifier_scores = classifier_scores
         self.color_map=color_map
         self.y_axis_label = y_axis_label
-        self.center_on_c0 = center_on_c0 # whether the subtract out c_0 from all values, to plot gains over baseline
+        self.center_on_c0 = center_on_c0 # whether to subtract out c_0 from all values, in order to plot gains over baseline
         self.y_range = y_range
         self.name = name
         self.x_intercepts = []
         self.legend_label = legend_label
         self.amateur_legend_label = amateur_legend_label
-        self.make_fig_and_axes()
+        self.ax = ax
+        self.format_ax()
+        # self.make_fig_and_axes()
 
-    def make_fig_and_axes(self):
-        fig, ax = plt.subplots()
-
-        fig.set_size_inches(18.5, 10.5)
-
+    def format_ax(self):
         xlabel = 'Number of raters'
         ylabel = self.y_axis_label
-        ax.set_xlabel(xlabel, fontsize=16)
-        ax.set_ylabel(ylabel, fontsize=16)
-        ax.set_title(self.name)
-
-        self.fig = fig
-        self.ax = ax
+        self.ax.set_xlabel(xlabel, fontsize=16)
+        self.ax.set_ylabel(ylabel, fontsize=16)
+        self.ax.set_title(self.name)
 
     def add_state_distribution_inset(self, dataset_generator):
         ymax = self.y_range[1] if self.y_range else self.ymax
@@ -282,12 +275,6 @@ class Plot:
             loc = 5
 
         inset_ax = inset_axes(self.ax, width='30%', height='20%', loc=loc)
-        dataset_generator.make_histogram(inset_ax)
-
-    def save_plot(self):
-        if not os.path.isdir('plots'):
-            os.mkdir('plots')
-        self.fig.savefig(f'plots/{self.name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
     def possibly_center_score(self, score):
         if self.center_on_c0 and len(self.expert_power_curve.means)>0:
@@ -304,20 +291,24 @@ class Plot:
         # score is already centered before this is called
         print(f"add_survey_equivalence_point {survey_equiv} type {type(survey_equiv)}")
         if (type(survey_equiv) != str):
-            plt.scatter(survey_equiv, score, c=color)
+            ax.scatter(survey_equiv, score, c=color)
             if include_droplines:
                 print(f"adding dropline at {survey_equiv} from {self.ymin} to {score}")
                 self.x_intercepts.append(survey_equiv)
-                plt.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.ymin, ymax=score)
+                ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min, ymax=score)
             else:
                 print("include_droplines is False")
+
+    @property
+    def y_range_min(self):
+        return self.y_range[0] if self.y_range else self.ymin
 
     def set_ymin(self):
         ymin = min(self.expert_power_curve.means)
         if (self.amateur_power_curve):
             ymin = min(ymin, min(self.amateur_power_curve.means))
         if self.classifier_scores:
-            for score in self.classifier_scores:
+            for score in self.classifier_scores.values():
                 ymin = min(ymin, score)
 
         self.ymin = self.possibly_center_score(ymin)
@@ -327,7 +318,7 @@ class Plot:
         if (self.amateur_power_curve):
             ymax = max(ymax, max(self.amateur_power_curve.means))
         if self.classifier_scores:
-            for score in self.classifier_scores:
+            for score in self.classifier_scores.values():
                 ymax = max(ymax, score)
 
         self.ymax = self.possibly_center_score(ymax)
@@ -352,14 +343,11 @@ class Plot:
             linestyle = ''
 
         if points=="all":
-            points = range(len(curve.means))
+            points = curve.means.index
 
-        def select_idxs(seq, idxs):
-            return [elt for (idx, elt) in enumerate(seq) if idx in idxs]
-
-        ax.errorbar(curve.means.index,
-                    [self.possibly_center_score(score) for score in  select_idxs(curve.means, points)],
-                    yerr=select_idxs(curve.cis, points),
+        ax.errorbar(curve.means[points].index,
+                    [self.possibly_center_score(score) for score in  curve.means[points]],
+                    yerr=curve.cis[points],
                     marker='o',
                     color=color,
                     elinewidth=2,
@@ -372,19 +360,21 @@ class Plot:
              connect_expert_points=True,
              include_classifiers=True,
              include_classifier_equivalences=True,
+             include_classifier_amateur_equivalences=False,
              include_droplines=True,
              include_amateur_curve=True,
              amateur_equivalences=[]):
 
         fig, ax = self.fig, self.ax
 
-        self.plot_power_curve(ax,
-                              self.expert_power_curve,
-                              points=include_expert_points,
-                              connect=connect_expert_points,
-                              color=self.color_map['expert_power_curve'],
-                              legend_label=self.legend_label
-                              )
+        if include_expert_points:
+            self.plot_power_curve(ax,
+                                  self.expert_power_curve,
+                                  points=include_expert_points,
+                                  connect=connect_expert_points,
+                                  color=self.color_map['expert_power_curve'],
+                                  legend_label=self.legend_label
+                                  )
 
 
         if self.amateur_power_curve and include_amateur_curve:
@@ -403,7 +393,7 @@ class Plot:
         print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
-            # self.classifier_scores is df with classifier names as column names and single row with values
+            # self.classifier_scores is a dictionary with classifier names as keys
             for (classifier_name, score) in self.classifier_scores.items():
                 color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
                 self.add_classifier_line(ax, classifier_name, self.possibly_center_score(score), color)
@@ -413,13 +403,18 @@ class Plot:
                                                       self.possibly_center_score(score),
                                                       color,
                                                       include_droplines=include_droplines)
-
+                if include_classifier_amateur_equivalences:
+                    self.add_survey_equivalence_point(ax,
+                                                      self.amateur_power_curve.compute_equivalence(score),
+                                                      self.possibly_center_score(score),
+                                                      color,
+                                                      include_droplines=include_droplines)
         for idx in amateur_equivalences:
             score = self.amateur_power_curve.means[idx]
             survey_eq = self.expert_power_curve.compute_equivalence(score)
             print(f"k={idx}: score={score} expert equivalence = {survey_eq}")
             survey_eq = survey_eq if type(survey_eq)!=str else 0
-            plt.hlines(y=self.possibly_center_score(score),
+            ax.hlines(y=self.possibly_center_score(score),
                        xmin=min(survey_eq, idx),
                        xmax=max(survey_eq, idx),
                        color=self.color_map['amateur_power_curve'],
@@ -434,7 +429,7 @@ class Plot:
         ax.set(xlim=(0, self.xmax))
         ax.set(ylim = self.y_range if self.y_range else (self.ymin, self.ymax))
 
-        fig.legend(loc='upper right')
+        ax.legend(loc='upper right')
 
         integer_equivs = [int(round(x)) for x in self.x_intercepts]
         print(f"integer_equivs = {integer_equivs}")
@@ -450,143 +445,7 @@ class Plot:
                 return f"{x:.0f}"
             else:
                 return f"{x:.2f}"
-        fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
+        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
+        # fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
 
         pass
-
-
-def make_power_curve_graph(expert_scores, amateur_scores, classifier_scores, points_to_show_surveyEquiv=None):
-
-    fig = plt.figure()
-    fig.set_size_inches(18.5, 10.5)
-    ax = fig.add_subplot(111)
-
-    # # If there are expert_scores and show lines is false:
-    # if expert_scores and not expert_scores['Show_lines']:
-    #         x = list(expert_scores['Power_curve']['k'])
-    #         y = list(expert_scores['Power_curve']['score'])
-    #         yerr = list(expert_scores['Power_curve']['confidence_radius'])
-    #
-    #         ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='')
-    #
-    #
-    # # If there are expert_scores and show_lines is true:
-    # if expert_scores and expert_scores['Show_lines']:
-    #     x = list(expert_scores['Power_curve']['k'])
-    #     y = list(expert_scores['Power_curve']['score'])
-    #     yerr = list(expert_scores['Power_curve']['confidence_radius'])
-    #
-    #     ax.errorbar(x, y, yerr=yerr, marker='o',color = expert_scores['color'], elinewidth = 2, capsize = 5,label=expert_scores['name'], linestyle='-')
-    #
-
-
-    # # If there are amateur_scores show_lines is false
-    # if amateur_scores and not amateur_scores[0]['Show_lines']:
-    #     x=[]
-    #     y=[]
-    #     yerr=[]
-    #
-    #     for i in (range(len(amateur_scores))):
-    #         x.append(list(amateur_scores[i]['Power_curve']['k']))
-    #         y.append(list(amateur_scores[i]['Power_curve']['score']))
-    #         yerr.append(list(amateur_scores[i]['Power_curve']['confidence_radius']))
-    #
-    #     for i in range(len(amateur_scores)):
-    #         ax.errorbar(x[i], y[i], yerr=yerr[i], marker='o',color = amateur_scores[i]['color'], label=amateur_scores[i]['name'],elinewidth = 2, capsize = 5, linestyle='')
-    #
-    #
-    #
-    # # If there are amateur_scores and show_lines is true:
-    # if amateur_scores and amateur_scores[0]['Show_lines']:
-    #     x=[]
-    #     y=[]
-    #     yerr=[]
-    #
-    #     for i in (range(len(amateur_scores))):
-    #         x.append(list(amateur_scores[i]['Power_curve']['k']))
-    #         y.append(list(amateur_scores[i]['Power_curve']['score']))
-    #         yerr.append(list(amateur_scores[i]['Power_curve']['confidence_radius']))
-    #
-    #     for i in range(len(amateur_scores)):
-    #          ax.errorbar(x[i] , y[i],yerr=yerr[i],linestyle='-',marker='o',color = amateur_scores[i]['color'],label=amateur_scores[i]['name'],elinewidth = 2, capsize = 5)
-
-
-    # #if classifier_scores has a confidence interval:
-    # if classifier_scores['confidence_radius'].empty is False:
-    #     ci=[float(i) for i in classifier_scores['confidence_radius'].to_list()]
-    #     for (i, score) in enumerate(classifier_scores['scores']):
-    #         y_=float(classifier_scores['scores'].iloc[i])
-    #         ax.axhline(y=y_,  color=classifier_scores['colors'].iloc[i],linewidth=2, linestyle='dashed',label=classifier_scores['names'].iloc[i])
-    #         ax.axhspan(y_ - ci[i],y_+ ci[i], alpha=0.5, color=classifier_scores['colors'].iloc[i])
-    #
-    #
-    #
-    # #if classifier_scores has no confidence interval:
-    # if classifier_scores['confidence_radius'].empty:
-    #     # if there are Classifier_scores:
-    #     if classifier_scores['scores'].empty is False:
-    #         for (i, score) in enumerate(classifier_scores['scores']):
-    #             axhline(y=score,  color=classifier_scores['colors'].iloc[i],linewidth=2, linestyle='dashed',label=classifier_scores['names'].iloc[i])
-
-
-    #If  Points_to_show_SurveyEquiv exists:
-    if points_to_show_surveyEquiv is not None:
-
-
-        expert_scores_copy = expert_scores['Power_curve'].copy()
-        f = expert_scores_copy['k']==0
-
-        expert_scores_copy.where(f, inplace = True)
-
-        expert_score_at_0 = expert_scores_copy.dropna()['score'].iloc[0]
-
-    #if  (score, which is the y value at point x)<expert score at 0 return 0
-    #[does this means plot at point 0,0?]-------------------------------
-        x_intercepts=[0,54]
-
-        for i in range(len(se)):
-                #else: get min(k:where expert score at k>our score)
-
-                #if expert line never above our score, return 1> maximum number of expert raters.
-
-                if se[i]['which_type'] == 'classifier':
-
-                    classifier_copy = classifier_scores.copy()
-                    f = classifier_copy['names']==se[i]['name']
-                    classifier_copy.where(f, inplace = True)
-                    y= float( classifier_copy.dropna()['scores'].iloc[0])
-                    x_intercept = np.interp(y, expert_scores['Power_curve']['score'].to_list(), expert_scores['Power_curve']['k'].to_list())
-
-                    x_intercepts.append(x_intercept)
-                    plt.scatter(x_intercept, y,c='black')
-                    plt.axvline(x=x_intercept,  color='black',linewidth=2, linestyle='dashed',ymax =y)
-
-
-                if se[i]['which_type'] == 'amateur':
-
-                    for j in amateur_scores:
-                        if se[i]['name'] == j['name']:
-                            #find the points that make up the line
-                            x = j['Power_curve']['k'].tolist()
-                            y = j['Power_curve']['score'].tolist()
-                            #given x_value, find the corresponding y value for that point on the line
-                            y_intercept_at_x_value= np.interp(se[i]['which_x_value'], x,y)
-
-                            x_intercept = np.interp(y_intercept_at_x_value, expert_scores['Power_curve']['score'].to_list(), expert_scores['Power_curve']['k'].to_list())
-                            x_intercepts.append(x_intercept)
-                            plt.scatter(x_intercept, y_intercept_at_x_value,c='black')
-                            plt.axvline(x=x_intercept,  color='black',linewidth=2, linestyle='dashed',ymax =y_intercept_at_x_value)
-        x_intercepts.sort()
-        plt.xticks([i for i in x_intercepts])
-        plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}'))
-
-
-
-
-
-
-    ax.axis([0, 54, 0, 1])
-    ax.set_xlabel('Number of other journalists', fontsize = 16)
-    ax.set_ylabel('Correlation with reference journalist', fontsize = 16)
-    plt.legend(loc='upper right')
-    plt.show()

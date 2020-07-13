@@ -31,7 +31,7 @@ class DiscreteState(State):
         self.probabilities = probabilities
         self.num_raters = num_raters
 
-    def __str__(self):
+    def __repr__(self):
         return f"DiscreteState {self.state_name} based on {self.num_raters}: {list(zip(self.labels, self.probabilities))}"
 
     def draw_labels(self, n: int):
