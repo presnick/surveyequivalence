@@ -41,6 +41,11 @@ class DiscreteDistributionPrediction(Prediction):
         return [min(.999, max(.001, pr)) for pr in self.probabilities]
 
     @property
+    def pr_dict(self, no_extremes=False):
+        return {l: p for (l, p) in zip(self.label_names,
+                                       self.probabilities_with_extremes_cut_off if no_extremes else self.probabilities)}
+
+    @property
     def value(self):
         """
         Return the single label that has the highest predicted probability.

@@ -128,59 +128,19 @@ class CrossEntropyScore(Scorer):
 
         ## compute score for one item
         def item_score(pred, label_dist):
-            assert pred.label_names == label_dist.labels
-            return sum([q*math.log2(p) for (p, q) in \
-                        zip(pred.probabilities_with_extremes_cut_off, label_dist.probabilities)])
+            pred_dict = pred.pr_dict
+            tot = 0
+            for (l, q) in label_dist.pr_dict.items():
+                p = pred_dict[l]
+                tot += q*log2(p)
+            return tot
 
         # compute mean score over all items
-        tot = sum([item_score(pred, label_dist) for (pred, label_dist) in \
+        tot_score = sum([item_score(pred, label_dist) for (pred, label_dist) in \
                     zip(classifier_predictions, rater_labels)]) / \
                len(classifier_predictions)
-        print(f'score: {tot}')
-        print(classifier_predictions)
 
-
-
-        expanded_predictions = []
-        expanded_ratings = []
-
-        if len(set([ld.num_raters for ld in rater_labels])) == 1:
-            # all sets of reference raters have same length, so probabilities can be turned into integers and we
-            # can sample each reference rater exactly once, avoiding some noise from random sampling
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-                for label, pr in zip(label_dist.labels, label_dist.probabilities):
-                    assert isclose(pr * label_dist.num_raters, int(pr * label_dist.num_raters), abs_tol=.0001)
-                    for _ in range(int(pr * label_dist.num_raters)):
-                        expanded_predictions.append(pred)
-                        expanded_ratings.append(label)
-
-        else:
-            # sample 1000 times from each rater_labels distribution
-            print("unequal numbers of reference raters; using sample inside Correlation.score()")
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-
-                indexes = scipy.stats.rv_discrete(values=(range(len(label_dist.labels)),
-                                                          label_dist.probabilities)).rvs(size=1000)
-                labels = [label_dist.labels[i] for i in indexes]
-                for label in labels:
-                    expanded_predictions.append(pred)
-                    expanded_ratings.append(label)
-
-        # diagnostics
-        d = [p.probabilities for p in expanded_predictions]
-        bad_predictions = [(p, l) for (p, l) in zip(d, rater_labels) if (p[0] < .001 and l=='pos') or (p[0] > .995 and l=='neg')]
-        if len(bad_predictions) > 0:
-            for p, l in bad_predictions:
-                print(p, l)
-
-        labels = classifier_predictions[0].label_names
-
-
-        sum = 0
-        for pred,rate in zip(expanded_predictions, expanded_ratings):
-            sum += np.log2( pred.probabilities_with_extremes_cut_off[labels.index(rate)] )
-
-        return -sum / len(expanded_predictions)
+        return tot_score
 
 
 class PrecisionScore(Scorer):

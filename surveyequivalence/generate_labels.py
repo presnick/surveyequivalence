@@ -34,6 +34,10 @@ class DiscreteState(State):
     def __repr__(self):
         return f"DiscreteState {self.state_name} based on {self.num_raters}: {list(zip(self.labels, self.probabilities))}"
 
+    @property
+    def pr_dict(self):
+        return {l: p for (l, p) in zip(self.labels, self.probabilities)}
+
     def draw_labels(self, n: int):
         return np.random.choice(
             self.labels,
