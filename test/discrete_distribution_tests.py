@@ -8,12 +8,12 @@ from surveyequivalence import generate_labels, State, DiscreteState, \
     DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
-    MockClassifier, make_discrete_dataset_1, make_discrete_dataset_2, make_discrete_dataset_3
+    MockClassifier, NumericPrediction, make_discrete_dataset_1, make_discrete_dataset_2, make_discrete_dataset_3
 
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
     def setUp(self):
-        self.datasets = self.make_test_datasets()
+        pass
 
     def make_test_datasets(self):
         self.mock_classifiers = []
@@ -33,11 +33,17 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
         item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
         self.item_state_sequences.append(item_states_1)
-        dataset_1 = generate_labels(item_states_1, num_labels_per_item)
+
+        dataset_1 = generate_labels.generate_labels(item_states_1, num_labels_per_item)
+        pd.DataFrame(
+                    [state.draw_labels(num_labels_per_item) for state in item_states_1],
+                     columns = ["r{}".format(i) for i in range(1, num_labels_per_item+1)]
+                 )
+
         self.mock_classifiers.append([
             MockClassifier(name='.95 .2',
-                           pos_state_predictor=[.95, .05],
-                           neg_state_predictor=[.2, .8])
+                           label_predictors = {'pos':NumericPrediction([.95, 0.5]), 'neg':.2}
+                           )
                        ,
             MockClassifier(name='.92 .24',
                            pos_state_predictor=[.92, .08],
@@ -57,7 +63,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                     )
 
         item_states_2 = state_generator_2.draw_states(num_items_per_dataset)
-        dataset_2 = generate_labels(item_states_2, num_labels_per_item)
+        dataset_2 = generate_labels.generate_labels(item_states_2, num_labels_per_item)
 
         state_generator_3 = \
             DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
@@ -71,7 +77,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                     )
 
         item_states_3 = state_generator_3.draw_states(num_items_per_dataset)
-        dataset_3 = generate_labels(item_states_3, num_labels_per_item)
+        dataset_3 = generate_labels.generate_labels(item_states_3, num_labels_per_item)
 
         # Add a column with the "true" noiseless label
         # dataset_1['true_state'] = [s.state_name for s in item_states_1]
@@ -150,15 +156,53 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
     def test_scoring_functions(self):
         small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
 
-        score = AgreementScore.score(small_dataset, ['b', 'b', 'b'])
+        ratings1 = [DiscreteState(state_name='',
+                                 labels=[r],
+                                 probabilities=[1],
+                                 num_raters=1)
+                    for r in ['b', 'b', 'b']]
+
+        ratings2 = [DiscreteState(state_name='',
+                                 labels=[r],
+                                 probabilities=[1],
+                                 num_raters=1)
+                    for r in ['a', 'b', 'b']]
+
+
+        score = AgreementScore.score(small_dataset, ratings1)
         self.assertAlmostEqual(score, 0.6666666666, places=3)
-        score = AgreementScore.score(small_dataset, ['a', 'b', 'b'])
+        score = AgreementScore.score(small_dataset, ratings2)
         self.assertAlmostEqual(score, 0.3333333333, places=3)
 
-        score = CrossEntropyScore.score(small_dataset, ['b', 'b', 'b'])
-        self.assertAlmostEqual(score, 0.59459709985, places=3)
-        score = CrossEntropyScore.score(small_dataset, ['a', 'b', 'b'])
-        self.assertAlmostEqual(score, 0.87702971998, places=3)
+        ratings3 = [DiscreteState(state_name='',
+                                 labels=r,
+                                 probabilities=p,
+                                 num_raters=10)
+                    for r,p in [(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3])] ]
+
+        ratings4 = [DiscreteState(state_name='',
+                                 labels=r,
+                                 probabilities=p,
+                                 num_raters=10)
+                    for r,p in [(['a', 'b'], [.3, .7]),(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3])] ]
+
+        score = AgreementScore.score(small_dataset, ratings3)
+        self.assertAlmostEqual(score, 0.433333, places=3)
+        score = AgreementScore.score(small_dataset, ratings4)
+        self.assertAlmostEqual(score, 0.566666, places=3)
+
+
+        score = CrossEntropyScore.score(small_dataset, ratings1)
+        self.assertAlmostEqual(score, 0.85782, places=3)
+        score = CrossEntropyScore.score(small_dataset, ratings2)
+        self.assertAlmostEqual(score, 1.26528, places=3)
+
+        score = CrossEntropyScore.score(small_dataset, ratings3)
+        self.assertAlmostEqual(score, 1.143, places=3)
+        score = CrossEntropyScore.score(small_dataset, ratings4)
+        self.assertAlmostEqual(score, 0.980, places=3)
+
+        #TODO: still have not converted precision and recall to accept DiscreteState
 
         score = PrecisionScore.score(small_dataset, ['b', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.66666666666, places=3)
