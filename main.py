@@ -30,13 +30,17 @@ def generate_and_plot_noise_datasets():
     for ds in make_perceive_with_noise_datasets():
         combiner = AnonymousBayesianCombiner()
         pipeline = AnalysisPipeline(ds.dataset,
-                                           expert_cols=list(ds.dataset.columns),
-                                           amateur_cols=[],
-                                           combiner=combiner,
-                                           scoring_function=scorer.score,
-                                           allowable_labels=['pos', 'neg'],
-                                           null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                           num_runs=2)
+                                    expert_cols=list(ds.dataset.columns),
+                                    amateur_cols=[],
+                                    combiner=combiner,
+                                    scoring_function=scorer.score,
+                                    allowable_labels=['pos', 'neg'],
+                                    null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                    num_runs=2,
+                                    num_rater_samples=2,
+                                    num_item_samples=2,
+                                    max_expert_k=3
+                                    )
 
         pl = Plot(pipeline.expert_power_curve,
                   classifier_scores=ds.compute_classifier_scores(scorer),
@@ -71,30 +75,38 @@ def generate_and_plot_noisier_amateurs():
 
     # combine the two dataframes
 
-    expert_pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
-                                expert_cols=list(ds.dataset.columns),
-                                combiner=combiner,
-                                scoring_function=scorer.score,
-                                allowable_labels=['pos', 'neg'],
-                                null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                num_runs=1)
+    pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
+                                       expert_cols=list(ds.dataset.columns),
+                                       combiner=combiner,
+                                       scoring_function=scorer.score,
+                                       allowable_labels=['pos', 'neg'],
+                                       null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                       num_rater_samples=1,
+                                       num_item_samples=3)
 
-    amateur_pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
-                                expert_cols=list(ds.dataset.columns),
-                                amateur_cols=list(ds.amateur_dataset.columns),
-                                combiner=combiner,
-                                scoring_function=scorer.score,
-                                allowable_labels=['pos', 'neg'],
-                                null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                num_runs=1)
+    pipeline.expert_power_curve = pipeline.compute_power_curve()
+
+    pipeline.amateur_power_curve = pipeline.compute_power_curve(amateur_cols= ds.amateur_dataset.columns,
+                                                                source_name="amateur"
+                                                                )
+
+    # amateur_pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
+    #                                     expert_cols=list(ds.dataset.columns),
+    #                                     amateur_cols=list(ds.amateur_dataset.columns),
+    #                                     combiner=combiner,
+    #                                     num_rater_samples=1,
+    #                                     num_item_samples=2,
+    #                                     max_expert_k=2,
+    #                                     max_amateur_k=3,
+    #                                     num_runs=1)
 
     fig, ax = plt.subplots()
 
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(8.5, 10.5)
 
     pl = Plot(ax,
-              expert_pipeline.expert_power_curve,
-              amateur_pipeline.amateur_power_curve,
+              pipeline.expert_power_curve,
+              pipeline.amateur_power_curve,
               color_map=color_map,
               y_axis_label='information gain (c_k - c_0)',
               center_on_c0=True,
@@ -110,7 +122,7 @@ def generate_and_plot_noisier_amateurs():
             include_expert_points='all',
             connect_expert_points=True,
             include_amateur_curve=True,
-            amateur_equivalences=[2, 8]
+            amateur_equivalences=[2]
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
     save_plot(fig, ds.ds_generator.name)

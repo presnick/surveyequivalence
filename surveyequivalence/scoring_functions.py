@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelBinarizer
 import scipy
 from .combiners import Prediction, DiscreteDistributionPrediction, NumericPrediction
 from surveyequivalence import DiscreteState
-from math import isclose
+from math import isclose, log2
 import numbers
 
 class Scorer(ABC):
@@ -25,11 +25,11 @@ class Correlation(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[NumericPrediction],
-                        rater_labels: Sequence[DiscreteState],
+                        rater_labels: Sequence[str],
               verbosity=0):
         """
         :param classifier_predictions: numeric values
-        :param rater_labels: discrete distribution over labels, which should be numeric values
+        :param rater_labels: sequence of labels, which should be numeric values
         :return: Pearson correlation coefficient
         """
 
@@ -41,40 +41,7 @@ class Correlation(Scorer):
             else:
                 return 0
 
-        expanded_predictions = []
-        expanded_ratings = []
-
-        if len(set([ld.num_raters for ld in rater_labels])) == 1:
-            # all sets of reference raters have same length, so probabilities can be turned into integers and we
-            # can sample each reference rater exactly once, avoiding some noise from random sampling
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-                for label, pr in zip(label_dist.labels, label_dist.probabilities):
-                    assert isclose(pr * label_dist.num_raters, int(pr * label_dist.num_raters), abs_tol=.0001)
-                    for _ in range(int(pr * label_dist.num_raters)):
-                        expanded_predictions.append(convert_to_number(pred.value))
-                        expanded_ratings.append(convert_to_number(label))
-
-        else:
-            # sample 1000 times from each rater_labels distribution
-            if verbosity >= 2:
-                print("unequal numbers of reference raters; using sample inside Correlation.score()")
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-
-                try:
-                    indexes = scipy.stats.rv_discrete(values=(range(len(label_dist.labels)),
-                                                              label_dist.probabilities)).rvs(size=1000)
-                except:
-                    raise Exception(f"can't sample from {(range(len(label_dist.labels)), label_dist.probabilities)}")
-                labels = [label_dist.labels[i] for i in indexes]
-                if verbosity >= 4:
-                    print(f'labels = {labels[:10]}')
-                for label in labels:
-                    expanded_predictions.append(convert_to_number(pred.value))
-                    expanded_ratings.append(convert_to_number(label))
-
-        if verbosity >= 3:
-            print(f'computing correlation of {[expanded_predictions[:10], expanded_ratings[:10]]}')
-        return np.corrcoef([expanded_predictions, expanded_ratings])[1,0]
+        return np.corrcoef([classifier_predictions, [convert_to_number(l) for l in rater_labels])[1,0]
 
 class AgreementScore(Scorer):
     def __init__(self):
@@ -112,7 +79,7 @@ class CrossEntropyScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[DiscreteState],
+              rater_labels: Sequence[str],
               verbosity=0):
         """
         Calculates the Cross Entropy of the two labels.
@@ -126,17 +93,11 @@ class CrossEntropyScore(Scorer):
 
         assert len(classifier_predictions) == len(rater_labels)
 
-        ## compute score for one item
-        def item_score(pred, label_dist):
-            pred_dict = pred.pr_dict
-            tot = 0
-            for (l, q) in label_dist.pr_dict.items():
-                p = pred_dict[l]
-                tot += q*log2(p)
-            return tot
+        def item_score(pred, label):
+            return log2(pred.label_probability(label))
 
         # compute mean score over all items
-        tot_score = sum([item_score(pred, label_dist) for (pred, label_dist) in \
+        tot_score = sum([item_score(pred, label) for (pred, label) in \
                     zip(classifier_predictions, rater_labels)]) / \
                len(classifier_predictions)
 

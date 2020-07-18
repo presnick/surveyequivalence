@@ -28,22 +28,19 @@ class NumericPrediction(Prediction):
         return self.num
 
 class DiscreteDistributionPrediction(Prediction):
-    def __init__(self, label_names, probabilities):
+    def __init__(self, label_names, probabilities, no_extremes=True):
         super().__init__()
         self.label_names = label_names
-        self.probabilities = probabilities
+        if no_extremes:
+            self.probabilities = [min(.999, max(.001, pr)) for pr in probabilities]
+        else:
+            self.probabilities = probabilities
 
-    def __str__(self):
-        return f"{self.probabilities}"
+    def __repr__(self):
+        return f"Prediction: {self.probabilities}"
 
-    @property
-    def probabilities_with_extremes_cut_off(self):
-        return [min(.999, max(.001, pr)) for pr in self.probabilities]
-
-    @property
-    def pr_dict(self, no_extremes=False):
-        return {l: p for (l, p) in zip(self.label_names,
-                                       self.probabilities_with_extremes_cut_off if no_extremes else self.probabilities)}
+    def label_probability(self, label):
+        return self.probabilities[self.label_names.index(label)]
 
     @property
     def value(self):

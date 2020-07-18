@@ -60,7 +60,7 @@ class SyntheticDatasetGenerator:
 
 
 class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
-    def __init__(self, expert_state_generator, num_items_per_dataset = 1000, num_labels_per_item=10,
+    def __init__(self, expert_state_generator, num_items_per_dataset = 50, num_labels_per_item=3,
                  mock_classifiers=None, name=None,
                  amateur_noise_multiplier=None, k_amateurs_per_label=1):
         super().__init__(expert_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers, name)
