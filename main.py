@@ -81,7 +81,7 @@ def generate_and_plot_noisier_amateurs():
                                        scoring_function=scorer.score,
                                        allowable_labels=['pos', 'neg'],
                                        null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                       num_rater_samples=1,
+                                       num_pred_samples=1,
                                        num_item_samples=3)
 
     pipeline.expert_power_curve = pipeline.compute_power_curve()

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Sequence, Dict
 import numpy as np
+import pandas as pd
 from sklearn.metrics import precision_score, recall_score, f1_score, log_loss, roc_auc_score, accuracy_score
 from scipy.stats import entropy
 from sklearn.preprocessing import LabelBinarizer
@@ -33,15 +34,25 @@ class Correlation(Scorer):
         :return: Pearson correlation coefficient
         """
 
-        def convert_to_number(label):
-            if isinstance(label, numbers.Number):
-                return label
-            elif label == "pos":
-                return 1
-            else:
-                return 0
+        # def convert_to_number(label):
+        #     if isinstance(label, numbers.Number):
+        #         return label
+        #     elif label == "pos":
+        #         return 1
+        #     elif label == None:
+        #         return None
+        #     else:
+        #         return 0
 
-        return np.corrcoef([classifier_predictions, [convert_to_number(l) for l in rater_labels])[1,0]
+        # have to remove items where either pred or label is missing
+        # note that zip(*tups) unzips a list of tuples
+        non_null_preds, non_null_labels = \
+            zip(*[(pred.value, label) \
+                  for (pred, label) in zip(classifier_predictions, rater_labels) \
+                  if pred and label])
+
+        # [convert_to_number(l) for l in rater_labels]
+        return np.corrcoef(non_null_preds, non_null_labels)[1,0]
 
 class AgreementScore(Scorer):
     def __init__(self):

@@ -11,7 +11,6 @@ from surveyequivalence import DiscreteState
 from matplotlib import pyplot as plt
 import matplotlib
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from profilehooks import profile
 
 
 
@@ -31,8 +30,11 @@ class PowerCurve:
 
     def compute_means_and_cis(self):
         self.means = self.actual_df.mean()
+        self.std = self.actual_df.std()
         bootstrap_std = self.bootstrap_df.std()
         bootstrap_means = self.bootstrap_df.mean()
+        self.bootstrap_means = bootstrap_means
+        self.bootstrap_std = bootstrap_std
         self.lower_bounds = bootstrap_means - bootstrap_std
         self.upper_bounds = bootstrap_means + bootstrap_std
 
@@ -67,7 +69,7 @@ class AnalysisPipeline:
 
     def __init__(self,
                  W: pd.DataFrame,
-                 sparse_raters = False,
+                 sparse_experts = True,
                  expert_cols: Sequence[str] = [],
                  amateur_cols: Sequence[str] = [],
                  combiner: Combiner=None,
@@ -75,7 +77,7 @@ class AnalysisPipeline:
                  allowable_labels: Sequence[str]=None,
                  null_prediction: Prediction=None,
                  min_k=0,
-                 num_rater_samples=1000,
+                 num_pred_samples=1000,
                  num_item_samples=1000,
                  verbosity=1
                  ):
@@ -86,41 +88,71 @@ class AnalysisPipeline:
         self.amateur_cols = amateur_cols
         self.W = W
         self.W_as_array = W.to_numpy()
-        self.sparse_raters = sparse_raters
+        ## sparse_experts=True if we always want k non-null raters for each item
+        ## with sparse_experts=False we would get k experts and then remove nulls
+        self.sparse_experts = sparse_experts
         self.combiner = combiner
         self.scoring_function = scoring_function
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
         self.min_k = min_k
-        self.num_rater_samples = num_rater_samples
+        self.num_pred_samples = num_pred_samples
         self.num_item_samples = num_item_samples
         self.verbosity = verbosity
 
-
-
-
-        self.label_pred_samples = self.gen_ref_rater_samples()
+        self.label_pred_samples = self.enumerate_ref_raters()
 
         self.bootstrap_item_samples = self.generate_item_samples(self.num_item_samples, bootstrap=True)
-        self.actual_item_samples = self.generate_item_samples(1, bootstrap=False)
+        self.actual_item_samples = self.generate_item_samples(self.num_item_samples, bootstrap=False)
 
-        # print(self.bootstrap_item_samples)
-        # print(self.actual_item_samples)
-        # exit()
 
-        # Either compute expert or amateur power curve; don't use same pipeline for both
-        # self.compute_power_curve(num_runs, amateur = len(amateur_cols)>0)
+        self.add_pred_samples(self.expert_cols, min_k, max_k=len(self.expert_cols)-1,
+                              source_name="expert",
+                              num_samples=self.num_pred_samples,
+                              sparse=self.sparse_experts,
+                              exclude_ref_rater=True)
 
-    def gen_ref_rater_samples(self):
-        label_pred_samples = {}
+        self.expert_power_curve = self.compute_power_curve(max_k=len(self.expert_cols)-1)
+
+    def enumerate_ref_raters(self):
+        samples = {}
         for index, item in self.W.iterrows():
-            label_pred_samples[index] = {}
+            samples[index] = {}
             reference_raters = item[self.expert_cols].dropna()
             for ref_rater, label in reference_raters.items():
-                label_pred_samples[index][ref_rater] = {'label': label}
-        return label_pred_samples
+                samples[index][ref_rater] = {'label': label}
+        return samples
 
-    def set_pred_samples(self, col_names, min_k, max_k, source_name="expert", sparse=False, exclude_ref_rater=True):
+    def generate_item_samples(self, num_samples=1, bootstrap=False):
+        # each set of items has associated ref. raters
+        # that way all predictors for a set of item will be compared to the same set of reference raters,
+        # eliminating one source of noise in the comparisons
+
+        def pick_ref_rater(item_index):
+            item_d = self.label_pred_samples[item_index]
+            if len(item_d) > 0:
+                return random.choice(list(item_d.keys()))
+            else:
+                return None
+
+        def generate_item_sample(bootstrap):
+
+            if bootstrap:
+                items = self.W.sample(len(self.W), replace=True).index
+            else:
+                # use the exact items, no resampling
+                items = self.W.index
+            # pick an available ref. rater
+            # omit the item if there are no possible reference raters
+            return [y for y in ((item_index, pick_ref_rater(item_index)) for item_index in items) if y[1]]
+
+        return [generate_item_sample(bootstrap=bootstrap) for _ in range(num_samples)]
+
+    def add_pred_samples(self, col_names, min_k, max_k, source_name="expert", num_samples=100,
+                         sparse=False, exclude_ref_rater=True):
+
+        if self.verbosity >= 2:
+            print(f"add_pred_samples: {col_names}, min_k = {min_k} max_k={max_k}, {source_name}, exclude_ref_rater={exclude_ref_rater}")
         def sample_raters(available_raters, k):
             selected_raters = available_raters.sample(k)
             if not sparse:
@@ -141,10 +173,12 @@ class AnalysisPipeline:
                     print(f"\t\tskipping item {item_id} for k={k}: not enough raters available")
                 return None
 
-            samples = [make_prediction(sample_raters(available_raters, k)) for _ in range(self.num_rater_samples)]
-            return samples
+            samples = [make_prediction(sample_raters(available_raters, k)) for _ in range(num_samples)]
+            # if not enough raters to make a prediction, then omit
+            return [s for s in samples if s]
 
         for index, item in self.W.iterrows():
+            ###TODO: error checks for not enough raters
             for ref_rater in self.label_pred_samples[index]:
                 available_raters = item[col_names]
                 if sparse:
@@ -154,92 +188,41 @@ class AnalysisPipeline:
                     available_raters = available_raters.drop(ref_rater)
 
                 for k in range(min_k, max_k+1):
-                    if k not in self.label_pred_samples[index][ref_rater]:
-                        self.label_pred_samples[index][ref_rater][k] = {}
-                    self.label_pred_samples[index][ref_rater][k][source_name] = \
-                        generate_sample(available_raters, k)
+                    if k <= len(available_raters):
+                        if k not in self.label_pred_samples[index][ref_rater]:
+                            self.label_pred_samples[index][ref_rater][k] = {}
+                        if source_name not in self.label_pred_samples[index][ref_rater][k]:
+                            self.label_pred_samples[index][ref_rater][k][source_name] = []
+                        self.label_pred_samples[index][ref_rater][k][source_name] += \
+                            generate_sample(available_raters, k)
 
-    # def set_expert_pred_samples(self):
-    #     for index, item in self.W.iterrows():
-    #         for ref_rater in self.label_pred_samples[index]:
-    #             available_raters = item[self.expert_cols].dropna().drop(ref_rater)
-    #
-    #             for k in range(self.min_k, self.max_expert_k):
-    #                 if k not in self.label_pred_samples[index][ref_rater]:
-    #                     self.label_pred_samples[index][ref_rater][k] = {}
-    #                 self.label_pred_samples[index][ref_rater][k]['expert'] = \
-    #                     self.generate_pred_samples(available_raters, ref_rater, index, k)
-    #
-    # def set_amateur_pred_samples(self, col_names, source_name="amateur"):
-    #     for index, item in self.W.iterrows():
-    #         for ref_rater in self.label_pred_samples[index]:
-    #             available_raters = item[col_names].dropna() if self.sparse_raters else item[col_names]
-    #             for k in range(self.min_k, self.max_amateur_k):
-    #                 if k not in self.label_pred_samples[index][ref_rater]:
-    #                     self.label_pred_samples[index][ref_rater][k] = {}
-    #                 self.rater_samples[index][ref_rater][k][source_name] = \
-    #                     self.generate_pred_samples(available_raters, ref_rater, index, k, remove_na=True)
-
-    def generate_item_samples(self, num_samples=1, bootstrap=False):
-        # each set of items has associated ref. raters
-        # that way all predictors for a set of item will be compared to the same set of reference raters,
-        # eliminating one source of noise in the comparisons
-
-        # fix the choice of ref. rater for each item selected, so that we have coupled randomness when
-        # we compare performance of different predictors; all will be compared to same reference rater
-
-        def generate_item_sample(bootstrap):
-
-            ref_raters = [random.choice(self.expert_cols) for _ in range(len(self.W))]
-            if bootstrap:
-                items = self.W.sample(len(self.W), replace=True).index
-            else:
-                # use the exact items, no resampling
-                items = self.W.index
-            return list(zip(items, ref_raters))
-
-        return [generate_item_sample(bootstrap=bootstrap) for _ in range(num_samples)]
 
 
     def compute_score(self, item_index, ref_rater):
         null
 
-    def compute_power_curve(self, min_k=None, max_k=None, amateur_cols=None, source_name="expert"):
+    def compute_power_curve(self, max_k, source_name="expert"):
 
-        if min_k is None:
-            min_k = self.min_k
-
-        if max_k is None:
-            if amateur_cols is None:
-                max_k = len(self.expert_cols) - 1
-            else:
-                max_k = len(amateur_cols)
-
-        if self.verbosity > 0:
-            print(f"starting {source_name} power curve: setting prediction samples")
-
-        if amateur_cols is None:
-            self.set_pred_samples(self.expert_cols, min_k, max_k, source_name,
-                                  sparse=self.sparse_raters,
-                                  exclude_ref_rater=True)
-
-        else:
-            self.set_pred_samples(amateur_cols, min_k, max_k, source_name,
-                                  sparse=self.sparse_raters,
-                                  exclude_ref_rater=False)
-
-
+        min_k = self.min_k
 
         if self.verbosity > 0:
             print(f"starting {source_name} power curve: computing scores")
 
         def one_item_all_ks(item_index, ref_rater):
+
+            def pick(item_d, ref_rater, k, source_name):
+                try:
+                    options = self.label_pred_samples[item_index][ref_rater][k][source_name]
+                    return random.choice(options)
+                except:
+                    print(f"skipping item={item_index}; ref_rater={ref_rater}; k={k}; source_name={source_name}")
+                    return None
+
             # pick one prediction at random from the available prediction set for each k
-            predictions = [random.choice(self.label_pred_samples[item_index][ref_rater][k][source_name]) \
+            predictions = [pick(self.label_pred_samples[item_index], ref_rater, k, source_name) \
                            for k in range(min_k, max_k + 1)]
             ref_label = self.label_pred_samples[item_index][ref_rater]['label']
             return [ref_label] + predictions
-
 
         def compute_scores(predictions_df):
             return {k: self.scoring_function(predictions_df[f'k={k}'],
@@ -262,114 +245,8 @@ class AnalysisPipeline:
         ## cis computed from distribution of scores for bootstrap samples
         run_results_bootstrap = [compute_one_run(sample) for sample in self.bootstrap_item_samples]
 
-        return (PowerCurve(run_results_actual, run_results_bootstrap))
+        return PowerCurve(run_results_actual, run_results_bootstrap)
 
-    #
-    #
-    #     #     remaining = len(self.actual_item_samples) - i
-    #     #     run_results.append(self.compute_one_power_run(amateur))
-    #     #     if remaining % 10 == 0 and self.verbosity > 0:
-    #     #         print(remaining)
-    #     #     else:
-    #     #         print(".", end='', flush=True)
-    #     # if amateur:
-    #     #     self.amateur_power_curve = PowerCurve(run_results)
-    #     # else:
-    #     #     self.expert_power_curve = PowerCurve(run_results)
-    #
-    # def compute_one_power_run(self, amateur=False) -> Dict[int, float]:
-    #     verbosity = self.verbosity
-    #     if amateur:
-    #         K = self.max_amateur_k
-    #     else:
-    #         K = self.max_expert_k
-    #
-    #     result = dict()
-    #
-    #     N = len(self.W) # number of rows in the labels dataframe
-    #
-    #     print(f'min_k = {self.min_k} K={K}')
-    #     for k in range(self.min_k, K+1):
-    #         if verbosity >= 2:
-    #             print(f'\tk={k}')
-    #
-    #         # Sample N rows from the rating matrix W with replacement
-    #         # I = self.W[np.random.choice(self.W.shape[0], N, replace=True)]
-    #
-    #         I = self.W.sample(N, replace=True)
-    #
-    #
-    #
-    #         predictions = list()
-    #         reference_ratings = list()
-    #
-    #         # for each item/row in sample
-    #         # for index, item in enumerate(available_labels):
-    #         for index, item in I.iterrows():
-    #             """
-    #             Sample ratings from nonzero ratings of the item. This code needs to randomly choose column names
-    #             and ratings, but because these are separate variables, we need to first pick a random mask and
-    #             then apply that mask to the two arrays so that they align.
-    #             """
-    #
-    #             ## get the available raters with non-missing data
-    #             if amateur:
-    #                 available_raters = item[self.amateur_cols].dropna()
-    #                 min_held_out_raters = 0
-    #             else:
-    #                 available_raters = item[self.expert_cols].dropna()
-    #                 min_held_out_raters = 1
-    #
-    #             ## pick a subset of k raters
-    #             ## if not enough available, use the raters available?
-    #
-    #
-    #             if len(available_raters) - min_held_out_raters <= 0:
-    #                 if verbosity >= 3:
-    #                     print(f"\t\tskipping item {index}: not enough raters available")
-    #                 continue
-    #             elif len(available_raters) - min_held_out_raters < k :
-    #                 if verbosity >= 3:
-    #                     print(f"\t\tUsing fewer raters because only {len(available_raters)} available and {k} needed for item {index}")
-    #                 selected_raters = available_raters.sample(len(available_raters) - min_held_out_raters)
-    #             else:
-    #                 selected_raters = available_raters.sample(k)
-    #
-    #             # get the prediction from those k raters
-    #             # rating_tups = zip(sample_cols, sample_ratings)
-    #             rating_tups = list(zip(selected_raters.index, selected_raters))
-    #             pred = self.combiner.combine(self.allowable_labels, rating_tups, self.W_as_array, item_id=index)
-    #
-    #             # If k amateurs, all expert labels are available as reference raters
-    #             # If k experts, remaining labels are the reference raters;
-    #             if amateur:
-    #                 reference_raters = item[self.expert_cols].dropna()
-    #             else:
-    #                 reference_raters = available_raters.drop(selected_raters.index).dropna()
-    #
-    #             # intuitively: score prediction against each of the reference raters
-    #             # but we might have different number of reference raters for different items
-    #             # so determine proportions of the different labels among the reference raters
-    #
-    #             freqs = reference_raters.value_counts()/len(reference_raters)
-    #             if len(freqs) == 0:
-    #                 if verbosity >=3:
-    #                     print(f"\t\tskipping item {index} because no reference raters. k={k}. freqs={freqs}")
-    #                 continue
-    #             ref_rater_dist = DiscreteState(state_name=f'Ref raters for Item {index}',
-    #                                  labels=freqs.index,
-    #                                  probabilities=freqs.tolist(),
-    #                                  num_raters=len(reference_raters))
-    #
-    #             predictions.append(pred)
-    #             reference_ratings.append(ref_rater_dist)
-    #
-    #         result[k] = self.scoring_function(predictions, reference_ratings, verbosity)
-    #         if verbosity >= 3:
-    #             print(f'\tscore {result[k]}')
-    #     if verbosity == 2:
-    #         print(f'{result}')
-    #     return result
 
 class Plot:
     def __init__(self,
@@ -488,10 +365,14 @@ class Plot:
         if points=="all":
             points = curve.means.index
 
+        lower_bounds = np.array([self.possibly_center_score(score) for score in curve.lower_bounds[points]])
+        upper_bounds = np.array([self.possibly_center_score(score) for score in curve.upper_bounds[points]])
+        means = np.array([self.possibly_center_score(score) for score in  curve.means[points]])
+        lower_error = means - lower_bounds
+        upper_error = upper_bounds - means
         ax.errorbar(curve.means[points].index,
-                    [self.possibly_center_score(score) for score in  curve.means[points]],
-                    yerr=[[self.possibly_center_score(score) for score in curve.lower_bounds[points]],
-                          [self.possibly_center_score(score) for score in curve.upper_bounds[points]]],
+                    means,
+                    yerr=[lower_error, upper_error],
                     marker='o',
                     color=color,
                     elinewidth=2,

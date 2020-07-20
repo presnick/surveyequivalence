@@ -100,9 +100,10 @@ class MeanCombiner(Combiner):
         :param to_predict_for: ignored in this combiner
         :return: the mean of the labels
         """
-
-        return NumericPrediction(sum([val for rater, val in labels]) / \
-                                 len(labels))
+        if len(labels) == 0:
+            return None
+        else:
+            return NumericPrediction(sum([val for rater, val in labels]) / len(labels))
 
 class FrequencyCombiner(Combiner):
     def __init__(self):
