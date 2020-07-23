@@ -123,10 +123,10 @@ class AnalysisPipeline:
                 samples[index][ref_rater] = {'label': label}
         return samples
 
-    def generate_item_samples(self, num_samples=1, bootstrap=False):
+    def generate_item_samples(self, num_samples=1, bootstrap=False, same_ref_rater_all_items=True):
         # each set of items has associated ref. raters
         # that way all predictors for a set of item will be compared to the same set of reference raters,
-        # eliminating one source of noise in the comparisons
+        # eliminating one source of noise in the comparisons.
 
         def pick_ref_rater(item_index):
             item_d = self.label_pred_samples[item_index]
@@ -136,15 +136,28 @@ class AnalysisPipeline:
                 return None
 
         def generate_item_sample(bootstrap):
-
             if bootstrap:
                 items = self.W.sample(len(self.W), replace=True).index
             else:
                 # use the exact items, no resampling
                 items = self.W.index
-            # pick an available ref. rater
-            # omit the item if there are no possible reference raters
-            return [y for y in ((item_index, pick_ref_rater(item_index)) for item_index in items) if y[1]]
+
+            if same_ref_rater_all_items:
+                # pick reference rater from those available for first item
+                # that has at least one reference rater
+                for item in items:
+                    single_ref_rater = pick_ref_rater(item)
+                    if single_ref_rater:
+                        break
+
+                # omit items not rated by reference rater
+                return [(item_index, single_ref_rater) \
+                        for item_index in items \
+                        if single_ref_rater in self.label_pred_samples[item_index]]
+            else:
+                # pick an available ref. rater for each item
+                # omit the item if there are no possible reference raters
+                return [y for y in ((item_index, pick_ref_rater(item_index)) for item_index in items) if y[1]]
 
         return [generate_item_sample(bootstrap=bootstrap) for _ in range(num_samples)]
 
