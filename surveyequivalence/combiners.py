@@ -169,27 +169,35 @@ class AnonymousBayesianCombiner(Combiner):
         number_of_labels = len(allowable_labels)
 
         ## compute m_l counts for each label
-        freqs = {k: 0 for k in allowable_labels}
-        for label in [l[1] for l in labels]:
-            freqs[label] += 1
+        #freqs = {k: 0 for k in allowable_labels}
+        #for label in [l[1] for l in labels]:
+        #    freqs[label] += 1
 
-        m = np.array([freqs[i] for i in freqs.keys()])
+        #m = np.array([freqs[i] for i in freqs.keys()])
 
         prediction = np.zeros(number_of_labels)
 
-
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+        m = np.array([freqs[i] for i in freqs.keys()])
+        k = sum(m)
 
         for label_idx in range(0,number_of_labels):
+            expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
+
+
+            # TODO check W[item_id]
+            #k = int(np.sum(m + one_hot_label))
+            # Calculate the contribution of the held out item
+            i_v_onehot, i_r_onehot = AnonymousBayesianCombiner.D_k_item_contribution(expanded_labels, W[item_id], allowable_labels)
+
+
             one_hot_label = np.zeros(number_of_labels)
             one_hot_label[label_idx] = 1
 
-            # TODO check W[item_id]
-            k = int(np.sum(m + one_hot_label))
-            # Calculate the contribution of the held out item
-            i_v_onehot, i_r_onehot = AnonymousBayesianCombiner.D_k_item_contribution(m + one_hot_label, W[item_id], allowable_labels, k)
-
             if str(m + one_hot_label) not in self.memo:
-                overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(m + one_hot_label, W, allowable_labels)
+                overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(expanded_labels, W, allowable_labels)
                 self.memo[str(m + one_hot_label)] = overall_joint_dist, num_items
             overall_joint_dist_onehot, num_items = self.memo[str(m + one_hot_label)]
 
@@ -204,10 +212,9 @@ class AnonymousBayesianCombiner(Combiner):
                 holdout_joint_dist_onehot = v * coef / (num_items - 1)
             prediction[label_idx] = holdout_joint_dist_onehot
 
-        k = int(np.sum(m))
-        i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(m, W[item_id], allowable_labels, k)
+        i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(labels, W[item_id], allowable_labels)
         if str(m) not in self.memo:
-            overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(m, W, allowable_labels)
+            overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(labels, W, allowable_labels)
             self.memo[str(m)] = overall_joint_dist, num_items
         overall_joint_dist_m, num_items = self.memo[str(m)]
         holdout_joint_dist_m = overall_joint_dist_m
@@ -231,14 +238,13 @@ class AnonymousBayesianCombiner(Combiner):
         return output
 
     @staticmethod
-    def D_k_item_contribution(m: np.array, item: np.array, allowable_labels: Sequence[str], k: int) -> (float, float):
+    def D_k_item_contribution(labels: np.array, item: np.array, allowable_labels: Sequence[str]) -> (float, float):
         """
 
-        :param m:
+        :param labels:
         :param item:
         :param allowable_labels:
         :param number_of_labels:
-        :param k:
         :return: item contribution, and whether it counts towards number of items
         """
         def comb(n, k):
@@ -246,6 +252,16 @@ class AnonymousBayesianCombiner(Combiner):
 
         # count number of ratings in the item.
         num_rate = 0
+
+        ## compute m_l counts for each label
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+
+        m = np.array([freqs[i] for i in freqs.keys()])
+
+        k = sum(m)
+        assert(k == len(labels))
 
         nonzero_itm_mask = np.nonzero(item)
         item = item[nonzero_itm_mask]
@@ -276,15 +292,22 @@ class AnonymousBayesianCombiner(Combiner):
         return product / comb(ki, k), 1
 
     @staticmethod
-    def D_k(m: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> (float, int):
+    def D_k(labels: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> (float, int):
         """
         Compute the joint distribution over k anonymous ratings
 
-        :param m: rating counts of k anonymous raters
+        :param labels:
         :param W: item and rating dataset
         :param allowable_labels: the set of labels/ratings allowed
         :return: joint distribution, and num_items
         """
+
+        ## compute m_l counts for each label
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+
+        m = np.array([freqs[i] for i in freqs.keys()])
 
         k = int(np.sum(m))  # the number of raters
         #sample_size = 1000
@@ -299,7 +322,7 @@ class AnonymousBayesianCombiner(Combiner):
         mi = np.zeros(len(allowable_labels))
         num_items = 0
         for item in I:
-            i_v,i_r = AnonymousBayesianCombiner.D_k_item_contribution(m, item, allowable_labels, k)
+            i_v,i_r = AnonymousBayesianCombiner.D_k_item_contribution(labels, item, allowable_labels)
             v += i_v
             num_items += i_r
 
