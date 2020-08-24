@@ -62,25 +62,22 @@ class SyntheticDatasetGenerator:
 class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
     def __init__(self, expert_state_generator, num_items_per_dataset = 50, num_labels_per_item=3,
                  mock_classifiers=None, name=None,
-                 amateur_noise_multiplier=None, k_amateurs_per_label=1):
+                 pct_noise=0, k_amateurs_per_label=1):
         super().__init__(expert_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers, name)
 
         self.k_amateurs_per_label=k_amateurs_per_label
-        if amateur_noise_multiplier:
-            self.amateur_item_states = self.make_noisier_binary_states(amateur_noise_multiplier)
+        if pct_noise>0:
+            self.amateur_item_states = self.make_noisier_binary_states(pct_noise)
         else:
             self.amateur_item_states = None
 
     def make_noisier_binary_states(self, noise_multiplier):
 
-        def make_noisier_state(state, multiplier):
+        def make_noisier_state(state, pct_noise):
             pr_pos, pr_neg = state.probabilities
-            if pr_pos >= .5:
-                new_pr_pos = pr_pos / multiplier
+            new_pr_pos = (1-pct_noise) * pr_pos + pct_noise * .5
+            new_pr_neg = (1-pct_noise) * pr_neg + pct_noise * .5
 
-            else:
-                new_pr_pos = pr_pos * multiplier
-            new_pr_neg = 1 - new_pr_pos
 
             return DiscreteState(state_name=state.state_name,
                                  labels=state.labels,
@@ -184,7 +181,7 @@ def make_perceive_with_noise_datasets():
                                               )
 
         dsg.mock_classifiers.append(MockClassifier(
-            name='h_infinity',
+            name='h_infinity: ideal classifier',
             label_predictors={
                 'pos': DiscreteDistributionPrediction(['pos', 'neg'], pos_state_probabilities),
                 'neg': DiscreteDistributionPrediction(['pos', 'neg'], neg_state_probabilities)
@@ -196,7 +193,7 @@ def make_perceive_with_noise_datasets():
 
 
 
-def make_discrete_dataset_1():
+def make_discrete_dataset_1(num_items_per_dataset = 50):
     expert_state_generator = \
         DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
                                                           labels=['pos', 'neg'],
@@ -209,8 +206,9 @@ def make_discrete_dataset_1():
                                 )
 
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator= expert_state_generator,
-                                amateur_noise_multiplier=1.1,
-                                name='dataset 1: 80% 90-10; 20% 25-75',
+                                pct_noise=.1,
+                                name='dataset 1: 80% high-type items\nexperts: 90-10 on high type; 25-75 on low type\namateurs: 10% noise (50-50) otherwise same as expert',
+                                num_items_per_dataset=num_items_per_dataset
                                 )
 
     # dsg.mock_classifiers.append(MockClassifier(
@@ -228,7 +226,7 @@ def make_discrete_dataset_1():
     #     }))
 
     dsg.mock_classifiers.append(MockClassifier(
-        name='h_infinity',
+        name='h_infinity: ideal classifier',
         label_predictors={
             'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
             'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.25, .75])

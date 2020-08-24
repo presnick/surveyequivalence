@@ -24,7 +24,7 @@ def generate_and_plot_noise_datasets():
     color_map = {
         'expert_power_curve': 'black',
         'amateur_power_curve': 'purple',
-        'h_infinity': 'red'
+        'h_infinity: ideal classifier': 'red'
     }
 
     for ds in make_perceive_with_noise_datasets():
@@ -68,37 +68,32 @@ def generate_and_plot_noisier_amateurs():
     color_map = {
         'expert_power_curve': 'black',
         'amateur_power_curve': 'purple',
-        'h_infinity': 'red'
+        'h_infinity: ideal classifier': 'red'
     }
 
-    ds = make_discrete_dataset_1()
+    ds = make_discrete_dataset_1(num_items_per_dataset=200)
 
     # combine the two dataframes
 
     pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
                                        expert_cols=list(ds.dataset.columns),
+                                       amateur_cols=list(ds.amateur_dataset.columns),
+                                       classifier_predictions = ds.classifier_predictions,
                                        combiner=combiner,
                                        scoring_function=scorer.score,
                                        allowable_labels=['pos', 'neg'],
-                                       null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                       num_pred_samples=1,
-                                       num_item_samples=3)
+                                       # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                       num_pred_samples=200,
+                                       num_item_samples=1000)
 
-    pipeline.expert_power_curve = pipeline.compute_power_curve()
+    cs = pipeline.classifier_scores
 
-    pipeline.amateur_power_curve = pipeline.compute_power_curve(amateur_cols= ds.amateur_dataset.columns,
-                                                                source_name="amateur"
-                                                                )
+    # pipeline.expert_power_curve = pipeline.compute_power_curve()
 
-    # amateur_pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
-    #                                     expert_cols=list(ds.dataset.columns),
-    #                                     amateur_cols=list(ds.amateur_dataset.columns),
-    #                                     combiner=combiner,
-    #                                     num_rater_samples=1,
-    #                                     num_item_samples=2,
-    #                                     max_expert_k=2,
-    #                                     max_amateur_k=3,
-    #                                     num_runs=1)
+    # pipeline.amateur_power_curve = pipeline.compute_power_curve(amateur_cols= ds.amateur_dataset.columns,
+    #                                                             max_k=len(ds.amateur_dataset.columns),
+    #                                                             source_name="amateur"
+    #                                                             )
 
     fig, ax = plt.subplots()
 
@@ -107,6 +102,7 @@ def generate_and_plot_noisier_amateurs():
     pl = Plot(ax,
               pipeline.expert_power_curve,
               pipeline.amateur_power_curve,
+              classifier_scores=pipeline.classifier_scores,
               color_map=color_map,
               y_axis_label='information gain (c_k - c_0)',
               center_on_c0=True,
@@ -116,7 +112,7 @@ def generate_and_plot_noisier_amateurs():
               amateur_legend_label="Lay raters"
               )
 
-    pl.plot(include_classifiers=False,
+    pl.plot(include_classifiers=True,
             include_classifier_equivalences=False,
             include_droplines=True,
             include_expert_points='all',

@@ -16,9 +16,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 N = 1000
 
-
-class PowerCurve:
-
+class ClassifierResults:
     def __init__(self,
                  runs_actual: Sequence[Dict[int, float]],
                  runs_bootstrap: Sequence[Dict[int, float]]):
@@ -38,6 +36,15 @@ class PowerCurve:
         self.lower_bounds = bootstrap_means - bootstrap_std
         self.upper_bounds = bootstrap_means + bootstrap_std
 
+    @property
+    def max_value(self):
+        return max(max(self.means), max(self.upper_bounds))
+
+    @property
+    def min_value(self):
+        return min(min(self.means), min(self.lower_bounds))
+
+class PowerCurve(ClassifierResults):
     def compute_equivalence(self, classifier_score: int):
         """
         :param classifier_score:
@@ -72,6 +79,7 @@ class AnalysisPipeline:
                  sparse_experts = True,
                  expert_cols: Sequence[str] = [],
                  amateur_cols: Sequence[str] = [],
+                 classifier_predictions: pd.DataFrame = None,
                  combiner: Combiner=None,
                  scoring_function: Scorer=None,
                  allowable_labels: Sequence[str]=None,
@@ -79,6 +87,7 @@ class AnalysisPipeline:
                  min_k=0,
                  num_pred_samples=1000,
                  num_item_samples=1000,
+                 same_ref_rater_all_items = False,
                  verbosity=1
                  ):
         if expert_cols:
@@ -86,6 +95,7 @@ class AnalysisPipeline:
         else:
             self.expert_cols = W.columns
         self.amateur_cols = amateur_cols
+        self.classifier_predictions = classifier_predictions
         self.W = W
         self.W_as_array = W.to_numpy()
         ## sparse_experts=True if we always want k non-null raters for each item
@@ -98,21 +108,44 @@ class AnalysisPipeline:
         self.min_k = min_k
         self.num_pred_samples = num_pred_samples
         self.num_item_samples = num_item_samples
+        self.same_ref_rater_all_items = same_ref_rater_all_items
         self.verbosity = verbosity
 
         self.label_pred_samples = self.enumerate_ref_raters()
 
-        self.bootstrap_item_samples = self.generate_item_samples(self.num_item_samples, bootstrap=True)
-        self.actual_item_samples = self.generate_item_samples(self.num_item_samples, bootstrap=False)
+        self.bootstrap_item_samples = self.generate_item_samples(self.num_item_samples,
+                                                                 bootstrap=True,
+                                                                 same_ref_rater_all_items=same_ref_rater_all_items)
+        self.actual_item_samples = self.generate_item_samples(self.num_item_samples,
+                                                              bootstrap=False,
+                                                              same_ref_rater_all_items=same_ref_rater_all_items)
 
+        if self.classifier_predictions is not None:
+            self.classifier_scores = self.compute_classifier_scores()
 
-        self.add_pred_samples(self.expert_cols, min_k, max_k=len(self.expert_cols)-1,
+        self.add_pred_samples(self.expert_cols, min_k,
+                              max_k=len(self.expert_cols)-1,
                               source_name="expert",
                               num_samples=self.num_pred_samples,
                               sparse=self.sparse_experts,
                               exclude_ref_rater=True)
 
         self.expert_power_curve = self.compute_power_curve(max_k=len(self.expert_cols)-1)
+
+        if len(self.amateur_cols) > 0:
+            self.add_pred_samples(self.amateur_cols, min_k,
+                                  max_k=len(self.amateur_cols),
+                                  source_name="amateur",
+                                  num_samples=self.num_pred_samples,
+                                  sparse=False,
+                                  exclude_ref_rater=False)
+            print("adding amateur_power_curve")
+            self.amateur_power_curve = self.compute_power_curve(max_k=len(self.amateur_cols),
+                                                                source_name="amateur"
+                                                                )
+        else:
+            print("no amateur power curve")
+
 
     def enumerate_ref_raters(self):
         samples = {}
@@ -125,7 +158,7 @@ class AnalysisPipeline:
 
     def generate_item_samples(self, num_samples=1, bootstrap=False, same_ref_rater_all_items=True):
         # each set of items has associated ref. raters
-        # that way all predictors for a set of item will be compared to the same set of reference raters,
+        # that way all predictors for a set of items will be compared to the same set of reference raters,
         # eliminating one source of noise in the comparisons.
 
         def pick_ref_rater(item_index):
@@ -209,10 +242,33 @@ class AnalysisPipeline:
                         self.label_pred_samples[index][ref_rater][k][source_name] += \
                             generate_sample(available_raters, k)
 
+    def compute_classifier_scores(self):
+        if self.verbosity > 0:
+            print(f"starting classifiers: computing scores")
 
+        def compute_scores(predictions_df):
+             return {col_name: self.scoring_function(predictions_df[col_name],
+                                             predictions_df['ref_label'],
+                                             self.verbosity) \
+                    for col_name in self.classifier_predictions.columns}
 
-    def compute_score(self, item_index, ref_rater):
-        null
+        def compute_one_run(sample):
+            idxs = [item_index for (item_index, ref_rater) in sample]
+            ref_labels = pd.Series([self.label_pred_samples[item_index][ref_rater]['label'] for (item_index, ref_rater) in sample],
+                                    name='ref_label').reset_index()
+            # items may not be the same items from self.classifier_predictions; look up prediction for the right item
+            predictions_df = self.classifier_predictions.loc[idxs, : ].reset_index()
+            return compute_scores(pd.concat([ref_labels, predictions_df], axis=1))
+
+        ## Each item sample is one run
+
+        ## means of scores for non-bootstrap item samples (with different ref. raters) is the overall score
+        run_results_actual = [compute_one_run(sample) for sample in self.actual_item_samples]
+
+        ## cis computed from distribution of scores for bootstrap item samples
+        run_results_bootstrap = [compute_one_run(sample) for sample in self.bootstrap_item_samples]
+
+        return ClassifierResults(run_results_actual, run_results_bootstrap)
 
     def compute_power_curve(self, max_k, source_name="expert"):
 
@@ -252,7 +308,7 @@ class AnalysisPipeline:
 
         ## Each item sample is one run
 
-        ## mean of scores for non-bootstrap samples is the power at each k
+        ## mean of scores for non-bootstrap samples (with different ref raters) is the power at each k
         run_results_actual = [compute_one_run(sample) for sample in self.actual_item_samples]
 
         ## cis computed from distribution of scores for bootstrap samples
@@ -266,7 +322,7 @@ class Plot:
                  ax,
                  expert_power_curve,
                  amateur_power_curve=None,
-                 classifier_scores:Dict =None,
+                 classifier_scores =None,
                  color_map={'expert_power_curve': 'black', 'amateur_power_curve': 'blue', 'classifier': 'green'},
                  y_axis_label = 'Agreement with reference rater',
                  center_on_c0 = False,
@@ -318,41 +374,39 @@ class Plot:
     def add_classifier_line(self, ax, name, score, color, ci=None):
         ax.axhline(y=score, color=color, linewidth=2, linestyle='dashed', label=name)
         if ci:
-            ax.axhspan(score - ci, score + ci, alpha=0.5, color=color)
+            ax.axhspan(ci[0], ci[1], alpha=0.5, color=color)
 
     def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
         # score is already centered before this is called
-        print(f"add_survey_equivalence_point {survey_equiv} type {type(survey_equiv)}")
+        # print(f"add_survey_equivalence_point {survey_equiv} type {type(survey_equiv)}")
         if (type(survey_equiv) != str):
             ax.scatter(survey_equiv, score, c=color)
             if include_droplines:
-                print(f"adding dropline at {survey_equiv} from {self.ymin} to {score}")
+                # print(f"adding dropline at {survey_equiv} from {self.ymin} to {score}")
                 self.x_intercepts.append(survey_equiv)
                 ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min, ymax=score)
-            else:
-                print("include_droplines is False")
+            # else:
+            #     print("include_droplines is False")
 
     @property
     def y_range_min(self):
         return self.y_range[0] if self.y_range else self.ymin
 
     def set_ymin(self):
-        ymin = min(self.expert_power_curve.means)
+        ymin = self.expert_power_curve.min_value
         if (self.amateur_power_curve):
-            ymin = min(ymin, min(self.amateur_power_curve.means))
+            ymin = min(ymin, self.amateur_power_curve.min_value)
         if self.classifier_scores:
-            for score in self.classifier_scores.values():
-                ymin = min(ymin, score)
+            ymin = min(ymin, self.classifier_scores.min_value)
 
         self.ymin = self.possibly_center_score(ymin)
 
     def set_ymax(self):
-        ymax = max(self.expert_power_curve.means)
+        ymax = self.expert_power_curve.max_value
         if (self.amateur_power_curve):
-            ymax = max(ymax, max(self.amateur_power_curve.means))
+            ymax = max(ymax, self.amateur_power_curve.max_value)
         if self.classifier_scores:
-            for score in self.classifier_scores.values():
-                ymax = max(ymax, score)
+            ymax = max(ymax, self.classifier_scores.max_value)
 
         self.ymax = self.possibly_center_score(ymax)
 
@@ -431,10 +485,18 @@ class Plot:
         print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
-            # self.classifier_scores is a dictionary with classifier names as keys
-            for (classifier_name, score) in self.classifier_scores.items():
+            # self.classifier_scores is an instance of ClassifierResults, with means and cis computed
+            for (classifier_name, score) in self.classifier_scores.means.items():
+                print(f'{classifier_name} score: {score}, c_0: {self.expert_power_curve.means[0]}')
                 color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
-                self.add_classifier_line(ax, classifier_name, self.possibly_center_score(score), color)
+                print(f'lower bound: {self.classifier_scores.lower_bounds[classifier_name]}')
+                print(f'upper bound: {self.classifier_scores.upper_bounds[classifier_name]}')
+                self.add_classifier_line(ax,
+                                         classifier_name,
+                                         self.possibly_center_score(score),
+                                         color,
+                                         ci=(self.possibly_center_score(self.classifier_scores.lower_bounds[classifier_name]),
+                                             self.possibly_center_score(self.classifier_scores.upper_bounds[classifier_name])))
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
                                                       self.expert_power_curve.compute_equivalence(score),
@@ -470,9 +532,9 @@ class Plot:
         ax.legend(loc='upper right')
 
         integer_equivs = [int(round(x)) for x in self.x_intercepts]
-        print(f"integer_equivs = {integer_equivs}")
+        # print(f"integer_equivs = {integer_equivs}")
         regular_ticks = [i for i in range(0, self.xmax, math.ceil(self.xmax / 10)) if i not in integer_equivs]
-        print(f"regular_ticks = {regular_ticks}")
+        # print(f"regular_ticks = {regular_ticks}")
 
 
         ticks = sorted(regular_ticks + self.x_intercepts)
