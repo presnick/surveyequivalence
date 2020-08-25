@@ -1,22 +1,20 @@
 import os
-import numpy as np
-import pandas as pd
-import unittest
-from matplotlib import pyplot as plt
-import matplotlib
 from datetime import datetime
 
-from surveyequivalence import State, DiscreteState, \
-    DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
-    DiscreteDistributionPrediction, \
-    FrequencyCombiner, AnonymousBayesianCombiner, \
-    AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
-    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets, Correlation
+import pandas as pd
+from matplotlib import pyplot as plt
+
+from surveyequivalence import DiscreteDistributionPrediction, \
+    AnonymousBayesianCombiner, \
+    AnalysisPipeline, CrossEntropyScore, \
+    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets
+
 
 def save_plot(fig, name):
     if not os.path.isdir('plots'):
         os.mkdir('plots')
     fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+
 
 def generate_and_plot_noise_datasets():
     scorer = CrossEntropyScore
@@ -61,8 +59,9 @@ def generate_and_plot_noise_datasets():
         pl.add_state_distribution_inset(ds.ds_generator)
         pl.save_plot()
 
+
 def generate_and_plot_noisier_amateurs():
-    scorer = CrossEntropyScore
+    scorer = CrossEntropyScore()
     combiner = AnonymousBayesianCombiner()
 
     color_map = {
@@ -76,15 +75,14 @@ def generate_and_plot_noisier_amateurs():
     # combine the two dataframes
 
     pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
-                                       expert_cols=list(ds.dataset.columns),
-                                       amateur_cols=list(ds.amateur_dataset.columns),
-                                       classifier_predictions = ds.classifier_predictions,
-                                       combiner=combiner,
-                                       scoring_function=scorer.score,
-                                       allowable_labels=['pos', 'neg'],
-                                       # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                       num_pred_samples=200,
-                                       num_item_samples=1000)
+                                expert_cols=list(ds.dataset.columns),
+                                amateur_cols=list(ds.amateur_dataset.columns),
+                                classifier_predictions=ds.classifier_predictions,
+                                combiner=combiner,
+                                scorer=scorer,
+                                allowable_labels=['pos', 'neg'],
+                                num_pred_samples=5,  # Why is this ever more than 1?
+                                num_item_samples=1000)
 
     cs = pipeline.classifier_scores
 
@@ -127,8 +125,6 @@ def generate_and_plot_noisier_amateurs():
 def main():
     # generate_and_plot_noise_datasets()
     generate_and_plot_noisier_amateurs()
-
-
 
 
 if __name__ == '__main__':
