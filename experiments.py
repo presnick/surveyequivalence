@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from random import shuffle
+from random import shuffle, randint
 from surveyequivalence import AnalysisPipeline, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, CrossEntropyScore, AnonymousBayesianCombiner
 
 
@@ -11,6 +11,7 @@ def guessthekarma():
     duplicate it and swap 'A' for 'B'. In total, we W as a len(#raters) by 2*len(#items) matrix.
     :return: None
     """
+
     gtk = pd.read_csv('./data/vote_gtk2.csv')
 
     rater_ids = {v:i for (i,v) in enumerate(set(gtk['user_id']))}
@@ -46,18 +47,18 @@ def guessthekarma():
     mask = np.all(prefer_W == '', axis=1)
     prefer_W = prefer_W[~mask]
 
-    print('##GUESSTHEKARMA - Dataset loaded##')
+    print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)
+    prefer_W = pd.DataFrame(data=prefer_W)[:300]
     # predict_W = pd.DataFrame(data=predict_W)
 
-    p = AnalysisPipeline(prefer_W, AnonymousBayesianCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=20,
-                         num_runs=2)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ CrossEntropy")
-    print(results)
+    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+    cs = p.expert_power_curve.means
+    print(cs)
+
+    cs = p.expert_power_curve.std
+    print(cs)
 
     exit(0)
 

@@ -28,13 +28,17 @@ class NumericPrediction(Prediction):
         return self.num
 
 class DiscreteDistributionPrediction(Prediction):
-    def __init__(self, label_names, probabilities, no_extremes=True):
+    def __init__(self, label_names, probabilities, no_extremes=True, normalize=True):
         super().__init__()
         self.label_names = label_names
         if no_extremes:
             self.probabilities = [min(.999, max(.001, pr)) for pr in probabilities]
         else:
             self.probabilities = probabilities
+
+        if normalize:
+            s = sum(self.probabilities)
+            self.probabilities = [pr/s for pr in self.probabilities]
 
     def __repr__(self):
         return f"Prediction: {self.probabilities}"
@@ -198,6 +202,10 @@ class AnonymousBayesianCombiner(Combiner):
 
             if str(m + one_hot_label) not in self.memo:
                 overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(expanded_labels, W, allowable_labels)
+                # In this case, there are not enough raters to construct a joint distribution for k,
+                # so we can't make a prediction
+                if num_items <= 1:
+                    return None
                 self.memo[str(m + one_hot_label)] = overall_joint_dist, num_items
             overall_joint_dist_onehot, num_items = self.memo[str(m + one_hot_label)]
 
@@ -209,12 +217,20 @@ class AnonymousBayesianCombiner(Combiner):
                 coef = product / factorial(k)
 
                 v = overall_joint_dist_onehot * num_items / coef - i_v_onehot
+                # In this case, there are not enough raters to construct a joint distribution for k,
+                # so we can't make a prediction
+                if num_items <= 1:
+                    return None
                 holdout_joint_dist_onehot = v * coef / (num_items - 1)
             prediction[label_idx] = holdout_joint_dist_onehot
 
         i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(labels, W[item_id], allowable_labels)
         if str(m) not in self.memo:
             overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(labels, W, allowable_labels)
+            # In this case, there are not enough raters to construct a joint distribution for k,
+            # so we can't make a prediction
+            if num_items <= 1:
+                return None
             self.memo[str(m)] = overall_joint_dist, num_items
         overall_joint_dist_m, num_items = self.memo[str(m)]
         holdout_joint_dist_m = overall_joint_dist_m
@@ -227,8 +243,9 @@ class AnonymousBayesianCombiner(Combiner):
             v = overall_joint_dist_m * num_items / coef - i_v_m
             holdout_joint_dist_m = v * coef / (num_items - 1)
 
-        if overall_joint_dist_m == 0:
-            print()
+        if holdout_joint_dist_m == 0:
+            #TODO - what to do here?
+            holdout_joint_dist_m = 0.00001
 
         prediction = prediction / holdout_joint_dist_m
         # TODO check that prediction is valid

@@ -86,8 +86,8 @@ class AnalysisPipeline:
                  allowable_labels: Sequence[str] = None,
                  null_prediction: Prediction = None,
                  min_k=0,
-                 num_pred_samples=1000,
-                 num_item_samples=1000,
+                 num_pred_samples=100,
+                 num_item_samples=100,
                  same_ref_rater_all_items=False,
                  verbosity=1
                  ):
@@ -133,7 +133,7 @@ class AnalysisPipeline:
 
         self.expert_power_curve = self.compute_power_curve(max_k=len(self.expert_cols) - 1)
 
-        if len(self.amateur_cols) > 0:
+        if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             self.add_pred_samples(self.amateur_cols, min_k,
                                   max_k=len(self.amateur_cols),
                                   source_name="amateur",
@@ -152,6 +152,7 @@ class AnalysisPipeline:
         for index, item in self.W.iterrows():
             samples[index] = {}
             reference_raters = item[self.expert_cols].dropna()
+            reference_raters = reference_raters[reference_raters != '']
             for ref_rater, label in reference_raters.items():
                 samples[index][ref_rater] = {'label': label}
         return samples
@@ -225,7 +226,7 @@ class AnalysisPipeline:
             samples = list()
             if num_comb < num_samples:
                 for x in list(combinations(zip(available_raters.index, available_raters),k)):
-                    if len(x) == 0: x = []
+                    x = [s for s in x if s]
                     samples.append(make_prediction(x))
             else:
                 for _ in range(num_samples):
@@ -236,12 +237,14 @@ class AnalysisPipeline:
             return [s for s in samples if s]
 
         for index, item in self.W.iterrows():
+            print(index,)
             ###TODO: error checks for not enough raters
             for ref_rater in self.label_pred_samples[index]:
                 available_raters = item[col_names]
                 if sparse:
                     # always get k raters who labeled the item, rather than any k
                     available_raters = available_raters.dropna()
+                    available_raters = available_raters[available_raters != '']
                 if exclude_ref_rater:
                     available_raters = available_raters.drop(ref_rater)
 
@@ -253,6 +256,8 @@ class AnalysisPipeline:
                             self.label_pred_samples[index][ref_rater][k][source_name] = []
                         self.label_pred_samples[index][ref_rater][k][source_name] += \
                             generate_sample(available_raters, k)
+                    else:
+                        break
 
     def compute_classifier_scores(self):
         if self.verbosity > 0:
@@ -301,22 +306,44 @@ class AnalysisPipeline:
                     return None
 
             # pick one prediction at random from the available prediction set for each k
-            predictions = [pick(self.label_pred_samples[item_index], ref_rater, k, source_name) \
-                           for k in range(min_k, max_k + 1)]
+            predictions = list()
+            for k in range(min_k, max_k+1):
+                if k in self.label_pred_samples[item_index][ref_rater]:
+                    predictions.append(pick(self.label_pred_samples[item_index], ref_rater, k, source_name))
+                else:
+                    break
+
             ref_label = self.label_pred_samples[item_index][ref_rater]['label']
             return [ref_label] + predictions
 
-        def compute_scores(predictions_df):
-            return {k: self.scorer.score(predictions_df[f'k={k}'],
-                                             predictions_df['ref_label'],
-                                             self.verbosity) \
-                    for k in range(min_k, max_k + 1)}
+        def compute_scores(predictions):
+            slice = dict()
+            ref = list()
+            for item in predictions:
+                ref.append(item[0])
+            for k in range(min_k, max_k + 1):
+                for item in predictions:
+                    if k not in slice: slice[k] = list()
+                    if k+1 < len(item):
+                        slice[k].append(item[k+1])
+                    else:
+                        slice[k].append(None)
+
+            scores = dict()
+            for i, k in enumerate(slice):
+                slice_k = pd.Series(slice[k])
+                nas = slice_k.notna()
+                if len(slice_k[nas]) == 0:
+                    break
+                try:
+                    scores[k] = self.scorer.score(slice_k[nas], pd.Series(ref)[nas])
+                except:
+                    pass
+            return scores
 
         def compute_one_run(sample):
-            predictions_df = pd.DataFrame([one_item_all_ks(item_index, ref_rater) \
-                                           for (item_index, ref_rater) in sample],
-                                          columns=['ref_label'] + [f'k={k}' for k in range(min_k, max_k + 1)])
-            return compute_scores(predictions_df)
+            predictions = [one_item_all_ks(item_index, ref_rater) for (item_index, ref_rater) in sample]
+            return compute_scores(predictions)
 
         ## Each item sample is one run
 
