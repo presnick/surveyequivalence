@@ -59,30 +59,17 @@ class AgreementScore(Scorer):
         super().__init__()
 
     @staticmethod
-    def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-                        rater_labels: Sequence[DiscreteState]):
-        """
-        Resolve predictions to identify the most likely single label;
-        Return the fraction where predicted matches actual
-        """
-        sum = 0
-        count = 0
+    def score(classifier_predictions: Sequence[str],
+                        rater_labels: Sequence[str],
+              verbosity=0):
 
-        if len(set([ld.num_raters for ld in rater_labels])) == 1:
-            # all sets of reference raters have same length, so probabilities can be turned into integers and we
-            # can sample each reference rater exactly once, avoiding some noise from random sampling
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-                for label, pr in zip(label_dist.labels, label_dist.probabilities):
-                    assert isclose(pr * label_dist.num_raters, int(pr * label_dist.num_raters), abs_tol=.0001)
-                    # compute weighted mean average
-                    if pred.value == label:
-                        sum += pr
-                count += 1
-            return sum/count
-        else:
-            # sample 1000 times from each rater_labels distribution
-            print("unequal numbers of reference raters; not implemented")
-            raise NotImplementedError
+        assert len(classifier_predictions) == len(rater_labels)
+
+        tot_score = sum([pred == label for (pred, label) in \
+                        zip(classifier_predictions, rater_labels)]) / \
+               len(classifier_predictions)
+
+        return tot_score
 
 class CrossEntropyScore(Scorer):
     def __init__(self):

@@ -1,4 +1,4 @@
-from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscreteDistributionPrediction
+from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscreteDistributionPrediction, FixedStateGenerator
 from typing import Sequence, Dict
 import numpy as np
 import pandas as pd
@@ -31,6 +31,9 @@ class MockClassifier:
         
         return [self.label_predictors[s.state_name] for s in item_states]
 
+class DiscreteMockClassifier(MockClassifier):
+    def make_predictions(self, item_states):
+        return [self.label_predictors[s.state_name].draw_discrete_label() for s in item_states]
 
 ############ Synthetic Dataset Generator ###############
 
@@ -264,4 +267,53 @@ def make_discrete_dataset_3():
                                 )
 
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator= expert_state_generator)
+    return SyntheticDataset(dsg)
+
+def make_running_example_dataset(num_items_per_dataset = 10, minimal=False):
+
+    if minimal:
+        state_generator = \
+            FixedStateGenerator(states=[DiscreteState(state_name='high',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.8, .2]),
+                                        DiscreteState(state_name='med',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.5, .5]),
+                                        DiscreteState(state_name='low',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.1, .9])
+                                        ],
+                                probabilities=[.7, .1, .2]
+                                )
+    else:
+        state_generator = \
+            DiscreteDistributionOverStates(states=[DiscreteState(state_name='high',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.8, .2]),
+                                                   DiscreteState(state_name='med',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.5, .5]),
+                                                   DiscreteState(state_name='low',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.1, .9])
+                                                   ],
+                                           probabilities=[.7, .1, .2]
+                                           )
+
+    dsg = SyntheticBinaryDatasetGenerator(expert_state_generator= state_generator,
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=10,
+                                          mock_classifiers=None,
+                                          name="running example",
+                                          )
+
+    dsg.mock_classifiers.append(DiscreteMockClassifier(
+        name='R_h: classifier',
+        label_predictors={
+            'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+            'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+            'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+        }))
+
+
     return SyntheticDataset(dsg)

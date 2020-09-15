@@ -72,15 +72,31 @@ class DiscreteDistributionOverStates(DistributionOverStates):
 
 class DiscreteLabelsWithNoise(DiscreteDistributionOverStates):
     def __init__(self, states: Sequence[DiscreteState], probabilities: Sequence[float]):
-        # check that state names match the label names
-        labels_names = [s.state_name for s in states]
-        for s in states:
-            assert s.labels == labels_names
-
-        # if so, this fits the discrete labels with noise model
+        # # check that state names match the label names
+        # labels_names = [s.state_name for s in states]
+        # for s in states:
+        #     print(s.labels, labels_names)
+        #     assert s.labels == labels_names
+        #
+        # # if so, this fits the discrete labels with noise model
         super().__init__(states, probabilities)
 
+class FixedStateGenerator(DiscreteDistributionOverStates):
+    def draw_states(self, n: int):
+        """
+        Draw exactly in proportion to probabilities, rather than each draw random according to the probabilities
+        :param n:
+        :return:
+        """
+        counts = [int(round(pr*n)) for pr in self.probabilities]
+        if sum(counts) < n:
+            counts[0] += 1
 
+        states_list = []
+        for count, state in zip(counts, self.states):
+            for _ in range(count):
+                states_list.append(state)
+        return states_list
 
 class MixtureOfBetas(DistributionOverStates):
     def __init__(self):

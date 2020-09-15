@@ -3,6 +3,7 @@ from math import factorial
 from typing import Sequence, Tuple
 
 import numpy as np
+import random
 
 
 class Prediction(ABC):
@@ -71,6 +72,14 @@ class DiscreteDistributionPrediction(Prediction):
 
         return np.max(self.probabilities)
 
+    def draw_discrete_label(self):
+        """
+        return one of the labels, drawn according to the distribution
+        """
+        return random.choices(
+            population = self.label_names,
+            weights = self.probabilities
+        )[0]
 
 class Combiner(ABC):
     def __init__(self, verbosity=0):
@@ -83,6 +92,33 @@ class Combiner(ABC):
             item_id=None,
             to_predict_for=None) -> DiscreteDistributionPrediction:
         pass
+
+class PluralityVote(Combiner):
+    def combine(self, allowable_labels: Sequence[str]=None,
+            labels: Sequence[Tuple[str, float]]=[],
+            W: np.matrix = None,
+            item_id=None,
+            to_predict_for=None) -> NumericPrediction:
+
+        """
+        :param allowable_labels: not used in this combiner
+        :param labels: numeric values from particular rater ids; rater ids are ignored
+        :param W: ignored in this combiner
+        :param item_id: ignored in this combiner
+        :param to_predict_for: ignored in this combiner
+        :return: the most common label
+        """
+        if len(labels) == 0:
+            # with no labels, just pick one of the allowable labels at random
+            return random.choice(allowable_labels)
+        else:
+            freqs = dict()
+            for rater, val in labels:
+                freqs[val] = freqs.get(val, 0) + 1
+            max_freq = max(freqs.values())
+            winners = [k for k in freqs if freqs[k] == max_freq]
+            ## return one of the winners, at random
+            return random.choice(winners)
 
 
 class MeanCombiner(Combiner):

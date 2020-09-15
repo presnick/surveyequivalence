@@ -455,6 +455,7 @@ class Plot:
              include_classifier_amateur_equivalences=False,
              include_droplines=True,
              include_amateur_curve=True,
+             include_classifier_cis=True,
              amateur_equivalences=[]):
 
         ax = self.ax
@@ -496,7 +497,8 @@ class Plot:
                                          self.possibly_center_score(score),
                                          color,
                                          ci=(self.possibly_center_score(self.classifier_scores.lower_bounds[classifier_name]),
-                                             self.possibly_center_score(self.classifier_scores.upper_bounds[classifier_name])))
+                                             self.possibly_center_score(self.classifier_scores.upper_bounds[classifier_name])) \
+                                             if include_classifier_cis else None)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
                                                       self.expert_power_curve.compute_equivalence(score),

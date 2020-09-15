@@ -9,9 +9,9 @@ from datetime import datetime
 from surveyequivalence import State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
     DiscreteDistributionPrediction, \
-    FrequencyCombiner, AnonymousBayesianCombiner, \
+    FrequencyCombiner, PluralityVote, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
-    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets, Correlation
+    Plot, make_discrete_dataset_1, make_running_example_dataset, make_perceive_with_noise_datasets, Correlation
 
 def save_plot(fig, name):
     if not os.path.isdir('plots'):
@@ -71,7 +71,7 @@ def generate_and_plot_noisier_amateurs():
         'h_infinity: ideal classifier': 'red'
     }
 
-    ds = make_discrete_dataset_1(num_items_per_dataset=200)
+    ds = make_discrete_dataset_1(num_items_per_dataset=50)
 
     # combine the two dataframes
 
@@ -83,8 +83,8 @@ def generate_and_plot_noisier_amateurs():
                                        scoring_function=scorer.score,
                                        allowable_labels=['pos', 'neg'],
                                        # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                       num_pred_samples=200,
-                                       num_item_samples=1000)
+                                       num_pred_samples=20,
+                                       num_item_samples=10)
 
     cs = pipeline.classifier_scores
 
@@ -123,11 +123,68 @@ def generate_and_plot_noisier_amateurs():
     # pl.add_state_distribution_inset(ds.ds_generator)
     save_plot(fig, ds.ds_generator.name)
 
+def generate_and_plot_running_example():
+    scorer = AgreementScore
+    combiner = PluralityVote()
+
+    color_map = {
+        'expert_power_curve': 'black',
+        'R_h: classifier': 'red'
+    }
+
+    ds = make_running_example_dataset(minimal=True)
+
+    print(ds.dataset)
+    print("---------")
+    print(ds.classifier_predictions)
+    print("---------")
+    print(ds.ds_generator.expert_item_states)
+
+    pipeline = AnalysisPipeline(ds.dataset,
+                                expert_cols=list(ds.dataset.columns),
+                                classifier_predictions=ds.classifier_predictions,
+                                combiner=combiner,
+                                scoring_function=scorer.score,
+                                allowable_labels=['pos', 'neg'],
+                                num_pred_samples=20,
+                                num_item_samples=100)
+
+    cs = pipeline.classifier_scores
+    print("----classifier scores-----")
+    print(cs.means)
+    print("----power curve means-----")
+    print(pipeline.expert_power_curve.means)
+    fig, ax = plt.subplots()
+
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              pipeline.expert_power_curve,
+              classifier_scores=pipeline.classifier_scores,
+              color_map=color_map,
+              y_axis_label='percent agreement with reference rater',
+              y_range=(0, 1),
+              name=ds.ds_generator.name,
+              legend_label='Expert raters',
+              )
+
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_amateur_curve=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, ds.ds_generator.name)
+
+
 
 def main():
     # generate_and_plot_noise_datasets()
-    generate_and_plot_noisier_amateurs()
-
+    # generate_and_plot_noisier_amateurs()
+    generate_and_plot_running_example()
 
 
 
