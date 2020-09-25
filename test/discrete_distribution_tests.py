@@ -1,24 +1,25 @@
-import numpy as np
-import pandas as pd
 import unittest
 
+import numpy as np
+import pandas as pd
+
 ##TODO: update this to use the generate_labels method; it's no longer a function
-from surveyequivalence import generate_labels, State, DiscreteState, \
-    DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
-    DiscreteDistributionPrediction, \
+from surveyequivalence import generate_labels, DiscreteState, \
+    DiscreteLabelsWithNoise, DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     MockClassifier, NumericPrediction, make_discrete_dataset_1, make_discrete_dataset_2, make_discrete_dataset_3
 
+
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.datasets = self.make_test_datasets()
 
     def make_test_datasets(self):
         self.mock_classifiers = []
         self.item_state_sequences = []
-        num_items_per_dataset = 1000
+        num_items_per_dataset = 100
         num_labels_per_item = 10
         state_generator_1 = \
             DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
@@ -34,22 +35,20 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         item_states_1 = state_generator_1.draw_states(num_items_per_dataset)
         self.item_state_sequences.append(item_states_1)
 
-        dataset_1 = generate_labels.generate_labels(item_states_1, num_labels_per_item)
-        pd.DataFrame(
-                    [state.draw_labels(num_labels_per_item) for state in item_states_1],
-                     columns = ["r{}".format(i) for i in range(1, num_labels_per_item+1)]
-                 )
+        dataset_1 = pd.DataFrame(
+            [state.draw_labels(num_labels_per_item) for state in item_states_1],
+            columns=["r{}".format(i) for i in range(1, num_labels_per_item + 1)]
+        )
 
         self.mock_classifiers.append([
             MockClassifier(name='.95 .2',
-                           label_predictors = {'pos':NumericPrediction([.95, 0.5]), 'neg':.2}
+                           label_predictors={'pos': NumericPrediction([.95, 0.5]), 'neg': .2}
                            )
-                       ,
-            MockClassifier(name='.92 .24',
-                           pos_state_predictor=[.92, .08],
-                           neg_state_predictor=[.24, .76])
+            #,
+            #MockClassifier(name='.92 .24',
+            #               pos_state_predictor=[.92, .08],
+            #               neg_state_predictor=[.24, .76])
         ])
-
 
         state_generator_2 = \
             DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
@@ -63,7 +62,10 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                     )
 
         item_states_2 = state_generator_2.draw_states(num_items_per_dataset)
-        dataset_2 = generate_labels.generate_labels(item_states_2, num_labels_per_item)
+        dataset_2 = pd.DataFrame(
+            [state.draw_labels(num_labels_per_item) for state in item_states_2],
+            columns=["r{}".format(i) for i in range(1, num_labels_per_item + 1)]
+        )
 
         state_generator_3 = \
             DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
@@ -77,7 +79,10 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                                     )
 
         item_states_3 = state_generator_3.draw_states(num_items_per_dataset)
-        dataset_3 = generate_labels.generate_labels(item_states_3, num_labels_per_item)
+        dataset_3 = pd.DataFrame(
+            [state.draw_labels(num_labels_per_item) for state in item_states_3],
+            columns=["r{}".format(i) for i in range(1, num_labels_per_item + 1)]
+        )
 
         # Add a column with the "true" noiseless label
         # dataset_1['true_state'] = [s.state_name for s in item_states_1]
@@ -96,12 +101,15 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         W[7] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
         W[8] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
 
-        res = AnonymousBayesianCombiner().combine(['p','n'], [('x','p'),('x','p'),('x','p'),('x','n'),('x','n'),('x','n'),('x','n')], W, 1)
+        res = AnonymousBayesianCombiner().combine(['p', 'n'],
+                                                  [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
+                                                   ('x', 'n'), ('x', 'n')], W, 1)
         self.assertAlmostEqual(res.probabilities[0], 0.1934, delta=0.001)
 
         res = AnonymousBayesianCombiner().combine(['p', 'n'],
-                                            [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'), ('x', 'n'),
-                                             ('x', 'n')], W, 7)
+                                                  [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
+                                                   ('x', 'n'),
+                                                   ('x', 'n')], W, 7)
 
         self.assertAlmostEqual(res.probabilities[0], 0.21505, delta=0.001)
 
@@ -112,20 +120,19 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertEqual(pred.probabilities[1], 0.6666666666666666)
 
         pred = frequency.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg'), (4, 'neg')]))
-        self.assertEqual(pred.probabilities[0], 0.0)
-        self.assertEqual(pred.probabilities[1], 1.0)
-
+        self.assertAlmostEqual(pred.probabilities[0], 0.0, delta=0.001)
+        self.assertAlmostEqual(pred.probabilities[1], 1.0, delta=0.001)
 
     def test_anonymous_bayesian_combiner(self):
         anonymous_bayesian = AnonymousBayesianCombiner()
-        item_states, data, mock_classifiers = make_discrete_dataset_1()
-        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'neg')]), data.to_numpy())
+        synth_dataset = make_discrete_dataset_1()
+        pred = anonymous_bayesian.combine(['pos', 'neg'], [(1, 'neg'), (2, 'neg')], synth_dataset.dataset.to_numpy())
         self.assertAlmostEqual(pred.probabilities[0], 0.293153527, delta=0.03)
-        self.assertAlmostEqual(pred.probabilities[0]+pred.probabilities[1], 1.0, delta=0.01)
-        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'pos')]), data.to_numpy())
+        self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'neg'), (2, 'pos')]), synth_dataset.dataset)
         self.assertAlmostEqual(pred.probabilities[0], 0.6773972603, delta=0.03)
         self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
-        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'pos')]), data.to_numpy())
+        pred = anonymous_bayesian.combine(['pos', 'neg'], np.array([(1, 'pos'), (2, 'pos')]), synth_dataset.dataset)
         self.assertAlmostEqual(pred.probabilities[0], 0.8876987131, delta=0.03)
         self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
 
@@ -157,17 +164,16 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
 
         ratings1 = [DiscreteState(state_name='',
-                                 labels=[r],
-                                 probabilities=[1],
-                                 num_raters=1)
+                                  labels=[r],
+                                  probabilities=[1],
+                                  num_raters=1)
                     for r in ['b', 'b', 'b']]
 
         ratings2 = [DiscreteState(state_name='',
-                                 labels=[r],
-                                 probabilities=[1],
-                                 num_raters=1)
+                                  labels=[r],
+                                  probabilities=[1],
+                                  num_raters=1)
                     for r in ['a', 'b', 'b']]
-
 
         score = AgreementScore.score(small_dataset, ratings1)
         self.assertAlmostEqual(score, 0.6666666666, places=3)
@@ -175,22 +181,21 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(score, 0.3333333333, places=3)
 
         ratings3 = [DiscreteState(state_name='',
-                                 labels=r,
-                                 probabilities=p,
-                                 num_raters=10)
-                    for r,p in [(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3])] ]
+                                  labels=r,
+                                  probabilities=p,
+                                  num_raters=10)
+                    for r, p in [(['a', 'b'], [.7, .3]), (['a', 'b'], [.7, .3]), (['a', 'b'], [.7, .3])]]
 
         ratings4 = [DiscreteState(state_name='',
-                                 labels=r,
-                                 probabilities=p,
-                                 num_raters=10)
-                    for r,p in [(['a', 'b'], [.3, .7]),(['a', 'b'], [.7, .3]),(['a', 'b'], [.7, .3])] ]
+                                  labels=r,
+                                  probabilities=p,
+                                  num_raters=10)
+                    for r, p in [(['a', 'b'], [.3, .7]), (['a', 'b'], [.7, .3]), (['a', 'b'], [.7, .3])]]
 
         score = AgreementScore.score(small_dataset, ratings3)
         self.assertAlmostEqual(score, 0.433333, places=3)
         score = AgreementScore.score(small_dataset, ratings4)
         self.assertAlmostEqual(score, 0.566666, places=3)
-
 
         score = CrossEntropyScore.score(small_dataset, ratings1)
         self.assertAlmostEqual(score, 0.85782, places=3)
@@ -202,7 +207,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         score = CrossEntropyScore.score(small_dataset, ratings4)
         self.assertAlmostEqual(score, 0.980, places=3)
 
-        #TODO: still have not converted precision and recall to accept DiscreteState
+        # TODO: still have not converted precision and recall to accept DiscreteState
 
         score = PrecisionScore.score(small_dataset, ['b', 'b', 'b'], average='micro')
         self.assertAlmostEqual(score, 0.66666666666, places=3)
@@ -239,28 +244,30 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
     def test_analysis_pipeline(self):
         for dataset in self.datasets:
-            for combiner in [FrequencyCombiner(), AnonymousBayesianCombiner()]:
-                for scorer in [AgreementScore, CrossEntropyScore, PrecisionScore, RecallScore,
-                               AUCScore]:
-                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer(), CrossEntropyScore):
+            for combiner in [AnonymousBayesianCombiner(), FrequencyCombiner()]:
+                for scorer in [CrossEntropyScore(), AgreementScore(), PrecisionScore(), RecallScore(),
+                               AUCScore()]:
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, CrossEntropyScore):
                         print("Cross entropy not well defined for Frequency combiner - no probabilities")
                         continue
-                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer(), AUCScore):
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, AUCScore):
                         print("AUC not well defined for Frequency combiner - no probabilities")
                         continue
 
-                    p = AnalysisPipeline(dataset, combiner, scorer.score, allowable_labels=['pos', 'neg'],
+                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
+                                         allowable_labels=['pos', 'neg'],
                                          null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                         num_runs=2)
+                                         num_pred_samples=12)
+                    cs = p.expert_power_curve.means
 
-                    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-                    results.columns = ['mean', 'ci_width']
+                    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
+                    results.columns = ['mean', 'std']
                     print("*****RESULTS*****")
                     print(combiner, scorer)
                     print(results)
-                    for i in range (15):
-                        thresh = .75 + .01*i
-                        print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
+                    for i in range(15):
+                        thresh = .75 + .01 * i
+                        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
 
 
 if __name__ == '__main__':

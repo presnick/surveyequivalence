@@ -49,48 +49,63 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)[:300]
+    prefer_W = pd.DataFrame(data=prefer_W)[:100]
     # predict_W = pd.DataFrame(data=predict_W)
+
+
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
                          null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
+    results.columns = ['mean', 'ci_width']
+    print("###10 runs, ABC w/ CE")
+    print(results)
+
+    exit()
+
+    for i in range(15):
+        thresh = .65 + .01 * i
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+
+
+    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
     cs = p.expert_power_curve.means
-    print(cs)
-
-    cs = p.expert_power_curve.std
-    print(cs)
-
-    exit(0)
-
-    p = AnalysisPipeline(prefer_W, AnonymousBayesianCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=20,
-                         num_runs=1)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
+    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
     print("###10 runs, ABC w/ F1")
     print(results)
 
+    for i in range(15):
+        thresh = .65 + .01 * i
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
 
-    p = AnalysisPipeline(prefer_W, FrequencyCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=20,
-                         num_runs=1)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
+
+    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=CrossEntropyScore(),
+                         allowable_labels=['p', 'n'],
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ CrossEntropy")
+    print("###10 runs, Freq w/ CE")
     print(results)
 
-    p = AnalysisPipeline(prefer_W, FrequencyCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [1, 0]), max_k=20,
-                         num_runs=1)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
+    for i in range(15):
+        thresh = .65 + .01 * i
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+
+    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+    cs = p.expert_power_curve.means
+    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
     print("###10 runs, Freq w/ F1")
     print(results)
 
-
     for i in range(15):
         thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.power_curve.compute_equivalence(thresh))
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+
+
 
 def wiki_toxicity():
     """

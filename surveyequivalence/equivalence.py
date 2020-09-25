@@ -335,10 +335,9 @@ class AnalysisPipeline:
                 nas = slice_k.notna()
                 if len(slice_k[nas]) == 0:
                     break
-                try:
-                    scores[k] = self.scorer.score(slice_k[nas], pd.Series(ref)[nas])
-                except:
-                    pass
+
+                scores[k] = self.scorer.score(slice_k[nas], pd.Series(ref)[nas])
+
             return scores
 
         def compute_one_run(sample):

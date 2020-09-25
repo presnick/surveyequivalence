@@ -141,7 +141,8 @@ class FrequencyCombiner(Combiner):
             # TODO: loop through items in W
             # for each, loop through all labels
             for label in np.nditer(W, flags=['refs_ok']):
-                freqs[str(label)] += 1
+                if label in allowable_labels:
+                    freqs[str(label)] += 1
 
         tot = sum(freqs.values())
         return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])

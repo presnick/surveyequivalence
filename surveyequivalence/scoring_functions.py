@@ -71,21 +71,12 @@ class AgreementScore(Scorer):
         sum = 0
         count = 0
 
-        if len(set([ld.num_raters for ld in rater_labels])) == 1:
-            # all sets of reference raters have same length, so probabilities can be turned into integers and we
-            # can sample each reference rater exactly once, avoiding some noise from random sampling
-            for pred, label_dist in zip(classifier_predictions, rater_labels):
-                for label, pr in zip(label_dist.labels, label_dist.probabilities):
-                    assert isclose(pr * label_dist.num_raters, int(pr * label_dist.num_raters), abs_tol=.0001)
-                    # compute weighted mean average
-                    if pred.value == label:
-                        sum += pr
-                count += 1
-            return sum / count
-        else:
-            # sample 1000 times from each rater_labels distribution
-            print("unequal numbers of reference raters; not implemented")
-            raise NotImplementedError
+        for pred, label in zip(classifier_predictions, rater_labels):
+            # compute weighted mean average
+            if pred.value == label:
+                sum += pred.value_prob
+            count += 1
+        return sum / count
 
 
 class CrossEntropyScore(Scorer):
@@ -109,7 +100,10 @@ class CrossEntropyScore(Scorer):
         assert len(classifier_predictions) == len(rater_labels)
 
         def item_score(pred, label):
-            return log2(pred.label_probability(label))
+            if pred.value == label:
+                return -log2(pred.label_probability(label))
+            else:
+                return -(log2(1-pred.label_probability(label)))
 
         # compute mean score over all items
         tot_score = sum([item_score(pred, label) for (pred, label) in \
