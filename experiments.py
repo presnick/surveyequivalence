@@ -34,6 +34,7 @@ def guessthekarma():
             pass
             # print(rater_opinion)
 
+
         rater_prediction = rating['prediction_choice']
         if rater_prediction == 'A':
             predict_W[rater_id, item_id] = 'p'

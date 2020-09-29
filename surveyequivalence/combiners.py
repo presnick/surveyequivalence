@@ -186,7 +186,7 @@ class AnonymousBayesianCombiner(Combiner):
         for label in [l[1] for l in labels]:
             freqs[label] += 1
         m = np.array([freqs[i] for i in freqs.keys()])
-        k = sum(m)
+        k = sum(m)+1 # +1 because we're adding a reference rater
 
         for label_idx in range(0,number_of_labels):
             expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
@@ -215,7 +215,7 @@ class AnonymousBayesianCombiner(Combiner):
                 product = 1
                 for idx in range(0, len(allowable_labels)):
                     product = product * factorial(m[idx]+one_hot_label[idx])
-                coef = product / factorial(k)
+                coef = product / factorial(k+1) # +1 because we expand labels by 1
 
                 v = overall_joint_dist_onehot * num_items / coef - i_v_onehot
                 # In this case, there are not enough raters to construct a joint distribution for k,
