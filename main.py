@@ -1,10 +1,8 @@
 import os
-import numpy as np
-import pandas as pd
-import unittest
-from matplotlib import pyplot as plt
-import matplotlib
 from datetime import datetime
+
+import pandas as pd
+from matplotlib import pyplot as plt
 
 from surveyequivalence import State, DiscreteState, \
     DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
@@ -17,6 +15,7 @@ def save_plot(fig, name):
     if not os.path.isdir('plots'):
         os.mkdir('plots')
     fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+
 
 def generate_and_plot_noise_datasets():
     scorer = CrossEntropyScore
@@ -61,8 +60,9 @@ def generate_and_plot_noise_datasets():
         pl.add_state_distribution_inset(ds.ds_generator)
         pl.save_plot()
 
+
 def generate_and_plot_noisier_amateurs():
-    scorer = CrossEntropyScore
+    scorer = CrossEntropyScore()
     combiner = AnonymousBayesianCombiner()
 
     color_map = {
@@ -144,7 +144,7 @@ def generate_and_plot_running_example():
                                 expert_cols=list(ds.dataset.columns),
                                 classifier_predictions=ds.classifier_predictions,
                                 combiner=combiner,
-                                scoring_function=scorer.score,
+                                scorer=scorer,
                                 allowable_labels=['pos', 'neg'],
                                 num_pred_samples=20,
                                 num_item_samples=100)
@@ -187,7 +187,7 @@ def generate_and_plot_running_example():
                                 expert_cols=list(ds2.dataset.columns),
                                 # classifier_predictions=ds2.classifier_predictions,
                                 combiner=combiner2,
-                                scoring_function=scorer2.score,
+                                scorer=scorer2,
                                 allowable_labels=['pos', 'neg'],
                                 num_pred_samples=400,
                                 num_item_samples=1000)
@@ -221,8 +221,6 @@ def main():
     # generate_and_plot_noise_datasets()
     # generate_and_plot_noisier_amateurs()
     generate_and_plot_running_example()
-
-
 
 if __name__ == '__main__':
     main()

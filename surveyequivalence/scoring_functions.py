@@ -11,6 +11,7 @@ from surveyequivalence import DiscreteState
 from math import isclose, log2
 import numbers
 
+
 class Scorer(ABC):
     @abstractmethod
     def __init__(self):
@@ -19,14 +20,15 @@ class Scorer(ABC):
     @staticmethod
     @abstractmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-                    rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
+              rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
+
 
 class Correlation(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[NumericPrediction],
-                        rater_labels: Sequence[str],
+              rater_labels: Sequence[str],
               verbosity=0):
         """
         :param classifier_predictions: numeric values
@@ -52,7 +54,8 @@ class Correlation(Scorer):
                   if pred and label])
 
         # [convert_to_number(l) for l in rater_labels]
-        return np.corrcoef(non_null_preds, non_null_labels)[1,0]
+        return np.corrcoef(non_null_preds, non_null_labels)[1, 0]
+
 
 class AgreementScore(Scorer):
     def __init__(self):
@@ -70,6 +73,7 @@ class AgreementScore(Scorer):
                len(classifier_predictions)
 
         return tot_score
+
 
 class CrossEntropyScore(Scorer):
     def __init__(self):
@@ -96,8 +100,8 @@ class CrossEntropyScore(Scorer):
 
         # compute mean score over all items
         tot_score = sum([item_score(pred, label) for (pred, label) in \
-                    zip(classifier_predictions, rater_labels)]) / \
-               len(classifier_predictions)
+                         zip(classifier_predictions, rater_labels)]) / \
+                    len(classifier_predictions)
 
         return tot_score
 
@@ -184,4 +188,5 @@ class AUCScore(Scorer):
         if len(set(rater_labels)) == 2:
             return roc_auc_score(rater_labels, [p.value_prob for p in classifier_predictions])
         if len(set(rater_labels)) > 2:
-            return roc_auc_score(rater_labels, [p.probabilities for p in classifier_predictions], multi_class='ovr', labels=classifier_predictions[0].label_names)
+            return roc_auc_score(rater_labels, [p.probabilities for p in classifier_predictions], multi_class='ovr',
+                                 labels=classifier_predictions[0].label_names)
