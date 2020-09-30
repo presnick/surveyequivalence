@@ -149,6 +149,7 @@ def generate_and_plot_running_example():
                                 num_pred_samples=20,
                                 num_item_samples=100)
 
+    pipeline.output_csv('plots/small_running_dataset.csv')
     cs = pipeline.classifier_scores
     print("----classifier scores-----")
     print(cs.means)
@@ -164,8 +165,8 @@ def generate_and_plot_running_example():
               color_map=color_map,
               y_axis_label='percent agreement with reference rater',
               y_range=(0, 1),
-              name=ds.ds_generator.name,
-              legend_label='Expert raters',
+              name='running example: majority vote + agreement score',
+              legend_label='k raters',
               )
 
     pl.plot(include_classifiers=True,
@@ -173,12 +174,47 @@ def generate_and_plot_running_example():
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_amateur_curve=True,
             include_classifier_cis=False
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
     save_plot(fig, ds.ds_generator.name)
 
+    scorer2 = CrossEntropyScore
+    combiner2 = AnonymousBayesianCombiner()
+
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000)
+    pipeline2 = AnalysisPipeline(ds.dataset,
+                                expert_cols=list(ds2.dataset.columns),
+                                # classifier_predictions=ds2.classifier_predictions,
+                                combiner=combiner2,
+                                scoring_function=scorer2.score,
+                                allowable_labels=['pos', 'neg'],
+                                num_pred_samples=400,
+                                num_item_samples=1000)
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              pipeline2.expert_power_curve,
+              # classifier_scores=pipeline2.classifier_scores,
+              color_map=color_map,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, 0.6),
+              name='running example: ABC + cross_entropy',
+              legend_label='k raters',
+              )
+
+    pl.plot(include_classifiers=False,
+            include_classifier_equivalences=False,
+            include_droplines=False,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, 'running example: ABC + cross_entropy')
 
 
 def main():

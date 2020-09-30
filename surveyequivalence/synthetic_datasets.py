@@ -1,4 +1,5 @@
-from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscreteDistributionPrediction, FixedStateGenerator
+from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscreteDistributionPrediction, \
+    FixedStateGenerator, DiscreteDistributionOverStates
 from typing import Sequence, Dict
 import numpy as np
 import pandas as pd

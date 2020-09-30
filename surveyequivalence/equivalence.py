@@ -146,6 +146,9 @@ class AnalysisPipeline:
         else:
             print("no amateur power curve")
 
+    def output_csv(self, fname):
+        # output the dataframe and the expert predictions
+        pd.concat([self.classifier_predictions, self.W], axis=1).to_csv(fname)
 
     def enumerate_ref_raters(self):
         samples = {}

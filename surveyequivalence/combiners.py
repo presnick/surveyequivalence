@@ -257,7 +257,7 @@ class AnonymousBayesianCombiner(Combiner):
             holdout_joint_dist_m = v * coef / (num_items - 1)
 
         if overall_joint_dist_m == 0:
-            print()
+            print(f"about to divide by 0 with k = {k}, labels:\n{labels}")
 
         prediction = prediction / holdout_joint_dist_m
         # TODO check that prediction is valid
