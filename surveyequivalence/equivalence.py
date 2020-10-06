@@ -78,8 +78,8 @@ class AnalysisPipeline:
     def __init__(self,
                  W: pd.DataFrame,
                  sparse_experts=True,
-                 expert_cols: Sequence[str] = None,
-                 amateur_cols: Sequence[str] = None,
+                 expert_cols: Sequence[str] = [],
+                 amateur_cols: Sequence[str] = [],
                  classifier_predictions: pd.DataFrame = None,
                  combiner: Combiner = None,
                  scorer: Scorer = None,
@@ -146,6 +146,10 @@ class AnalysisPipeline:
                                                                 )
         else:
             print("no amateur power curve")
+
+    def output_csv(self, fname):
+        # output the dataframe and the expert predictions
+        pd.concat([self.classifier_predictions, self.W], axis=1).to_csv(fname)
 
     def enumerate_ref_raters(self):
         samples = {}
@@ -493,6 +497,7 @@ class Plot:
              include_classifier_amateur_equivalences=False,
              include_droplines=True,
              include_amateur_curve=True,
+             include_classifier_cis=True,
              amateur_equivalences=[]):
 
         ax = self.ax
@@ -531,10 +536,9 @@ class Plot:
                                          classifier_name,
                                          self.possibly_center_score(score),
                                          color,
-                                         ci=(self.possibly_center_score(
-                                             self.classifier_scores.lower_bounds[classifier_name]),
-                                             self.possibly_center_score(
-                                                 self.classifier_scores.upper_bounds[classifier_name])))
+                                         ci=(self.possibly_center_score(self.classifier_scores.lower_bounds[classifier_name]),
+                                             self.possibly_center_score(self.classifier_scores.upper_bounds[classifier_name])) \
+                                             if include_classifier_cis else None)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
                                                       self.expert_power_curve.compute_equivalence(score),

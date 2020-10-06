@@ -62,22 +62,18 @@ class AgreementScore(Scorer):
         super().__init__()
 
     @staticmethod
-    def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[DiscreteState]):
-        """
-        Resolve predictions to identify the most likely single label;
-        Return the fraction where predicted matches actual
-        """
-        sum = 0
-        count = 0
 
-        for pred, label in zip(classifier_predictions, rater_labels):
-            # compute weighted mean average
-            if pred.value == label:
-                sum += pred.value_prob
-            count += 1
-        return sum / count
+    def score(classifier_predictions: Sequence[str],
+                        rater_labels: Sequence[str],
+              verbosity=0):
 
+        assert len(classifier_predictions) == len(rater_labels)
+
+        tot_score = sum([pred == label for (pred, label) in \
+                        zip(classifier_predictions, rater_labels)]) / \
+               len(classifier_predictions)
+
+        return tot_score
 
 class CrossEntropyScore(Scorer):
     def __init__(self):

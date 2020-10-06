@@ -4,11 +4,12 @@ from datetime import datetime
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from surveyequivalence import DiscreteDistributionPrediction, \
-    AnonymousBayesianCombiner, \
-    AnalysisPipeline, CrossEntropyScore, \
-    Plot, make_discrete_dataset_1, make_perceive_with_noise_datasets
-
+from surveyequivalence import State, DiscreteState, \
+    DistributionOverStates, DiscreteLabelsWithNoise, MixtureOfBetas, \
+    DiscreteDistributionPrediction, \
+    FrequencyCombiner, PluralityVote, AnonymousBayesianCombiner, \
+    AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
+    Plot, make_discrete_dataset_1, make_running_example_dataset, make_perceive_with_noise_datasets, Correlation
 
 def save_plot(fig, name):
     if not os.path.isdir('plots'):
@@ -70,19 +71,20 @@ def generate_and_plot_noisier_amateurs():
         'h_infinity: ideal classifier': 'red'
     }
 
-    ds = make_discrete_dataset_1(num_items_per_dataset=200)
+    ds = make_discrete_dataset_1(num_items_per_dataset=50)
 
     # combine the two dataframes
 
     pipeline = AnalysisPipeline(pd.concat([ds.dataset, ds.amateur_dataset], axis=1),
-                                expert_cols=list(ds.dataset.columns),
-                                amateur_cols=list(ds.amateur_dataset.columns),
-                                classifier_predictions=ds.classifier_predictions,
-                                combiner=combiner,
-                                scorer=scorer,
-                                allowable_labels=['pos', 'neg'],
-                                num_pred_samples=5,  # Why is this ever more than 1?
-                                num_item_samples=1000)
+                                       expert_cols=list(ds.dataset.columns),
+                                       amateur_cols=list(ds.amateur_dataset.columns),
+                                       classifier_predictions = ds.classifier_predictions,
+                                       combiner=combiner,
+                                       scoring_function=scorer.score,
+                                       allowable_labels=['pos', 'neg'],
+                                       # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
+                                       num_pred_samples=20,
+                                       num_item_samples=10)
 
     cs = pipeline.classifier_scores
 
@@ -121,11 +123,104 @@ def generate_and_plot_noisier_amateurs():
     # pl.add_state_distribution_inset(ds.ds_generator)
     save_plot(fig, ds.ds_generator.name)
 
+def generate_and_plot_running_example():
+    scorer = AgreementScore
+    combiner = PluralityVote()
+
+    color_map = {
+        'expert_power_curve': 'black',
+        'R_h: classifier': 'red'
+    }
+
+    ds = make_running_example_dataset(minimal=True)
+
+    print(ds.dataset)
+    print("---------")
+    print(ds.classifier_predictions)
+    print("---------")
+    print(ds.ds_generator.expert_item_states)
+
+    pipeline = AnalysisPipeline(ds.dataset,
+                                expert_cols=list(ds.dataset.columns),
+                                classifier_predictions=ds.classifier_predictions,
+                                combiner=combiner,
+                                scorer=scorer,
+                                allowable_labels=['pos', 'neg'],
+                                num_pred_samples=20,
+                                num_item_samples=100)
+
+    pipeline.output_csv('plots/small_running_dataset.csv')
+    cs = pipeline.classifier_scores
+    print("----classifier scores-----")
+    print(cs.means)
+    print("----power curve means-----")
+    print(pipeline.expert_power_curve.means)
+    fig, ax = plt.subplots()
+
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              pipeline.expert_power_curve,
+              classifier_scores=pipeline.classifier_scores,
+              color_map=color_map,
+              y_axis_label='percent agreement with reference rater',
+              y_range=(0, 1),
+              name='running example: majority vote + agreement score',
+              legend_label='k raters',
+              )
+
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, ds.ds_generator.name)
+
+    scorer2 = CrossEntropyScore
+    combiner2 = AnonymousBayesianCombiner()
+
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000)
+    pipeline2 = AnalysisPipeline(ds.dataset,
+                                expert_cols=list(ds2.dataset.columns),
+                                # classifier_predictions=ds2.classifier_predictions,
+                                combiner=combiner2,
+                                scorer=scorer2,
+                                allowable_labels=['pos', 'neg'],
+                                num_pred_samples=400,
+                                num_item_samples=1000)
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              pipeline2.expert_power_curve,
+              # classifier_scores=pipeline2.classifier_scores,
+              color_map=color_map,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, 0.6),
+              name='running example: ABC + cross_entropy',
+              legend_label='k raters',
+              )
+
+    pl.plot(include_classifiers=False,
+            include_classifier_equivalences=False,
+            include_droplines=False,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, 'running example: ABC + cross_entropy')
+
 
 def main():
     # generate_and_plot_noise_datasets()
-    generate_and_plot_noisier_amateurs()
-
+    # generate_and_plot_noisier_amateurs()
+    generate_and_plot_running_example()
 
 if __name__ == '__main__':
     main()
