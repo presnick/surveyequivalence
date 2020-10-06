@@ -96,10 +96,11 @@ class CrossEntropyScore(Scorer):
         assert len(classifier_predictions) == len(rater_labels)
 
         def item_score(pred, label):
-            if pred.value == label:
-                return log2(pred.label_probability(label))
-            else:
-                return (log2(1-pred.label_probability(label)))
+            return log2(pred.label_probability(label))
+            # if pred.value == label:
+            #     return log2(pred.label_probability(label))
+            # else:
+            #     return (log2(1-pred.label_probability(label)))
 
         # compute mean score over all items
         tot_score = sum([item_score(pred, label) for (pred, label) in \
