@@ -1,7 +1,7 @@
 import math
 import random
 from itertools import combinations
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Tuple
 
 import matplotlib
 import numpy as np
@@ -17,23 +17,18 @@ N = 1000
 
 class ClassifierResults:
     def __init__(self,
-                 runs_actual: Sequence[Dict[int, float]],
-                 runs_bootstrap: Sequence[Dict[int, float]]):
-        """each run will be one dictionary with scores at different k
+                 runs: Sequence[Dict]):
         """
-        self.actual_df = pd.DataFrame(runs_actual)
-        self.bootstrap_df = pd.DataFrame(runs_bootstrap)
+        each run will be one dictionary with scores at different k or scores of different classifiers
+        """
+        self.df = pd.DataFrame(runs)
         self.compute_means_and_cis()
 
     def compute_means_and_cis(self):
-        self.means = self.actual_df.mean()
-        self.std = self.actual_df.std()
-        bootstrap_std = self.bootstrap_df.std()
-        bootstrap_means = self.bootstrap_df.mean()
-        self.bootstrap_means = bootstrap_means
-        self.bootstrap_std = bootstrap_std
-        self.lower_bounds = bootstrap_means - bootstrap_std
-        self.upper_bounds = bootstrap_means + bootstrap_std
+        self.means = self.df.mean()
+        self.stds = self.df.std()
+        self.lower_bounds = self.means - 2*self.stds
+        self.upper_bounds = self.means + 2*self.stds
 
     @property
     def max_value(self):
@@ -45,21 +40,39 @@ class ClassifierResults:
 
 
 class PowerCurve(ClassifierResults):
-    def compute_equivalence(self, classifier_score: int):
+    def compute_equivalences(self, classifier_scores: ClassifierResults):
         """
-        :param classifier_score:
+        :param classifier_scores: use dataframe of results for the different bootstrap runs
         :return: number of raters s.t. expected score == classifier_score
         """
+
+        run_results = list()
+        for run_idx, row in self.df.iterrows():
+            run_equivalences = dict()
+            classifier_run = classifier_scores.df.iloc[run_idx]
+            for h in classifier_scores.df.columns:
+                run_equivalences[h] = self.compute_one_equivalence(classifier_run.loc[h],
+                                                                   row.to_dict())
+            run_results.append(run_equivalences)
+        return pd.DataFrame(run_results)
+
+    def compute_equivalence_at_mean(self, classifier_score):
         means = self.means.to_dict()
-        better_ks = [k for (k, v) in means.items() if v > classifier_score]
+        return self.compute_one_equivalence(classifier_score, means)
+
+    @staticmethod
+    def compute_one_equivalence(classifier_score, k_powers: Dict):
+        better_ks = [k for (k, v) in k_powers.items() if v > classifier_score]
         first_better_k = min(better_ks, default=0)
         if len(better_ks) == 0:
-            return f">{max([k for (k, v) in means.items()])}"
-        elif first_better_k - 1 in means:
-            dist_to_prev = means[first_better_k] - means[first_better_k - 1]
-            y_dist = means[first_better_k] - classifier_score
+            return max([k for (k, v) in k_powers.items()])
+            return f">{max([k for (k, v) in k_powers.items()])}"
+        elif first_better_k - 1 in k_powers:
+            dist_to_prev = k_powers[first_better_k] - k_powers[first_better_k - 1]
+            y_dist = k_powers[first_better_k] - classifier_score
             return first_better_k - (y_dist / dist_to_prev)
         else:
+            return 0
             return f"<{first_better_k}"
 
 
@@ -86,9 +99,9 @@ class AnalysisPipeline:
                  allowable_labels: Sequence[str] = None,
                  null_prediction: Prediction = None,
                  min_k=0,
-                 num_pred_samples=100,
-                 num_item_samples=100,
-                 same_ref_rater_all_items=False,
+                 num_bootstrap_item_samples=100,
+                 max_rater_subsets=200,
+                 max_K=10,
                  verbosity=1
                  ):
         if expert_cols:
@@ -107,256 +120,177 @@ class AnalysisPipeline:
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
         self.min_k = min_k
-        self.num_pred_samples = num_pred_samples
-        self.num_item_samples = num_item_samples
-        self.same_ref_rater_all_items = same_ref_rater_all_items
+        self.num_bootstrap_item_samples = num_bootstrap_item_samples
         self.verbosity = verbosity
 
-        self.label_pred_samples = self.enumerate_ref_raters()
-
-        self.bootstrap_item_samples = self.generate_item_samples(self.num_item_samples,
-                                                                 bootstrap=True,
-                                                                 same_ref_rater_all_items=same_ref_rater_all_items)
-        self.actual_item_samples = self.generate_item_samples(self.num_item_samples,
-                                                              bootstrap=False,
-                                                              same_ref_rater_all_items=same_ref_rater_all_items)
+        self.item_samples = self.generate_item_samples(self.num_bootstrap_item_samples)
 
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
 
-        self.add_pred_samples(self.expert_cols, min_k,
-                              max_k=len(self.expert_cols) - 1,
-                              source_name="expert",
-                              num_samples=self.num_pred_samples,
-                              sparse=self.sparse_experts,
-                              exclude_ref_rater=True)
-
-        self.expert_power_curve = self.compute_power_curve(max_k=len(self.expert_cols) - 1)
+        self.expert_power_curve = self.compute_power_curve(
+            raters=expert_cols,
+            ref_raters=expert_cols,
+            min_k=min_k,
+            max_k=min(max_K, len(self.expert_cols)) - 1,
+            max_rater_subsets=max_rater_subsets)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
-            self.add_pred_samples(self.amateur_cols, min_k,
-                                  max_k=len(self.amateur_cols),
-                                  source_name="amateur",
-                                  num_samples=self.num_pred_samples,
-                                  sparse=False,
-                                  exclude_ref_rater=False)
-            print("adding amateur_power_curve")
-            self.amateur_power_curve = self.compute_power_curve(max_k=len(self.amateur_cols),
-                                                                source_name="amateur"
-                                                                )
-        else:
-            print("no amateur power curve")
+            self.amateur_power_curve = self.compute_power_curve(
+                raters=amateur_cols,
+                ref_raters=expert_cols,
+                min_k=min_k,
+                max_k=min(max_K, len(self.amateur_cols)) - 1,
+                max_rater_subsets=max_rater_subsets)
 
     def output_csv(self, fname):
         # output the dataframe and the expert predictions
         pd.concat([self.classifier_predictions, self.W], axis=1).to_csv(fname)
 
-    def enumerate_ref_raters(self):
-        samples = {}
-        for index, item in self.W.iterrows():
-            samples[index] = {}
-            reference_raters = item[self.expert_cols].dropna()
-            reference_raters = reference_raters[reference_raters != '']
-            for ref_rater, label in reference_raters.items():
-                samples[index][ref_rater] = {'label': label}
-        return samples
+    def generate_item_samples(self, num_bootstrap_item_samples=0):
 
-    def generate_item_samples(self, num_samples=1, bootstrap=False, same_ref_rater_all_items=True):
-        # each set of items has associated ref. raters
-        # that way all predictors for a set of items will be compared to the same set of reference raters,
-        # eliminating one source of noise in the comparisons.
+        def generate_item_sample():
+            return self.W.sample(len(self.W), replace=True).index
 
-        def pick_ref_rater(item_index):
-            item_d = self.label_pred_samples[item_index]
-            if len(item_d) > 0:
-                return random.choice(list(item_d.keys()))
-            else:
-                return None
-
-        def generate_item_sample(bootstrap):
-            if bootstrap:
-                items = self.W.sample(len(self.W), replace=True).index
-            else:
-                # use the exact items, no resampling
-                items = self.W.index
-
-            if same_ref_rater_all_items:
-                # pick reference rater from those available for first item
-                # that has at least one reference rater
-                for item in items:
-                    single_ref_rater = pick_ref_rater(item)
-                    if single_ref_rater:
-                        break
-
-                # omit items not rated by reference rater
-                return [(item_index, single_ref_rater) \
-                        for item_index in items \
-                        if single_ref_rater in self.label_pred_samples[item_index]]
-            else:
-                # pick an available ref. rater for each item
-                # omit the item if there are no possible reference raters
-                return [y for y in ((item_index, pick_ref_rater(item_index)) for item_index in items) if y[1]]
-
-        return [generate_item_sample(bootstrap=bootstrap) for _ in range(num_samples)]
-
-    def add_pred_samples(self, col_names, min_k, max_k, source_name="expert", num_samples=100,
-                         sparse=False, exclude_ref_rater=True):
-
-        if self.verbosity >= 2:
-            print(
-                f"add_pred_samples: {col_names}, min_k = {min_k} max_k={max_k}, {source_name}, exclude_ref_rater={exclude_ref_rater}")
-
-        def sample_raters(available_raters, k):
-            selected_raters = available_raters.sample(k)
-            if not sparse:
-                # raters supposed to have rated every item, but might have missed a few
-                # they still count as one of the k raters, but ignore them for this item
-                selected_raters = selected_raters.dropna()
-            return selected_raters
-
-        def make_prediction(rating_tups):
-            # compute the prediction for the selected raters
-            return self.combiner.combine(self.allowable_labels, rating_tups, self.W_as_array,
-                                         to_predict_for=ref_rater, item_id=index)
-
-        def generate_sample(available_raters, k):
-            if len(available_raters) < k:
-                if self.verbosity >= 2:
-                    print(f"\t\tskipping item {index} for k={k}: not enough raters available")
-                return None
-
-            # no need to generate samples if the number of combinations is less than n_choose_r(num_raters, k)
-            num_comb = min(num_samples, scipy.special.comb(len(available_raters), k))
-            samples = list()
-            if num_comb < num_samples:
-                for x in list(combinations(zip(available_raters.index, available_raters),k)):
-                    x = [s for s in x if s]
-                    samples.append(make_prediction(x))
-            else:
-                for _ in range(num_samples):
-                    selected_raters = sample_raters(available_raters, k)
-                    rating_tups = list(zip(selected_raters.index, selected_raters))
-                    samples.append(make_prediction(rating_tups))
-            # if not enough raters to make a prediction, then omit
-            return [s for s in samples if s]
-
-        for index, item in self.W.iterrows():
-            print(index,)
-            ###TODO: error checks for not enough raters
-            for ref_rater in self.label_pred_samples[index]:
-                available_raters = item[col_names]
-                if sparse:
-                    # always get k raters who labeled the item, rather than any k
-                    available_raters = available_raters.dropna()
-                    available_raters = available_raters[available_raters != '']
-                if exclude_ref_rater:
-                    available_raters = available_raters.drop(ref_rater)
-
-                for k in range(min_k, max_k + 1):
-                    if k <= len(available_raters):
-                        if k not in self.label_pred_samples[index][ref_rater]:
-                            self.label_pred_samples[index][ref_rater][k] = {}
-                        if source_name not in self.label_pred_samples[index][ref_rater][k]:
-                            self.label_pred_samples[index][ref_rater][k][source_name] = []
-                        self.label_pred_samples[index][ref_rater][k][source_name] += \
-                            generate_sample(available_raters, k)
-                    else:
-                        break
+        ## return the actual item sample, plus specified number of bootstrap samples
+        return [self.W.index] + [generate_item_sample() for _ in range(num_bootstrap_item_samples)]
 
     def compute_classifier_scores(self):
         if self.verbosity > 0:
             print(f"starting classifiers: computing scores")
 
-        def compute_scores(predictions_df):
-            return {col_name: self.scorer.score(predictions_df[col_name],
-                                                    predictions_df['ref_label'],
-                                                    self.verbosity) \
+        def compute_scores(predictions_df, ref_labels_df):
+            return {col_name: self.scorer.score_classifier(predictions_df[col_name],
+                                                self.expert_cols,
+                                                ref_labels_df) \
                     for col_name in self.classifier_predictions.columns}
 
-        def compute_one_run(sample):
-            idxs = [item_index for (item_index, ref_rater) in sample]
-            ref_labels = pd.Series(
-                [self.label_pred_samples[item_index][ref_rater]['label'] for (item_index, ref_rater) in sample],
-                name='ref_label').reset_index()
-            # items may not be the same items from self.classifier_predictions; look up prediction for the right item
+        def compute_one_run(idxs):
             predictions_df = self.classifier_predictions.loc[idxs, :].reset_index()
-            return compute_scores(pd.concat([ref_labels, predictions_df], axis=1))
+            ref_labels_df = self.W.loc[idxs, :].reset_index()
+            return compute_scores(predictions_df, ref_labels_df)
 
         ## Each item sample is one run
+        ## TODO: self.item_samples should just be sets of items, without matched reference raters
+        run_results = [compute_one_run(idxs) for idxs in self.item_samples]
+        return ClassifierResults(run_results)
 
-        ## means of scores for non-bootstrap item samples (with different ref. raters) is the overall score
-        run_results_actual = [compute_one_run(sample) for sample in self.actual_item_samples]
-
-        ## cis computed from distribution of scores for bootstrap item samples
-        run_results_bootstrap = [compute_one_run(sample) for sample in self.bootstrap_item_samples]
-
-        return ClassifierResults(run_results_actual, run_results_bootstrap)
-
-    def compute_power_curve(self, max_k, source_name="expert"):
-
-        min_k = self.min_k
+    def compute_power_curve(self, raters, ref_raters, min_k, max_k, max_rater_subsets=200):
+        ref_raters = set(ref_raters)
 
         if self.verbosity > 0:
-            print(f"starting {source_name} power curve: computing scores")
+            print(f"\nstarting power curve: computing scores for {raters} with ref_raters {ref_raters}")
 
-        def one_item_all_ks(item_index, ref_rater):
+        def comb(n, k):
+            return math.factorial(n) / (math.factorial(k) * math.factorial(n-k))
 
-            def pick(item_d, ref_rater, k, source_name):
-                try:
-                    options = self.label_pred_samples[item_index][ref_rater][k][source_name]
-                    return random.choice(options)
-                except:
-                    print(f"skipping item={item_index}; ref_rater={ref_rater}; k={k}; source_name={source_name}")
-                    return None
-
-            # pick one prediction at random from the available prediction set for each k
-            predictions = list()
-            for k in range(min_k, max_k+1):
-                if k in self.label_pred_samples[item_index][ref_rater]:
-                    predictions.append(pick(self.label_pred_samples[item_index], ref_rater, k, source_name))
+        def rater_subsets(raters, k, max_subsets):
+            K = len(raters)
+            if comb(K, k) > max_subsets:
+                if comb(K, k) > 5 * max_subsets:
+                    ## repeatedly grab a random subset and throw it away if it's a duplicate
+                    subsets = list()
+                    for idx in range(max_subsets):
+                        while True:
+                            subset = tuple(np.random.choice(raters, k, replace=False))
+                            if subset not in subsets:
+                                subsets.append(subset)
+                                break
+                            print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
+                    return subsets
                 else:
-                    break
+                    ## just enumerate all the subsets and take a sample of max_subsets of them
+                    all_k_subsets = list(combinations(raters, k))
+                    selected_idxs = np.random.choice(len(all_k_subsets), max_subsets)
+                    return [subset for idx, subset in enumerate(all_k_subsets) if idx in selected_idxs]
+            else:
+                return list(combinations(raters, k))
 
-            ref_label = self.label_pred_samples[item_index][ref_rater]['label']
-            return [ref_label] + predictions
+        def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[str, ...]]]:
+            """
+            :param raters: sequence of strings
+            :param min_k:
+            :param max_k:
+            :param max_subsets: integer
+            :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k
+            """
+            retval = dict()
+            for k in range(min_k, max_k+1):
+                if self.verbosity > 1:
+                    print(f"generate_subsets, raters={raters}, k={k}")
+                retval[k] = rater_subsets(raters, k, max_subsets)
+            return retval
 
-        def compute_scores(predictions):
-            slice = dict()
-            ref = list()
-            for item in predictions:
-                ref.append(item[0])
-            for k in range(min_k, max_k + 1):
-                for item in predictions:
-                    if k not in slice: slice[k] = list()
-                    if k+1 < len(item):
-                        slice[k].append(item[k+1])
+        def generate_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+            if self.verbosity > 0:
+                print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
+            predictions = dict()
+            item_count = 0
+            # default prediction with no raters
+            default_prediction = self.combiner.combine(
+                allowable_labels=self.combiner.allowable_labels,
+                labels=[])
+            ## iterate through rows, accumulating predictions for that item
+            for idx, row in W.iterrows():
+                if self.verbosity > 1:
+                    item_count += 1
+                    if item_count % 10 == 0:
+                        print(item_count, flush=True, end='')
                     else:
-                        slice[k].append(None)
+                        print(f".", end='', flush=True)
 
-            scores = dict()
-            for i, k in enumerate(slice):
-                slice_k = pd.Series(slice[k])
-                nas = slice_k.notna()
-                if len(slice_k[nas]) == 0:
-                    break
+                # special case with no raters: default prediction
+                predictions[idx] = {tuple(): default_prediction}
+                # now get predictions for all non-empty ratersets
+                for k in ratersets:
+                    if k > 0:
+                        for rater_tup in ratersets[k]:
+                            label_vals = row.loc[list(rater_tup)]
+                            predictions[idx][rater_tup] = self.combiner.combine(
+                                allowable_labels=self.combiner.allowable_labels,
+                                labels=list(zip(rater_tup, label_vals)))
 
-                scores[k] = self.scorer.score(slice_k[nas], pd.Series(ref)[nas])
+            return predictions
 
-            return scores
+        def compute_one_run(W, idxs, ratersets, predictions, call_count=[0]):
+            if self.verbosity > 1:
+                call_count[0] += 1
+                if call_count[0] % 10 == 0:
+                    print(call_count[0], flush=True, end='')
+                else:
+                    print(f".", end='', flush=True)
+            ref_labels_df = W.loc[idxs, :].reset_index()
+            power_levels = dict()
+            for k in range(min_k, max_k+1):
+                if self.verbosity > 2:
+                    print(f"compute_one_run, k={k}")
+                scores = []
+                for raterset in ratersets[k]:
+                    preds = [predictions[idx][raterset] for idx in idxs]
+                    unused_raters = ref_raters - set(raterset)
+                    score = self.scorer.score_classifier(
+                        preds,
+                        unused_raters,
+                        ref_labels_df)
+                    if score:
+                        scores.append(score)
+                if len(scores) > 0:
+                    power_levels[k] = sum(scores) / len(scores)
+                else:
+                    power_levels[k] = None
+            return power_levels
 
-        def compute_one_run(sample):
-            predictions = [one_item_all_ks(item_index, ref_rater) for (item_index, ref_rater) in sample]
-            return compute_scores(predictions)
+        ## generate rater samples
+        ratersets = generate_rater_subsets(raters, min_k, max_k, max_rater_subsets)
+
+        ## generate predictions
+        predictions = generate_predictions(self.W, ratersets)
 
         ## Each item sample is one run
-
-        ## mean of scores for non-bootstrap samples (with different ref raters) is the power at each k
-        run_results_actual = [compute_one_run(sample) for sample in self.actual_item_samples]
-
-        ## cis computed from distribution of scores for bootstrap samples
-        run_results_bootstrap = [compute_one_run(sample) for sample in self.bootstrap_item_samples]
-
-        return PowerCurve(run_results_actual, run_results_bootstrap)
+        if self.verbosity > 0:
+            print("\ncomputing power curve results for each bootstrap item sample. Samples processed:")
+        run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
+        return PowerCurve(run_results)
 
 
 class Plot:
@@ -416,7 +350,7 @@ class Plot:
     def add_classifier_line(self, ax, name, score, color, ci=None):
         ax.axhline(y=score, color=color, linewidth=2, linestyle='dashed', label=name)
         if ci:
-            ax.axhspan(ci[0], ci[1], alpha=0.5, color=color)
+            ax.axhspan(ci[0], ci[1], alpha=0.1, color=color)
 
     def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
         # score is already centered before this is called
@@ -541,19 +475,19 @@ class Plot:
                                              if include_classifier_cis else None)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
-                                                      self.expert_power_curve.compute_equivalence(score),
+                                                      self.expert_power_curve.compute_equivalence_at_mean(score),
                                                       self.possibly_center_score(score),
                                                       color,
                                                       include_droplines=include_droplines)
                 if include_classifier_amateur_equivalences:
                     self.add_survey_equivalence_point(ax,
-                                                      self.amateur_power_curve.compute_equivalence(score),
+                                                      self.amateur_power_curve.compute_equivalence_at_mean(score),
                                                       self.possibly_center_score(score),
                                                       color,
                                                       include_droplines=include_droplines)
         for idx in amateur_equivalences:
             score = self.amateur_power_curve.means[idx]
-            survey_eq = self.expert_power_curve.compute_equivalence(score)
+            survey_eq = self.expert_power_curve.compute_equivalence_at_mean(score)
             print(f"k={idx}: score={score} expert equivalence = {survey_eq}")
             survey_eq = survey_eq if type(survey_eq) != str else 0
             ax.hlines(y=self.possibly_center_score(score),
@@ -562,7 +496,7 @@ class Plot:
                       color=self.color_map['amateur_power_curve'],
                       linewidths=2, linestyles='dashed')
             self.add_survey_equivalence_point(ax,
-                                              self.expert_power_curve.compute_equivalence(score),
+                                              self.expert_power_curve.compute_equivalence_at_mean(score),
                                               self.possibly_center_score(score),
                                               self.color_map['amateur_power_curve'],
                                               include_droplines=include_droplines)

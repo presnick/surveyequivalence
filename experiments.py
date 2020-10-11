@@ -56,7 +56,7 @@ def guessthekarma():
 
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
     print("###10 runs, ABC w/ CE")
@@ -66,11 +66,11 @@ def guessthekarma():
 
     for i in range(15):
         thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
 
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
     cs = p.expert_power_curve.means
     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
@@ -79,12 +79,12 @@ def guessthekarma():
 
     for i in range(15):
         thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
 
 
     p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=CrossEntropyScore(),
                          allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
     print("###10 runs, Freq w/ CE")
@@ -92,10 +92,10 @@ def guessthekarma():
 
     for i in range(15):
         thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
 
     p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), num_pred_samples=10)
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
     cs = p.expert_power_curve.means
     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
     results.columns = ['mean', 'ci_width']
@@ -104,7 +104,7 @@ def guessthekarma():
 
     for i in range(15):
         thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence(thresh))
+        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
 
 
 

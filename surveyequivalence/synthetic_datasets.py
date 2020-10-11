@@ -272,7 +272,7 @@ def make_discrete_dataset_3():
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator=expert_state_generator)
     return SyntheticDataset(dsg)
 
-def make_running_example_dataset(num_items_per_dataset = 10, minimal=False):
+def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False):
 
     if minimal:
         state_generator = \
@@ -305,7 +305,7 @@ def make_running_example_dataset(num_items_per_dataset = 10, minimal=False):
 
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator= state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=10,
+                                          num_labels_per_item=num_labels_per_item,
                                           mock_classifiers=None,
                                           name="running example",
                                           )

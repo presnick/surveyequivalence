@@ -23,6 +23,15 @@ class Scorer(ABC):
               rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
 
+    def score_classifier(self,
+                         classifier_predictions: Sequence,
+                         raters: Sequence[str],
+                         W):
+
+        scores = [self.score(classifier_predictions, W[col]) for col in raters]
+
+        return sum(scores) / len(scores)
+
 
 class Correlation(Scorer):
 
@@ -62,13 +71,11 @@ class AgreementScore(Scorer):
         super().__init__()
 
     @staticmethod
-
     def score(classifier_predictions: Sequence[str],
                         rater_labels: Sequence[str],
               verbosity=0):
 
         assert len(classifier_predictions) == len(rater_labels)
-
         tot_score = sum([pred == label for (pred, label) in \
                         zip(classifier_predictions, rater_labels)]) / \
                len(classifier_predictions)

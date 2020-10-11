@@ -256,8 +256,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
                     p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'],
-                                         null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
-                                         num_pred_samples=12)
+                                         null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]))
                     cs = p.expert_power_curve.means
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
