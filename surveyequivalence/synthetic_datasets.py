@@ -272,7 +272,8 @@ def make_discrete_dataset_3():
     dsg = SyntheticBinaryDatasetGenerator(expert_state_generator=expert_state_generator)
     return SyntheticDataset(dsg)
 
-def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False):
+def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False,
+                                 include_hard_classifer=False, include_soft_classifier=False):
 
     if minimal:
         state_generator = \
@@ -310,13 +311,23 @@ def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item
                                           name="running example",
                                           )
 
-    dsg.mock_classifiers.append(DiscreteMockClassifier(
-        name='R_h: classifier',
-        label_predictors={
-            'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
-            'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
-            'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
-        }))
+    if include_hard_classifer:
+        dsg.mock_classifiers.append(DiscreteMockClassifier(
+            name='hard classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+            }))
+
+    if include_soft_classifier:
+        dsg.mock_classifiers.append(MockClassifier(
+            name='soft classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+            }))
 
 
     return SyntheticDataset(dsg)

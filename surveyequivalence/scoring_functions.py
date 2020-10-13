@@ -102,6 +102,10 @@ class CrossEntropyScore(Scorer):
 
         assert len(classifier_predictions) == len(rater_labels)
 
+        if verbosity > 2:
+            print(f'\n-------\npredictions: {classifier_predictions[:10]}')
+            print(f'\n--------\nlabels: {rater_labels[:10]}')
+
         def item_score(pred, label):
             return log2(pred.label_probability(label))
             # if pred.value == label:

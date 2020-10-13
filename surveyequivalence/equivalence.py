@@ -3,6 +3,9 @@ import random
 from itertools import combinations
 from typing import Sequence, Dict, Tuple
 
+import operator
+from functools import reduce
+
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -182,7 +185,11 @@ class AnalysisPipeline:
             print(f"\nstarting power curve: computing scores for {raters} with ref_raters {ref_raters}")
 
         def comb(n, k):
-            return math.factorial(n) / (math.factorial(k) * math.factorial(n-k))
+            # from https://stackoverflow.com/a/4941932
+            k = min(k, n - k)
+            numer = reduce(operator.mul, range(n, n - k, -1), 1)
+            denom = reduce(operator.mul, range(1, k + 1), 1)
+            return numer // denom
 
         def rater_subsets(raters, k, max_subsets):
             K = len(raters)
@@ -226,10 +233,6 @@ class AnalysisPipeline:
                 print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
             predictions = dict()
             item_count = 0
-            # default prediction with no raters
-            default_prediction = self.combiner.combine(
-                allowable_labels=self.combiner.allowable_labels,
-                labels=[])
             ## iterate through rows, accumulating predictions for that item
             for idx, row in W.iterrows():
                 if self.verbosity > 1:
@@ -239,8 +242,12 @@ class AnalysisPipeline:
                     else:
                         print(f".", end='', flush=True)
 
-                # special case with no raters: default prediction
-                predictions[idx] = {tuple(): default_prediction}
+                # max a dictionary with k values as keys
+                # special case with k=0 raters: prediction from no labels
+                predictions[idx] = {tuple(): self.combiner.combine(
+                                    allowable_labels=self.combiner.allowable_labels,
+                                    labels=[],
+                                    W = self.W_as_array)}
                 # now get predictions for all non-empty ratersets
                 for k in ratersets:
                     if k > 0:
@@ -248,7 +255,8 @@ class AnalysisPipeline:
                             label_vals = row.loc[list(rater_tup)]
                             predictions[idx][rater_tup] = self.combiner.combine(
                                 allowable_labels=self.combiner.allowable_labels,
-                                labels=list(zip(rater_tup, label_vals)))
+                                labels=list(zip(rater_tup, label_vals)),
+                                W = self.W_as_array)
 
             return predictions
 

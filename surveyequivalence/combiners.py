@@ -5,6 +5,8 @@ from typing import Sequence, Tuple
 import numpy as np
 import random
 
+import operator
+from functools import reduce
 
 class Prediction(ABC):
     @abstractmethod
@@ -147,8 +149,8 @@ class MeanCombiner(Combiner):
             return NumericPrediction(sum([val for rater, val in labels]) / len(labels))
 
 class FrequencyCombiner(Combiner):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def combine(self, allowable_labels: Sequence[str],
                    labels: Sequence[Tuple[str, str]],
@@ -186,8 +188,8 @@ class FrequencyCombiner(Combiner):
 
 
 class AnonymousBayesianCombiner(Combiner):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.memo = dict()
 
     def combine(self, allowable_labels: Sequence[str],
@@ -207,6 +209,7 @@ class AnonymousBayesianCombiner(Combiner):
         :param to_predict_for: not used currently
         :return: Prediction based on anonymous bayesian combiner
         """
+
         # get number of labels in binary case, it's 2
         number_of_labels = len(allowable_labels)
 
@@ -303,8 +306,13 @@ class AnonymousBayesianCombiner(Combiner):
         :param number_of_labels:
         :return: item contribution, and whether it counts towards number of items
         """
+
         def comb(n, k):
-            return factorial(n) / factorial(k) / factorial(n - k)
+            # from https://stackoverflow.com/a/4941932
+            k = min(k, n - k)
+            numer = reduce(operator.mul, range(n, n - k, -1), 1)
+            denom = reduce(operator.mul, range(1, k + 1), 1)
+            return numer // denom
 
         # count number of ratings in the item.
         num_rate = 0
