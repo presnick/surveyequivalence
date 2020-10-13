@@ -247,6 +247,7 @@ class AnalysisPipeline:
                 predictions[idx] = {tuple(): self.combiner.combine(
                                     allowable_labels=self.combiner.allowable_labels,
                                     labels=[],
+                                    item_id=idx,
                                     W = self.W_as_array)}
                 # now get predictions for all non-empty ratersets
                 for k in ratersets:
@@ -256,6 +257,7 @@ class AnalysisPipeline:
                             predictions[idx][rater_tup] = self.combiner.combine(
                                 allowable_labels=self.combiner.allowable_labels,
                                 labels=list(zip(rater_tup, label_vals)),
+                                item_id=idx,
                                 W = self.W_as_array)
 
             return predictions
