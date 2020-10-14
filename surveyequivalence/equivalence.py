@@ -255,13 +255,7 @@ class AnalysisPipeline:
                 for k in ratersets:
                     if k > 0:
                         for rater_tup in ratersets[k]:
-                            label_vals = row.loc[list(rater_tup)]
-                            hasnone = False
-                            for val in label_vals.values:
-                                if val is None:
-                                    hasnone = True
-                                    break
-                            if hasnone: continue
+                            label_vals = row.loc[list(rater_tup)].dropna()
                             predictions[idx][rater_tup] = self.combiner.combine(
                                 allowable_labels=self.combiner.allowable_labels,
                                 labels=list(zip(rater_tup, label_vals)),
