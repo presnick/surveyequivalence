@@ -29,13 +29,10 @@ class Scorer(ABC):
                          W):
         scores = list()
         for col in raters:
-            hasnone = False
-            for r in W[col]:
-                if r is None:
-                    hasnone = True
-                    break
-            if hasnone: continue
-            scores.append(self.score(classifier_predictions, W[col]))
+            na_mask = W[col].isna()
+            nona_classifier_predictions = classifier_predictions[~na_mask]
+            nona_wcol = W[col][~na_mask]
+            scores.append(self.score(nona_classifier_predictions, nona_wcol))
 
         return sum(scores) / len(scores)
 

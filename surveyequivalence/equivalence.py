@@ -278,17 +278,10 @@ class AnalysisPipeline:
                     print(f"compute_one_run, k={k}")
                 scores = []
                 for raterset in ratersets[k]:
-                    preds = list()
-                    hasnone = False
-                    for idx in idxs:
-                        if raterset not in predictions[idx]:
-                            hasnone=True
-                            break
-                        preds.append(predictions[idx][raterset])
-                    if hasnone: continue
+                    preds = [predictions[idx][raterset] for idx in idxs]
                     unused_raters = ref_raters - set(raterset)
                     score = self.scorer.score_classifier(
-                        preds,
+                        pd.Series(preds),
                         unused_raters,
                         ref_labels_df)
                     if score:

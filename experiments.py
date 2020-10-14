@@ -41,7 +41,7 @@ def guessthekarma():
             pass
             # print(rater_opinion)
 
-    x = prefer_W.values()
+    x = list(prefer_W.values())
     length = max(map(len, x))
     prefer_W = np.array([xi + [None] * (length - len(xi)) for xi in x])
 
@@ -50,12 +50,12 @@ def guessthekarma():
 
     prefer_W = pd.DataFrame(data=prefer_W)
     # predict_W = pd.DataFrame(data=predict_W)
-    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p','n'], [.5,.5]) for row in prefer_W.iterrows()])
+    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p','n'], [.6,.4]) for row in prefer_W.iterrows()])
 
 
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=100,verbosity = 2,classifier_predictions=classifier)
+                         num_bootstrap_item_samples=100,verbosity = 2,classifier_predictions=classifier, max_K=50)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
