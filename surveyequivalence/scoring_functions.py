@@ -27,8 +27,15 @@ class Scorer(ABC):
                          classifier_predictions: Sequence,
                          raters: Sequence[str],
                          W):
-
-        scores = [self.score(classifier_predictions, W[col]) for col in raters]
+        scores = list()
+        for col in raters:
+            hasnone = False
+            for r in W[col]:
+                if r is None:
+                    hasnone = True
+                    break
+            if hasnone: continue
+            scores.append(self.score(classifier_predictions, W[col]))
 
         return sum(scores) / len(scores)
 

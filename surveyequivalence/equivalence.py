@@ -132,8 +132,8 @@ class AnalysisPipeline:
             self.classifier_scores = self.compute_classifier_scores()
 
         self.expert_power_curve = self.compute_power_curve(
-            raters=expert_cols,
-            ref_raters=expert_cols,
+            raters=self.expert_cols,
+            ref_raters=self.expert_cols,
             min_k=min_k,
             max_k=min(max_K, len(self.expert_cols)) - 1,
             max_rater_subsets=max_rater_subsets)
@@ -250,10 +250,18 @@ class AnalysisPipeline:
                                     item_id=idx,
                                     W = self.W_as_array)}
                 # now get predictions for all non-empty ratersets
+                #ratersets = generate_rater_subsets([i for i,x in enumerate(row) if x is not None ], min_k, max_k, max_rater_subsets)
+
                 for k in ratersets:
                     if k > 0:
                         for rater_tup in ratersets[k]:
                             label_vals = row.loc[list(rater_tup)]
+                            hasnone = False
+                            for val in label_vals.values:
+                                if val is None:
+                                    hasnone = True
+                                    break
+                            if hasnone: continue
                             predictions[idx][rater_tup] = self.combiner.combine(
                                 allowable_labels=self.combiner.allowable_labels,
                                 labels=list(zip(rater_tup, label_vals)),
@@ -276,7 +284,14 @@ class AnalysisPipeline:
                     print(f"compute_one_run, k={k}")
                 scores = []
                 for raterset in ratersets[k]:
-                    preds = [predictions[idx][raterset] for idx in idxs]
+                    preds = list()
+                    hasnone = False
+                    for idx in idxs:
+                        if raterset not in predictions[idx]:
+                            hasnone=True
+                            break
+                        preds.append(predictions[idx][raterset])
+                    if hasnone: continue
                     unused_raters = ref_raters - set(raterset)
                     score = self.scorer.score_classifier(
                         preds,
