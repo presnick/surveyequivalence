@@ -55,7 +55,7 @@ def guessthekarma():
 
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=100,verbosity = 2,classifier_predictions=classifier, max_K=50)
+                         num_bootstrap_item_samples=50,verbosity = 2,classifier_predictions=classifier, max_K=50)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
