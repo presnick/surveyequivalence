@@ -1,7 +1,15 @@
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
 from random import shuffle, randint
-from surveyequivalence import AnalysisPipeline, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, CrossEntropyScore, AnonymousBayesianCombiner
+from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, CrossEntropyScore, AnonymousBayesianCombiner
+import os
+from datetime import datetime
+
+def save_plot(fig, name):
+    if not os.path.isdir('plots'):
+        os.mkdir('plots')
+    fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
 
 
 def guessthekarma():
@@ -13,54 +21,79 @@ def guessthekarma():
     """
 
     gtk = pd.read_csv('./data/vote_gtk2.csv')
-
-    rater_ids = {v:i for (i,v) in enumerate(set(gtk['user_id']))}
     item_ids = {v:i for (i,v) in enumerate(set(gtk['image_pair']))}
-    predict_W = np.zeros((len(rater_ids),len(item_ids)), dtype=str)
-    prefer_W = np.zeros((len(rater_ids),len(item_ids)), dtype=str)
+
+
+    prefer_W = dict()
 
     for index, rating in gtk.iterrows():
         # get the x and y in the W
-        rater_id = rater_ids[rating['user_id']]
-        item_id = item_ids[rating['image_pair']]
+        if rating['image_pair'] not in prefer_W:
+            prefer_W[rating['image_pair']] = list()
 
         # now get the preference
         rater_opinion = rating['opinion_choice']
         if rater_opinion == 'A':
-            prefer_W[rater_id, item_id] = 'p'
+            prefer_W[rating['image_pair']].append('p')
         elif rater_opinion == 'B':
-            prefer_W[rater_id, item_id] = 'n'
+            prefer_W[rating['image_pair']].append('n')
         else:
             pass
             # print(rater_opinion)
 
+    x = list(prefer_W.values())
+    length = max(map(len, x))
+    prefer_W = np.array([xi + [None] * (length - len(xi)) for xi in x])
 
-        rater_prediction = rating['prediction_choice']
-        if rater_prediction == 'A':
-            predict_W[rater_id, item_id] = 'p'
-        elif rater_prediction == 'B':
-            predict_W[rater_id, item_id] = 'n'
-        else:
-            pass
-            # print(rater_prediction)
-
-    # prefer might have empty rows because GTK didn't always ask the preference question.
-    mask = np.all(prefer_W == '', axis=1)
-    prefer_W = prefer_W[~mask]
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)[:100]
+    prefer_W = pd.DataFrame(data=prefer_W)
     # predict_W = pd.DataFrame(data=predict_W)
+    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p','n'], [.6,.4]) for row in prefer_W.iterrows()])
 
 
 
-    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
-    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ CE")
-    print(results)
+    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
+                         num_bootstrap_item_samples=50,verbosity = 2,classifier_predictions=classifier, max_K=50)
+
+    cs = p.classifier_scores
+    print("\nfull dataset\n")
+    print("\n----classifier scores-----")
+    print(cs.means)
+    print(cs.stds)
+    print("\n----power curve means-----")
+    print(p.expert_power_curve.means)
+    print(p.expert_power_curve.stds)
+    print("\n----survey equivalences----")
+    equivalences = p.expert_power_curve.compute_equivalences(p.classifier_scores)
+    print(equivalences)
+    print(f"means: {equivalences.mean()}")
+    print(f"medians {equivalences.median()}")
+    print(f"stddevs {equivalences.std()}")
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              p.expert_power_curve,
+              classifier_scores=p.classifier_scores,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, 0.4),
+              name='running example ABC + cross_entropy',
+              legend_label='k raters',
+              )
+
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, 'running exampleABC+cross_entropy')
 
     exit()
 
@@ -212,8 +245,8 @@ def cred_web():
     print('##CREDWEB - Dataset loaded##')
 
     p = AnalysisPipeline(W, AnonymousBayesianCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=20,
-                         num_runs=10)
+                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]),
+                         num_bootstrap_item_samples=100,verbosity = 2)
     results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
     results.columns = ['mean', 'ci_width']
     print("###10 runs, ABC w/ CrossEntropy")

@@ -25,7 +25,7 @@ class Scorer(ABC):
 
     def score_classifier(self,
                          classifier_predictions: Sequence,
-                         raters: Sequence[str],
+                         raters: Sequence,
                          W,
                          verbosity=0):
         if verbosity > 2:
@@ -126,13 +126,15 @@ class CrossEntropyScore(Scorer):
         0.87702971998
         """
 
-        assert len(classifier_predictions) == len(rater_labels)
+        assert len(classifier_predictions) == len(rater_labels);
 
         if verbosity > 2:
             print(f'\n-------\n\t\tpredictions: {classifier_predictions[:10]}')
             print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
 
         def item_score(pred, label):
+            if pred is None: return None
+            if label is None: return None
             return log2(pred.label_probability(label))
             # if pred.value == label:
             #     return log2(pred.label_probability(label))
@@ -140,11 +142,15 @@ class CrossEntropyScore(Scorer):
             #     return (log2(1-pred.label_probability(label)))
 
         # compute mean score over all items
-        tot_score = sum([item_score(pred, label) for (pred, label) in \
-                         zip(classifier_predictions, rater_labels)]) / \
-                    len(classifier_predictions)
+        tot_score = 0
+        cnt = 0
+        for (pred, label) in zip(classifier_predictions, rater_labels):
+            score = item_score(pred, label)
+            if score is not None:
+                tot_score += score
+                cnt += 1
 
-        return tot_score
+        return tot_score/cnt
 
 
 class PrecisionScore(Scorer):

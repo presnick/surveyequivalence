@@ -162,8 +162,8 @@ class AnalysisPipeline:
             self.classifier_scores = self.compute_classifier_scores()
 
         self.expert_power_curve = self.compute_power_curve(
-            raters=expert_cols,
-            ref_raters=expert_cols,
+            raters=self.expert_cols,
+            ref_raters=self.expert_cols,
             min_k=min_k,
             max_k=min(max_K, len(self.expert_cols)) - 1,
             max_rater_subsets=max_rater_subsets)
@@ -310,7 +310,7 @@ class AnalysisPipeline:
                     preds = [predictions[idx][raterset] for idx in idxs]
                     unused_raters = ref_raters - set(raterset)
                     score = self.scorer.score_classifier(
-                        preds,
+                        pd.Series(preds),
                         unused_raters,
                         ref_labels_df,
                         self.verbosity
