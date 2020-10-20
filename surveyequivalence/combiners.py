@@ -3,6 +3,7 @@ from math import factorial
 from typing import Sequence, Tuple
 
 import numpy as np
+import pandas as pd
 import random
 
 import operator
@@ -143,10 +144,14 @@ class MeanCombiner(Combiner):
         :param to_predict_for: ignored in this combiner
         :return: the mean of the labels
         """
-        if len(labels) == 0:
+
+        # ignore any null labels
+        non_null_label_values = [val for rater, val in labels if not pd.isna(val)]
+
+        if len(non_null_label_values) == 0:
             return None
         else:
-            return NumericPrediction(sum([val for rater, val in labels]) / len(labels))
+            return NumericPrediction(sum(non_null_label_values) / len(non_null_label_values))
 
 class FrequencyCombiner(Combiner):
     def __init__(self, *args, **kwargs):

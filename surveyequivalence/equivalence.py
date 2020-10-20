@@ -17,14 +17,21 @@ from .scoring_functions import Scorer
 
 N = 1000
 
-
 class ClassifierResults:
     def __init__(self,
-                 runs: Sequence[Dict]):
+                 runs: Sequence[Dict]=None,
+                 df=None):
         """
         each run will be one dictionary with scores at different k or scores of different classifiers
+        Alternatively, a dataframe may be passed in with one row for each run
+
+        First row is special: the values for the actual item sample
+        Rest of rows are for bootstrap item samples
         """
-        self.df = pd.DataFrame(runs)
+        if df:
+            self.df = df
+        else:
+            self.df = pd.DataFrame(runs)
         self.compute_means_and_cis()
 
     def compute_means_and_cis(self):
@@ -34,13 +41,16 @@ class ClassifierResults:
         self.upper_bounds = self.means + 2*self.stds
 
     @property
+    def values(self):
+        return self.df.iloc[0, :]
+
+    @property
     def max_value(self):
         return max(max(self.means), max(self.upper_bounds))
 
     @property
     def min_value(self):
         return min(min(self.means), min(self.lower_bounds))
-
 
 class PowerCurve(ClassifierResults):
     def compute_equivalences(self, classifier_scores: ClassifierResults):
@@ -63,20 +73,32 @@ class PowerCurve(ClassifierResults):
         means = self.means.to_dict()
         return self.compute_one_equivalence(classifier_score, means)
 
-    @staticmethod
-    def compute_one_equivalence(classifier_score, k_powers: Dict):
+    def compute_one_equivalence(self, classifier_score, k_powers: Dict = None):
+        if not k_powers:
+            # compute it for row 0, the values for the actual item sample
+            k_powers = self.values.to_dict()
         better_ks = [k for (k, v) in k_powers.items() if v > classifier_score]
         first_better_k = min(better_ks, default=0)
         if len(better_ks) == 0:
             return max([k for (k, v) in k_powers.items()])
-            return f">{max([k for (k, v) in k_powers.items()])}"
+            # return f">{max([k for (k, v) in k_powers.items()])}"
         elif first_better_k - 1 in k_powers:
             dist_to_prev = k_powers[first_better_k] - k_powers[first_better_k - 1]
             y_dist = k_powers[first_better_k] - classifier_score
             return first_better_k - (y_dist / dist_to_prev)
         else:
             return 0
-            return f"<{first_better_k}"
+            # return f"<{first_better_k}"
+
+    def reliability_of_difference(self, other, k=1):
+        """
+        :param other: another PowerCurve
+        :param k:
+        :return: fraction of bootstrap runs where power@k higher for self than other power curve
+        """
+        df1 = self.df
+        df2 = other.df
+        return (df1[k] > df2[k]).sum() / len(df1)
 
 
 class LabeledItem:
@@ -105,6 +127,7 @@ class AnalysisPipeline:
                  num_bootstrap_item_samples=100,
                  max_rater_subsets=200,
                  max_K=10,
+                 ratersets_memo=None,
                  verbosity=1
                  ):
         if expert_cols:
@@ -124,7 +147,14 @@ class AnalysisPipeline:
         self.null_prediction = null_prediction
         self.min_k = min_k
         self.num_bootstrap_item_samples = num_bootstrap_item_samples
+        self.max_raters_subsets=max_rater_subsets
         self.verbosity = verbosity
+
+        # initialize memoization caches for rater subsets
+        if ratersets_memo:
+            self.ratersets_memo = ratersets_memo
+        else:
+            self.ratersets_memo = dict()
 
         self.item_samples = self.generate_item_samples(self.num_bootstrap_item_samples)
 
@@ -139,6 +169,8 @@ class AnalysisPipeline:
             max_rater_subsets=max_rater_subsets)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
+            if self.verbosity > 0:
+                print("\n\nStarting to process amateur raters")
             self.amateur_power_curve = self.compute_power_curve(
                 raters=amateur_cols,
                 ref_raters=expert_cols,
@@ -174,7 +206,6 @@ class AnalysisPipeline:
             return compute_scores(predictions_df, ref_labels_df)
 
         ## Each item sample is one run
-        ## TODO: self.item_samples should just be sets of items, without matched reference raters
         run_results = [compute_one_run(idxs) for idxs in self.item_samples]
         return ClassifierResults(run_results)
 
@@ -182,7 +213,10 @@ class AnalysisPipeline:
         ref_raters = set(ref_raters)
 
         if self.verbosity > 0:
-            print(f"\nstarting power curve: computing scores for {raters} with ref_raters {ref_raters}")
+            print(f"\nstarting power curve")
+            if self.verbosity > 1:
+
+                print(f"\tcomputing scores for {raters} with ref_raters {ref_raters}")
 
         def comb(n, k):
             # from https://stackoverflow.com/a/4941932
@@ -204,14 +238,16 @@ class AnalysisPipeline:
                                 subsets.append(subset)
                                 break
                             print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
-                    return subsets
+                    result = subsets
                 else:
                     ## just enumerate all the subsets and take a sample of max_subsets of them
                     all_k_subsets = list(combinations(raters, k))
                     selected_idxs = np.random.choice(len(all_k_subsets), max_subsets)
-                    return [subset for idx, subset in enumerate(all_k_subsets) if idx in selected_idxs]
+                    result = [subset for idx, subset in enumerate(all_k_subsets) if idx in selected_idxs]
             else:
-                return list(combinations(raters, k))
+                result = list(combinations(raters, k))
+            return result
+
 
         def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[str, ...]]]:
             """
@@ -221,10 +257,13 @@ class AnalysisPipeline:
             :param max_subsets: integer
             :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k
             """
+
             retval = dict()
             for k in range(min_k, max_k+1):
                 if self.verbosity > 1:
-                    print(f"generate_subsets, raters={raters}, k={k}")
+                    print(f"\tgenerate_subsets, k={k}")
+                if self.verbosity > 2:
+                    print(f"\t\traters={raters}")
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
@@ -235,43 +274,37 @@ class AnalysisPipeline:
             item_count = 0
             ## iterate through rows, accumulating predictions for that item
             for idx, row in W.iterrows():
-                if self.verbosity > 1:
+                if self.verbosity > 0:
                     item_count += 1
                     if item_count % 10 == 0:
-                        print(item_count, flush=True, end='')
+                        print("\t", item_count, flush=True, end='')
                     else:
                         print(f".", end='', flush=True)
 
-                # max a dictionary with k values as keys
-                # special case with k=0 raters: prediction from no labels
-                predictions[idx] = {tuple(): self.combiner.combine(
-                                    allowable_labels=self.combiner.allowable_labels,
-                                    labels=[],
-                                    W = self.W_as_array)}
-                # now get predictions for all non-empty ratersets
+                # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
+                predictions[idx] = {}
                 for k in ratersets:
-                    if k > 0:
-                        for rater_tup in ratersets[k]:
-                            label_vals = row.loc[list(rater_tup)]
-                            predictions[idx][rater_tup] = self.combiner.combine(
-                                allowable_labels=self.combiner.allowable_labels,
-                                labels=list(zip(rater_tup, label_vals)),
-                                W = self.W_as_array)
+                    for rater_tup in ratersets[k]:
+                        label_vals = row.loc[list(rater_tup)]
+                        predictions[idx][rater_tup] = self.combiner.combine(
+                            allowable_labels=self.combiner.allowable_labels,
+                            labels=list(zip(rater_tup, label_vals)),
+                            W = self.W_as_array)
 
             return predictions
 
         def compute_one_run(W, idxs, ratersets, predictions, call_count=[0]):
-            if self.verbosity > 1:
+            if self.verbosity > 0:
                 call_count[0] += 1
                 if call_count[0] % 10 == 0:
-                    print(call_count[0], flush=True, end='')
+                    print("\t", call_count[0], flush=True, end='')
                 else:
                     print(f".", end='', flush=True)
             ref_labels_df = W.loc[idxs, :].reset_index()
             power_levels = dict()
             for k in range(min_k, max_k+1):
                 if self.verbosity > 2:
-                    print(f"compute_one_run, k={k}")
+                    print(f"\t\tcompute_one_run, k={k}")
                 scores = []
                 for raterset in ratersets[k]:
                     preds = [predictions[idx][raterset] for idx in idxs]
@@ -279,25 +312,42 @@ class AnalysisPipeline:
                     score = self.scorer.score_classifier(
                         preds,
                         unused_raters,
-                        ref_labels_df)
+                        ref_labels_df,
+                        self.verbosity
+                    )
+
                     if score:
+                        if np.isnan(score):
+                            print(
+                                f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
                         scores.append(score)
+                if self.verbosity > 1:
+                    print(f'\tscores for k={k}: {scores}')
                 if len(scores) > 0:
                     power_levels[k] = sum(scores) / len(scores)
                 else:
                     power_levels[k] = None
             return power_levels
 
-        ## generate rater samples
-        ratersets = generate_rater_subsets(raters, min_k, max_k, max_rater_subsets)
+        ## get rater samples
+        canonical_raters_tuple = tuple(sorted(raters))
+        if canonical_raters_tuple not in self.ratersets_memo:
+            # add result to the memoized cache
+            self.ratersets_memo[canonical_raters_tuple] = generate_rater_subsets(raters, min_k, max_k, max_rater_subsets)
+        else:
+            if self.verbosity > 0:
+                print(f"getting cached rater subsets for {canonical_raters_tuple}")
+        ratersets = self.ratersets_memo[canonical_raters_tuple]
 
-        ## generate predictions
+        ## get predictions
         predictions = generate_predictions(self.W, ratersets)
 
         ## Each item sample is one run
         if self.verbosity > 0:
-            print("\ncomputing power curve results for each bootstrap item sample. Samples processed:")
+            print("\ncomputing power curve results for each bootstrap item sample. \nSamples processed:")
         run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
+        if self.verbosity > 1:
+            print(f"\n\trun_results={run_results}")
         return PowerCurve(run_results)
 
 
@@ -313,7 +363,8 @@ class Plot:
                  y_range=None,
                  name='powercurve',
                  legend_label='Expert raters',
-                 amateur_legend_label="Lay raters"
+                 amateur_legend_label="Lay raters",
+                 verbosity=1
                  ):
         self.expert_power_curve = expert_power_curve
         self.amateur_power_curve = amateur_power_curve
@@ -326,6 +377,7 @@ class Plot:
         self.x_intercepts = []
         self.legend_label = legend_label
         self.amateur_legend_label = amateur_legend_label
+        self.verbosity = verbosity
         self.ax = ax
         self.format_ax()
         # self.make_fig_and_axes()
@@ -341,10 +393,12 @@ class Plot:
         ymax = self.y_range[1] if self.y_range else self.ymax
 
         if self.possibly_center_score(self.expert_power_curve.means.iloc[-1]) < .66 * ymax:
-            print(f"loc 1. c_k = {self.possibly_center_score(self.expert_power_curve.means.iloc[-1])}; ymax={ymax}")
+            if self.verbosity > 2:
+                print(f"loc 1. c_k = {self.possibly_center_score(self.expert_power_curve.means.iloc[-1])}; ymax={ymax}")
             loc = 1
         else:
-            print("loc 5")
+            if self.verbosity > 2:
+                print("loc 5")
             loc = 5
 
         inset_ax = inset_axes(self.ax, width='30%', height='20%', loc=loc)
@@ -465,15 +519,18 @@ class Plot:
         self.set_ymax()
         self.set_ymin()
         self.set_xmax()
-        print(f"y-axis range: {self.ymin}, {self.ymax}")
+        if self.verbosity > 3:
+            print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
             # self.classifier_scores is an instance of ClassifierResults, with means and cis computed
-            for (classifier_name, score) in self.classifier_scores.means.items():
-                print(f'{classifier_name} score: {score}, c_0: {self.expert_power_curve.means[0]}')
+            for (classifier_name, score) in self.classifier_scores.values.items():
+                if self.verbosity > 1:
+                    print(f'{classifier_name} score: {score}')
                 color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
-                print(f'lower bound: {self.classifier_scores.lower_bounds[classifier_name]}')
-                print(f'upper bound: {self.classifier_scores.upper_bounds[classifier_name]}')
+                if self.verbosity > 1:
+                    print(f'lower bound: {self.classifier_scores.lower_bounds[classifier_name]}')
+                    print(f'upper bound: {self.classifier_scores.upper_bounds[classifier_name]}')
                 self.add_classifier_line(ax,
                                          classifier_name,
                                          self.possibly_center_score(score),
@@ -496,7 +553,8 @@ class Plot:
         for idx in amateur_equivalences:
             score = self.amateur_power_curve.means[idx]
             survey_eq = self.expert_power_curve.compute_equivalence_at_mean(score)
-            print(f"k={idx}: score={score} expert equivalence = {survey_eq}")
+            if self.verbosity > 1:
+                print(f"k={idx}: score={score} expert equivalence = {survey_eq}")
             survey_eq = survey_eq if type(survey_eq) != str else 0
             ax.hlines(y=self.possibly_center_score(score),
                       xmin=min(survey_eq, idx),

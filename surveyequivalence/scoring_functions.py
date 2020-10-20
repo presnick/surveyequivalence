@@ -26,19 +26,36 @@ class Scorer(ABC):
     def score_classifier(self,
                          classifier_predictions: Sequence,
                          raters: Sequence[str],
-                         W):
+                         W,
+                         verbosity=0):
+        if verbosity > 2:
+            print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
 
-        scores = [self.score(classifier_predictions, W[col]) for col in raters]
+        if verbosity > 4:
+            print(f"ref_ratings = \n{W.loc[:,  list(raters)]}")
 
-        return sum(scores) / len(scores)
+        scores = [self.score(classifier_predictions, W[col], verbosity) for col in raters]
+        non_null_scores = [score for score in scores if not pd.isna(score)]
 
+        if len(non_null_scores) == 0:
+            if verbosity > 2:
+                print("\t\t\tNo non-null scores")
+            return None
+
+        retval = sum(non_null_scores) / len(non_null_scores)
+        if verbosity > 2:
+            print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
+        return retval
 
 class Correlation(Scorer):
+    def __init__(self):
+        super().__init__()
 
     @staticmethod
     def score(classifier_predictions: Sequence[NumericPrediction],
               rater_labels: Sequence[str],
-              verbosity=0):
+              verbosity
+              ):
         """
         :param classifier_predictions: numeric values
         :param rater_labels: sequence of labels, which should be numeric values
@@ -57,13 +74,22 @@ class Correlation(Scorer):
 
         # have to remove items where either pred or label is missing
         # note that zip(*tups) unzips a list of tuples
+        if verbosity > 3:
+            print(f'\t\t\tcorrelation: preds={classifier_predictions}, labels={list(rater_labels)}')
+
         non_null_preds, non_null_labels = \
             zip(*[(pred.value, label) \
                   for (pred, label) in zip(classifier_predictions, rater_labels) \
-                  if pred and label])
+                  if pred and (not pd.isna(pred.value)) and (not pd.isna(label))])
+
+        if verbosity > 3:
+            print(f'\t\t\tcorrelation: non null preds={non_null_preds}, non null labels={list(non_null_labels)}')
 
         # [convert_to_number(l) for l in rater_labels]
-        return np.corrcoef(non_null_preds, non_null_labels)[1, 0]
+        retval = np.corrcoef(non_null_preds, non_null_labels)[1, 0]
+        if verbosity > 2:
+            print(f"\t\t\tcorrelation: returning score = {retval}")
+        return retval
 
 
 class AgreementScore(Scorer):
@@ -103,8 +129,8 @@ class CrossEntropyScore(Scorer):
         assert len(classifier_predictions) == len(rater_labels)
 
         if verbosity > 2:
-            print(f'\n-------\npredictions: {classifier_predictions[:10]}')
-            print(f'\n--------\nlabels: {rater_labels[:10]}')
+            print(f'\n-------\n\t\tpredictions: {classifier_predictions[:10]}')
+            print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
 
         def item_score(pred, label):
             return log2(pred.label_probability(label))
@@ -127,7 +153,9 @@ class PrecisionScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str], average: str = 'micro') -> float:
+              rater_labels: Sequence[str],
+              verbosity = 0,
+              average: str = 'micro',) -> float:
         """
         Micro precision score
 
@@ -150,7 +178,9 @@ class RecallScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str], average: str = 'micro') -> float:
+              rater_labels: Sequence[str],
+              verbosity = 0,
+              average: str = 'micro') -> float:
         """
         Recall
 
@@ -173,7 +203,9 @@ class F1Score(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str], average: str = 'micro') -> float:
+              rater_labels: Sequence[str],
+              verbosity = 0,
+              average: str = 'micro') -> float:
         """
         F1 score
 
@@ -196,7 +228,8 @@ class AUCScore(Scorer):
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
-              rater_labels: Sequence[str]) -> float:
+              rater_labels: Sequence[str],
+              verbosity=0) -> float:
         if len(set(rater_labels)) == 1:
             print("AUC isn't defined for single class")
             return 0
