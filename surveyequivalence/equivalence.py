@@ -285,7 +285,7 @@ class AnalysisPipeline:
                 predictions[idx] = {}
                 for k in ratersets:
                     for rater_tup in ratersets[k]:
-                        label_vals = row.loc[list(rater_tup)]
+                        label_vals = row.loc[list(rater_tup)].dropna()
                         predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
                             labels=list(zip(rater_tup, label_vals)),

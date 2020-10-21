@@ -150,6 +150,7 @@ class CrossEntropyScore(Scorer):
                 tot_score += score
                 cnt += 1
 
+        if cnt == 0: return None
         return tot_score/cnt
 
 

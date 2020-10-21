@@ -48,14 +48,14 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)
+    prefer_W = pd.DataFrame(data=prefer_W)[:10]
     # predict_W = pd.DataFrame(data=predict_W)
-    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p','n'], [.6,.4]) for row in prefer_W.iterrows()])
+    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p','n'], [1,.0]) for row in prefer_W.iterrows()])
 
 
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=50,verbosity = 2,classifier_predictions=classifier, max_K=50)
+                         num_bootstrap_item_samples=10,verbosity = 2,classifier_predictions=classifier, max_K=10)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -93,52 +93,7 @@ def guessthekarma():
             include_classifier_cis=False
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
-    save_plot(fig, 'running exampleABC+cross_entropy')
-
-    exit()
-
-    for i in range(15):
-        thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
-
-
-    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
-    cs = p.expert_power_curve.means
-    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ F1")
-    print(results)
-
-    for i in range(15):
-        thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
-
-
-    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=CrossEntropyScore(),
-                         allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
-    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ CE")
-    print(results)
-
-    for i in range(15):
-        thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
-
-    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(), scorer=F1Score(), allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]))
-    cs = p.expert_power_curve.means
-    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ F1")
-    print(results)
-
-    for i in range(15):
-        thresh = .65 + .01 * i
-        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_mean(thresh))
-
+    save_plot(fig, 'gtk+ABC+cross_entropy')
 
 
 def wiki_toxicity():
@@ -220,68 +175,82 @@ def cred_web():
 
     max_annotators = 30 # this is just via the experiment
 
-    W_list = list()
+    W = dict()
+
     for index, item in wiki.iterrows():
+        # get the x and y in the W
+        W[index] = list()
         low = int(item['credCount-2_ret'])
         lowmed = int(item['credCount-1_ret'])
         med = int(item['credCount0_ret'])
         highmed = int(item['credCount1_ret'])
         high = int(item['credCount2_ret'])
 
-        vec = np.zeros(max_annotators, dtype=str)
         for i in range(highmed+high):
-            vec[i] = 'p'
+            W[index].append('p')
         for i in range(low+lowmed+med):
-            vec[i+highmed+high] = 'n'
-        shuffle(vec)
-        W_list.append(vec)
-    W = np.stack(W_list)
+            W[index].append('n')
+        shuffle(W[index])
+        if '' in W[index]:
+            break
 
 
-    W = pd.DataFrame(data=W)
+    x = list(W.values())
+    length = max(map(len, x))
+    W = np.array([xi + [None] * (length - len(xi)) for xi in x])
 
 
+    print('##CREDWEB - Dataset loaded##', len(W))
 
-    print('##CREDWEB - Dataset loaded##')
+    W = pd.DataFrame(data=W)[:10]
 
-    p = AnalysisPipeline(W, AnonymousBayesianCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]),
-                         num_bootstrap_item_samples=100,verbosity = 2)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ CrossEntropy")
-    print(results)
+    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p', 'n'], [1, .0]) for row in W.iterrows()])
 
 
-    p = AnalysisPipeline(W, AnonymousBayesianCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=20,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ F1")
-    print(results)
+    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(), allowable_labels=['p', 'n'],
+                         num_bootstrap_item_samples=10,verbosity = 2,classifier_predictions=classifier, max_K=10)
 
+    cs = p.classifier_scores
+    print("\nfull dataset\n")
+    print("\n----classifier scores-----")
+    print(cs.means)
+    print(cs.stds)
+    print("\n----power curve means-----")
+    print(p.expert_power_curve.means)
+    print(p.expert_power_curve.stds)
+    print("\n----survey equivalences----")
+    equivalences = p.expert_power_curve.compute_equivalences(p.classifier_scores)
+    print(equivalences)
+    print(f"means: {equivalences.mean()}")
+    print(f"medians {equivalences.median()}")
+    print(f"stddevs {equivalences.std()}")
 
-    p = AnalysisPipeline(W, FrequencyCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [1, 0]), max_k=20,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ CrossEntropy")
-    print(results)
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
 
+    pl = Plot(ax,
+              p.expert_power_curve,
+              classifier_scores=p.classifier_scores,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, 0.4),
+              name='Credweb + ABC + cross_entropy',
+              legend_label='k raters',
+              )
 
-    p = AnalysisPipeline(W, FrequencyCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [1, 0]), max_k=20,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ F1")
-    print(results)
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, 'credweb+ABC+cross_entropy')
 
 def main():
-    guessthekarma()
     cred_web()
+    guessthekarma()
     wiki_toxicity()
 
 main()
