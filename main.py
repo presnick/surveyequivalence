@@ -196,7 +196,7 @@ def generate_and_plot_running_example():
     scorer2 = CrossEntropyScore()
     combiner2 = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
 
-    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000, num_labels_per_item=10,
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=50, num_labels_per_item=10,
                                        include_soft_classifier=True)
     pipeline2 = AnalysisPipeline(ds2.dataset,
                                 expert_cols=list(ds2.dataset.columns),
@@ -204,8 +204,8 @@ def generate_and_plot_running_example():
                                 combiner=combiner2,
                                 scorer=scorer2,
                                 allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=100,
-                                verbosity = 2)
+                                num_bootstrap_item_samples=10,
+                                verbosity = 1)
 
 
     cs = pipeline2.classifier_scores
