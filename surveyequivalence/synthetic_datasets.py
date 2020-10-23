@@ -19,8 +19,6 @@ class MockClassifier:
     def __init__(self,
                  name,
                  label_predictors: Dict[str, Prediction],
-                 # pos_state_predictor: Sequence[float],
-                 # neg_state_predictor: Sequence[float],
                  ):
         self.name = name
         self.label_predictors = label_predictors
@@ -37,6 +35,19 @@ class MockClassifier:
 class DiscreteMockClassifier(MockClassifier):
     def make_predictions(self, item_states):
         return [self.label_predictors[s.state_name].draw_discrete_label() for s in item_states]
+
+class CalibratedDiscreteMockClassifier(MockClassifier):
+    def __init__(self,
+                 name,
+                 label_predictors: Dict[str, Prediction],
+                 calibrated_predictions: Dict[str, Prediction] # a dictionary mapping from labels to continuous Predictions
+                 ):
+        super(CalibratedDiscreteMockClassifier, self).__init__(name, label_predictors)
+        self.calibrated_predictions = calibrated_predictions
+
+    def make_predictions(self, item_states):
+        return [self.calibrated_predictions[self.label_predictors[s.state_name].draw_discrete_label()] for s in item_states]
+
 
 ############ Synthetic Dataset Generator ###############
 
@@ -328,6 +339,18 @@ def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item
                 'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
                 'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
             }))
+
+        dsg.mock_classifiers.append(CalibratedDiscreteMockClassifier(
+            name='calibrated hard classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+            },
+            calibrated_predictions = {'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.7544, .2456]),
+                                      'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.4358, .5642])
+                                      }
+        ))
 
 
     return SyntheticDataset(dsg)
