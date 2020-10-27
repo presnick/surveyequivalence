@@ -61,29 +61,29 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)
+    prefer_W = pd.DataFrame(data=prefer_W)[:10]
     prefer_W = prefer_W.rename(columns={0: 'hard classifier'})
 
-    calibrated_predictions_pos = prefer_W[prefer_W['hard classifier'] == 'l'][
+    calibrated_predictions_l = prefer_W[prefer_W['hard classifier'] == 'l'][
         prefer_W.columns.difference(['hard classifier'])].apply(
         pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
 
-    calibrated_predictions_neg = prefer_W[prefer_W['hard classifier'] == 'r'][
+    calibrated_predictions_r = prefer_W[prefer_W['hard classifier'] == 'r'][
         prefer_W.columns.difference(['hard classifier'])].apply(
         pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
 
-    print(calibrated_predictions_pos, calibrated_predictions_neg)
+    print(calibrated_predictions_l, calibrated_predictions_r)
 
     classifier = pd.DataFrame(
-        [DiscreteDistributionPrediction(['l', 'r'], [calibrated_predictions_pos['l'], calibrated_predictions_neg[
-            'l']], normalize=False) if x == 'l' else DiscreteDistributionPrediction(['l', 'r'], [calibrated_predictions_neg['l'],
-                                                                                calibrated_predictions_pos['l']], normalize=False) for x
+        [DiscreteDistributionPrediction(['l', 'r'], [calibrated_predictions_l['l'], calibrated_predictions_l[
+            'r']], normalize=False) if reddit == 'l' else DiscreteDistributionPrediction(['l', 'r'], [calibrated_predictions_r['l'],
+                                                                                calibrated_predictions_r['r']], normalize=False) for reddit
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
     p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['l', 'r']),
                          scorer=CrossEntropyScore(), allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=10, verbosity=3, classifier_predictions=classifier, max_K=40)
+                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=10)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
