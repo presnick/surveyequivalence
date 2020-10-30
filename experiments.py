@@ -126,64 +126,86 @@ def guessthekarma():
 
 def wiki_toxicity():
     """
-    With The wikipedia toxicity study we do not have individual raters, so we simulate them. Since the Frequency
-    and AnonymousBayesian combiners are both anonymous, ie, it doesn't matter who rated what, then we can just simulate
-    these raters.
     :return: None
     """
-    wiki = pd.read_csv('./data/wiki_toxicity.csv')
+    #rev_id, perc_labelled_attack, n_labelled_attack, n_labels, predictor_prob
+    wiki = pd.read_csv('./data/wiki_attack_labels_and_predictor.csv')
 
-    max_annotators = max(wiki[:1000]['n_annotators'])
+    W = dict()
 
-    W_list = list()
     for index, item in wiki.iterrows():
-        if index > 1000: break
-        n_attack = int(item['n_attack'])
-        n_annotators = int(item['n_annotators'])
-        vec = np.zeros(max_annotators, dtype=str)
-        for i in range(n_attack):
-            vec[i] = 'p'
-        for i in range(n_annotators - n_attack):
-            vec[i + n_attack] = 'n'
-        shuffle(vec)
-        W_list.append(vec)
-    W = np.stack(W_list)
+        # get the x and y in the W
+        raters = list()
 
-    W = pd.DataFrame(data=W)
+        n_raters = int(item['n_labels'])
+        n_labelled_attack = int(item['n_labelled_attack'])
 
-    print('##WIKI TOPXCITIY - Dataset loaded##')
+        for i in range(n_labelled_attack):
+            raters.append('a')
+        for i in range(n_raters - n_labelled_attack):
+            raters.append('n')
+        shuffle(raters)
 
-    p = AnalysisPipeline(W, AnonymousBayesianCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=10,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ CrossEntropy")
-    print(results)
+        # add the predictor class
+        W[index] = [item['predictor_prob']] + raters
 
-    p = AnalysisPipeline(W, AnonymousBayesianCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [.5, .5]), max_k=10,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, ABC w/ F1")
-    print(results)
+    x = list(W.values())
+    length = max(map(len, x))
+    W = np.array([xi + [None] * (length - len(xi)) for xi in x])
 
-    p = AnalysisPipeline(W, FrequencyCombiner(), CrossEntropyScore.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [1, 0]), max_k=10,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ CrossEntropy")
-    print(results)
+    print('##Wiki Toxic - Dataset loaded##', len(W))
 
-    p = AnalysisPipeline(W, FrequencyCombiner(), F1Score.score, allowable_labels=['p', 'n'],
-                         null_prediction=DiscreteDistributionPrediction(['p', 'n'], [1, 0]), max_k=10,
-                         num_runs=10)
-    results = pd.concat([p.power_curve.means, p.power_curve.cis], axis=1)
-    results.columns = ['mean', 'ci_width']
-    print("###10 runs, Freq w/ F1")
-    print(results)
+    W = pd.DataFrame(data=W)[:500]
+    W = W.rename(columns={0: 'soft classifier'})
+
+    classifier = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1-attack_prob], normalize=True)
+         for attack_prob
+         in W['soft classifier']])
+    W = W.drop(['soft classifier'], axis=1)
+
+    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=CrossEntropyScore(),
+                         allowable_labels=['a', 'n'],
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4,
+                         max_rater_subsets=20)
+
+    cs = p.classifier_scores
+    print("\nfull dataset\n")
+    print("\n----classifier scores-----")
+    print(cs.means)
+    print(cs.stds)
+    print("\n----power curve means-----")
+    print(p.expert_power_curve.means)
+    print(p.expert_power_curve.stds)
+    print("\n----survey equivalences----")
+    equivalences = p.expert_power_curve.compute_equivalences(p.classifier_scores)
+    print(equivalences)
+    print(f"means: {equivalences.mean()}")
+    print(f"medians {equivalences.median()}")
+    print(f"stddevs {equivalences.std()}")
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              p.expert_power_curve,
+              classifier_scores=p.classifier_scores,
+              y_axis_label='information gain (c_k - c_0)',
+              center_on_c0=True,
+              y_range=(0, 0.4),
+              name='WikiToxc + ABC + cross_entropy',
+              legend_label='k raters',
+              )
+
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=False
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    save_plot(fig, 'WikiToxc+ABC+cross_entropy')
 
 
 def cred_web():
@@ -196,20 +218,11 @@ def cred_web():
     """
     wiki = pd.read_csv('./data/credweb.csv')
 
-    max_annotators = 30  # this is just via the experiment
-
     W = dict()
 
     for index, item in wiki.iterrows():
         # get the x and y in the W
-        W[index] = list()
-
-        #add the predictor class
-        ret = item['Credibility_Class_Number_ret']
-        if ret in [1,2]:
-            W[index].append('p')
-        else:
-            W[index].append('n')
+        raters = list()
 
         low = int(item['credCount-2_ret'])
         lowmed = int(item['credCount-1_ret'])
@@ -218,12 +231,19 @@ def cred_web():
         high = int(item['credCount2_ret'])
 
         for i in range(highmed + high):
-            W[index].append('p')
+            raters.append('p')
         for i in range(low + lowmed + med):
-            W[index].append('n')
-        shuffle(W[index])
-        if '' in W[index]:
-            break
+            raters.append('n')
+
+        shuffle(raters)
+
+        #prepend the predictor class
+        ret = 'n'
+        if item['Credibility_Class_Number_ret'] in [1,2]:
+            ret = 'p'
+
+        # add the predictor class
+        W[index] = [ret] + raters
 
     x = list(W.values())
     length = max(map(len, x))
@@ -231,7 +251,7 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:500]
+    W = pd.DataFrame(data=W)[:50]
     W = W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_p = W[W['hard classifier'] == 'p'][
@@ -296,8 +316,8 @@ def cred_web():
 
 
 def main():
-    cred_web()
-    guessthekarma()
+    #cred_web()
+    #guessthekarma()
     wiki_toxicity()
 
 
