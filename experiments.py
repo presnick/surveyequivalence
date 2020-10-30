@@ -203,6 +203,14 @@ def cred_web():
     for index, item in wiki.iterrows():
         # get the x and y in the W
         W[index] = list()
+
+        #add the predictor class
+        ret = item['Credibility_Class_Number_ret']
+        if ret in [1,2]:
+            W[index].append('p')
+        else:
+            W[index].append('n')
+
         low = int(item['credCount-2_ret'])
         lowmed = int(item['credCount-1_ret'])
         med = int(item['credCount0_ret'])
@@ -223,13 +231,30 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:10]
+    W = pd.DataFrame(data=W)[:500]
+    W = W.rename(columns={0: 'hard classifier'})
 
-    classifier = pd.DataFrame([DiscreteDistributionPrediction(['p', 'n'], [1, .0]) for row in W.iterrows()])
+    calibrated_predictions_p = W[W['hard classifier'] == 'p'][
+        W.columns.difference(['hard classifier'])].apply(
+        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+
+    calibrated_predictions_n = W[W['hard classifier'] == 'n'][
+        W.columns.difference(['hard classifier'])].apply(
+        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+
+    print(calibrated_predictions_p, calibrated_predictions_n)
+
+    classifier = pd.DataFrame(
+        [DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_p['p'], calibrated_predictions_p[
+            'n']], normalize=False) if reddit == 'l' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
+                                                                                calibrated_predictions_n['n']], normalize=False) for reddit
+         in W['hard classifier']])
+    W = W.drop(['hard classifier'], axis=1)
+
 
     p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(),
                          allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=10, verbosity=2, classifier_predictions=classifier, max_K=10)
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4, max_rater_subsets=20)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -271,7 +296,7 @@ def cred_web():
 
 
 def main():
-    # cred_web()
+    cred_web()
     guessthekarma()
     wiki_toxicity()
 
