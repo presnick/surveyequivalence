@@ -62,34 +62,34 @@ class Correlation(Scorer):
         :return: Pearson correlation coefficient
         """
 
-        # def convert_to_number(label):
-        #     if isinstance(label, numbers.Number):
-        #         return label
-        #     elif label == "pos":
-        #         return 1
-        #     elif label == None:
-        #         return None
-        #     else:
-        #         return 0
-
-        # have to remove items where either pred or label is missing
-        # note that zip(*tups) unzips a list of tuples
         if verbosity > 3:
             print(f'\t\t\tcorrelation: preds={classifier_predictions}, labels={list(rater_labels)}')
 
-        non_null_preds, non_null_labels = \
-            zip(*[(pred.value, label) \
-                  for (pred, label) in zip(classifier_predictions, rater_labels) \
-                  if pred and (not pd.isna(pred.value)) and (not pd.isna(label))])
+        if len(classifier_predictions) != len(rater_labels):
+            print("ALERT: classifier_prediction and rater_labels not of same length; skipping")
+            print("")
+            return None
 
-        if verbosity > 3:
-            print(f'\t\t\tcorrelation: non null preds={non_null_preds}, non null labels={list(non_null_labels)}')
+        # have to remove items where either pred or label is missing
+        good_items = [(pred.value, label) \
+                          for (pred, label) in zip(classifier_predictions, rater_labels) \
+                          if pred and (not pd.isna(pred.value)) and (not pd.isna(label))]
+        if len(good_items) == 0:
+            if verbosity > 0:
+                print("ALERT: no items with both prediction and label; skipping\n")
+            return None
+        else:
+            # note that zip(*tups) unzips a list of tuples
+            non_null_preds, non_null_labels = zip(*good_items)
 
-        # [convert_to_number(l) for l in rater_labels]
-        retval = np.corrcoef(non_null_preds, non_null_labels)[1, 0]
-        if verbosity > 2:
-            print(f"\t\t\tcorrelation: returning score = {retval}")
-        return retval
+            if verbosity > 3:
+                print(f'\t\t\tcorrelation: non null preds={non_null_preds}, non null labels={list(non_null_labels)}')
+
+            # [convert_to_number(l) for l in rater_labels]
+            retval = np.corrcoef(non_null_preds, non_null_labels)[1, 0]
+            if verbosity > 2:
+                print(f"\t\t\tcorrelation: returning score = {retval}")
+            return retval
 
 
 class AgreementScore(Scorer):

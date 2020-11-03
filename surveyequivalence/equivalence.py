@@ -128,6 +128,7 @@ class AnalysisPipeline:
                  max_rater_subsets=200,
                  max_K=10,
                  ratersets_memo=None,
+                 predictions_memo=None,
                  verbosity=1
                  ):
         if expert_cols:
@@ -150,11 +151,17 @@ class AnalysisPipeline:
         self.max_raters_subsets=max_rater_subsets
         self.verbosity = verbosity
 
-        # initialize memoization caches for rater subsets
+        # initialize memoization cache for rater subsets
         if ratersets_memo:
             self.ratersets_memo = ratersets_memo
         else:
             self.ratersets_memo = dict()
+
+        # initialize memoization cache for predictions for rater subsets
+        if predictions_memo:
+            self.predictions_memo = predictions_memo
+        else:
+            self.predictions_memo = dict()
 
         self.item_samples = self.generate_item_samples(self.num_bootstrap_item_samples)
 
@@ -197,7 +204,8 @@ class AnalysisPipeline:
         def compute_scores(predictions_df, ref_labels_df):
             return {col_name: self.scorer.score_classifier(predictions_df[col_name],
                                                 self.expert_cols,
-                                                ref_labels_df) \
+                                                ref_labels_df,
+                                                verbosity=self.verbosity) \
                     for col_name in self.classifier_predictions.columns}
 
         def compute_one_run(idxs):
@@ -267,29 +275,36 @@ class AnalysisPipeline:
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
-        def generate_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+        def add_predictions(W, ratersets, predictions) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+            # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
-            predictions = dict()
+            # predictions = dict()
             item_count = 0
             ## iterate through rows, accumulating predictions for that item
             for idx, row in W.iterrows():
+                item_count += 1
+                if idx not in predictions:
+                    cached = False
+                    # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
+                    predictions[idx] = {}
+                    for k in ratersets:
+                        for rater_tup in ratersets[k]:
+                            label_vals = row.loc[list(rater_tup)].dropna()
+                            predictions[idx][rater_tup] = self.combiner.combine(
+                                allowable_labels=self.combiner.allowable_labels,
+                                labels=list(zip(rater_tup, label_vals)),
+                                W=self.W_as_array)
+                else:
+                    cached = True
+
                 if self.verbosity > 0:
-                    item_count += 1
                     if item_count % 10 == 0:
                         print("\t", item_count, flush=True, end='')
                     else:
-                        print(f".", end='', flush=True)
-
-                # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
-                predictions[idx] = {}
-                for k in ratersets:
-                    for rater_tup in ratersets[k]:
-                        label_vals = row.loc[list(rater_tup)].dropna()
-                        predictions[idx][rater_tup] = self.combiner.combine(
-                            allowable_labels=self.combiner.allowable_labels,
-                            labels=list(zip(rater_tup, label_vals)),
-                            W = self.W_as_array)
+                        print(f"{'.' if not cached else ','}", end='', flush=True)
+            if self.verbosity > 0:
+                print()
 
             return predictions
 
@@ -335,19 +350,26 @@ class AnalysisPipeline:
             # add result to the memoized cache
             self.ratersets_memo[canonical_raters_tuple] = generate_rater_subsets(raters, min_k, max_k, max_rater_subsets)
         else:
-            if self.verbosity > 0:
+            if self.verbosity > 1:
                 print(f"getting cached rater subsets for {canonical_raters_tuple}")
         ratersets = self.ratersets_memo[canonical_raters_tuple]
 
         ## get predictions
-        predictions = generate_predictions(self.W, ratersets)
+        if canonical_raters_tuple not in self.predictions_memo:
+            self.predictions_memo[canonical_raters_tuple] = dict()
+        else:
+            if self.verbosity > 1:
+                print(f"\tgetting some cached predictions for {canonical_raters_tuple}")
+                print(f"\tcached predictions found for items {list(self.predictions_memo[canonical_raters_tuple].keys())}")
+        add_predictions(self.W, ratersets, predictions=self.predictions_memo[canonical_raters_tuple])
+        predictions = self.predictions_memo[canonical_raters_tuple]
 
         ## Each item sample is one run
         if self.verbosity > 0:
-            print("\ncomputing power curve results for each bootstrap item sample. \nSamples processed:")
+            print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
         run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
-            print(f"\n\trun_results={run_results}")
+            print(f"\n\t\trun_results={run_results}")
         return PowerCurve(run_results)
 
 
@@ -494,7 +516,9 @@ class Plot:
              include_droplines=True,
              include_amateur_curve=True,
              include_classifier_cis=True,
-             amateur_equivalences=[]):
+             amateur_equivalences=[],
+             x_ticks=None,
+             legend_loc=None):
 
         ax = self.ax
 
@@ -571,14 +595,22 @@ class Plot:
         ax.set(xlim=(0, self.xmax))
         ax.set(ylim=self.y_range if self.y_range else (self.ymin, self.ymax))
 
-        ax.legend(loc='upper right')
+        # set legend location based on where there is space
+        ax.legend(loc=legend_loc if legend_loc else "best")
 
-        integer_equivs = [int(round(x)) for x in self.x_intercepts]
-        # print(f"integer_equivs = {integer_equivs}")
-        regular_ticks = [i for i in range(0, self.xmax, math.ceil(self.xmax / 10)) if i not in integer_equivs]
-        # print(f"regular_ticks = {regular_ticks}")
+        if x_ticks:
+            regular_ticks = x_ticks
+        else:
+            regular_ticks = [i for i in range(0, self.xmax, math.ceil(self.xmax / 6))]
 
-        ticks = sorted(regular_ticks + self.x_intercepts)
+        def nearest_tick(ticks, val):
+            dists = {x: abs(x - val) for x in ticks}
+            return min(dists, key=lambda x: dists[x])
+
+        # remove ticks nearest to survey equivalence points
+        ticks_to_use = list(set(regular_ticks) - set([nearest_tick(regular_ticks, x) for x in self.x_intercepts]))
+
+        ticks = sorted(ticks_to_use + self.x_intercepts)
         ax.set_xticks(ticks)
 
         def xtick_formatter(x, pos):
