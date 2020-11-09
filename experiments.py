@@ -251,7 +251,7 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:50]
+    W = pd.DataFrame(data=W)
     W = W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_p = W[W['hard classifier'] == 'p'][
@@ -274,7 +274,7 @@ def cred_web():
 
     p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(),
                          allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4, max_rater_subsets=20)
+                         num_bootstrap_item_samples=100, verbosity=1, classifier_predictions=classifier, max_K=20, max_rater_subsets=200)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -316,9 +316,9 @@ def cred_web():
 
 
 def main():
-    #cred_web()
+    cred_web()
     #guessthekarma()
-    wiki_toxicity()
+    #wiki_toxicity()
 
 
 main()
