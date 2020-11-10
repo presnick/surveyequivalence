@@ -196,37 +196,49 @@ def generate_and_plot_running_example():
     scorer2 = CrossEntropyScore()
     combiner2 = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
 
-    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=10000, num_labels_per_item=10,
-                                       include_soft_classifier=True, include_hard_classifer=True)
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000, num_labels_per_item=10,
+                                       include_soft_classifier=True, include_hard_classifer=False)
 
-    W = pd.concat([ds2.dataset, ds2.classifier_predictions], axis=1)
-    calibrated_predictions_pos = W[W['hard classifier'] == 'pos'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
-        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+    print(f"""mean label counts to use as prior for ABC: {ds2.dataset.apply(
+            pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)}""")
+    base_pred = combiner2.combine(['pos', 'neg'], [], W=ds2.dataset.to_numpy(), item_id=1)
+    predictions = [base_pred for _ in range(len(ds2.dataset))]
+    c_0 = scorer2.score_classifier(predictions, ds2.dataset.columns, ds2.dataset)
+    print(f"scorer2 on base_preds = {c_0}")
 
-    calibrated_predictions_neg = W[W['hard classifier'] == 'neg'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
-        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
 
-    print(calibrated_predictions_pos, calibrated_predictions_neg)
-
-    exit()
+    # W = pd.concat([ds2.dataset, ds2.classifier_predictions], axis=1)
+    # calibrated_predictions_pos = W[W['hard classifier'] == 'pos'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
+    #     pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+    #
+    # calibrated_predictions_neg = W[W['hard classifier'] == 'neg'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
+    #     pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+    #
+    # print(calibrated_predictions_pos, calibrated_predictions_neg)
+    #
+    # exit()
     pipeline2 = AnalysisPipeline(ds2.dataset,
                                 expert_cols=list(ds2.dataset.columns),
                                 classifier_predictions=ds2.classifier_predictions,
                                 combiner=combiner2,
                                 scorer=scorer2,
                                 allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=10,
+                                num_bootstrap_item_samples=50,
                                 verbosity = 1)
 
 
     cs = pipeline2.classifier_scores
     print("\nfull dataset\n")
     print("\n----classifier scores-----")
+    print(f"\tActual item set score: {cs.values}")
     print(cs.means)
     print(cs.stds)
+
     print("\n----power curve means-----")
+    print(f"\tActual item set score: {pipeline2.expert_power_curve.values}")
     print(pipeline2.expert_power_curve.means)
     print(pipeline2.expert_power_curve.stds)
+
     print("\n----survey equivalences----")
     equivalences = pipeline2.expert_power_curve.compute_equivalences(pipeline2.classifier_scores)
     print(equivalences)

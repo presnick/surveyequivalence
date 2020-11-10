@@ -53,18 +53,22 @@ class ClassifierResults:
         return min(min(self.means), min(self.lower_bounds))
 
 class PowerCurve(ClassifierResults):
-    def compute_equivalences(self, classifier_scores: ClassifierResults):
+    def compute_equivalences(self, other, columns=None):
         """
-        :param classifier_scores: use dataframe of results for the different bootstrap runs
-        :return: number of raters s.t. expected score == classifier_score
+        :param other: may either be an instance of ClassifierResults or a PowerCurve. Must have same row
+                 indexes as self, one for each item sample
+        :param columns: a subset of the columns of other.df; if not specified, use all of them
+        :return: a df with one row for each bootstrap run, and columns as specified
+                  Cell is a float, the survey equivalence value. That is x s.t. expected score with x raters == classifier_score
         """
 
+        if columns is None:
+            columns = other.df.columns
         run_results = list()
         for run_idx, row in self.df.iterrows():
             run_equivalences = dict()
-            classifier_run = classifier_scores.df.iloc[run_idx]
-            for h in classifier_scores.df.columns:
-                run_equivalences[h] = self.compute_one_equivalence(classifier_run.loc[h],
+            for h in columns:
+                run_equivalences[h] = self.compute_one_equivalence(other.df.loc[run_idx, h],
                                                                    row.to_dict())
             run_results.append(run_equivalences)
         return pd.DataFrame(run_results)
@@ -74,8 +78,13 @@ class PowerCurve(ClassifierResults):
         return self.compute_one_equivalence(classifier_score, means)
 
     def compute_one_equivalence(self, classifier_score, k_powers: Dict = None):
+        """
+        :param classifier_score: a number, the classifier's score
+        :param k_powers: maps integers k to the expected score for that k
+        :return: a float, the survey equivalence value
+        """
         if not k_powers:
-            # compute it for row 0, the values for the actual item sample
+            # compute it for scores for row 0, the values for the actual item sample
             k_powers = self.values.to_dict()
         better_ks = [k for (k, v) in k_powers.items() if v > classifier_score]
         first_better_k = min(better_ks, default=0)
@@ -601,7 +610,7 @@ class Plot:
         if x_ticks:
             regular_ticks = x_ticks
         else:
-            regular_ticks = [i for i in range(0, self.xmax, math.ceil(self.xmax / 6))]
+            regular_ticks = [i for i in range(0, self.xmax, math.ceil(self.xmax / 8))]
 
         def nearest_tick(ticks, val):
             dists = {x: abs(x - val) for x in ticks}
