@@ -397,6 +397,8 @@ class AnalysisPipeline:
         ## Each item sample is one run
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
+
+
         run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
             print(f"\n\t\trun_results={run_results}")
@@ -546,8 +548,6 @@ class Plot:
             ymin = min(ymin, self.classifier_scores.min_value)
 
         self.ymin = self.possibly_center_score(ymin)
-        if self.generate_pgf:
-            self.template_dict['ymin'] = self.ymin
 
     def set_ymax(self):
         ymax = self.expert_power_curve.max_value
@@ -557,14 +557,10 @@ class Plot:
             ymax = max(ymax, self.classifier_scores.max_value)
 
         self.ymax = self.possibly_center_score(ymax)
-        if self.generate_pgf:
-            self.template_dict['ymax'] = self.ymax
 
     def set_xmax(self):
         self.xmax = 1 + max(max(self.expert_power_curve.means.index),
                             max(self.amateur_power_curve.means.index) if (self.amateur_power_curve != None) else 0)
-        if self.generate_pgf:
-            self.template_dict['xmax'] = self.xmax
 
     def plot_power_curve(self,
                          ax: matplotlib.axes.Axes,
@@ -708,7 +704,13 @@ class Plot:
 
         # ax.axis([0, self.xmax, self.ymin, self.ymax])
         ax.set(xlim=(0, self.xmax))
-        ax.set(ylim=self.y_range if self.y_range else (self.ymin, self.ymax))
+        ylims = self.y_range if self.y_range else (self.ymin, self.ymax)
+        ax.set(ylim=ylims)
+        if self.generate_pgf:
+            self.template_dict['xmin'] = 0
+            self.template_dict['xmax'] = self.xmax
+            self.template_dict['ymin'] = ylims[0]
+            self.template_dict['ymax'] = ylims[1]
 
         # set legend location based on where there is space
         ax.legend(loc=legend_loc if legend_loc else "best")
