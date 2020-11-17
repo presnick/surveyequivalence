@@ -37,8 +37,24 @@ class ClassifierResults:
     def compute_means_and_cis(self):
         self.means = self.df.mean()
         self.stds = self.df.std()
-        self.lower_bounds = self.means - 2*self.stds
-        self.upper_bounds = self.means + 2*self.stds
+        self.std_lower_bounds = self.means - 2*self.stds
+        self.std_upper_bounds = self.means + 2*self.stds
+        self.empirical_lower_bounds = self.df.quantile(.025)
+        self.empirical_upper_bounds = self.df.quantile(.975)
+
+    @property
+    def lower_bounds(self):
+        if len(self.df) < 200:
+            return self.std_lower_bounds
+        else:
+            return self.empirical_lower_bounds
+
+    @property
+    def upper_bounds(self):
+        if len(self.df) < 200:
+            return self.std_upper_bounds
+        else:
+            return self.empirical_upper_bounds
 
     @property
     def values(self):
@@ -74,8 +90,12 @@ class PowerCurve(ClassifierResults):
         return pd.DataFrame(run_results)
 
     def compute_equivalence_at_mean(self, classifier_score):
-        means = self.means.to_dict()
-        return self.compute_one_equivalence(classifier_score, means)
+        print("computing equivalence at means")
+        return self.compute_one_equivalence(classifier_score, self.means.to_dict())
+
+    def compute_equivalence_at_actuals(self, classifier_score):
+        print("computing equivalence at actuals")
+        return self.compute_one_equivalence(classifier_score, self.values.to_dict())
 
     def compute_one_equivalence(self, classifier_score, k_powers: Dict = None):
         """
@@ -504,10 +524,12 @@ class Plot:
         lower_bounds = np.array([self.possibly_center_score(score) for score in curve.lower_bounds[points]])
         upper_bounds = np.array([self.possibly_center_score(score) for score in curve.upper_bounds[points]])
         means = np.array([self.possibly_center_score(score) for score in curve.means[points]])
+        actuals = np.array([self.possibly_center_score(score) for score in curve.values[points]])
         lower_error = means - lower_bounds
         upper_error = upper_bounds - means
         ax.errorbar(curve.means[points].index,
-                    means,
+                    # means,
+                    actuals,
                     yerr=[lower_error, upper_error],
                     marker='o',
                     color=color,
@@ -573,19 +595,19 @@ class Plot:
                                              if include_classifier_cis else None)
                 if include_classifier_equivalences:
                     self.add_survey_equivalence_point(ax,
-                                                      self.expert_power_curve.compute_equivalence_at_mean(score),
+                                                      self.expert_power_curve.compute_equivalence_at_actuals(score),
                                                       self.possibly_center_score(score),
                                                       color,
                                                       include_droplines=include_droplines)
                 if include_classifier_amateur_equivalences:
                     self.add_survey_equivalence_point(ax,
-                                                      self.amateur_power_curve.compute_equivalence_at_mean(score),
+                                                      self.amateur_power_curve.compute_equivalence_at_actuals(score),
                                                       self.possibly_center_score(score),
                                                       color,
                                                       include_droplines=include_droplines)
         for idx in amateur_equivalences:
             score = self.amateur_power_curve.means[idx]
-            survey_eq = self.expert_power_curve.compute_equivalence_at_mean(score)
+            survey_eq = self.expert_power_curve.compute_equivalence_at_actuals(score)
             if self.verbosity > 1:
                 print(f"k={idx}: score={score} expert equivalence = {survey_eq}")
             survey_eq = survey_eq if type(survey_eq) != str else 0
@@ -595,7 +617,7 @@ class Plot:
                       color=self.color_map['amateur_power_curve'],
                       linewidths=2, linestyles='dashed')
             self.add_survey_equivalence_point(ax,
-                                              self.expert_power_curve.compute_equivalence_at_mean(score),
+                                              survey_eq,
                                               self.possibly_center_score(score),
                                               self.color_map['amateur_power_curve'],
                                               include_droplines=include_droplines)
