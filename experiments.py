@@ -122,7 +122,10 @@ def guessthekarma():
             include_classifier_cis=True
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
-    save_plot(fig, 'gtk+ABC+cross_entropy')
+    pgf = None
+    if pl.generate_pgf:
+        pgf = pl.template.substitute(**pl.template_dict)
+    save_plot(fig, 'gtk+ABC+cross_entropy', pgf)
 
 
 def wiki_toxicity():
