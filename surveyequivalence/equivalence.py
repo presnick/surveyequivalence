@@ -397,8 +397,6 @@ class AnalysisPipeline:
         ## Each item sample is one run
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
-
-
         run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
             print(f"\n\t\trun_results={run_results}")

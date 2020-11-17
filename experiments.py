@@ -111,6 +111,7 @@ def guessthekarma():
               y_range=(0, 0.4),
               name='running example ABC + cross_entropy',
               legend_label='k raters',
+              generate_pgf=True
               )
 
     pl.plot(include_classifiers=True,
@@ -118,7 +119,7 @@ def guessthekarma():
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_classifier_cis=False
+            include_classifier_cis=True
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
     save_plot(fig, 'gtk+ABC+cross_entropy')

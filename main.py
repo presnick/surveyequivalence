@@ -11,10 +11,15 @@ from surveyequivalence import State, DiscreteState, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     Plot, make_discrete_dataset_1, make_running_example_dataset, make_perceive_with_noise_datasets, Correlation
 
-def save_plot(fig, name):
+def save_plot(fig, name, pgf=None):
     if not os.path.isdir('plots'):
         os.mkdir('plots')
     fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+    if pgf:
+        # Need to get rid of extra linebreaks. This is important
+        pgf = pgf.replace('\r', '')
+        with open(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.tex', 'w') as tex:
+            tex.write(pgf)
 
 
 def generate_and_plot_noise_datasets():
@@ -44,7 +49,7 @@ def generate_and_plot_noise_datasets():
         pl = Plot(pipeline.expert_power_curve,
                   classifier_scores=ds.compute_classifier_scores(scorer),
                   color_map=color_map,
-                  y_axis_label='information gain (c_k - c_0)',
+                  y_axis_label='information gain ($c_k - c_0$)',
                   center_on_c0=True,
                   y_range=(0, .65),
                   name=ds.ds_generator.name,
@@ -103,7 +108,7 @@ def generate_and_plot_noisier_amateurs():
               pipeline.amateur_power_curve,
               classifier_scores=pipeline.classifier_scores,
               color_map=color_map,
-              y_axis_label='information gain (c_k - c_0)',
+              y_axis_label='information gain ($c_k - c_0$)',
               center_on_c0=True,
               y_range=(0, .65),
               name=ds.ds_generator.name,
@@ -196,7 +201,7 @@ def generate_and_plot_running_example():
     scorer2 = CrossEntropyScore()
     combiner2 = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
 
-    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000, num_labels_per_item=10,
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=30, num_labels_per_item=10,
                                        include_soft_classifier=True, include_hard_classifer=False)
 
     print(f"""mean label counts to use as prior for ABC: {ds2.dataset.apply(
@@ -223,7 +228,7 @@ def generate_and_plot_running_example():
                                 combiner=combiner2,
                                 scorer=scorer2,
                                 allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=50,
+                                num_bootstrap_item_samples=10,
                                 verbosity = 1)
 
 
@@ -253,11 +258,12 @@ def generate_and_plot_running_example():
               pipeline2.expert_power_curve,
               classifier_scores=pipeline2.classifier_scores,
               color_map=color_map,
-              y_axis_label='information gain (c_k - c_0)',
+              y_axis_label='information gain ($c_k - c_0$)',
               center_on_c0=True,
               y_range=(0, 0.4),
-              name='running example: ABC + cross_entropy',
+              name='running example: ABC + cross entropy',
               legend_label='k raters',
+              generate_pgf=True
               )
 
     pl.plot(include_classifiers=True,
@@ -265,10 +271,14 @@ def generate_and_plot_running_example():
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_classifier_cis=False
+            include_classifier_cis=True ##change back to false
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
-    save_plot(fig, 'running example: ABC + cross_entropy')
+    pgf = None
+    if pl.generate_pgf:
+        pgf = pl.template.substitute(**pl.template_dict)
+    save_plot(fig, 'runningexampleABC+cross_entropy', pgf)
+
 
 
 def main():
