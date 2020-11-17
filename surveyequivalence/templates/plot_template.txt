@@ -1,0 +1,7 @@
+\addplot[$linestyle, mark=$marker, mark options={scale=.8}, $color, smooth]
+plot [error bars/.cd, y dir = both, y explicit]
+table[y error index=2]{
+$plot
+};
+\addlegendentry{$legend}
+

@@ -1,5 +1,6 @@
 import math
-import random
+from string import Template
+import pkgutil
 from itertools import combinations
 from typing import Sequence, Dict, Tuple
 
@@ -415,7 +416,8 @@ class Plot:
                  name='powercurve',
                  legend_label='Expert raters',
                  amateur_legend_label="Lay raters",
-                 verbosity=1
+                 verbosity=1,
+                 generate_pgf=False
                  ):
         self.expert_power_curve = expert_power_curve
         self.amateur_power_curve = amateur_power_curve
@@ -430,8 +432,15 @@ class Plot:
         self.amateur_legend_label = amateur_legend_label
         self.verbosity = verbosity
         self.ax = ax
-        self.format_ax()
+        self.generate_pgf = generate_pgf
+
+        if self.generate_pgf:
+            self.template = Template(pkgutil.get_data(__name__, "templates/pgf_template.txt").decode('utf-8'))
+            self.template_dict = dict()
         # self.make_fig_and_axes()
+
+        self.format_ax()
+
 
     def format_ax(self):
         xlabel = 'Number of raters'
@@ -439,6 +448,11 @@ class Plot:
         self.ax.set_xlabel(xlabel, fontsize=16)
         self.ax.set_ylabel(ylabel, fontsize=16)
         self.ax.set_title(self.name)
+
+        if self.generate_pgf:
+            self.template_dict['xlabel'] = xlabel
+            self.template_dict['ylabel'] = ylabel
+            self.template_dict['title'] = self.name
 
     def add_state_distribution_inset(self, dataset_generator):
         ymax = self.y_range[1] if self.y_range else self.ymax
@@ -462,21 +476,63 @@ class Plot:
 
     def add_classifier_line(self, ax, name, score, color, ci=None):
         ax.axhline(y=score, color=color, linewidth=2, linestyle='dashed', label=name)
+        classifier_dict = dict()
+
         if ci:
             ax.axhspan(ci[0], ci[1], alpha=0.1, color=color)
+            classifier_dict['ci'] = ''
+            classifier_dict['cicolor'] = color
+            classifier_dict['cilower'] = ci[0]
+            classifier_dict['ciupper'] = ci[1]
+            classifier_dict['cialpha'] = 0.1
+        else:
+            classifier_dict['ci'] = '%'
+            classifier_dict['cicolor'] = ''
+            classifier_dict['cilower'] = ''
+            classifier_dict['ciupper'] = ''
+            classifier_dict['cialpha'] = ''
+
+        if self.generate_pgf:
+            classifier_template = Template(pkgutil.get_data(__name__, "templates/classifier_template.txt").decode('utf-8'))
+            classifier_dict['score'] = score
+            classifier_dict['color'] = color
+            classifier_dict['name'] = name
+            classifier_dict['linetype'] = 'dashed'
+            c = classifier_template.substitute(**classifier_dict)
+            if 'classifiers' not in self.template_dict:
+                self.template_dict['classifiers'] = ''
+            self.template_dict['classifiers'] += c
 
     def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
         # score is already centered before this is called
         # print(f"add_survey_equivalence_point {survey_equiv} type {type(survey_equiv)}")
         if (type(survey_equiv) != str):
             ax.scatter(survey_equiv, score, c=color)
+
+            se_dict = {'surveyequiv':survey_equiv, 'score':score, 'color':color, 'dropline':'%'}
+
             if include_droplines:
                 # print(f"adding dropline at {survey_equiv} from {self.ymin} to {score}")
                 self.x_intercepts.append(survey_equiv)
                 ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min,
                           ymax=score)
+                se_dict['dropline'] = ''
+                se_dict['dropcolor'] = color
+                se_dict['linestyle'] = 'dashed'
+                se_dict['x'] = survey_equiv
+                se_dict['ymin'] = self.y_range_min
+                se_dict['ymax'] = score
+
             # else:
             #     print("include_droplines is False")
+
+            if self.generate_pgf:
+                surveyequiv_template = Template(
+                    pkgutil.get_data(__name__, "templates/surveyequiv_template.txt").decode('utf-8'))
+                s = surveyequiv_template.substitute(**se_dict)
+                if 'surveyequivs' not in self.template_dict:
+                    self.template_dict['surveyequivs'] = ''
+                self.template_dict['surveyequivs'] += s
 
     @property
     def y_range_min(self):
@@ -490,6 +546,8 @@ class Plot:
             ymin = min(ymin, self.classifier_scores.min_value)
 
         self.ymin = self.possibly_center_score(ymin)
+        if self.generate_pgf:
+            self.template_dict['ymin'] = self.ymin
 
     def set_ymax(self):
         ymax = self.expert_power_curve.max_value
@@ -499,10 +557,14 @@ class Plot:
             ymax = max(ymax, self.classifier_scores.max_value)
 
         self.ymax = self.possibly_center_score(ymax)
+        if self.generate_pgf:
+            self.template_dict['ymax'] = self.ymax
 
     def set_xmax(self):
         self.xmax = 1 + max(max(self.expert_power_curve.means.index),
                             max(self.amateur_power_curve.means.index) if (self.amateur_power_curve != None) else 0)
+        if self.generate_pgf:
+            self.template_dict['xmax'] = self.xmax
 
     def plot_power_curve(self,
                          ax: matplotlib.axes.Axes,
@@ -538,6 +600,26 @@ class Plot:
                     label=legend_label,
                     linestyle=linestyle)
 
+        if self.generate_pgf:
+            plot_template = Template(pkgutil.get_data(__name__, "templates/plot_template.txt").decode('utf-8'))
+            plot_dict = dict()
+            if linestyle == '-':
+                plot_dict['linestyle'] = 'solid'
+            else:
+                plot_dict['linestyle'] = 'only marks'
+
+            pc = ''
+            for i in curve.means[points].index:
+                pc += '{0}\t{1}\t{2}\n'.format (i,actuals[i],lower_error[i])
+            plot_dict['plot'] = pc
+            plot_dict['marker'] = 'o'
+            plot_dict['color'] = color
+            plot_dict['legend'] = legend_label
+            p = plot_template.substitute(**plot_dict)
+            if 'plots' not in self.template_dict:
+                self.template_dict['plots'] = ''
+            self.template_dict['plots'] += p
+
     def plot(self,
              include_expert_points='all',
              connect_expert_points=True,
@@ -554,6 +636,7 @@ class Plot:
         ax = self.ax
 
         if include_expert_points:
+
             self.plot_power_curve(ax,
                                   self.expert_power_curve,
                                   points=include_expert_points,
@@ -574,6 +657,7 @@ class Plot:
         self.set_ymax()
         self.set_ymin()
         self.set_xmax()
+
         if self.verbosity > 3:
             print(f"y-axis range: {self.ymin}, {self.ymax}")
 
@@ -643,6 +727,8 @@ class Plot:
 
         ticks = sorted(ticks_to_use + self.x_intercepts)
         ax.set_xticks(ticks)
+        if self.generate_pgf:
+            self.template_dict['xticks'] = ', '.join(map(str, ticks))
 
         def xtick_formatter(x, pos):
             if math.isclose(x, int(round(x)), abs_tol=.001):

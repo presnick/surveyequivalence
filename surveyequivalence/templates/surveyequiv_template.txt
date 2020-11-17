@@ -1,0 +1,6 @@
+\addplot[mark=*, mark options={scale=.8}, $color, thick]
+    table[]{
+        $surveyequiv	$score
+    };
+
+$dropline\addplot[mark=none, $dropcolor, $linestyle, thick, samples=2, domain=-1:31] coordinates {($x,$ymax) ($x,$ymin)};

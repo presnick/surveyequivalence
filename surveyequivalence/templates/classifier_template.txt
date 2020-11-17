@@ -1,0 +1,4 @@
+\addplot[mark=none, $color, $linetype, thick, samples=2, domain=-1:31] {$score};
+\addlegendentry{$name}
+
+$ci\draw [$cicolor, opacity=$cialpha] (axis cs:-1,$cilower) rectangle (axis cs:31,$ciupper);
