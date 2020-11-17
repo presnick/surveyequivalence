@@ -10,11 +10,15 @@ from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPredic
     CrossEntropyScore, AnonymousBayesianCombiner
 
 
-def save_plot(fig, name):
+def save_plot(fig, name, pgf=None):
     if not os.path.isdir('plots'):
         os.mkdir('plots')
     fig.savefig(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
-
+    if pgf:
+        # Need to get rid of extra linebreaks. This is important
+        pgf = pgf.replace('\r', '')
+        with open(f'plots/{name}{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.tex', 'w') as tex:
+            tex.write(pgf)
 
 def guessthekarma():
     """
@@ -320,8 +324,8 @@ def cred_web():
 
 
 def main():
-    cred_web()
-    #guessthekarma()
+    #cred_web()
+    guessthekarma()
     #wiki_toxicity()
 
 
