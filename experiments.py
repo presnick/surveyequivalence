@@ -7,7 +7,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, \
-    CrossEntropyScore, AnonymousBayesianCombiner
+    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore
 
 
 def save_plot(fig, name, pgf=None):
@@ -65,7 +65,7 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)[:10]
+    prefer_W = pd.DataFrame(data=prefer_W)[:100]
     prefer_W = prefer_W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_l = prefer_W[prefer_W['hard classifier'] == 'l'][
@@ -85,9 +85,9 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
-    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['l', 'r']),
-                         scorer=CrossEntropyScore(), allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=10)
+    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(allowable_labels=['l', 'r']),
+                         scorer=F1Score(), allowable_labels=['l', 'r'],
+                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
