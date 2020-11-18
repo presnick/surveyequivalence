@@ -7,7 +7,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, \
-    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore
+    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore, AgreementScore
 
 
 def save_plot(fig, name, pgf=None):
@@ -85,8 +85,8 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
-    p = AnalysisPipeline(prefer_W, combiner=FrequencyCombiner(allowable_labels=['l', 'r']),
-                         scorer=F1Score(), allowable_labels=['l', 'r'],
+    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['l', 'r']),
+                         scorer=AgreementScore(), allowable_labels=['l', 'r'],
                          num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
@@ -163,7 +163,7 @@ def wiki_toxicity():
 
     print('##Wiki Toxic - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:500]
+    W = pd.DataFrame(data=W)[:1000]
     W = W.rename(columns={0: 'soft classifier'})
 
     classifier = pd.DataFrame(
@@ -172,10 +172,9 @@ def wiki_toxicity():
          in W['soft classifier']])
     W = W.drop(['soft classifier'], axis=1)
 
-    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=CrossEntropyScore(),
+    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=F1Score(),
                          allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4,
-                         max_rater_subsets=20)
+                         verbosity=1, classifier_predictions=classifier, max_K=20)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -203,6 +202,7 @@ def wiki_toxicity():
               y_range=(0, 0.4),
               name='WikiToxc + ABC + cross_entropy',
               legend_label='k raters',
+              generate_pgf=True
               )
 
     pl.plot(include_classifiers=True,
@@ -213,6 +213,9 @@ def wiki_toxicity():
             include_classifier_cis=False
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
+    pgf = None
+    if pl.generate_pgf:
+        pgf = pl.template.substitute(**pl.template_dict)
     save_plot(fig, 'WikiToxc+ABC+cross_entropy')
 
 
@@ -259,7 +262,7 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)
+    W = pd.DataFrame(data=W)[:50]
     W = W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_p = W[W['hard classifier'] == 'p'][
@@ -282,7 +285,7 @@ def cred_web():
 
     p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(),
                          allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=100, verbosity=1, classifier_predictions=classifier, max_K=20, max_rater_subsets=200)
+                         num_bootstrap_item_samples=20, verbosity=1, classifier_predictions=classifier, max_K=5, max_rater_subsets=100)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -310,6 +313,7 @@ def cred_web():
               y_range=(0, 0.4),
               name='Credweb + ABC + cross_entropy',
               legend_label='k raters',
+              generate_pgf=True
               )
 
     pl.plot(include_classifiers=True,
@@ -320,12 +324,15 @@ def cred_web():
             include_classifier_cis=False
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
-    save_plot(fig, 'credweb+ABC+cross_entropy')
+    pgf = None
+    if pl.generate_pgf:
+        pgf = pl.template.substitute(**pl.template_dict)
+    save_plot(fig, 'credweb+ABC+cross_entropy', pgf)
 
 
 def main():
-    #cred_web()
-    guessthekarma()
+    cred_web()
+    #guessthekarma()
     #wiki_toxicity()
 
 

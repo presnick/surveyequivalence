@@ -82,6 +82,7 @@ class Correlation(Scorer):
             if verbosity > 3:
                 print(f'\t\t\tcorrelation: non null preds={non_null_preds}, non null labels={list(non_null_labels)}')
 
+
             # [convert_to_number(l) for l in rater_labels]
             retval = np.corrcoef(non_null_preds, non_null_labels)[1, 0]
             if verbosity > 2:
