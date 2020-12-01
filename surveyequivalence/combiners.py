@@ -116,9 +116,11 @@ class PluralityVote(Combiner):
         :param to_predict_for: ignored in this combiner
         :return: the most common label
         """
+
+
         if len(labels) == 0:
             # with no labels, just pick one of the allowable labels at random
-            return random.choice(allowable_labels)
+            return NumericPrediction(random.choice(allowable_labels))
         else:
             freqs = dict()
             for rater, val in labels:
@@ -126,7 +128,7 @@ class PluralityVote(Combiner):
             max_freq = max(freqs.values())
             winners = [k for k in freqs if freqs[k] == max_freq]
             ## return one of the winners, at random
-            return random.choice(winners)
+            return NumericPrediction(random.choice(winners))
 
 
 class MeanCombiner(Combiner):
@@ -182,7 +184,6 @@ class FrequencyCombiner(Combiner):
 
         else:
             # no labels yet; use the Bayesian prior, based on overall frequencies in the dataset
-            # TODO: loop through items in W
             # for each, loop through all labels
             for label in np.nditer(W, flags=['refs_ok']):
                 if label in allowable_labels:

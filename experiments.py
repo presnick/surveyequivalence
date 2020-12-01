@@ -7,7 +7,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, \
-    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore, AgreementScore
+    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore, AgreementScore, PluralityVote
 
 
 def save_plot(fig, name, pgf=None):
@@ -262,7 +262,7 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:50]
+    W = pd.DataFrame(data=W)[:10]
     W = W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_p = W[W['hard classifier'] == 'p'][
@@ -277,15 +277,15 @@ def cred_web():
 
     classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_p['p'], calibrated_predictions_p[
-            'n']], normalize=False) if reddit == 'l' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
+            'n']], normalize=False) if reddit == 'p' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
                                                                                 calibrated_predictions_n['n']], normalize=False) for reddit
          in W['hard classifier']])
     W = W.drop(['hard classifier'], axis=1)
 
 
-    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=CrossEntropyScore(),
+    p = AnalysisPipeline(W, combiner=PluralityVote(allowable_labels=['p', 'n']), scorer=F1Score(),
                          allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=20, verbosity=1, classifier_predictions=classifier, max_K=5, max_rater_subsets=100)
+                         num_bootstrap_item_samples=20, verbosity=1, classifier_predictions=classifier, max_K=20, max_rater_subsets=100)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
