@@ -411,7 +411,7 @@ class Plot:
                  classifier_scores=None,
                  color_map={'expert_power_curve': 'black', 'amateur_power_curve': 'blue', 'classifier': 'green'},
                  y_axis_label='Agreement with reference rater',
-                 center_on_c0=False,
+                 center_on=None,
                  y_range=None,
                  name='powercurve',
                  legend_label='Expert raters',
@@ -424,7 +424,7 @@ class Plot:
         self.classifier_scores = classifier_scores
         self.color_map = color_map
         self.y_axis_label = y_axis_label
-        self.center_on_c0 = center_on_c0  # whether to subtract out c_0 from all values, in order to plot gains over baseline
+        self.center_on = center_on  # whether to subtract out c_0 from all values, in order to plot gains over baseline
         self.y_range = y_range
         self.name = name
         self.x_intercepts = []
@@ -469,8 +469,8 @@ class Plot:
         inset_ax = inset_axes(self.ax, width='30%', height='20%', loc=loc)
 
     def possibly_center_score(self, score):
-        if self.center_on_c0 and len(self.expert_power_curve.means) > 0:
-            return score - self.expert_power_curve.means[0]
+        if self.center_on is not None and len(self.expert_power_curve.means) > 0:
+            return score - self.center_on
         else:
             return score
 

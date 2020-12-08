@@ -85,12 +85,19 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
-    combiner = PluralityVote(allowable_labels=['l', 'r'])
-    scorer = AgreementScore()
+    combiner = FrequencyCombiner(allowable_labels=['l', 'r'])
+    scorer = CrossEntropyScore()
+
+    if type(scorer) is CrossEntropyScore:
+        prior = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['l', 'r']),
+                         scorer=scorer, allowable_labels=['l', 'r'],
+                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=1)
+    else:
+        prior = None
 
     p = AnalysisPipeline(prefer_W, combiner=combiner,
                          scorer=scorer, allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
+                         num_bootstrap_item_samples=1, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -114,7 +121,7 @@ def guessthekarma():
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              center_on_c0=False,
+              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               y_range=(-1.1, -0.9),
               name=f'GTK {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
@@ -179,6 +186,13 @@ def wiki_toxicity():
     combiner = PluralityVote(allowable_labels=['a', 'n'])
     scorer = AgreementScore()
 
+    if type(scorer) is CrossEntropyScore:
+        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']),
+                         scorer=scorer, allowable_labels=['a', 'n'],
+                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=1)
+    else:
+        prior = None
+
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['a', 'n'],
                          num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
@@ -205,7 +219,7 @@ def wiki_toxicity():
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              center_on_c0=False,
+              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               y_range=(-1.1, -0.9),
               name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
@@ -294,6 +308,13 @@ def cred_web():
     combiner = PluralityVote(allowable_labels=['p', 'n'])
     scorer = AgreementScore()
 
+    if type(scorer) is CrossEntropyScore:
+        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']),
+                         scorer=scorer, allowable_labels=['p', 'n'],
+                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=1)
+    else:
+        prior = None
+
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['p', 'n'],
                          num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
@@ -320,7 +341,7 @@ def cred_web():
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              center_on_c0=False,
+              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               y_range=(-1.1, -0.9),
               name=f'Cred {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
@@ -344,8 +365,8 @@ def cred_web():
 
 def main():
     #cred_web()
-    #guessthekarma()
-    wiki_toxicity()
+    guessthekarma()
+    #wiki_toxicity()
 
 
 main()
