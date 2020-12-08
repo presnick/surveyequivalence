@@ -100,7 +100,7 @@ class AgreementScore(Scorer):
               verbosity=0):
 
         assert len(classifier_predictions) == len(rater_labels)
-        tot_score = sum([pred == label for (pred, label) in \
+        tot_score = sum([pred.value == label for (pred, label) in \
                         zip(classifier_predictions, rater_labels)]) / \
                len(classifier_predictions)
 

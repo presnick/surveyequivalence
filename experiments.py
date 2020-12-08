@@ -65,7 +65,7 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)[:100]
+    prefer_W = pd.DataFrame(data=prefer_W)[:10]
     prefer_W = prefer_W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_l = prefer_W[prefer_W['hard classifier'] == 'l'][
@@ -85,9 +85,12 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
-    p = AnalysisPipeline(prefer_W, combiner=AnonymousBayesianCombiner(allowable_labels=['l', 'r']),
-                         scorer=AgreementScore(), allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=4)
+    combiner = PluralityVote(allowable_labels=['l', 'r'])
+    scorer = AgreementScore()
+
+    p = AnalysisPipeline(prefer_W, combiner=combiner,
+                         scorer=scorer, allowable_labels=['l', 'r'],
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -110,10 +113,10 @@ def guessthekarma():
     pl = Plot(ax,
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
-              y_axis_label='information gain (c_k - c_0)',
-              center_on_c0=True,
-              y_range=(0, 0.4),
-              name='running example ABC + cross_entropy',
+              y_axis_label='score',
+              center_on_c0=False,
+              y_range=(-1.1, -0.9),
+              name=f'GTK {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -129,7 +132,7 @@ def guessthekarma():
     pgf = None
     if pl.generate_pgf:
         pgf = pl.template.substitute(**pl.template_dict)
-    save_plot(fig, 'gtk+ABC+cross_entropy', pgf)
+    save_plot(fig, f'GTK_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
 
 
 def wiki_toxicity():
@@ -163,7 +166,7 @@ def wiki_toxicity():
 
     print('##Wiki Toxic - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:1000]
+    W = pd.DataFrame(data=W)[:5]
     W = W.rename(columns={0: 'soft classifier'})
 
     classifier = pd.DataFrame(
@@ -172,9 +175,13 @@ def wiki_toxicity():
          in W['soft classifier']])
     W = W.drop(['soft classifier'], axis=1)
 
-    p = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=F1Score(),
-                         allowable_labels=['a', 'n'],
-                         verbosity=1, classifier_predictions=classifier, max_K=20)
+
+    combiner = PluralityVote(allowable_labels=['a', 'n'])
+    scorer = AgreementScore()
+
+    p = AnalysisPipeline(W, combiner=combiner,
+                         scorer=scorer, allowable_labels=['a', 'n'],
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -197,10 +204,10 @@ def wiki_toxicity():
     pl = Plot(ax,
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
-              y_axis_label='information gain (c_k - c_0)',
-              center_on_c0=True,
-              y_range=(0, 0.4),
-              name='WikiToxc + ABC + cross_entropy',
+              y_axis_label='score',
+              center_on_c0=False,
+              y_range=(-1.1, -0.9),
+              name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -210,13 +217,14 @@ def wiki_toxicity():
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_classifier_cis=False
+            include_classifier_cis=True
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
     pgf = None
     if pl.generate_pgf:
         pgf = pl.template.substitute(**pl.template_dict)
-    save_plot(fig, 'WikiToxc+ABC+cross_entropy')
+    save_plot(fig, f'toxic_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
+
 
 
 def cred_web():
@@ -262,7 +270,7 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:10]
+    W = pd.DataFrame(data=W)[:5]
     W = W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_p = W[W['hard classifier'] == 'p'][
@@ -277,15 +285,18 @@ def cred_web():
 
     classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_p['p'], calibrated_predictions_p[
-            'n']], normalize=False) if reddit == 'p' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
-                                                                                calibrated_predictions_n['n']], normalize=False) for reddit
+            'n']], normalize=False) if cred == 'p' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
+                                                                                calibrated_predictions_n['n']], normalize=False) for cred
          in W['hard classifier']])
     W = W.drop(['hard classifier'], axis=1)
 
 
-    p = AnalysisPipeline(W, combiner=PluralityVote(allowable_labels=['p', 'n']), scorer=F1Score(),
-                         allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=20, verbosity=1, classifier_predictions=classifier, max_K=20, max_rater_subsets=100)
+    combiner = PluralityVote(allowable_labels=['p', 'n'])
+    scorer = AgreementScore()
+
+    p = AnalysisPipeline(W, combiner=combiner,
+                         scorer=scorer, allowable_labels=['p', 'n'],
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -308,10 +319,10 @@ def cred_web():
     pl = Plot(ax,
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
-              y_axis_label='information gain (c_k - c_0)',
-              center_on_c0=True,
-              y_range=(0, 0.4),
-              name='Credweb + ABC + cross_entropy',
+              y_axis_label='score',
+              center_on_c0=False,
+              y_range=(-1.1, -0.9),
+              name=f'Cred {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -321,19 +332,20 @@ def cred_web():
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_classifier_cis=False
+            include_classifier_cis=True
             )
     # pl.add_state_distribution_inset(ds.ds_generator)
     pgf = None
     if pl.generate_pgf:
         pgf = pl.template.substitute(**pl.template_dict)
-    save_plot(fig, 'credweb+ABC+cross_entropy', pgf)
+    save_plot(fig, f'Cred_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
+
 
 
 def main():
-    cred_web()
+    #cred_web()
     #guessthekarma()
-    #wiki_toxicity()
+    wiki_toxicity()
 
 
 main()
