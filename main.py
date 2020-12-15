@@ -85,7 +85,7 @@ def generate_and_plot_noisier_amateurs():
                                        amateur_cols=list(ds.amateur_dataset.columns),
                                        classifier_predictions = ds.classifier_predictions,
                                        combiner=combiner,
-                                       scoring_function=scorer.score,
+                                       scoring_function=scorer,
                                        allowable_labels=['pos', 'neg'],
                                        # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                        num_bootstrap_item_samples=10)
@@ -128,8 +128,8 @@ def generate_and_plot_noisier_amateurs():
     save_plot(fig, ds.ds_generator.name)
 
 def generate_and_plot_running_example():
-    scorer = AgreementScore()
-    combiner = PluralityVote(allowable_labels=['pos', 'neg'])
+    # scorer = AgreementScore()
+    # combiner = PluralityVote(allowable_labels=['pos', 'neg'])
 
     color_map = {
         'expert_power_curve': 'black',
@@ -156,7 +156,7 @@ def generate_and_plot_running_example():
     #                             allowable_labels=['pos', 'neg'],
     #                             num_bootstrap_item_samples=100,
     #                             max_K=10,
-    #                             verbosity=2)
+    #                             verbosity=1)
     #
     # pipeline.output_csv('plots/small_running_dataset.csv')
     # cs = pipeline.classifier_scores
@@ -186,6 +186,7 @@ def generate_and_plot_running_example():
     #           y_range=(0, 1),
     #           name='running example: majority vote + agreement score',
     #           legend_label='k raters',
+    #           generate_pgf=True
     #           )
     #
     # pl.plot(include_classifiers=True,
@@ -196,12 +197,16 @@ def generate_and_plot_running_example():
     #         include_classifier_cis=True
     #         )
     # # pl.add_state_distribution_inset(ds.ds_generator)
-    # save_plot(fig, ds.ds_generator.name)
+    # pgf = None
+    # if pl.generate_pgf:
+    #     pgf = pl.template.substitute(**pl.template_dict)
+    # save_plot(fig, 'runningexampleABC+cross_entropy', pgf)
+
 
     scorer2 = CrossEntropyScore()
     combiner2 = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
 
-    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=30, num_labels_per_item=10,
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000, num_labels_per_item=10,
                                        include_soft_classifier=True, include_hard_classifer=False)
 
     print(f"""mean label counts to use as prior for ABC: {ds2.dataset.apply(
@@ -228,7 +233,7 @@ def generate_and_plot_running_example():
                                 combiner=combiner2,
                                 scorer=scorer2,
                                 allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=10,
+                                num_bootstrap_item_samples=100,
                                 verbosity = 1)
 
 
@@ -259,7 +264,7 @@ def generate_and_plot_running_example():
               classifier_scores=pipeline2.classifier_scores,
               color_map=color_map,
               y_axis_label='information gain ($c_k - c_0$)',
-              center_on_c0=True,
+              center_on=True,
               y_range=(0, 0.4),
               name='running example: ABC + cross entropy',
               legend_label='k raters',

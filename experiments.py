@@ -65,7 +65,7 @@ def guessthekarma():
 
     print('##GUESSTHEKARMA - Dataset loaded##', len(prefer_W))
 
-    prefer_W = pd.DataFrame(data=prefer_W)[:10]
+    prefer_W = pd.DataFrame(data=prefer_W)[:20]
     prefer_W = prefer_W.rename(columns={0: 'hard classifier'})
 
     calibrated_predictions_l = prefer_W[prefer_W['hard classifier'] == 'l'][
@@ -85,7 +85,7 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
-    combiner = FrequencyCombiner(allowable_labels=['l', 'r'])
+    combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
     scorer = CrossEntropyScore()
 
     if type(scorer) is CrossEntropyScore:
@@ -97,7 +97,7 @@ def guessthekarma():
 
     p = AnalysisPipeline(prefer_W, combiner=combiner,
                          scorer=scorer, allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=1, verbosity=1, classifier_predictions=classifier, max_K=4)
+                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=6)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -183,8 +183,8 @@ def wiki_toxicity():
     W = W.drop(['soft classifier'], axis=1)
 
 
-    combiner = PluralityVote(allowable_labels=['a', 'n'])
-    scorer = AgreementScore()
+    combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
+    scorer = CrossEntropyScore()
 
     if type(scorer) is CrossEntropyScore:
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']),
@@ -195,7 +195,7 @@ def wiki_toxicity():
 
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
+                         num_bootstrap_item_samples=1, verbosity=1, classifier_predictions=classifier, max_K=4)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -305,8 +305,8 @@ def cred_web():
     W = W.drop(['hard classifier'], axis=1)
 
 
-    combiner = PluralityVote(allowable_labels=['p', 'n'])
-    scorer = AgreementScore()
+    combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
+    scorer = CrossEntropyScore()
 
     if type(scorer) is CrossEntropyScore:
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']),

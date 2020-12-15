@@ -89,9 +89,10 @@ class DiscreteDistributionPrediction(Prediction):
         )[0]
 
 class Combiner(ABC):
-    def __init__(self, allowable_labels: Sequence[str]=None, verbosity=0):
+    def __init__(self, allowable_labels: Sequence[str]=None, verbosity=0, regularizer=0):
         self.allowable_labels=allowable_labels
         self.verbosity = verbosity
+        self.regularizer = regularizer
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],
@@ -163,7 +164,8 @@ class FrequencyCombiner(Combiner):
                    labels: Sequence[Tuple[str, str]],
                    W: np.matrix = None,
                    item_id=None,
-                   to_predict_for=None) -> DiscreteDistributionPrediction:
+                   to_predict_for=None,
+                   ) -> DiscreteDistributionPrediction:
         """
         Ignore item_id, rater_ids (first element of each tuple in labels), and rater_id to_predict_for
         return a vector of frequencies with which the allowable labels occur
@@ -175,7 +177,7 @@ class FrequencyCombiner(Combiner):
         [0.0, 1.0]
         """
 
-        freqs = {k: 0 for k in allowable_labels}
+        freqs = {k: self.regularizer for k in allowable_labels}
 
         if len(labels) > 0:
             # k>0; use the actual labels

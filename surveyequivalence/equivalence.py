@@ -366,6 +366,8 @@ class AnalysisPipeline:
                             print(
                                 f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
                         scores.append(score)
+                    else:
+                        print("ugh")
                 if self.verbosity > 1:
                     print(f'\tscores for k={k}: {scores}')
                 if len(scores) > 0:
