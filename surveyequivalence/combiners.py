@@ -31,12 +31,20 @@ class NumericPrediction(Prediction):
     def value(self):
         return self.num
 
+class DiscretePrediction(Prediction):
+    def __init__(self, label):
+        self.label = label
+
+    @property
+    def value(self):
+        return self.label
+
 class DiscreteDistributionPrediction(Prediction):
     def __init__(self, label_names, probabilities, no_extremes=True, normalize=True):
         super().__init__()
         self.label_names = label_names
         if no_extremes:
-            self.probabilities = [min(.999, max(.001, pr)) for pr in probabilities]
+            self.probabilities = [min(.98, max(.02, pr)) for pr in probabilities]
         else:
             self.probabilities = probabilities
 

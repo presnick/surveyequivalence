@@ -9,7 +9,9 @@ from surveyequivalence import State, DiscreteState, \
     DiscreteDistributionPrediction, \
     FrequencyCombiner, PluralityVote, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
-    Plot, make_discrete_dataset_1, make_running_example_dataset, make_perceive_with_noise_datasets, Correlation
+    Plot, make_discrete_dataset_1, make_running_example_dataset, make_perceive_with_noise_datasets, Correlation, \
+    ClassifierResults, \
+    load_saved_pipeline
 
 def save_plot(fig, name, pgf=None):
     if not os.path.isdir('plots'):
@@ -135,7 +137,8 @@ def generate_and_plot_running_example():
         'expert_power_curve': 'black',
         'amateur_power_curve': 'green',
         'hard classifier': 'red',
-        'soft classifier': 'red'
+        'mock classifier': 'blue',
+        'calibrated hard classifier': 'red'
     }
 
     # ds = make_running_example_dataset(num_items_per_dataset=1000, num_labels_per_item = 10, minimal=False,
@@ -203,68 +206,121 @@ def generate_and_plot_running_example():
     # save_plot(fig, 'runningexampleABC+cross_entropy', pgf)
 
 
-    scorer2 = CrossEntropyScore()
-    combiner2 = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
+    num_items_per_dataset=1000
+    num_labels_per_item=10
+    num_bootstrap_item_samples = 500
 
-    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=1000, num_labels_per_item=10,
-                                       include_soft_classifier=True, include_hard_classifer=False)
+    # pipeline = load_saved_pipeline('saved_analyses/analysis_pipeline/01-01-2021_09-53-28_PM')
+
+
+    hard_classifiers = ['hard classifier']
+    soft_classifiers = ['mock classifier', 'calibrated hard classifier', 'h_infinity: ideal classifier']
+
+    agreement_score = AgreementScore()
+    plurality_combiner = PluralityVote(allowable_labels=['pos', 'neg'])
+
+    cross_entropy = CrossEntropyScore()
+    abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
+
+    freq_combiner = FrequencyCombiner(allowable_labels=['pos', 'neg'])
+
+
+    ds2 = make_running_example_dataset(minimal=False, num_items_per_dataset=num_items_per_dataset,
+                                       num_labels_per_item=num_labels_per_item,
+                                       include_soft_classifier=True, include_hard_classifer=True)
 
     print(f"""mean label counts to use as prior for ABC: {ds2.dataset.apply(
             pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)}""")
-    base_pred = combiner2.combine(['pos', 'neg'], [], W=ds2.dataset.to_numpy(), item_id=1)
+    base_pred = abc.combine(['pos', 'neg'], [], W=ds2.dataset.to_numpy(), item_id=1)
     predictions = [base_pred for _ in range(len(ds2.dataset))]
-    c_0 = scorer2.score_classifier(predictions, ds2.dataset.columns, ds2.dataset)
-    print(f"scorer2 on base_preds = {c_0}")
+    c_0 = cross_entropy.score_classifier(predictions, ds2.dataset.columns, ds2.dataset)
+    print(f"Cross Entropy on base_preds (i.e., c_0) = {c_0}")
 
 
-    # W = pd.concat([ds2.dataset, ds2.classifier_predictions], axis=1)
-    # calibrated_predictions_pos = W[W['hard classifier'] == 'pos'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
-    #     pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
-    #
-    # calibrated_predictions_neg = W[W['hard classifier'] == 'neg'][['e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'e_6', 'e_7', 'e_8', 'e_9', 'e_10']].apply(
-    #     pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
-    #
-    # print(calibrated_predictions_pos, calibrated_predictions_neg)
-    #
-    # exit()
+    pipeline = AnalysisPipeline(ds2.dataset,
+                                expert_cols=list(ds2.dataset.columns),
+                                classifier_predictions=ds2.classifier_predictions[hard_classifiers],
+                                combiner=plurality_combiner,
+                                scorer=agreement_score,
+                                allowable_labels=['pos', 'neg'],
+                                num_bootstrap_item_samples=num_bootstrap_item_samples,
+                                verbosity = 1)
+    pipeline.save(dirname_base = "plurality_plus_agreement",
+        msg = f"""
+    Running example with {num_items_per_dataset} items and {num_labels_per_item} raters per item
+    {num_bootstrap_item_samples} bootstrap itemsets
+    Plurality combiner with agreement score
+    """)
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 10.5)
+
+    pl = Plot(ax,
+              pipeline.expert_power_curve,
+              classifier_scores=ClassifierResults(pipeline.classifier_scores.df[['hard classifier']]),
+              color_map=color_map,
+              y_axis_label='percent agreement with reference rater',
+              y_range=(0, 1),
+              name='running example: majority vote + agreement score',
+              legend_label='k raters',
+              generate_pgf=True
+              )
+
+    pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=True ##change back to false
+            )
+    # pl.add_state_distribution_inset(ds.ds_generator)
+    pgf = None
+    if pl.generate_pgf:
+        pgf = pl.template.substitute(**pl.template_dict)
+    save_plot(fig, 'runningexample_majority_vote_plus_agreement', pgf)
+
+
     pipeline2 = AnalysisPipeline(ds2.dataset,
                                 expert_cols=list(ds2.dataset.columns),
-                                classifier_predictions=ds2.classifier_predictions,
-                                combiner=combiner2,
-                                scorer=scorer2,
+                                classifier_predictions=ds2.classifier_predictions[soft_classifiers],
+                                combiner=abc,
+                                scorer=cross_entropy,
                                 allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=100,
+                                num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
 
+    pipeline2.save(dirname_base = "abc_plus_cross_entropy",
+                   msg = f"""
+    Running example with {num_items_per_dataset} items and {num_labels_per_item} raters per item
+    {num_bootstrap_item_samples} bootstrap itemsets
+    Anonymous Bayesian combiner with cross entropy score
+    """)
 
-    cs = pipeline2.classifier_scores
-    print("\nfull dataset\n")
-    print("\n----classifier scores-----")
-    print(f"\tActual item set score: {cs.values}")
-    print(cs.means)
-    print(cs.stds)
+    pipeline3 = AnalysisPipeline(ds2.dataset,
+                                expert_cols=list(ds2.dataset.columns),
+                                classifier_predictions=ds2.classifier_predictions[soft_classifiers],
+                                combiner=freq_combiner,
+                                scorer=cross_entropy,
+                                allowable_labels=['pos', 'neg'],
+                                num_bootstrap_item_samples=num_bootstrap_item_samples,
+                                verbosity = 1)
 
-    print("\n----power curve means-----")
-    print(f"\tActual item set score: {pipeline2.expert_power_curve.values}")
-    print(pipeline2.expert_power_curve.means)
-    print(pipeline2.expert_power_curve.stds)
-
-    print("\n----survey equivalences----")
-    equivalences = pipeline2.expert_power_curve.compute_equivalences(pipeline2.classifier_scores)
-    print(equivalences)
-    print(f"means: {equivalences.mean()}")
-    print(f"medians {equivalences.median()}")
-    print(f"stddevs {equivalences.std()}")
+    pipeline3.save(dirname_base = "frequency_plus_cross_entropy",
+                   msg = f"""
+    Running example with {num_items_per_dataset} items and {num_labels_per_item} raters per item
+    {num_bootstrap_item_samples} bootstrap itemsets
+    frequency combiner with cross entropy score
+    """)
 
     fig, ax = plt.subplots()
     fig.set_size_inches(8.5, 10.5)
 
     pl = Plot(ax,
               pipeline2.expert_power_curve,
-              classifier_scores=pipeline2.classifier_scores,
+              classifier_scores=ClassifierResults(pipeline2.classifier_scores.df[['calibrated hard classifier']]),
               color_map=color_map,
               y_axis_label='information gain ($c_k - c_0$)',
-              center_on=True,
+              center_on=pipeline2.expert_power_curve.values[0],
               y_range=(0, 0.4),
               name='running example: ABC + cross entropy',
               legend_label='k raters',
@@ -283,7 +339,6 @@ def generate_and_plot_running_example():
     if pl.generate_pgf:
         pgf = pl.template.substitute(**pl.template_dict)
     save_plot(fig, 'runningexampleABC+cross_entropy', pgf)
-
 
 
 def main():
