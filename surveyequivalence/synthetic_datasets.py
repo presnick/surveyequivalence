@@ -1,4 +1,4 @@
-from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscreteDistributionPrediction, \
+from surveyequivalence import DiscreteLabelsWithNoise, DiscreteState, Prediction, DiscretePrediction, DiscreteDistributionPrediction, \
     FixedStateGenerator, DiscreteDistributionOverStates
 from typing import Sequence, Dict
 
@@ -32,21 +32,17 @@ class MockClassifier:
 
         return [self.label_predictors[s.state_name] for s in item_states]
 
-class DiscreteMockClassifier(MockClassifier):
-    def make_predictions(self, item_states):
-        return [self.label_predictors[s.state_name].draw_discrete_label() for s in item_states]
-
-class CalibratedDiscreteMockClassifier(MockClassifier):
+class MappedDiscreteMockClassifier(MockClassifier):
     def __init__(self,
                  name,
                  label_predictors: Dict[str, Prediction],
-                 calibrated_predictions: Dict[str, Prediction] # a dictionary mapping from labels to continuous Predictions
+                 prediction_map: Dict[str, Prediction] # a dictionary mapping from labels to continuous Predictions
                  ):
-        super(CalibratedDiscreteMockClassifier, self).__init__(name, label_predictors)
-        self.calibrated_predictions = calibrated_predictions
+        super().__init__(name, label_predictors)
+        self.prediction_map = prediction_map
 
     def make_predictions(self, item_states):
-        return [self.calibrated_predictions[self.label_predictors[s.state_name].draw_discrete_label()] for s in item_states]
+        return [self.prediction_map[self.label_predictors[s.state_name].draw_discrete_label()] for s in item_states]
 
 
 ############ Synthetic Dataset Generator ###############
@@ -323,34 +319,46 @@ def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item
                                           )
 
     if include_hard_classifer:
-        dsg.mock_classifiers.append(DiscreteMockClassifier(
+        dsg.mock_classifiers.append(MappedDiscreteMockClassifier(
             name='hard classifier',
             label_predictors={
                 'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
                 'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
                 'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
-            }))
+            },
+            prediction_map={'pos': DiscretePrediction('pos'),
+                            'neg': DiscretePrediction('neg')
+                            }
+        ))
 
     if include_soft_classifier:
         dsg.mock_classifiers.append(MockClassifier(
-            name='soft classifier',
+            name='mock classifier',
             label_predictors={
                 'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
                 'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
                 'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
             }))
 
-        dsg.mock_classifiers.append(CalibratedDiscreteMockClassifier(
+        dsg.mock_classifiers.append(MappedDiscreteMockClassifier(
             name='calibrated hard classifier',
             label_predictors={
                 'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
                 'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
                 'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
             },
-            calibrated_predictions = {'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.7544, .2456]),
-                                      'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.4358, .5642])
-                                      }
+            prediction_map = {'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.7681, .2319]),
+                              'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.3226, .6774])
+                              }
         ))
+
+        dsg.mock_classifiers.append(MockClassifier(
+            name='h_infinity: ideal classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.8, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.1, .9]),
+            }))
 
 
     return SyntheticDataset(dsg)

@@ -7,6 +7,10 @@ from typing import Sequence, Dict, Tuple
 import operator
 from functools import reduce
 
+import datetime
+import pickle
+import os
+
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -16,7 +20,38 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 
-N = 1000
+def load_saved_pipeline(path):
+    W = pd.read_csv(f'{path}/dataset.csv')
+
+    with open(f'{path}/params.pickle', 'rb') as f:
+        params = pickle.load(f)
+
+    predictions = pd.read_csv(f'{path}/predictions.csv', index_col=0)
+
+    classifier_scores = PowerCurve(df=pd.read_csv(f'{path}/classifier_scores.csv', index_col=0))
+
+    epc_df = pd.read_csv(f'{path}/expert_power_curve.csv', index_col=0)
+    epc_df.columns = epc_df.columns.astype(int)
+    expert_power_curve = PowerCurve(df=epc_df)
+
+    try:
+        apc_df = pd.read_csv(f'{path}/amateur_power_curve.csv', index_col=0)
+        apc_df.columns = apc_df.columns.astype(int)
+        amateur_power_curve = PowerCurve(df=apc_df)
+
+        # amateur_power_curve = PowerCurve(df=pd.read_csv(f'{path}/amateur_power_curve.csv'))
+    except FileNotFoundError:
+        amateur_power_curve = None
+
+    analysis_pipeline = AnalysisPipeline(run_on_creation=False,
+                                         W=W,
+                                         classifier_predictions=predictions,
+                                         **params)
+
+    analysis_pipeline.classifier_scores = classifier_scores
+    analysis_pipeline.expert_power_curve = expert_power_curve
+    analysis_pipeline.amateur_power_curve = amateur_power_curve
+    return analysis_pipeline
 
 class ClassifierResults:
     def __init__(self,
@@ -29,7 +64,7 @@ class ClassifierResults:
         First row is special: the values for the actual item sample
         Rest of rows are for bootstrap item samples
         """
-        if df:
+        if df is not None:
             self.df = df
         else:
             self.df = pd.DataFrame(runs)
@@ -130,6 +165,15 @@ class PowerCurve(ClassifierResults):
         df2 = other.df
         return (df1[k] > df2[k]).sum() / len(df1)
 
+    def reliability_of_beating_classifier(self, other, k=1, other_col=1):
+        """
+        :param other: the other ClassifierResults or PowerCurve
+        :param self_col: the survey size (column) for self
+        :param other_col: the survey size (column) for other to compare, with matching bootstrap samples as rows
+        :return: fraction of bootstrap runs where self power higher than other power
+        """
+        return (self.df[k] > other.df[other_col]).sum() / len(self.df)
+
 
 class LabeledItem:
     def __init__(self,
@@ -159,7 +203,9 @@ class AnalysisPipeline:
                  max_K=10,
                  ratersets_memo=None,
                  predictions_memo=None,
-                 verbosity=1
+                 item_samples=None,
+                 verbosity=1,
+                 run_on_creation = True
                  ):
         if expert_cols:
             self.expert_cols = expert_cols
@@ -177,8 +223,9 @@ class AnalysisPipeline:
         self.allowable_labels = allowable_labels
         self.null_prediction = null_prediction
         self.min_k = min_k
+        self.max_K = max_K
         self.num_bootstrap_item_samples = num_bootstrap_item_samples
-        self.max_raters_subsets=max_rater_subsets
+        self.max_rater_subsets=max_rater_subsets
         self.verbosity = verbosity
 
         # initialize memoization cache for rater subsets
@@ -193,17 +240,24 @@ class AnalysisPipeline:
         else:
             self.predictions_memo = dict()
 
-        self.item_samples = self.generate_item_samples(self.num_bootstrap_item_samples)
+        if item_samples:
+            self.item_samples = item_samples
+        else:
+            self.item_samples = self.generate_item_samples(self.num_bootstrap_item_samples)
 
+        if run_on_creation:
+            self.run()
+
+    def run(self):
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
 
         self.expert_power_curve = self.compute_power_curve(
             raters=self.expert_cols,
             ref_raters=self.expert_cols,
-            min_k=min_k,
-            max_k=min(max_K, len(self.expert_cols)) - 1,
-            max_rater_subsets=max_rater_subsets)
+            min_k=self.min_k,
+            max_k=min(self.max_K, len(self.expert_cols)) - 1,
+            max_rater_subsets=self.max_rater_subsets)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
@@ -213,7 +267,84 @@ class AnalysisPipeline:
                 ref_raters=expert_cols,
                 min_k=min_k,
                 max_k=min(max_K, len(self.amateur_cols)) - 1,
-                max_rater_subsets=max_rater_subsets)
+                max_rater_subsets=self.max_rater_subsets)
+
+
+    def save(self, dirname_base="analysis_pipeline", msg="", save_results = True):
+        # make a directory for it
+        path = f'saved_analyses/{dirname_base}/{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
+        try:
+            os.mkdir('saved_analyses')
+        except FileExistsError:
+            pass
+        try:
+            os.mkdir(f'saved_analyses/{dirname_base}')
+        except FileExistsError:
+            pass
+        try:
+            os.mkdir(path)
+        except FileExistsError:
+            pass
+
+        # save the message as a README file
+        with open(f'{path}/README', 'w') as f:
+            f.write(msg)
+
+        # save the dataset
+        self.W.to_csv(f'{path}/dataset.csv')
+
+        # save parameters
+        d = dict(
+                expert_cols = self.expert_cols,
+                amateur_cols = self.amateur_cols,
+                sparse_experts =self.sparse_experts,
+                # combiner = self.combiner = combiner,   # combiner and scorer are class instances, so can't save this way
+                # scorer = self.scorer,
+                allowable_labels = self.allowable_labels,
+                null_prediction = self.null_prediction,
+                min_k = self.min_k,
+                num_bootstrap_item_samples = self.num_bootstrap_item_samples,
+                max_rater_subsets = self.max_rater_subsets,
+                verbosity = self.verbosity,
+                ratersets_memo = self.ratersets_memo,
+                item_samples = self.item_samples
+        )
+        with open(f'{path}/params.pickle', 'wb') as f:
+            pickle.dump(d, f)
+
+        # save the classifier predictions
+        self.classifier_predictions.to_csv(f'{path}/predictions.csv')
+
+        # save the classifier scores
+        self.classifier_scores.df.to_csv(f'{path}/classifier_scores.csv')
+
+        # save the expert power curve
+        self.expert_power_curve.df.to_csv(f'{path}/expert_power_curve.csv')
+
+        # save the amateur power_curve
+        amateur_power_curve = getattr(self, 'amateur_power_curve', None)
+        if amateur_power_curve:
+            amateur_power_curve.df.to_csv(f'{path}/amateur_power_curve.csv')
+
+        # write out results summary
+        if save_results:
+            with open(f'{path}/results_summary.txt', 'w') as f:
+                f.write("\n----classifier scores-----")
+                f.write(f"\tActual item set score:\n {self.classifier_scores.values}")
+                f.write(f"\tmeans:\n{self.classifier_scores.means}")
+                f.write(f"\tstds:\n{self.classifier_scores.stds}")
+
+                f.write("\n----power curve means-----")
+                f.write(f"\tActual item set score: {self.expert_power_curve.values}")
+                f.write(f"\tmeans:\n{self.expert_power_curve.means}")
+                f.write(f"\tstds:\n{self.expert_power_curve.stds}")
+
+                f.write("\n----survey equivalences----")
+                equivalences = self.expert_power_curve.compute_equivalences(self.classifier_scores)
+                f.write(f'{equivalences}')
+                f.write(f"\tmeans:\n {equivalences.mean()}")
+                f.write(f"\tmedians\n {equivalences.median()}")
+                f.write(f"\tstddevs\n {equivalences.std()}")
 
     def output_csv(self, fname):
         # output the dataframe and the expert predictions
