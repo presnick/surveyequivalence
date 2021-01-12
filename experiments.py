@@ -263,20 +263,21 @@ def cred_web():
         highmed = int(item['credCount1_ret'])
         high = int(item['credCount2_ret'])
 
-        for i in range(highmed + high):
+        for i in range(high):
             raters.append('p')
-        for i in range(low + lowmed + med):
+        for i in range(low + lowmed + med + highmed):
             raters.append('n')
 
         shuffle(raters)
 
         #prepend the predictor class
-        ret = 'n'
-        if item['Credibility_Class_Number_ret'] in [1,2]:
-            ret = 'p'
+        ret = item['cscw_predictor']
+        ca_ret = item['P_ca_ret']
+
+        shuffle(raters)
 
         # add the predictor class
-        W[index] = [ret] + raters
+        W[index] = [ret,ca_ret] + raters
 
     x = list(W.values())
     length = max(map(len, x))
@@ -284,28 +285,25 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:5]
-    W = W.rename(columns={0: 'hard classifier'})
+    W = pd.DataFrame(data=W)[:30]
+    W = W.rename(columns={0: 'hard classifier', 1: 'perc'})
 
-    calibrated_predictions_p = W[W['hard classifier'] == 'p'][
-        W.columns.difference(['hard classifier'])].apply(
-        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
+    classifier = list()
+    for cred in W['hard classifier']:
+        classifier.append(W[W['hard classifier'] == cred]['perc'].mean())
 
-    calibrated_predictions_n = W[W['hard classifier'] == 'n'][
-        W.columns.difference(['hard classifier'])].apply(
-        pd.Series.value_counts, normalize=True, axis=1).fillna(0).mean(axis=0)
 
-    print(calibrated_predictions_p, calibrated_predictions_n)
+    print('Calibrated classes: ', set(classifier))
 
     classifier = pd.DataFrame(
-        [DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_p['p'], calibrated_predictions_p[
-            'n']], normalize=False) if cred == 'p' else DiscreteDistributionPrediction(['p', 'n'], [calibrated_predictions_n['p'],
-                                                                                calibrated_predictions_n['n']], normalize=False) for cred
-         in W['hard classifier']])
+        [DiscreteDistributionPrediction(['p', 'n'], [prob, 1 - prob], normalize=True)
+         for prob
+         in classifier])
     W = W.drop(['hard classifier'], axis=1)
+    W = W.drop(['perc'], axis=1)
 
 
-    combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
+    combiner = AnonymousBayesianCombiner(allowable_labels=['p', 'n'])
     scorer = CrossEntropyScore()
 
     if type(scorer) is CrossEntropyScore:
@@ -317,7 +315,7 @@ def cred_web():
 
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=4)
+                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=10)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -364,8 +362,8 @@ def cred_web():
 
 
 def main():
-    #cred_web()
-    guessthekarma()
+    cred_web()
+    #guessthekarma()
     #wiki_toxicity()
 
 
