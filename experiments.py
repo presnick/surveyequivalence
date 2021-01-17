@@ -7,7 +7,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, \
-    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore, AgreementScore, PluralityVote
+    CrossEntropyScore, AnonymousBayesianCombiner, PrecisionScore, AgreementScore, AUCScore
 
 
 def save_plot(fig, name, pgf=None):
@@ -173,7 +173,7 @@ def wiki_toxicity():
 
     print('##Wiki Toxic - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:5]
+    W = pd.DataFrame(data=W)[:10]
     W = W.rename(columns={0: 'soft classifier'})
 
     classifier = pd.DataFrame(
@@ -183,8 +183,8 @@ def wiki_toxicity():
     W = W.drop(['soft classifier'], axis=1)
 
 
-    combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
-    scorer = CrossEntropyScore()
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'],regularizer=1)
+    scorer = AUCScore()
 
     if type(scorer) is CrossEntropyScore:
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']),
@@ -195,7 +195,7 @@ def wiki_toxicity():
 
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=1, verbosity=1, classifier_predictions=classifier, max_K=4)
+                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=20)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -362,9 +362,9 @@ def cred_web():
 
 
 def main():
-    cred_web()
+    #cred_web()
     #guessthekarma()
-    #wiki_toxicity()
+    wiki_toxicity()
 
 
 main()

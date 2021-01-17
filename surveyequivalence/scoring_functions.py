@@ -252,8 +252,6 @@ class F1Score(Scorer):
             print(f'\n-------\n\t\tpredictions: {classifier_predictions[:10]}')
             print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
 
-        tot_score = 0
-        cnt = 0
         new_pred = list()
         new_label = list()
         for (pred, label) in zip(classifier_predictions, rater_labels):
@@ -272,11 +270,23 @@ class AUCScore(Scorer):
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
               verbosity=0) -> float:
-        if len(set(rater_labels)) == 1:
-            print("AUC isn't defined for single class")
-            return 0
-        if len(set(rater_labels)) == 2:
-            return roc_auc_score(rater_labels, [p.value_prob for p in classifier_predictions])
-        if len(set(rater_labels)) > 2:
-            return roc_auc_score(rater_labels, [p.probabilities for p in classifier_predictions], multi_class='ovr',
-                                 labels=classifier_predictions[0].label_names)
+        assert len(classifier_predictions) == len(rater_labels);
+
+        if verbosity > 2:
+            print(f'\n-------\n\t\tpredictions: {classifier_predictions[:10]}')
+            print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
+
+        new_pred = list()
+        new_label = list()
+        for (pred, label) in zip(classifier_predictions, rater_labels):
+            if pred is not None and label is not None:
+                new_pred.append(pred)
+                new_label.append(label)
+
+        if len(set(new_label)) == 1:
+            return np.nan
+        if len(set(new_label)) == 2:
+            return roc_auc_score(new_label, [p.value_prob for p in new_pred])
+        if len(set(new_label)) > 2:
+            print("multiclass AUC not implemented")
+            return np.nan
