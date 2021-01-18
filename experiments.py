@@ -285,20 +285,22 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:30]
+    W = pd.DataFrame(data=W)[:50]
     W = W.rename(columns={0: 'hard classifier', 1: 'perc'})
 
     classifier = list()
+
+    calibrated = {}
     for cred in W['hard classifier']:
-        classifier.append(W[W['hard classifier'] == cred]['perc'].mean())
+        if cred not in calibrated:
+            calibrated[cred] = W[W['hard classifier'] == cred]['perc'].mean()
 
-
-    print('Calibrated classes: ', set(classifier))
+    print(f"Calibrated classes: {calibrated}")
 
     classifier = pd.DataFrame(
-        [DiscreteDistributionPrediction(['p', 'n'], [prob, 1 - prob], normalize=True)
-         for prob
-         in classifier])
+        [DiscreteDistributionPrediction(['p', 'n'], [calibrated[cred], 1 - calibrated[cred]], normalize=True)
+         for cred
+         in W['hard classifier']])
     W = W.drop(['hard classifier'], axis=1)
     W = W.drop(['perc'], axis=1)
 
@@ -362,9 +364,9 @@ def cred_web():
 
 
 def main():
-    #cred_web()
+    cred_web()
     #guessthekarma()
-    wiki_toxicity()
+    #wiki_toxicity()
 
 
 main()

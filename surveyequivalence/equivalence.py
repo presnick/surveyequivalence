@@ -447,6 +447,7 @@ class AnalysisPipeline:
                 item_count += 1
                 if idx not in predictions:
                     cached = False
+                    preds_label = set([])
                     # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
                     predictions[idx] = {}
                     for k in ratersets:
@@ -456,6 +457,13 @@ class AnalysisPipeline:
                                 allowable_labels=self.combiner.allowable_labels,
                                 labels=list(zip(rater_tup, label_vals)),
                                 W=self.W_as_array)
+                            if self.verbosity > 0 and idx == 0:
+                                if k == 0:
+                                    print(f"baseline score:{predictions[idx][rater_tup]}")
+                                if k == 1:
+                                    preds_label.add(f"{label_vals.values[0]}: {predictions[idx][rater_tup]}")
+                        if self.verbosity > 0 and idx == 0 and k==1:
+                            print(f"scores after 1 rating is {preds_label}")
                 else:
                     cached = True
 
