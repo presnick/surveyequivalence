@@ -461,7 +461,7 @@ class AnalysisPipeline:
                                 if k == 0:
                                     print(f"baseline score:{predictions[idx][rater_tup]}")
                                 if k == 1:
-                                    preds_label.add(f"{label_vals.values[0]}: {predictions[idx][rater_tup]}")
+                                    preds_label.add(f"{label_vals.values[0] if len(label_vals)>0 else None }: {predictions[idx][rater_tup]}")
                         if self.verbosity > 0 and idx == 0 and k==1:
                             print(f"scores after 1 rating is {preds_label}")
                 else:
