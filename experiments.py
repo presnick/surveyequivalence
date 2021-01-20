@@ -85,6 +85,10 @@ def guessthekarma():
          in prefer_W['hard classifier']])
     prefer_W = prefer_W.drop(['hard classifier'], axis=1)
 
+    num_bootstrap_item_samples = 2
+    num_items = len(prefer_W.index)
+    max_K = 3
+    num_labels_per_item = len(prefer_W.columns)
     combiner = FrequencyCombiner(allowable_labels=['l', 'r'],regularizer=1)
     scorer = CrossEntropyScore()
 
@@ -97,7 +101,14 @@ def guessthekarma():
 
     p = AnalysisPipeline(prefer_W, combiner=combiner,
                          scorer=scorer, allowable_labels=['l', 'r'],
-                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=6)
+                         num_bootstrap_item_samples=num_bootstrap_item_samples, verbosity=1, classifier_predictions=classifier, max_K=max_K)
+
+    p.save(dirname_base=f"GTK_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+                   msg=f"""
+        Running GuessTheKarma experiment with {num_items} items and {num_labels_per_item} raters per item
+        {num_bootstrap_item_samples} bootstrap itemsets
+        {combiner.__class__.__name__} with {scorer.__class__.__name__}.
+        """)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -182,7 +193,10 @@ def wiki_toxicity():
          in W['soft classifier']])
     W = W.drop(['soft classifier'], axis=1)
 
-
+    num_bootstrap_item_samples = 2
+    num_items = len(W.index)
+    max_K = 3
+    num_labels_per_item = len(W.columns)
     combiner = FrequencyCombiner(allowable_labels=['a', 'n'],regularizer=1)
     scorer = AUCScore()
 
@@ -195,7 +209,14 @@ def wiki_toxicity():
 
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=10, verbosity=1, classifier_predictions=classifier, max_K=20)
+                         num_bootstrap_item_samples=num_bootstrap_item_samples, verbosity=1, classifier_predictions=classifier, max_K=max_K)
+
+    p.save(dirname_base=f"WikiToxic_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+                   msg=f"""
+        Running WikiToxic experiment with {num_items} items and {num_labels_per_item} raters per item
+        {num_bootstrap_item_samples} bootstrap itemsets
+        {combiner.__class__.__name__} with {scorer.__class__.__name__}.
+        """)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -220,7 +241,6 @@ def wiki_toxicity():
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              y_range=(-1.1, -0.9),
               name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
@@ -249,11 +269,11 @@ def cred_web():
     In this case, we say that a rating was positive if credibility was rated high or medium high. Otherwise its not.
     :return:
     """
-    wiki = pd.read_csv('./data/credweb.csv')
+    cred = pd.read_csv('./data/credweb.csv')
 
     W = dict()
 
-    for index, item in wiki.iterrows():
+    for index, item in cred.iterrows():
         # get the x and y in the W
         raters = list()
 
@@ -285,10 +305,8 @@ def cred_web():
 
     print('##CREDWEB - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:50]
+    W = pd.DataFrame(data=W)[:5]
     W = W.rename(columns={0: 'hard classifier', 1: 'perc'})
-
-    classifier = list()
 
     calibrated = {}
     for cred in W['hard classifier']:
@@ -304,7 +322,10 @@ def cred_web():
     W = W.drop(['hard classifier'], axis=1)
     W = W.drop(['perc'], axis=1)
 
-
+    num_bootstrap_item_samples = 2
+    num_items = len(W.index)
+    max_K = 3
+    num_labels_per_item = len(W.columns)
     combiner = AnonymousBayesianCombiner(allowable_labels=['p', 'n'])
     scorer = CrossEntropyScore()
 
@@ -317,7 +338,15 @@ def cred_web():
 
     p = AnalysisPipeline(W, combiner=combiner,
                          scorer=scorer, allowable_labels=['p', 'n'],
-                         num_bootstrap_item_samples=2, verbosity=1, classifier_predictions=classifier, max_K=10)
+                         num_bootstrap_item_samples=num_bootstrap_item_samples, verbosity=1, classifier_predictions=classifier, max_K=max_K)
+
+    p.save(dirname_base=f"CredWeb_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+                   msg=f"""
+        Running CredWeb experiment with {num_items} items and {num_labels_per_item} raters per item
+        {num_bootstrap_item_samples} bootstrap itemsets
+        {combiner.__class__.__name__} with {scorer.__class__.__name__}.
+        Classes are calibrated at: {calibrated}
+        """)
 
     cs = p.classifier_scores
     print("\nfull dataset\n")
@@ -342,7 +371,6 @@ def cred_web():
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              y_range=(-1.1, -0.9),
               name=f'Cred {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
@@ -364,9 +392,9 @@ def cred_web():
 
 
 def main():
-    cred_web()
+    #cred_web()
     #guessthekarma()
-    #wiki_toxicity()
+    wiki_toxicity()
 
 
 main()
