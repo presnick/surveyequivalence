@@ -329,22 +329,32 @@ class AnalysisPipeline:
         # write out results summary
         if save_results:
             with open(f'{path}/results_summary.txt', 'w') as f:
-                f.write("\n----classifier scores-----")
-                f.write(f"\tActual item set score:\n {self.classifier_scores.values}")
-                f.write(f"\tmeans:\n{self.classifier_scores.means}")
-                f.write(f"\tstds:\n{self.classifier_scores.stds}")
+                f.write("\n----classifier scores-----\n")
+                f.write(f"\tActual item set score:\n {self.classifier_scores.values}\n")
+                f.write(f"\tmeans:\n{self.classifier_scores.means}\n")
+                f.write(f"\tstds:\n{self.classifier_scores.stds}\n")
 
-                f.write("\n----power curve means-----")
-                f.write(f"\tActual item set score: {self.expert_power_curve.values}")
-                f.write(f"\tmeans:\n{self.expert_power_curve.means}")
-                f.write(f"\tstds:\n{self.expert_power_curve.stds}")
+                f.write("\n----power curve means-----\n")
+                f.write(f"\tActual item set score:\n {self.expert_power_curve.values}\n")
+                f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
+                f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
 
-                f.write("\n----survey equivalences----")
+                f.write("\n----classifier score gains-----\n")
+                f.write(f"\tActual item set score:\n {self.classifier_scores.values - self.expert_power_curve.values[0]}\n")
+                f.write(f"\tmeans:\n{self.classifier_scores.means - self.expert_power_curve.values[0]}\n")
+                f.write(f"\tstds:\n{self.classifier_scores.stds - self.expert_power_curve.values[0]}\n")
+
+                f.write("\n----power curve mean gains-----\n")
+                f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
+                f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
+                f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
+
+                f.write("\n----survey equivalences----\n")
                 equivalences = self.expert_power_curve.compute_equivalences(self.classifier_scores)
-                f.write(f'{equivalences}')
-                f.write(f"\tmeans:\n {equivalences.mean()}")
-                f.write(f"\tmedians\n {equivalences.median()}")
-                f.write(f"\tstddevs\n {equivalences.std()}")
+                f.write(f'{equivalences}\n')
+                f.write(f"\tmeans:\n {equivalences.mean()}\n")
+                f.write(f"\tmedians\n {equivalences.median()}\n")
+                f.write(f"\tstddevs\n {equivalences.std()}\n")
 
     def output_csv(self, fname):
         # output the dataframe and the expert predictions
