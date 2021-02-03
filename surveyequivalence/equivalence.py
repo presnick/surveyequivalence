@@ -53,6 +53,36 @@ def load_saved_pipeline(path):
     analysis_pipeline.amateur_power_curve = amateur_power_curve
     return analysis_pipeline
 
+class Equivalences:
+    def __init__(self,
+                 df):
+        self.df = df
+        self.compute_means_and_cis()
+
+    def compute_means_and_cis(self):
+        self.means = self.df.mean()
+        self.stds = self.df.std()
+        self.std_lower_bounds = self.means - 2 * self.stds
+        self.std_upper_bounds = self.means + 2 * self.stds
+        self.empirical_lower_bounds = self.df.quantile(.025)
+        self.empirical_upper_bounds = self.df.quantile(.975)
+
+    @property
+    def lower_bounds(self):
+        if len(self.df) < 200:
+            print("getting std based lower bounds")
+            return self.std_lower_bounds
+        else:
+            print("getting empirical lower bounds")
+            return self.empirical_lower_bounds
+
+    @property
+    def upper_bounds(self):
+        if len(self.df) < 200:
+            return self.std_upper_bounds
+        else:
+            return self.empirical_upper_bounds
+
 class ClassifierResults:
     def __init__(self,
                  runs: Sequence[Dict]=None,
@@ -516,7 +546,7 @@ class AnalysisPipeline:
                                 f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
                         scores.append(score)
                     else:
-                        print("ugh")
+                        print("ugh; no score for classifier this time ")
                 if self.verbosity > 1:
                     print(f'\tscores for k={k}: {scores}')
                 if len(scores) > 0:
@@ -654,7 +684,7 @@ class Plot:
                 self.template_dict['classifiers'] = ''
             self.template_dict['classifiers'] += c
 
-    def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True):
+    def add_survey_equivalence_point(self, ax, survey_equiv, score, color, include_droplines=True, ci=None):
         # score is already centered before this is called
         # print(f"add_survey_equivalence_point {survey_equiv} type {type(survey_equiv)}")
         if (type(survey_equiv) != str):
@@ -667,6 +697,21 @@ class Plot:
                 self.x_intercepts.append(survey_equiv)
                 ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min,
                           ymax=score)
+                if ci:
+                    ax.errorbar(x=survey_equiv,
+                                y=0,
+                                color=color,
+                                xerr=[[survey_equiv - ci[0]], [ci[1] - survey_equiv]],
+                                fmt='none',
+                                elinewidth=6,
+                                )
+
+                    # ax.axvspan(ci[0], ci[1], ymax=score/self.ymax, alpha=0.1, color=color)
+                    # TODO: set se_dict params
+                else:
+                    pass
+                    # TODO: set se_dict params
+
                 se_dict['dropline'] = ''
                 se_dict['dropcolor'] = color
                 se_dict['linestyle'] = 'dashed'
@@ -774,6 +819,7 @@ class Plot:
              include_droplines=True,
              include_amateur_curve=True,
              include_classifier_cis=True,
+             include_seq_cis=True,
              amateur_equivalences=[],
              x_ticks=None,
              legend_loc=None):
@@ -807,14 +853,17 @@ class Plot:
             print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
+            survey_equivalences = Equivalences(self.expert_power_curve.compute_equivalences(self.classifier_scores))
+            if include_classifier_amateur_equivalences:
+                amateur_equivalences = Equivalences(self.amateur_power_curve.compute_equivalences(self.classifier_scores))
             # self.classifier_scores is an instance of ClassifierResults, with means and cis computed
             for (classifier_name, score) in self.classifier_scores.values.items():
                 if self.verbosity > 1:
                     print(f'{classifier_name} score: {score}')
                 color = self.color_map[classifier_name] if classifier_name in self.color_map else 'black'
                 if self.verbosity > 1:
-                    print(f'lower bound: {self.classifier_scores.lower_bounds[classifier_name]}')
-                    print(f'upper bound: {self.classifier_scores.upper_bounds[classifier_name]}')
+                    print(f'{classifier_name} lower bound: {self.classifier_scores.lower_bounds[classifier_name]}')
+                    print(f'{classifier_name} upper bound: {self.classifier_scores.upper_bounds[classifier_name]}')
                 self.add_classifier_line(ax,
                                          classifier_name,
                                          self.possibly_center_score(score),
@@ -823,17 +872,27 @@ class Plot:
                                              self.possibly_center_score(self.classifier_scores.upper_bounds[classifier_name])) \
                                              if include_classifier_cis else None)
                 if include_classifier_equivalences:
+                    seq_point = survey_equivalences.df.at[0, classifier_name]
+                    seq_lower_bound = survey_equivalences.lower_bounds[classifier_name]
+                    seq_upper_bound = survey_equivalences.upper_bounds[classifier_name]
                     self.add_survey_equivalence_point(ax,
-                                                      self.expert_power_curve.compute_equivalence_at_actuals(score),
+                                                      seq_point, # self.expert_power_curve.compute_equivalence_at_actuals(score),
                                                       self.possibly_center_score(score),
                                                       color,
-                                                      include_droplines=include_droplines)
+                                                      include_droplines=include_droplines,
+                                                      ci=(seq_lower_bound, seq_upper_bound) \
+                                                           if include_seq_cis else None)
                 if include_classifier_amateur_equivalences:
+                    seq_point = amateur_equivalences.df.at[0, classifier_name]
+                    seq_lower_bound = amateur_equivalences.lower_bounds[classifier_name]
+                    seq_upper_bound = amateur_equivalences.upper_bounds[classifier_name]
                     self.add_survey_equivalence_point(ax,
-                                                      self.amateur_power_curve.compute_equivalence_at_actuals(score),
+                                                      seq_point, #self.amateur_power_curve.compute_equivalence_at_actuals(score)
                                                       self.possibly_center_score(score),
                                                       color,
-                                                      include_droplines=include_droplines)
+                                                      include_droplines=include_droplines,
+                                                      ci=(seq_lower_bound, seq_upper_bound) \
+                                                           if include_seq_cis else None)
         for idx in amateur_equivalences:
             score = self.amateur_power_curve.means[idx]
             survey_eq = self.expert_power_curve.compute_equivalence_at_actuals(score)
@@ -845,11 +904,13 @@ class Plot:
                       xmax=max(survey_eq, idx),
                       color=self.color_map['amateur_power_curve'],
                       linewidths=2, linestyles='dashed')
+            #TODO: calculate confidence interval and pass it to call to add_survey_equivalence
             self.add_survey_equivalence_point(ax,
                                               survey_eq,
                                               self.possibly_center_score(score),
                                               self.color_map['amateur_power_curve'],
-                                              include_droplines=include_droplines)
+                                              include_droplines=include_droplines,
+                                              ci=None)
 
         # ax.axis([0, self.xmax, self.ymin, self.ymax])
         ax.set(xlim=(0, self.xmax))
