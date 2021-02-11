@@ -705,12 +705,17 @@ class Plot:
                                 fmt='none',
                                 elinewidth=6,
                                 )
-
-                    # ax.axvspan(ci[0], ci[1], ymax=score/self.ymax, alpha=0.1, color=color)
-                    # TODO: set se_dict params
+                    se_dict['ci'] = ''
+                    se_dict['cicolor'] = color
+                    se_dict['cilower'] = ci[0]
+                    se_dict['ciupper'] = ci[1]
+                    se_dict['cialpha'] = 0.1
                 else:
-                    pass
-                    # TODO: set se_dict params
+                    se_dict['ci'] = '%'
+                    se_dict['cicolor'] = ''
+                    se_dict['cilower'] = ''
+                    se_dict['ciupper'] = ''
+                    se_dict['cialpha'] = ''
 
                 se_dict['dropline'] = ''
                 se_dict['dropcolor'] = color
