@@ -4,6 +4,7 @@ from random import shuffle, choice
 
 import numpy as np
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, F1Score, \
@@ -159,8 +160,11 @@ def wiki_toxicity():
     """
     #rev_id, perc_labelled_attack, n_labelled_attack, n_labels, predictor_prob
     wiki = pd.read_csv('./data/wiki_attack_labels_and_predictor.csv')
-
     W = dict()
+
+    # calibrators - these lists are matched
+    X = list()
+    y = list()
 
     for index, item in wiki.iterrows():
         # get the x and y in the W
@@ -171,8 +175,12 @@ def wiki_toxicity():
 
         for i in range(n_labelled_attack):
             raters.append('a')
+            y.append(1)
+            X.append(item['predictor_prob'])
         for i in range(n_raters - n_labelled_attack):
             raters.append('n')
+            y.append(0)
+            X.append(item['predictor_prob'])
         shuffle(raters)
 
         # add the predictor class
@@ -184,80 +192,93 @@ def wiki_toxicity():
 
     print('##Wiki Toxic - Dataset loaded##', len(W))
 
-    W = pd.DataFrame(data=W)[:10]
+    W = pd.DataFrame(data=W)[:50]
     W = W.rename(columns={0: 'soft classifier'})
 
-    classifier = pd.DataFrame(
+    #Let's try to calibrate
+    X = pd.DataFrame(data=X).sample(n=50, random_state=datetime.now().hour)
+    y = pd.DataFrame(data=y).sample(n=50, random_state=datetime.now().hour)
+    calibrator = LogisticRegression().fit(X, y)
+
+    uncalibrated_classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1-attack_prob], normalize=True)
          for attack_prob
          in W['soft classifier']])
+
+    calibrated_classifier = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [n, a], normalize=True)
+         for a,n
+         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
+
     W = W.drop(['soft classifier'], axis=1)
 
-    num_bootstrap_item_samples = 2
-    num_items = len(W.index)
-    max_K = 3
-    num_labels_per_item = len(W.columns)
-    combiner = FrequencyCombiner(allowable_labels=['a', 'n'],regularizer=1)
-    scorer = AUCScore()
+    for classifier in [uncalibrated_classifier,calibrated_classifier]:
 
-    if type(scorer) is CrossEntropyScore:
-        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']),
-                         scorer=scorer, allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=1)
-    else:
-        prior = None
+        num_bootstrap_item_samples = 2
+        num_items = len(W.index)
+        max_K = 3
+        num_labels_per_item = len(W.columns)
+        combiner = FrequencyCombiner(allowable_labels=['a', 'n'],regularizer=1)
+        scorer = AUCScore()
 
-    p = AnalysisPipeline(W, combiner=combiner,
-                         scorer=scorer, allowable_labels=['a', 'n'],
-                         num_bootstrap_item_samples=num_bootstrap_item_samples, verbosity=1, classifier_predictions=classifier, max_K=max_K)
+        if type(scorer) is CrossEntropyScore:
+            prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']),
+                             scorer=scorer, allowable_labels=['a', 'n'],
+                             num_bootstrap_item_samples=0, verbosity=1, classifier_predictions=classifier, max_K=1)
+        else:
+            prior = None
 
-    p.save(dirname_base=f"WikiToxic_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
-                   msg=f"""
-        Running WikiToxic experiment with {num_items} items and {num_labels_per_item} raters per item
-        {num_bootstrap_item_samples} bootstrap itemsets
-        {combiner.__class__.__name__} with {scorer.__class__.__name__}.
-        """)
+        p = AnalysisPipeline(W, combiner=combiner,
+                             scorer=scorer, allowable_labels=['a', 'n'],
+                             num_bootstrap_item_samples=num_bootstrap_item_samples, verbosity=1, classifier_predictions=classifier, max_K=max_K)
 
-    cs = p.classifier_scores
-    print("\nfull dataset\n")
-    print("\n----classifier scores-----")
-    print(cs.means)
-    print(cs.stds)
-    print("\n----power curve means-----")
-    print(p.expert_power_curve.means)
-    print(p.expert_power_curve.stds)
-    print("\n----survey equivalences----")
-    equivalences = p.expert_power_curve.compute_equivalences(p.classifier_scores)
-    print(equivalences)
-    print(f"means: {equivalences.mean()}")
-    print(f"medians {equivalences.median()}")
-    print(f"stddevs {equivalences.std()}")
+        p.save(dirname_base=f"WikiToxic_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+                       msg=f"""
+            Running WikiToxic experiment with {num_items} items and {num_labels_per_item} raters per item
+            {num_bootstrap_item_samples} bootstrap itemsets
+            {combiner.__class__.__name__} with {scorer.__class__.__name__}.
+            """)
 
-    fig, ax = plt.subplots()
-    fig.set_size_inches(8.5, 10.5)
+        cs = p.classifier_scores
+        print("\nfull dataset\n")
+        print("\n----classifier scores-----")
+        print(cs.means)
+        print(cs.stds)
+        print("\n----power curve means-----")
+        print(p.expert_power_curve.means)
+        print(p.expert_power_curve.stds)
+        print("\n----survey equivalences----")
+        equivalences = p.expert_power_curve.compute_equivalences(p.classifier_scores)
+        print(equivalences)
+        print(f"means: {equivalences.mean()}")
+        print(f"medians {equivalences.median()}")
+        print(f"stddevs {equivalences.std()}")
 
-    pl = Plot(ax,
-              p.expert_power_curve,
-              classifier_scores=p.classifier_scores,
-              y_axis_label='score',
-              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
-              legend_label='k raters',
-              generate_pgf=True
-              )
+        fig, ax = plt.subplots()
+        fig.set_size_inches(8.5, 10.5)
 
-    pl.plot(include_classifiers=True,
-            include_classifier_equivalences=True,
-            include_droplines=True,
-            include_expert_points='all',
-            connect_expert_points=True,
-            include_classifier_cis=True
-            )
-    # pl.add_state_distribution_inset(ds.ds_generator)
-    pgf = None
-    if pl.generate_pgf:
-        pgf = pl.template.substitute(**pl.template_dict)
-    save_plot(fig, f'toxic_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
+        pl = Plot(ax,
+                  p.expert_power_curve,
+                  classifier_scores=p.classifier_scores,
+                  y_axis_label='score',
+                  center_on=prior.expert_power_curve.means[0] if prior is not None else None,
+                  name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
+                  legend_label='k raters',
+                  generate_pgf=True
+                  )
+
+        pl.plot(include_classifiers=True,
+                include_classifier_equivalences=True,
+                include_droplines=True,
+                include_expert_points='all',
+                connect_expert_points=True,
+                include_classifier_cis=True
+                )
+        # pl.add_state_distribution_inset(ds.ds_generator)
+        pgf = None
+        if pl.generate_pgf:
+            pgf = pl.template.substitute(**pl.template_dict)
+        save_plot(fig, f'toxic_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
 
 
 
