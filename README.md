@@ -1,3 +1,39 @@
+# SurveyEquivalence
+TKTK
+
+Author: Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger
+
+**arxiv paper available**: https://arxiv.org/abs/TKTK
+
+**Documentation available**: https://surveyequivalence.readthedocs.io 
+
+## Overview
+TKTK
+
+## Installation
+1) Git clone directory and install nessasory package
+``` 
+$ pip install surveyequivalence
+```
+
+2) **To Run Synthetic Example:** TKTK
+
+3) **To Run Toxcitiy Example:** TKTK
+
+4) **How to Evaluate Your Own Dataset:** TKTK
+
+## License
+This Project is MIT-licensed.
+
+Please send us e-mail or leave comments on github if have any questions.
+
+Copyright (c) 2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger 
+
+
+
+
+
+
 # surveyequivalence
 
 ## make_power_curve_graph:
