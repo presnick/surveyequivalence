@@ -4,7 +4,22 @@ API
 Test
 
 .. automodule:: surveyequivalence.equivalence
-   :imported-members:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: surveyequivalence.examples.guessthekarma
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: surveyequivalence.examples.credbank
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: surveyequivalence.examples.toxicity
    :members:
    :undoc-members:
    :show-inheritance:
