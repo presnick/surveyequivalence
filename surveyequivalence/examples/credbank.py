@@ -3,6 +3,7 @@ from random import shuffle
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from config import ROOT_DIR
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, CrossEntropyScore, \
     AnonymousBayesianCombiner, Combiner, Scorer
@@ -71,7 +72,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    cred = pd.read_csv('../../data/credweb.csv')
+    cred = pd.read_csv(f'{ROOT_DIR}/data/credweb.csv')
 
     W = dict()
 
