@@ -13,15 +13,6 @@ def main():
     """
     This is the main driver for the Guess The Karma example. The driver function cycles through four different \
     combinations of ScoringFunctions and Combiners
-
-    Notes
-    -----
-    This function uses data collected by the GuessTheKarma Web game [1]_ to generate survey equivalence values.
-
-    References
-    ----------
-    .. [1] Glenski, M., Stoddard, G., Resnick, P., & Weninger, T. (2018). Guessthekarma: A game to assess social \
-    rating systems. Proceedings of the ACM on Human-Computer Interaction, 2(CSCW), 1-15.
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
@@ -73,6 +64,15 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     bootstrap_samples : int
         Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more \
         samples increases the statistical power, but each requires additional computational time. No default is set.
+
+    Notes
+    -----
+    This function uses data collected by the GuessTheKarma Web game [1]_ to generate survey equivalence values.
+
+    References
+    ----------
+    .. [1] Glenski, M., Stoddard, G., Resnick, P., & Weninger, T. (2018). Guessthekarma: A game to assess social \
+    rating systems. Proceedings of the ACM on Human-Computer Interaction, 2(CSCW), 1-15.
     """
 
     # Load the dataset as a pandas dataframe

@@ -13,21 +13,6 @@ def main():
     """
     This is the main driver for the CredBank example. The driver function calls just the AnonymousBayesian and \
     CrossEntropy Scoring Functions
-
-    Notes
-    -----
-    This function uses data collected by the crawler of Mitra and Gilbert [2]_ and the classifier predictions were \
-    constructed by Mitra et al [3]_
-
-    References
-    ----------
-    .. [2] Mitra, T., & Gilbert, E. (2015, April). Credbank: A large-scale social media corpus with associated \
-    credibility annotations. In Proceedings of the International AAAI Conference on Web and Social Media \
-    (Vol. 9, No. 1).
-
-    .. [3] Mitra, T., Wright, G. P., & Gilbert, E. (2017, February). A parsimonious language model of social media \
-    credibility across disparate events. In Proceedings of the 2017 ACM conference on computer supported \
-    cooperative work and social computing (pp. 126-145).
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
@@ -39,7 +24,6 @@ def main():
     combiner = AnonymousBayesianCombiner(allowable_labels=['p', 'n'])
     scorer = CrossEntropyScore()
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
-
 
 
 def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int):
@@ -68,6 +52,21 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     bootstrap_samples : int
         Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more \
         samples increases the statistical power, but each requires additional computational time. No default is set.
+
+    Notes
+    -----
+    This function uses data collected by the crawler of Mitra and Gilbert [2]_ and the classifier predictions were \
+    constructed by Mitra et al [3]_
+
+    References
+    ----------
+    .. [2] Mitra, T., & Gilbert, E. (2015, April). Credbank: A large-scale social media corpus with associated \
+    credibility annotations. In Proceedings of the International AAAI Conference on Web and Social Media \
+    (Vol. 9, No. 1).
+
+    .. [3] Mitra, T., Wright, G. P., & Gilbert, E. (2017, February). A parsimonious language model of social media \
+    credibility across disparate events. In Proceedings of the 2017 ACM conference on computer supported \
+    cooperative work and social computing (pp. 126-145).
     """
 
     # Load the dataset as a pandas dataframe
