@@ -5,7 +5,7 @@ from random import shuffle
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import TweedieRegressor
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
     CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer
@@ -29,7 +29,7 @@ def main():
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
     max_k = 3  # 30
-    max_items = 20  # 1400
+    max_items = 10  # 1400
     bootstrap_samples = 5  # 200
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -96,12 +96,11 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
         for i in range(n_labelled_attack):
             raters.append('a')
-            y.append(1)
-            X.append(item['predictor_prob'])
         for i in range(n_raters - n_labelled_attack):
             raters.append('n')
-            y.append(0)
-            X.append(item['predictor_prob'])
+
+        X.append(item['predictor_prob'])
+        y.append(n_labelled_attack/n_raters)
         shuffle(raters)
 
         # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
@@ -125,9 +124,9 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
     seed = datetime.now().hour
-    X = pd.DataFrame(data=X).sample(n=floor(len(X) / 2), random_state=seed)
-    y = pd.DataFrame(data=y).sample(n=floor(len(y) / 2), random_state=seed)
-    calibrator = LogisticRegression().fit(X, y)
+    X = pd.DataFrame(data=X).sample(n=len(W), random_state=seed)
+    y = pd.DataFrame(data=y).sample(n=len(W), random_state=seed)
+    calibrator = TweedieRegressor(power=1, link='log').fit(X, y)
 
     # Let's keep one classifier uncalibrated
     uncalibrated_classifier = pd.DataFrame(
@@ -137,9 +136,9 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # Create a calibrated classifier
     calibrated_classifier = pd.DataFrame(
-        [DiscreteDistributionPrediction(['a', 'n'], [n, a], normalize=True)
-         for a, n
-         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
+        [DiscreteDistributionPrediction(['a', 'n'], [a, 1-a], normalize=True)
+         for a
+         in calibrator.predict(W.loc[:, W.columns == 'soft classifier'])])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
@@ -177,6 +176,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
+              color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
