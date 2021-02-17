@@ -11,7 +11,7 @@ setuptools.setup(
     description="Code for calculating survey equivalence",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/umsi/surveyequivalencet",
+    url="https://github.com/umsi/surveyequivalence",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

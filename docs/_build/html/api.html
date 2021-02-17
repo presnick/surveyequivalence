@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API &#8212; SurveyEquivalence 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tutorials" href="tutorials.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>Test</p>
+<span class="target" id="module-surveyequivalence.equivalence"></span><dl class="py class">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">AnalysisPipeline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_experts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expert_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.combiners.Combiner</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.scoring_functions.Scorer</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">null_prediction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.combiners.Prediction</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstrap_item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rater_subsets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratersets_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_on_creation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.compute_classifier_scores">
+<code class="sig-name descname"><span class="pre">compute_classifier_scores</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.compute_classifier_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.compute_power_curve">
+<code class="sig-name descname"><span class="pre">compute_power_curve</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_raters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rater_subsets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.compute_power_curve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.generate_item_samples">
+<code class="sig-name descname"><span class="pre">generate_item_samples</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_bootstrap_item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.generate_item_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.output_csv">
+<code class="sig-name descname"><span class="pre">output_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.output_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.AnalysisPipeline.save">
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'analysis_pipeline'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.equivalence.ClassifierResults">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">ClassifierResults</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.compute_means_and_cis">
+<code class="sig-name descname"><span class="pre">compute_means_and_cis</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.compute_means_and_cis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.lower_bounds">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lower_bounds</span></code><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.lower_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.max_value">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_value</span></code><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.max_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.min_value">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">min_value</span></code><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.min_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.upper_bounds">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">upper_bounds</span></code><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.upper_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.ClassifierResults.values">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">values</span></code><a class="headerlink" href="#surveyequivalence.equivalence.ClassifierResults.values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.equivalence.Equivalences">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">Equivalences</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Equivalences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Equivalences.compute_means_and_cis">
+<code class="sig-name descname"><span class="pre">compute_means_and_cis</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Equivalences.compute_means_and_cis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Equivalences.lower_bounds">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lower_bounds</span></code><a class="headerlink" href="#surveyequivalence.equivalence.Equivalences.lower_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Equivalences.upper_bounds">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">upper_bounds</span></code><a class="headerlink" href="#surveyequivalence.equivalence.Equivalences.upper_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.equivalence.LabeledItem">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">LabeledItem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_rater_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_rater_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.LabeledItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.equivalence.Plot">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">Plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expert_power_curve</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_power_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'amateur_power_curve':</span> <span class="pre">'blue',</span> <span class="pre">'classifier':</span> <span class="pre">'green',</span> <span class="pre">'expert_power_curve':</span> <span class="pre">'black'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_axis_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Agreement</span> <span class="pre">with</span> <span class="pre">reference</span> <span class="pre">rater'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'powercurve'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Expert</span> <span class="pre">raters'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_legend_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Lay</span> <span class="pre">raters'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate_pgf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.add_classifier_line">
+<code class="sig-name descname"><span class="pre">add_classifier_line</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ci</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.add_classifier_line" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.add_state_distribution_inset">
+<code class="sig-name descname"><span class="pre">add_state_distribution_inset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_generator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.add_state_distribution_inset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.add_survey_equivalence_point">
+<code class="sig-name descname"><span class="pre">add_survey_equivalence_point</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survey_equiv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_droplines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ci</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.add_survey_equivalence_point" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.format_ax">
+<code class="sig-name descname"><span class="pre">format_ax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.format_ax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.plot">
+<code class="sig-name descname"><span class="pre">plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_expert_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_expert_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_classifier_equivalences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_classifier_amateur_equivalences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_droplines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_amateur_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_classifier_cis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_seq_cis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_equivalences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.plot_power_curve">
+<code class="sig-name descname"><span class="pre">plot_power_curve</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">matplotlib.axes._axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.equivalence.PowerCurve" title="surveyequivalence.equivalence.PowerCurve"><span class="pre">surveyequivalence.equivalence.PowerCurve</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Power</span> <span class="pre">curve'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.plot_power_curve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.possibly_center_score">
+<code class="sig-name descname"><span class="pre">possibly_center_score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.possibly_center_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.set_xmax">
+<code class="sig-name descname"><span class="pre">set_xmax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.set_xmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.set_ymax">
+<code class="sig-name descname"><span class="pre">set_ymax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.set_ymax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.set_ymin">
+<code class="sig-name descname"><span class="pre">set_ymin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.set_ymin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.y_range_min">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">y_range_min</span></code><a class="headerlink" href="#surveyequivalence.equivalence.Plot.y_range_min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.equivalence.PowerCurve">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">PowerCurve</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.equivalence.ClassifierResults" title="surveyequivalence.equivalence.ClassifierResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.ClassifierResults</span></code></a></p>
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_actuals">
+<code class="sig-name descname"><span class="pre">compute_equivalence_at_actuals</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_score</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_actuals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_mean">
+<code class="sig-name descname"><span class="pre">compute_equivalence_at_mean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_score</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.compute_equivalences">
+<code class="sig-name descname"><span class="pre">compute_equivalences</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.compute_equivalences" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – may either be an instance of ClassifierResults or a PowerCurve. Must have same row
+indexes as self, one for each item sample</p></li>
+<li><p><strong>columns</strong> – a subset of the columns of other.df; if not specified, use all of them</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a df with one row for each bootstrap run, and columns as specified
+Cell is a float, the survey equivalence value. That is x s.t. expected score with x raters == classifier_score</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.compute_one_equivalence">
+<code class="sig-name descname"><span class="pre">compute_one_equivalence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_powers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.compute_one_equivalence" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_score</strong> – a number, the classifier’s score</p></li>
+<li><p><strong>k_powers</strong> – maps integers k to the expected score for that k</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a float, the survey equivalence value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.reliability_of_beating_classifier">
+<code class="sig-name descname"><span class="pre">reliability_of_beating_classifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.reliability_of_beating_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – the other ClassifierResults or PowerCurve</p></li>
+<li><p><strong>self_col</strong> – the survey size (column) for self</p></li>
+<li><p><strong>other_col</strong> – the survey size (column) for other to compare, with matching bootstrap samples as rows</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fraction of bootstrap runs where self power higher than other power</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.PowerCurve.reliability_of_difference">
+<code class="sig-name descname"><span class="pre">reliability_of_difference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.PowerCurve.reliability_of_difference" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – another PowerCurve</p></li>
+<li><p><strong>k</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fraction of bootstrap runs where power&#64;k higher for self than other power curve</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyequivalence.equivalence.load_saved_pipeline">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">load_saved_pipeline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.load_saved_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-surveyequivalence.examples.guessthekarma"></span><dl class="py function">
+<dt id="surveyequivalence.examples.guessthekarma.main">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.guessthekarma.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.guessthekarma.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the main driver for the Guess The Karma example. The driver function cycles through four different     combinations of ScoringFunctions and Combiners</p>
+<p class="rubric">Notes</p>
+<p>This function uses data collected by the GuessTheKarma Web game <a class="footnote-reference brackets" href="#id2" id="id1">1</a> to generate survey equivalence values.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Glenski, M., Stoddard, G., Resnick, P., &amp; Weninger, T. (2018). Guessthekarma: A game to assess social     rating systems. Proceedings of the ACM on Human-Computer Interaction, 2(CSCW), 1-15.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyequivalence.examples.guessthekarma.run">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.guessthekarma.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.combiners.Combiner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.guessthekarma.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run GuessTheKarma example with provided combiner and scorer.</p>
+<p>With GuessTheKarma data we have annotations for image pairs (items) from non-anonymous raters. In addition, each
+“correct” item is annotated as ‘A’ (‘B’ is therefore the incorrect answer). So to balance the dataset we
+randomly swap ‘A’ for ‘B’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>combiner</strong> (<em>Combiner</em>) – Combiner function</p></li>
+<li><p><strong>scorer</strong> (<em>Scorer</em>) – Scoring function</p></li>
+<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
+<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
+<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-surveyequivalence.examples.credbank"></span><dl class="py function">
+<dt id="surveyequivalence.examples.credbank.main">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.credbank.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.credbank.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the main driver for the CredBank example. The driver function calls just the AnonymousBayesian and     CrossEntropy Scoring Functions</p>
+<p class="rubric">Notes</p>
+<p>This function uses data collected by the crawler of Mitra and Gilbert <a class="footnote-reference brackets" href="#id5" id="id3">2</a> and the classifier predictions were     constructed by Mitra et al <a class="footnote-reference brackets" href="#id6" id="id4">3</a></p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>Mitra, T., &amp; Gilbert, E. (2015, April). Credbank: A large-scale social media corpus with associated     credibility annotations. In Proceedings of the International AAAI Conference on Web and Social Media     (Vol. 9, No. 1).</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p>Mitra, T., Wright, G. P., &amp; Gilbert, E. (2017, February). A parsimonious language model of social media     credibility across disparate events. In Proceedings of the 2017 ACM conference on computer supported     cooperative work and social computing (pp. 126-145).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyequivalence.examples.credbank.run">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.credbank.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.combiners.Combiner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.credbank.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run CredBank example with provided combiner and scorer.</p>
+<p>With The Credibility study we do not have individual raters, so we simulate them. Since the AnonymousBayesian     combiner is anonymous, ie, it doesn’t matter who rated what, then we can just simulate these raters.</p>
+<p>In this case, we say that a rating was positive if credibility was rated high or medium high. Otherwise its not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>combiner</strong> (<em>Combiner</em>) – Combiner function</p></li>
+<li><p><strong>scorer</strong> (<em>Scorer</em>) – Scoring function</p></li>
+<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
+<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
+<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-surveyequivalence.examples.toxicity"></span><dl class="py function">
+<dt id="surveyequivalence.examples.toxicity.main">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.toxicity.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.toxicity.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the main driver for the Toxicity example. The driver function cycles through four different     combinations of ScoringFunctions and Combiners</p>
+<p class="rubric">Notes</p>
+<p>This function uses data collected by Jigsaw’s Toxicity platform <a class="footnote-reference brackets" href="#id8" id="id7">4</a> to generate survey equivalence values.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id7">4</a></span></dt>
+<dd><p>Wulczyn, E., Thain, N., &amp; Dixon, L. (2017, April). Ex machina: Personal attacks seen at scale.     In Proceedings of the 26th international conference on world wide web (pp. 1391-1399).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyequivalence.examples.toxicity.run">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.toxicity.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.combiners.Combiner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.toxicity.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run Toxicity example with provided combiner and scorer.</p>
+<p>With Toxicity data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
+several different raters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>combiner</strong> (<em>Combiner</em>) – Combiner function</p></li>
+<li><p><strong>scorer</strong> (<em>Scorer</em>) – Scoring function</p></li>
+<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
+<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
+<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">SurveyEquivalence</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tutorials.html" title="previous chapter">Tutorials</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

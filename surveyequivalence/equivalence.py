@@ -17,6 +17,7 @@ import pandas as pd
 import scipy.special
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
+from config import ROOT_DIR
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 
@@ -302,13 +303,13 @@ class AnalysisPipeline:
 
     def save(self, dirname_base="analysis_pipeline", msg="", save_results = True):
         # make a directory for it
-        path = f'saved_analyses/{dirname_base}/{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
+        path = f'{ROOT_DIR}/saved_analyses/{dirname_base}/{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
         try:
-            os.mkdir('saved_analyses')
+            os.mkdir(f'{ROOT_DIR}/saved_analyses')
         except FileExistsError:
             pass
         try:
-            os.mkdir(f'saved_analyses/{dirname_base}')
+            os.mkdir(f'{ROOT_DIR}/saved_analyses/{dirname_base}')
         except FileExistsError:
             pass
         try:
