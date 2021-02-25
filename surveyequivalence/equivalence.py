@@ -14,7 +14,8 @@ import os
 import matplotlib
 import numpy as np
 import pandas as pd
-import scipy.special
+from pathos.pools import ProcessPool
+import pathos
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 from config import ROOT_DIR
@@ -236,7 +237,8 @@ class AnalysisPipeline:
                  predictions_memo=None,
                  item_samples=None,
                  verbosity=1,
-                 run_on_creation = True
+                 run_on_creation = True,
+                 procs=pathos.helpers.cpu_count() - 1
                  ):
         if expert_cols:
             self.expert_cols = expert_cols
@@ -258,6 +260,7 @@ class AnalysisPipeline:
         self.num_bootstrap_item_samples = num_bootstrap_item_samples
         self.max_rater_subsets=max_rater_subsets
         self.verbosity = verbosity
+        self.procs = procs
 
         # initialize memoization cache for rater subsets
         if ratersets_memo:
@@ -288,6 +291,7 @@ class AnalysisPipeline:
             ref_raters=self.expert_cols,
             min_k=self.min_k,
             max_k=min(self.max_K, len(self.expert_cols)) - 1,
+            procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
@@ -298,6 +302,7 @@ class AnalysisPipeline:
                 ref_raters=expert_cols,
                 min_k=min_k,
                 max_k=min(max_K, len(self.amateur_cols)) - 1,
+                procs = self.procs,
                 max_rater_subsets=self.max_rater_subsets)
 
 
@@ -419,7 +424,7 @@ class AnalysisPipeline:
         run_results = [compute_one_run(idxs) for idxs in self.item_samples]
         return ClassifierResults(run_results)
 
-    def compute_power_curve(self, raters, ref_raters, min_k, max_k, max_rater_subsets=200):
+    def compute_power_curve(self, raters, ref_raters, min_k, max_k, procs, max_rater_subsets=200):
         ref_raters = set(ref_raters)
 
         if self.verbosity > 0:
@@ -477,42 +482,49 @@ class AnalysisPipeline:
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
-        def add_predictions(W, ratersets, predictions) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
             # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
-            # predictions = dict()
-            item_count = 0
-            ## iterate through rows, accumulating predictions for that item
-            for idx, row in W.iterrows():
-                item_count += 1
-                if idx not in predictions:
-                    cached = False
-                    preds_label = set([])
-                    # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
-                    predictions[idx] = {}
-                    for k in ratersets:
-                        for rater_tup in ratersets[k]:
-                            label_vals = row.loc[list(rater_tup)].dropna()
-                            predictions[idx][rater_tup] = self.combiner.combine(
-                                allowable_labels=self.combiner.allowable_labels,
-                                labels=list(zip(rater_tup, label_vals)),
-                                W=self.W_as_array)
-                            if self.verbosity > 0 and idx == 0:
-                                if k == 0:
-                                    print(f"baseline score:{predictions[idx][rater_tup]}")
-                                if k == 1:
-                                    preds_label.add(f"{label_vals.values[0] if len(label_vals)>0 else None }: {predictions[idx][rater_tup]}")
-                        if self.verbosity > 0 and idx == 0 and k==1:
-                            print(f"scores after 1 rating is {preds_label}")
-                else:
-                    cached = True
+
+            def make_prediction(idx, row):
+                predictions = dict()
+                cached = False
+                preds_label = set([])
+                # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
+                predictions[idx] = dict()
+                for k in ratersets:
+                    for rater_tup in ratersets[k]:
+                        label_vals = row.loc[list(rater_tup)].dropna()
+                        predictions[idx][rater_tup] = self.combiner.combine(
+                            allowable_labels=self.combiner.allowable_labels,
+                            labels=list(zip(rater_tup, label_vals)),
+                            W=self.W_as_array)
+                        if self.verbosity > 0 and idx == 0:
+                            if k == 0:
+                                print(f"baseline score:{predictions[idx][rater_tup]}")
+                            if k == 1:
+                                preds_label.add(
+                                    f"{label_vals.values[0] if len(label_vals) > 0 else None}: {predictions[idx][rater_tup]}")
+                    if self.verbosity > 0 and idx == 0 and k == 1:
+                        print(f"scores after 1 rating is {preds_label}")
 
                 if self.verbosity > 0:
-                    if item_count % 10 == 0:
-                        print("\t", item_count, flush=True, end='')
+                    if idx % 10 == 0:
+                        print("\t", idx, flush=True, end='')
                     else:
                         print(f"{'.' if not cached else ','}", end='', flush=True)
+
+                return predictions
+
+            ## iterate through rows, accumulating predictions for that item
+            pool = ProcessPool(nodes=procs)
+            predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
+            predictions = dict()
+            for pred_dict in predictions_list:
+                for k,v in pred_dict.items():
+                    predictions[k] = v
+
             if self.verbosity > 0:
                 print()
 
@@ -567,19 +579,17 @@ class AnalysisPipeline:
         ratersets = self.ratersets_memo[canonical_raters_tuple]
 
         ## get predictions
-        if canonical_raters_tuple not in self.predictions_memo:
-            self.predictions_memo[canonical_raters_tuple] = dict()
-        else:
-            if self.verbosity > 1:
-                print(f"\tgetting some cached predictions for {canonical_raters_tuple}")
-                print(f"\tcached predictions found for items {list(self.predictions_memo[canonical_raters_tuple].keys())}")
-        add_predictions(self.W, ratersets, predictions=self.predictions_memo[canonical_raters_tuple])
-        predictions = self.predictions_memo[canonical_raters_tuple]
+        predictions = get_predictions(self.W, ratersets)
+
 
         ## Each item sample is one run
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
-        run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
+
+        pool = ProcessPool(nodes=procs)
+        run_results = pool.map(compute_one_run, [self.W for _ in self.item_samples], [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples], [predictions for _ in self.item_samples])
+
+       # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
             print(f"\n\t\trun_results={run_results}")
         return PowerCurve(run_results)

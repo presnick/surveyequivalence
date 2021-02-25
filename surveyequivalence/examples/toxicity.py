@@ -1,13 +1,14 @@
-from datetime import datetime
-from math import floor
 from random import shuffle
 
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 from matplotlib import pyplot as plt
-from sklearn.linear_model import TweedieRegressor
-from config import ROOT_DIR
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 
+from config import ROOT_DIR
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
     CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer
 from surveyequivalence.examples import save_plot
@@ -20,31 +21,36 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 3  # 30
-    max_items = 10  # 1400
-    bootstrap_samples = 5  # 200
+    max_k = 1  # 20
+    max_items = 10
+    bootstrap_samples = 1000
+    num_processors = 2
 
     # Next we iterate over various combinations of combiner and scoring functions.
     combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
     scorer = CrossEntropyScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
     # Frequency Combiner uses Laplace regularization
     combiner = FrequencyCombiner(allowable_labels=['a', 'n'], regularizer=1)
     scorer = CrossEntropyScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
     combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
     scorer = AUCScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
     # Frequency Combiner uses Laplace regularization
     combiner = FrequencyCombiner(allowable_labels=['a', 'n'], regularizer=1)
     scorer = AUCScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
 
-def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int):
+def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int, num_processors: int):
     """
     Run Toxicity example with provided combiner and scorer.
 
@@ -68,6 +74,8 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     bootstrap_samples : int
         Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more \
         samples increases the statistical power, but each requires additional computational time. No default is set.
+    num_processors : int
+        Number of processors to use for parallel processing
 
     Notes
     -----
@@ -81,11 +89,15 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # Load the dataset as a pandas dataframe
     wiki = pd.read_csv(f'{ROOT_DIR}/data/wiki_attack_labels_and_predictor.csv')
-    W = dict()
+    dataset = dict()
 
     # X and Y for calibration. These lists are matched
     X = list()
+    X2 = list()
     y = list()
+    y2 = list()
+
+    reliability_dict = dict()
 
     # Create rating pairs from the dataset
     for index, item in wiki.iterrows():
@@ -97,37 +109,53 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
         for i in range(n_labelled_attack):
             raters.append('a')
+            X2.append([item['predictor_prob'], n_raters])
+            y2.append(1)
         for i in range(n_raters - n_labelled_attack):
             raters.append('n')
-
+            X2.append([item['predictor_prob'], n_raters])
+            y2.append(0)
         X.append(item['predictor_prob'])
-        y.append(n_labelled_attack/n_raters)
+        y.append([n_labelled_attack, n_raters - n_labelled_attack])
+
+        if round(item['predictor_prob'], 2) in reliability_dict :
+            reliability_dict[round(item['predictor_prob'], 2)][0] += n_labelled_attack
+            reliability_dict[round(item['predictor_prob'], 2)][1] += n_raters
+        else:
+            reliability_dict[round(item['predictor_prob'], 2)] = [n_labelled_attack,n_raters]
+
         shuffle(raters)
 
         # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
-        W[index] = [item['predictor_prob']] + raters
+        dataset[index] = [item['predictor_prob']] + raters
 
     # Determine the number of columns needed in W. This is the max number of raters for an item.
-    x = list(W.values())
-    length = max(map(len, x))
+    length = max(map(len, dataset.values()))
+
+    print([reliability_dict[x][0]/reliability_dict[x][1] for x in sorted(reliability_dict)])
 
     # Pad W with Nones if the number of raters for some item is less than the max.
-    W = np.array([xi + [None] * (length - len(xi)) for xi in x])
+    padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
 
-    print('##Wiki Toxic - Dataset loaded##', len(W))
+    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
 
     # Trim the dataset to only the first max_items and recast W as a dataframe
-    W = pd.DataFrame(data=W)[:max_items]
+    W = pd.DataFrame(data=padded_dataset)[:max_items]
 
     # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
-    seed = datetime.now().hour
-    X = pd.DataFrame(data=X).sample(n=len(W), random_state=seed)
-    y = pd.DataFrame(data=y).sample(n=len(W), random_state=seed)
-    calibrator = TweedieRegressor(power=1, link='log').fit(X, y)
+
+    print('Begin Calibration')
+
+    X = pd.DataFrame(data=X, columns=["toxic_prediction"])
+    y = pd.DataFrame(data=y, columns=["num attack", "num not attack"])
+    calibrator = sm.GLM(y, sm.add_constant(X), family=sm.families.Binomial()).fit()
+    calibrator2 = LogisticRegression().fit(pd.DataFrame([x for x, y in X2]), y2, sample_weight=[1 / y for x, y in X2])
+    calibrator3 = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X2]), y2,
+                                                                       sample_weight=[1 / y for x, y in X2])
 
     # Let's keep one classifier uncalibrated
     uncalibrated_classifier = pd.DataFrame(
@@ -136,15 +164,27 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
          in W['soft classifier']])
 
     # Create a calibrated classifier
-    calibrated_classifier = pd.DataFrame(
+    calibrated_classifier1 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, 1-a], normalize=True)
          for a
-         in calibrator.predict(W.loc[:, W.columns == 'soft classifier'])])
+         in calibrator.predict(sm.add_constant(pd.DataFrame(W['soft classifier'], dtype='float64')))])
+
+    calibrated_classifier2 = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
+         for b, a
+         in calibrator2.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
+
+    calibrated_classifier3 = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
+         for b, a
+         in calibrator3.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
 
-    classifiers = uncalibrated_classifier.join(calibrated_classifier, lsuffix='_uncalibrated', rsuffix='_calibrated')
+    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='_uncalibrated', rsuffix='_calibratedBinomial')
+    classifiers = classifiers.join(calibrated_classifier2, rsuffix='_calibratedLogistic')
+    classifiers = classifiers.join(calibrated_classifier3, rsuffix='_calibratedCV')
 
     # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
     # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
@@ -153,16 +193,18 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
         # k=3, etc.
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
                                  allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
-                                 classifier_predictions=classifiers, max_K=1)
+                                 classifier_predictions=classifiers, max_K=2, procs=num_processors)
     else:
         prior = None
+
+    print('Begin Survey Equivalence Analysis Pipeline')
 
     # AnalysisPipeline is the primary entry point into the SurveyEquivalence package. It takes the dataset W,
     # as well as a combiner, scorer, classifier prediction, max_k, and bootstrap samples. This function will
     # return a power curve.
     p = AnalysisPipeline(W, combiner=combiner, scorer=scorer, allowable_labels=['a', 'n'],
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1,
-                         classifier_predictions=classifiers, max_K=max_k)
+                         classifier_predictions=classifiers, max_K=max_k, procs=num_processors)
 
     p.save(dirname_base=f"WikiToxic_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
            msg=f"""
@@ -177,7 +219,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
+              color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibratedBinomial': 'red', '0_calibratedLogistic': 'green', '0_calibratedCV': 'blue'},
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
