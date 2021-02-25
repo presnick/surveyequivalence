@@ -518,7 +518,7 @@ class AnalysisPipeline:
 
             ## iterate through rows, accumulating predictions for that item
             pool = ProcessPool(nodes=procs)
-            predictions_list = pool.uimap(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
+            predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
@@ -585,7 +585,7 @@ class AnalysisPipeline:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
 
         pool = ProcessPool(nodes=procs)
-        run_results = pool.uimap(compute_one_run, [self.W for _ in self.item_samples],
+        run_results = pool.map(compute_one_run, [self.W for _ in self.item_samples],
                                [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples],
                                [predictions for _ in self.item_samples], [i for i in range(0, len(self.item_samples))])
 
