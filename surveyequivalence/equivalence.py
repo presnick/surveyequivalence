@@ -519,6 +519,10 @@ class AnalysisPipeline:
             ## iterate through rows, accumulating predictions for that item
             pool = ProcessPool(nodes=procs)
             predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
+            pool.close()
+            pool.join()
+            pool.clear()
+
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
@@ -588,6 +592,9 @@ class AnalysisPipeline:
         run_results = pool.map(compute_one_run, [self.W for _ in self.item_samples],
                                [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples],
                                [predictions for _ in self.item_samples], [i for i in range(0, len(self.item_samples))])
+        pool.close()
+        pool.join()
+        pool.clear()
 
        # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
