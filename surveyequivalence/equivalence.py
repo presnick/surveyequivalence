@@ -1,26 +1,25 @@
-import math
-from string import Template
-import pkgutil
-from itertools import combinations
-from typing import Sequence, Dict, Tuple
-
-import operator
-from functools import reduce
-
 import datetime
-import pickle
+import math
+import operator
 import os
+import pickle
+import pkgutil
+from functools import reduce
+from itertools import combinations
+from string import Template
+from typing import Sequence, Dict, Tuple
 
 import matplotlib
 import numpy as np
 import pandas as pd
-from pathos.pools import ProcessPool
 import pathos
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from pathos.pools import ProcessPool
 
 from config import ROOT_DIR
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
+
 
 def load_saved_pipeline(path):
     W = pd.read_csv(f'{path}/dataset.csv')
@@ -519,7 +518,7 @@ class AnalysisPipeline:
 
             ## iterate through rows, accumulating predictions for that item
             pool = ProcessPool(nodes=procs)
-            predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
+            predictions_list = pool.uimap(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
@@ -530,11 +529,10 @@ class AnalysisPipeline:
 
             return predictions
 
-        def compute_one_run(W, idxs, ratersets, predictions, call_count=[0]):
+        def compute_one_run(W, idxs, ratersets, predictions, call_count):
             if self.verbosity > 0:
-                call_count[0] += 1
-                if call_count[0] % 10 == 0:
-                    print("\t", call_count[0], flush=True, end='')
+                if call_count % 10 == 0:
+                    print("\t", call_count, flush=True, end='')
                 else:
                     print(f".", end='', flush=True)
             ref_labels_df = W.loc[idxs, :].reset_index()
@@ -587,7 +585,9 @@ class AnalysisPipeline:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
 
         pool = ProcessPool(nodes=procs)
-        run_results = pool.map(compute_one_run, [self.W for _ in self.item_samples], [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples], [predictions for _ in self.item_samples])
+        run_results = pool.uimap(compute_one_run, [self.W for _ in self.item_samples],
+                               [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples],
+                               [predictions for _ in self.item_samples], [i for i in range(0, len(self.item_samples))])
 
        # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:

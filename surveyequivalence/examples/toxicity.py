@@ -21,10 +21,10 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 1  # 20
-    max_items = 10
-    bootstrap_samples = 1000
-    num_processors = 2
+    max_k = 3  # 20
+    max_items = 200
+    bootstrap_samples = 20
+    num_processors = 3
 
     # Next we iterate over various combinations of combiner and scoring functions.
     combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
