@@ -3,8 +3,8 @@ from random import shuffle
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from config import ROOT_DIR
 
+from config import ROOT_DIR
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, CrossEntropyScore, \
     AnonymousBayesianCombiner, Combiner, Scorer
 from surveyequivalence.examples import save_plot
@@ -20,14 +20,16 @@ def main():
     max_k = 3  # 30
     max_items = 20  # 1400
     bootstrap_samples = 5  # 200
+    num_processors = 2
 
     # Next we iterate over various combinations of combiner and scoring functions.
     combiner = AnonymousBayesianCombiner(allowable_labels=['p', 'n'])
     scorer = CrossEntropyScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples)
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
 
-def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int):
+def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int, num_processors: int):
     """
     Run CredBank example with provided combiner and scorer.
 
@@ -53,6 +55,8 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     bootstrap_samples : int
         Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more \
         samples increases the statistical power, but each requires additional computational time. No default is set.
+    num_processors : int
+        Number of processors to use for parallel processing
 
     Notes
     -----
@@ -141,13 +145,13 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
         # k=3, etc.
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['p', 'n']), scorer=scorer,
                                  allowable_labels=['p', 'n'], num_bootstrap_item_samples=0, verbosity=1,
-                                 classifier_predictions=classifier, max_K=1)
+                                 classifier_predictions=classifier, max_K=1, procs=num_processors)
     else:
         prior = None
 
     p = AnalysisPipeline(W, combiner=combiner, scorer=scorer, allowable_labels=['p', 'n'],
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1, classifier_predictions=classifier,
-                         max_K=max_k)
+                         max_K=max_k, procs=num_processors)
 
     p.save(dirname_base=f"CredWeb_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
                    msg=f"""
