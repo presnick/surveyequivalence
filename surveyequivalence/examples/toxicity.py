@@ -93,9 +93,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # X and Y for calibration. These lists are matched
     X = list()
-    X2 = list()
     y = list()
-    y2 = list()
 
     reliability_dict = dict()
 
@@ -109,14 +107,12 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
         for i in range(n_labelled_attack):
             raters.append('a')
-            X2.append([item['predictor_prob'], n_raters])
-            y2.append(1)
+            X.append([item['predictor_prob'], n_raters])
+            y.append(1)
         for i in range(n_raters - n_labelled_attack):
             raters.append('n')
-            X2.append([item['predictor_prob'], n_raters])
-            y2.append(0)
-        X.append(item['predictor_prob'])
-        y.append([n_labelled_attack, n_raters - n_labelled_attack])
+            X.append([item['predictor_prob'], n_raters])
+            y.append(0)
 
         if round(item['predictor_prob'], 2) in reliability_dict :
             reliability_dict[round(item['predictor_prob'], 2)][0] += n_labelled_attack
@@ -150,12 +146,8 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     print('Begin Calibration')
 
-    X = pd.DataFrame(data=X, columns=["toxic_prediction"])
-    y = pd.DataFrame(data=y, columns=["num attack", "num not attack"])
-    calibrator = sm.GLM(y, sm.add_constant(X), family=sm.families.Binomial()).fit()
-    calibrator2 = LogisticRegression().fit(pd.DataFrame([x for x, y in X2]), y2, sample_weight=[1 / y for x, y in X2])
-    calibrator3 = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X2]), y2,
-                                                                       sample_weight=[1 / y for x, y in X2])
+    calibrator = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X]), y,
+                                                                       sample_weight=[1 / y for x, y in X])
 
     # Let's keep one classifier uncalibrated
     uncalibrated_classifier = pd.DataFrame(
@@ -165,26 +157,14 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # Create a calibrated classifier
     calibrated_classifier1 = pd.DataFrame(
-        [DiscreteDistributionPrediction(['a', 'n'], [a, 1-a], normalize=True)
-         for a
-         in calibrator.predict(sm.add_constant(pd.DataFrame(W['soft classifier'], dtype='float64')))])
-
-    calibrated_classifier2 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
          for b, a
-         in calibrator2.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
-
-    calibrated_classifier3 = pd.DataFrame(
-        [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
-         for b, a
-         in calibrator3.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
+         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
 
-    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='_uncalibrated', rsuffix='_calibratedBinomial')
-    classifiers = classifiers.join(calibrated_classifier2, rsuffix='_calibratedLogistic')
-    classifiers = classifiers.join(calibrated_classifier3, rsuffix='_calibratedCV')
+    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='_uncalibrated', rsuffix='_calibrated')
 
     # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
     # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
@@ -193,7 +173,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
         # k=3, etc.
         prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
                                  allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
-                                 classifier_predictions=classifiers, max_K=2, procs=num_processors)
+                                 classifier_predictions=classifiers, max_K=1, procs=num_processors)
     else:
         prior = None
 
@@ -219,7 +199,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibratedBinomial': 'red', '0_calibratedLogistic': 'green', '0_calibratedCV': 'blue'},
+              color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
               name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
               legend_label='k raters',
