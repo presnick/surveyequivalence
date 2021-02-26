@@ -15,6 +15,8 @@ import pandas as pd
 import pathos
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from pathos.pools import ProcessPool
+import multiprocess.context as ctx
+ctx._force_start_method('spawn')
 
 from config import ROOT_DIR
 from .combiners import Prediction, Combiner
@@ -588,13 +590,16 @@ class AnalysisPipeline:
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
 
+
         pool = ProcessPool(nodes=procs)
-        run_results = pool.map(compute_one_run, [self.W for _ in self.item_samples],
+        run_results = pool.uimap(compute_one_run, [self.W for _ in self.item_samples],
                                [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples],
                                [predictions for _ in self.item_samples], [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
         pool.clear()
+
+        print()
 
        # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
