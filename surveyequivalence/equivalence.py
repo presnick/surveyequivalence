@@ -4,18 +4,21 @@ import operator
 import os
 import pickle
 import pkgutil
+import shutil
+import tempfile
 from functools import reduce
 from itertools import combinations
 from string import Template
 from typing import Sequence, Dict, Tuple
 
 import matplotlib
+import multiprocess.context as ctx
 import numpy as np
 import pandas as pd
 import pathos
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from pathos.pools import ProcessPool
-import multiprocess.context as ctx
+
 ctx._force_start_method('spawn')
 
 from config import ROOT_DIR
@@ -535,14 +538,19 @@ class AnalysisPipeline:
 
             return predictions
 
-        def compute_one_run(W, idxs, ratersets, predictions, call_count):
+        def compute_one_run(dirpath, call_count):
+            W, idxs, ratersets, predictions = pickle.load(open(dirpath + '/state.pickle', 'rb'))
+
+            # get the ith item
+            idxs = idxs[call_count]
+
             if self.verbosity > 0:
                 if call_count % 10 == 0:
                     print("\t", call_count, flush=True, end='')
                 else:
                     print(f".", end='', flush=True)
-            ref_labels_df = W.loc[idxs, :].reset_index()
             power_levels = dict()
+            ref_labels_df = W.loc[idxs, :].reset_index()
             for k in range(min_k, max_k+1):
                 if self.verbosity > 2:
                     print(f"\t\tcompute_one_run, k={k}")
@@ -590,14 +598,18 @@ class AnalysisPipeline:
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
 
+        dirpath = tempfile.mkdtemp()
 
         pool = ProcessPool(nodes=procs)
-        run_results = pool.uimap(compute_one_run, [self.W for _ in self.item_samples],
-                               [idxs for idxs in self.item_samples], [ratersets for _ in self.item_samples],
-                               [predictions for _ in self.item_samples], [i for i in range(0, len(self.item_samples))])
+        pickle.dump((self.W, [idxs for idxs in self.item_samples], ratersets, predictions),
+                    open(dirpath + '/state.pickle', 'wb'))
+        run_results = pool.uimap(compute_one_run, [dirpath for _ in range(0, len(self.item_samples))],
+                                 [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
         pool.clear()
+
+        shutil.rmtree(dirpath)
 
         print()
 
