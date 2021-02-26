@@ -41,7 +41,6 @@ def generate_and_plot_noise_datasets():
                                     combiner=combiner,
                                     scoring_function=scorer.score,
                                     allowable_labels=['pos', 'neg'],
-                                    null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                     num_runs=2,
                                     num_rater_samples=2,
                                     num_bootstrap_item_samples=2,
@@ -89,7 +88,6 @@ def generate_and_plot_noisier_amateurs():
                                        combiner=combiner,
                                        scoring_function=scorer,
                                        allowable_labels=['pos', 'neg'],
-                                       # null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]),
                                        num_bootstrap_item_samples=10)
 
     cs = pipeline.classifier_scores
@@ -210,6 +208,10 @@ def generate_and_plot_running_example():
     num_labels_per_item=10
     num_bootstrap_item_samples = 500
 
+    num_items_per_dataset=5
+    num_labels_per_item=10
+    num_bootstrap_item_samples = 200
+
     # pipeline = load_saved_pipeline('saved_analyses/analysis_pipeline/01-01-2021_09-53-28_PM')
 
 
@@ -278,7 +280,6 @@ def generate_and_plot_running_example():
     if pl.generate_pgf:
         pgf = pl.template.substitute(**pl.template_dict)
     save_plot(fig, 'runningexample_majority_vote_plus_agreement', pgf)
-
 
     pipeline2 = AnalysisPipeline(ds2.dataset,
                                 expert_cols=list(ds2.dataset.columns),
