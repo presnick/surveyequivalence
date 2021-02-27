@@ -668,16 +668,136 @@ return a vector of frequencies with which the allowable labels occur</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-surveyequivalence.synthetic_datasets">
-<span id="synthetic-dataset-generation"></span><h2>Synthetic Dataset Generation<a class="headerlink" href="#module-surveyequivalence.synthetic_datasets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="synthetic-dataset-generation">
+<h2>Synthetic Dataset Generation<a class="headerlink" href="#synthetic-dataset-generation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="states">
+<h3>States<a class="headerlink" href="#states" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
-<dt id="surveyequivalence.synthetic_datasets.Dataset">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">Dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.Dataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt id="surveyequivalence.synthetic_datasets.DiscreteState">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">DiscreteState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DiscreteState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.State</span></code></p>
+<p>A discrete distribution over possible labels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_name</strong> – </p></li>
+<li><p><strong>labels</strong> – A sequence of strings; the allowable labels</p></li>
+<li><p><strong>probabilities</strong> – A sequence of the same length, with values adding to one, giving probabilities for each of the label strings</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
-<dt id="surveyequivalence.synthetic_datasets.Dataset.compute_classifier_scores">
-<code class="sig-name descname"><span class="pre">compute_classifier_scores</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.Dataset.compute_classifier_scores" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="surveyequivalence.synthetic_datasets.DiscreteState.draw_labels">
+<code class="sig-name descname"><span class="pre">draw_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DiscreteState.draw_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make n iid draws of discrete labels from the distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – How many labels to draw from the distribution</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a single item or a numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="distributions-over-states">
+<h3>Distributions Over States<a class="headerlink" href="#distributions-over-states" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.DistributionOverStates">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">DistributionOverStates</span></code><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DistributionOverStates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract base class</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">DiscreteDistributionOverStates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.synthetic_datasets.State</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.DistributionOverStates" title="surveyequivalence.synthetic_datasets.DistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.DistributionOverStates</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>states</strong> – a sequence of State objects</p></li>
+<li><p><strong>probabilities</strong> – a same length sequence of floats representing probabilities of the item states</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates.draw_states">
+<code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.synthetic_datasets.DiscreteState" title="surveyequivalence.synthetic_datasets.DiscreteState"><span class="pre">surveyequivalence.synthetic_datasets.DiscreteState</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates.draw_states" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a single item or numpy array of State instances, drawn iid from the probability distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.FixedStateGenerator">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">FixedStateGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.synthetic_datasets.State</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.FixedStateGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates" title="surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates</span></code></a></p>
+<dl class="py method">
+<dt id="surveyequivalence.synthetic_datasets.FixedStateGenerator.draw_states">
+<code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.FixedStateGenerator.draw_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw exactly in proportion to probabilities, rather than each draw random according to the probabilities
+:param n: How many items to draw</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of State instances</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="mock-classifiers">
+<h3>Mock Classifiers<a class="headerlink" href="#mock-classifiers" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.MockClassifier">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">MockClassifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_predictors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A mock classifier has access to each item’s state when generating a prediction,
+something that a real classifier would not have access to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – </p></li>
+<li><p><strong>label_predictions</strong> – a dictionary mapping from item state names to Predictions</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="surveyequivalence.synthetic_datasets.MockClassifier.make_predictions">
+<code class="sig-name descname"><span class="pre">make_predictions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.synthetic_datasets.State</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier.make_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item_states</strong> – a sequence of State objects, representing the states of some items</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a sequence of Prediction objects, one for each item</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -685,177 +805,147 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">MappedDiscreteMockClassifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_predictors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_map</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.MockClassifier" title="surveyequivalence.synthetic_datasets.MockClassifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.MockClassifier</span></code></a></p>
+<p>A mock classifier that maps an item state to a Prediction,     draws a discrete label from that,     and then maps that discrete label to another Prediction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – </p></li>
+<li><p><strong>label_predictions</strong> – a dictionary mapping from item state names to Predictions</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier.make_predictions">
 <code class="sig-name descname"><span class="pre">make_predictions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier.make_predictions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item_states</strong> – a sequence of State objects, representing the states of some items</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a sequence of Prediction objects, one for each item</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
+</div>
+<div class="section" id="dataset-generators">
+<h3>Dataset Generators<a class="headerlink" href="#dataset-generators" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
-<dt id="surveyequivalence.synthetic_datasets.MockClassifier">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">MockClassifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_predictors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier" title="Permalink to this definition">¶</a></dt>
+<dt id="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_state_generator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.synthetic_datasets.DistributionOverStates" title="surveyequivalence.synthetic_datasets.DistributionOverStates"><span class="pre">surveyequivalence.synthetic_datasets.DistributionOverStates</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A mock classifier has access to each item’s state when generating a prediction,
-something that a real classifier would not have access to</p>
+<p>Generator for a set of items with some raters per item.
+Items are defined by States, which are drawn from a DistributionOverStates.
+Each State is a distribution over labels.
+Each label is an i.i.d. draw from the State</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_state_generator</strong> – </p></li>
+<li><p><strong>num_items_per_dataset</strong> – </p></li>
+<li><p><strong>num_labels_per_item</strong> – How many raters to generate labels for, for each item</p></li>
+<li><p><strong>mock_classifiers</strong> – A list of MockClassifier instances, which generate label predictions based on the item state</p></li>
+<li><p><strong>name</strong> – A text string naming this dataset generator</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
-<dt id="surveyequivalence.synthetic_datasets.MockClassifier.make_predictions">
-<code class="sig-name descname"><span class="pre">make_predictions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier.make_predictions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator.generate_labels">
+<code class="sig-name descname"><span class="pre">generate_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'e'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator.generate_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normally called with item_states=self.reference_rater_item_states</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – </p></li>
+<li><p><strong>item_states</strong> – a list of States, one for each item</p></li>
+<li><p><strong>num_labels_per_item=None</strong> – if None, use self.num_labels_per_item</p></li>
+<li><p><strong>rater_prefix=&quot;e&quot;</strong> – Rater columns are named as <cite>f”{rater_prefix}_{i}”</cite> where i is an integer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A pandas DataFrame with one row for each item and one column for each rater. Cells are labels.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticBinaryDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expert_state_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_amateurs_per_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticBinaryDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_state_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_other_raters_per_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator" title="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator</span></code></a></p>
+<p>Dataset generator for binary labels</p>
+<p>Only additional parameters for this subclass are documented here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pct_noise=0</strong> – In addition to the reference rater labels, this generator can generator labels from “other” raters.         With probability pct_noise the binary labels will be drawn from a 50-50 coin flip, and otherwise from        the item’s State.
+If pct_noise==0, the other raters’ labels will always be i.i.d draws from the same distribution as the
+reference rater labels.</p></li>
+<li><p><strong>k_other_raters_per_label=1</strong> – The number of other raters to generate labels for.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_histogram">
 <code class="sig-name descname"><span class="pre">make_histogram</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_histogram" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_noisier_binary_states">
-<code class="sig-name descname"><span class="pre">make_noisier_binary_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_multiplier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_noisier_binary_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ax</strong> – A matplotlib Axes instance</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.plot_item_state_distribution">
 <code class="sig-name descname"><span class="pre">plot_item_state_distribution</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.plot_item_state_distribution" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>called if you are making a standalone graph; for insets, .make_histogram is called directly</p>
 </dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.synthetic_datasets.SyntheticDataset">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticDataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds_generator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.Dataset" title="surveyequivalence.synthetic_datasets.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.Dataset</span></code></a></p>
-<dl class="py method">
-<dt id="surveyequivalence.synthetic_datasets.SyntheticDataset.set_datasets">
-<code class="sig-name descname"><span class="pre">set_datasets</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDataset.set_datasets" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expert_state_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator.generate_labels">
-<code class="sig-name descname"><span class="pre">generate_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'e'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator.generate_labels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.synthetic_datasets.make_discrete_dataset_1">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_discrete_dataset_1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_discrete_dataset_1" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.synthetic_datasets.make_discrete_dataset_2">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_discrete_dataset_2</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_discrete_dataset_2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.synthetic_datasets.make_discrete_dataset_3">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_discrete_dataset_3</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_discrete_dataset_3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.synthetic_datasets.make_perceive_with_noise_datasets">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_perceive_with_noise_datasets</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_perceive_with_noise_datasets" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.synthetic_datasets.make_running_example_dataset">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_running_example_dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hard_classifer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_soft_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_running_example_dataset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<span class="target" id="module-surveyequivalence.generate_labels"></span><dl class="py class">
-<dt id="surveyequivalence.generate_labels.DiscreteDistributionOverStates">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">DiscreteDistributionOverStates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.generate_labels.State" title="surveyequivalence.generate_labels.State"><span class="pre">surveyequivalence.generate_labels.State</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteDistributionOverStates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.generate_labels.DistributionOverStates" title="surveyequivalence.generate_labels.DistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.generate_labels.DistributionOverStates</span></code></a></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.DiscreteDistributionOverStates.draw_states">
-<code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.generate_labels.DiscreteState" title="surveyequivalence.generate_labels.DiscreteState"><span class="pre">surveyequivalence.generate_labels.DiscreteState</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteDistributionOverStates.draw_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.DiscreteLabelsWithNoise">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">DiscreteLabelsWithNoise</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.generate_labels.DiscreteState" title="surveyequivalence.generate_labels.DiscreteState"><span class="pre">surveyequivalence.generate_labels.DiscreteState</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteLabelsWithNoise" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.generate_labels.DiscreteDistributionOverStates" title="surveyequivalence.generate_labels.DiscreteDistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.generate_labels.DiscreteDistributionOverStates</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.DiscreteState">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">DiscreteState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_raters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.generate_labels.State" title="surveyequivalence.generate_labels.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.generate_labels.State</span></code></a></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.DiscreteState.draw_labels">
-<code class="sig-name descname"><span class="pre">draw_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteState.draw_labels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.DiscreteState.pr_dict">
-<code class="sig-name descname"><span class="pre">pr_dict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DiscreteState.pr_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.DistributionOverStates">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">DistributionOverStates</span></code><a class="headerlink" href="#surveyequivalence.generate_labels.DistributionOverStates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.DistributionOverStates.draw_states">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.DistributionOverStates.draw_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.FixedStateGenerator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">FixedStateGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.generate_labels.State" title="surveyequivalence.generate_labels.State"><span class="pre">surveyequivalence.generate_labels.State</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.FixedStateGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.generate_labels.DiscreteDistributionOverStates" title="surveyequivalence.generate_labels.DiscreteDistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.generate_labels.DiscreteDistributionOverStates</span></code></a></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.FixedStateGenerator.draw_states">
-<code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.FixedStateGenerator.draw_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw exactly in proportion to probabilities, rather than each draw random according to the probabilities
-:param n:
-:return:</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.MixtureOfBetas">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">MixtureOfBetas</span></code><a class="headerlink" href="#surveyequivalence.generate_labels.MixtureOfBetas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.generate_labels.DistributionOverStates" title="surveyequivalence.generate_labels.DistributionOverStates"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.generate_labels.DistributionOverStates</span></code></a></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.MixtureOfBetas.draw_states">
-<code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.generate_labels.DiscreteState" title="surveyequivalence.generate_labels.DiscreteState"><span class="pre">surveyequivalence.generate_labels.DiscreteState</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.generate_labels.MixtureOfBetas.draw_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="surveyequivalence.generate_labels.State">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.generate_labels.</span></code><code class="sig-name descname"><span class="pre">State</span></code><a class="headerlink" href="#surveyequivalence.generate_labels.State" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="surveyequivalence.generate_labels.State.draw_labels">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">draw_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.generate_labels.State.draw_labels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
 </div>
+<div class="section" id="dataset">
+<h3>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.Dataset">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">Dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_rater_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Dataset will have attributes set: dataset, other_rater_dataset, classifiers, classifier_predictions</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyequivalence.synthetic_running_example.make_running_example_dataset">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_running_example.</span></code><code class="sig-name descname"><span class="pre">make_running_example_dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hard_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_soft_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">surveyequivalence.synthetic_datasets.SyntheticDataset</span><a class="headerlink" href="#surveyequivalence.synthetic_running_example.make_running_example_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>This generates the running example dataset used in the original Survey Equivalence paper.</p>
+<p>Three states: 70% high = 80/20, 10% med = 50/50; 20% low = 10/90</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_items_per_dataset</strong> – </p></li>
+<li><p><strong>num_labels_per_item</strong> – </p></li>
+<li><p><strong>minimal</strong> – If minimal, use FixedStateGenerator, which generates labels in exact proportion to probabilities specified         in the state, rather than each label being an iid draw from the State.</p></li>
+<li><p><strong>include_hard_classifier</strong> – Includes a hard classifier which draws labels 90/10 for high state; 50/50 for medium; 05/95 fow low state</p></li>
+<li><p><strong>include_soft_classifier</strong> – Includes a soft classifier which runs the hard_classifier to generate a label and then maps it to a calibrated         prediction (.7681 when the label is positive; .3226 when the label is negative). Also includes an ideal         classifier that always predicts the probability given by the State of the item.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="module-surveyequivalence.examples.guessthekarma">
-<span id="examples"></span><h2>Examples<a class="headerlink" href="#module-surveyequivalence.examples.guessthekarma" title="Permalink to this headline">¶</a></h2>
+<span id="guess-the-karma"></span><h3>Guess the Karma<a class="headerlink" href="#module-surveyequivalence.examples.guessthekarma" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="surveyequivalence.examples.guessthekarma.main">
 <code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.guessthekarma.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.guessthekarma.main" title="Permalink to this definition">¶</a></dt>
@@ -964,6 +1054,7 @@ several different raters.</p>
 
 </div>
 </div>
+</div>
 
 
           </div>
@@ -996,8 +1087,18 @@ several different raters.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-surveyequivalence.combiners">Combiners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-surveyequivalence.scoring_functions">Scoring Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-surveyequivalence.synthetic_datasets">Synthetic Dataset Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-surveyequivalence.examples.guessthekarma">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-dataset-generation">Synthetic Dataset Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#states">States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distributions-over-states">Distributions Over States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mock-classifiers">Mock Classifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-generators">Dataset Generators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-surveyequivalence.examples.guessthekarma">Guess the Karma</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
