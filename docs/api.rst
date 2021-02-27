@@ -55,19 +55,62 @@ Scoring Functions
 Synthetic Dataset Generation
 ----------------------------
 
-.. automodule:: surveyequivalence.synthetic_datasets
-   :members:
-   :undoc-members:
+States
+^^^^^^
+.. autoclass:: surveyequivalence.synthetic_datasets.DiscreteState
+   :members: draw_labels
    :show-inheritance:
 
 
-.. automodule:: surveyequivalence.generate_labels
+Distributions Over States
+^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: surveyequivalence.synthetic_datasets.DistributionOverStates
    :members:
-   :undoc-members:
    :show-inheritance:
+
+.. autoclass:: surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates
+   :members:
+   :show-inheritance:
+
+.. autoclass:: surveyequivalence.synthetic_datasets.FixedStateGenerator
+   :members:
+   :show-inheritance:
+
+Mock Classifiers
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: surveyequivalence.synthetic_datasets.MockClassifier
+   :members:
+   :show-inheritance:
+
+.. autoclass:: surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier
+   :members:
+   :show-inheritance:
+
+Dataset Generators
+^^^^^^^^^^^^^^^^^^
+.. autoclass:: surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator
+   :members:
+   :show-inheritance:
+
+.. autoclass:: surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator
+   :members:
+   :show-inheritance:
+
+Dataset
+^^^^^^^
+.. autoclass:: surveyequivalence.synthetic_datasets.Dataset
+   :members:
+   :show-inheritance:
+
+.. autofunction:: surveyequivalence.synthetic_running_example.make_running_example_dataset
 
 Examples
 --------
+
+
+Guess the Karma
+^^^^^^^^^^^^^^^
 
 .. automodule:: surveyequivalence.examples.guessthekarma
    :members:
