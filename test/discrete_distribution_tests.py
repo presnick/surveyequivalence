@@ -5,7 +5,7 @@ import pandas as pd
 
 ##TODO: update this to use the generate_labels method; it's no longer a function
 from surveyequivalence import generate_labels, DiscreteState, \
-    DiscreteLabelsWithNoise, DiscreteDistributionPrediction, \
+    DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     MockClassifier, NumericPrediction, make_discrete_dataset_1, make_discrete_dataset_2, make_discrete_dataset_3
@@ -22,7 +22,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         num_items_per_dataset = 100
         num_labels_per_item = 10
         state_generator_1 = \
-            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+            DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                           labels=['pos', 'neg'],
                                                           probabilities=[.9, .1]),
                                             DiscreteState(state_name='neg',
@@ -51,7 +51,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         ])
 
         state_generator_2 = \
-            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+            DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                           labels=['pos', 'neg'],
                                                           probabilities=[.5, .5]),
                                             DiscreteState(state_name='neg',
@@ -68,7 +68,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         )
 
         state_generator_3 = \
-            DiscreteLabelsWithNoise(states=[DiscreteState(state_name='pos',
+            DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                           labels=['pos', 'neg'],
                                                           probabilities=[.4, .6]),
                                             DiscreteState(state_name='neg',
@@ -255,8 +255,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                         continue
 
                     p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
-                                         allowable_labels=['pos', 'neg'],
-                                         null_prediction=DiscreteDistributionPrediction(['pos', 'neg'], [1, 0]))
+                                         allowable_labels=['pos', 'neg'])
                     cs = p.expert_power_curve.means
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.std], axis=1)
