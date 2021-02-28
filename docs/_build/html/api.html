@@ -45,24 +45,24 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>W</strong> (<em>pd.DataFrame</em>) – The ratings dataframe with one column for each rater, one row for each item</p></li>
-<li><p><strong>sparse_experts</strong> (<em>bool</em>) – True (default) if some raters may not have rated all items</p></li>
-<li><p><strong>expert_cols</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>=</em><em> [</em><em>]</em>) – A list of column names, one for each potential “reference rater” whose the classifier is trying to         predict. These are also the columns used for computing the power curve for survey equivalence</p></li>
-<li><p><strong>amateur_cols</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>=</em><em> [</em><em>]</em>) – A list of column names, one for each potential “other rater”. Their ratings are not used for evaluating         the classifier, but a separate power curve may be computed for them, using surveys of k of them         to predict a reference rater’s label. Survey equivalences can also be calculated between j “other raters”         and k reference raters.</p></li>
-<li><p><strong>classifier_predictions</strong> (<em>pd.DataFrame = None</em>) – A dataframe with one column for each classifier for which we want to compute survey equivalences.         One row for each item; row indexes should be the same as for W</p></li>
-<li><p><strong>combiner</strong> (<em>Combiner = None</em>) – A combiner that is used to make a prediction about the next label for an item,         given labels from some other raters.</p></li>
-<li><p><strong>scorer</strong> (<em>Scorer = None</em>) – A scorer that takes a vector of predictions and a vector of realized reference rater labels and         yields a numeric score.</p></li>
-<li><p><strong>allowable_labels</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>= None</em>) – A list of the potential label strings that a rater is permitted to assign to an item</p></li>
-<li><p><strong>min_k=0</strong> – When computing power curves, the smallest survey size to include</p></li>
-<li><p><strong>num_bootstrap_item_samples=100</strong> – When computing error bars, how many bootstrap samples of items to create</p></li>
-<li><p><strong>max_rater_subsets=200</strong> – When computing power curves, we compute the average score over predictions made from many subsets         of reference raters of size k. When k is small, we choose all subsets of size k. For larger k,         we take a sample from the powerset. This parameters determines how many subsets to select.</p></li>
-<li><p><strong>max_K=10</strong> – When computing computing curves, the largest survey size to include. Cannot be larger than         the number of reference raters in W, minus one.</p></li>
-<li><p><strong>ratersets_memo=None</strong> – While running, a dictionary is create to memoize certain computations, for efficiency. A value         be passed in in order to reuse the memoized computations from a previous run.</p></li>
-<li><p><strong>predictions_memo=None</strong> – While running, a dictionary is create to memoize certain computations, for efficiency. A value         be passed in in order to reuse the memoized computations from a previous run.</p></li>
-<li><p><strong>item_samples=None</strong> – If specified, the set of bootstrap item samples to use for computing error bars.         If not specified, a new set of bootstrap item samples will be created.</p></li>
-<li><p><strong>verbosity=1</strong> – Controls how much information is printed to the console during execution. Set a higher number         to help with debugging.</p></li>
-<li><p><strong>= True</strong> (<em>run_on_creation</em>) – Whether to actually run the analysis pipeline</p></li>
-<li><p><strong>- 1</strong> (<em>procs=pathos.helpers.cpu_count</em><em>(</em><em>)</em>) – How many processors are available for parallel execution</p></li>
+<li><p><strong>W</strong> (<em>pd.DataFrame</em>) -- The ratings dataframe with one column for each rater, one row for each item</p></li>
+<li><p><strong>sparse_experts</strong> (<em>bool</em>) -- True (default) if some raters may not have rated all items</p></li>
+<li><p><strong>expert_cols</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>=</em><em> [</em><em>]</em>) -- A list of column names, one for each potential &quot;reference rater&quot; whose the classifier is trying to         predict. These are also the columns used for computing the power curve for survey equivalence</p></li>
+<li><p><strong>amateur_cols</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>=</em><em> [</em><em>]</em>) -- A list of column names, one for each potential &quot;other rater&quot;. Their ratings are not used for evaluating         the classifier, but a separate power curve may be computed for them, using surveys of k of them         to predict a reference rater's label. Survey equivalences can also be calculated between j &quot;other raters&quot;         and k reference raters.</p></li>
+<li><p><strong>classifier_predictions</strong> (<em>pd.DataFrame = None</em>) -- A dataframe with one column for each classifier for which we want to compute survey equivalences.         One row for each item; row indexes should be the same as for W</p></li>
+<li><p><strong>combiner</strong> (<em>Combiner = None</em>) -- A combiner that is used to make a prediction about the next label for an item,         given labels from some other raters.</p></li>
+<li><p><strong>scorer</strong> (<em>Scorer = None</em>) -- A scorer that takes a vector of predictions and a vector of realized reference rater labels and         yields a numeric score.</p></li>
+<li><p><strong>allowable_labels</strong> (<em>Sequence</em><em>[</em><em>str</em><em>] </em><em>= None</em>) -- A list of the potential label strings that a rater is permitted to assign to an item</p></li>
+<li><p><strong>min_k=0</strong> -- When computing power curves, the smallest survey size to include</p></li>
+<li><p><strong>num_bootstrap_item_samples=100</strong> -- When computing error bars, how many bootstrap samples of items to create</p></li>
+<li><p><strong>max_rater_subsets=200</strong> -- When computing power curves, we compute the average score over predictions made from many subsets         of reference raters of size k. When k is small, we choose all subsets of size k. For larger k,         we take a sample from the powerset. This parameters determines how many subsets to select.</p></li>
+<li><p><strong>max_K=10</strong> -- When computing computing curves, the largest survey size to include. Cannot be larger than         the number of reference raters in W, minus one.</p></li>
+<li><p><strong>ratersets_memo=None</strong> -- While running, a dictionary is create to memoize certain computations, for efficiency. A value         be passed in in order to reuse the memoized computations from a previous run.</p></li>
+<li><p><strong>predictions_memo=None</strong> -- While running, a dictionary is create to memoize certain computations, for efficiency. A value         be passed in in order to reuse the memoized computations from a previous run.</p></li>
+<li><p><strong>item_samples=None</strong> -- If specified, the set of bootstrap item samples to use for computing error bars.         If not specified, a new set of bootstrap item samples will be created.</p></li>
+<li><p><strong>verbosity=1</strong> -- Controls how much information is printed to the console during execution. Set a higher number         to help with debugging.</p></li>
+<li><p><strong>= True</strong> (<em>run_on_creation</em>) -- Whether to actually run the analysis pipeline</p></li>
+<li><p><strong>- 1</strong> (<em>procs=pathos.helpers.cpu_count</em><em>(</em><em>)</em>) -- How many processors are available for parallel execution</p></li>
 </ul>
 </dd>
 </dl>
@@ -85,9 +85,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dirname_base=&quot;analysis_pipeline&quot;</strong> – A subdirectory name in which to store saved results</p></li>
-<li><p><strong>msg</strong> – A text string to write in a README file that is generated</p></li>
-<li><p><strong>save_results=True</strong> – If True, generates a <cite>results_summary.txt</cite> file with power curve and survey equivalence summary stats</p></li>
+<li><p><strong>dirname_base=&quot;analysis_pipeline&quot;</strong> -- A subdirectory name in which to store saved results</p></li>
+<li><p><strong>msg</strong> -- A text string to write in a README file that is generated</p></li>
+<li><p><strong>save_results=True</strong> -- If True, generates a <cite>results_summary.txt</cite> file with power curve and survey equivalence summary stats</p></li>
 </ul>
 </dd>
 </dl>
@@ -112,19 +112,19 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
-<li><p><strong>expert_power_curve</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.PowerCurve" title="surveyequivalence.equivalence.PowerCurve"><em>PowerCurve</em></a>) – a PowerCurve with scores for combinations of k reference raters in predicting a held-out reference rater</p></li>
-<li><p><strong>amateur_power_curve=None</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.PowerCurve" title="surveyequivalence.equivalence.PowerCurve"><em>PowerCurve</em></a>) – a PowerCurve with scores for combinations of k other raters in predicting a held-out reference rater</p></li>
-<li><p><strong>classifier_scores=None</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.ClassifierResults" title="surveyequivalence.equivalence.ClassifierResults"><em>ClassifierResults</em></a>) – </p></li>
-<li><p><strong>color_map={'expert_power_curve'</strong> (<em>'black'</em><em>, </em><em>'amateur_power_curve': 'blue'</em><em>, </em><em>'classifier': 'green'}</em>) – a dictionary specifying colors to use for the different elements of the graph to be pltoted</p></li>
-<li><p><strong>with reference rater'</strong> (<em>y_axis_label='Agreement</em>) – </p></li>
-<li><p><strong>center_on=None</strong> (<em>float</em>) – If a value is provided, it will be subtracted from all scores for classifiers and power curve values</p></li>
-<li><p><strong>y_range=None</strong> – If specified, a tuple of two values, the min and max y-values for the graph</p></li>
-<li><p><strong>name='powercurve'</strong> – A name for the plot</p></li>
-<li><p><strong>raters'</strong> (<em>legend_label='Expert</em>) – Legend label for the power curve for reference raters</p></li>
-<li><p><strong>raters&quot;</strong> (<em>amateur_legend_label=&quot;Lay</em>) – Legend label for the power curve for other raters</p></li>
-<li><p><strong>verbosity=1</strong> – Controls how much information is printed to the console during execution. Set a higher number         to help with debugging.</p></li>
-<li><p><strong>generate_pgf=False</strong> – If True, also populate data to enable create of pgf format, suitable for inclusion in latex         after calling <cite>.plot()</cite>, run         <cite>self.template.substitute(**self.template_dict)</cite></p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) -- </p></li>
+<li><p><strong>expert_power_curve</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.PowerCurve" title="surveyequivalence.equivalence.PowerCurve"><em>PowerCurve</em></a>) -- a PowerCurve with scores for combinations of k reference raters in predicting a held-out reference rater</p></li>
+<li><p><strong>amateur_power_curve=None</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.PowerCurve" title="surveyequivalence.equivalence.PowerCurve"><em>PowerCurve</em></a>) -- a PowerCurve with scores for combinations of k other raters in predicting a held-out reference rater</p></li>
+<li><p><strong>classifier_scores=None</strong> (<a class="reference internal" href="#surveyequivalence.equivalence.ClassifierResults" title="surveyequivalence.equivalence.ClassifierResults"><em>ClassifierResults</em></a>) -- </p></li>
+<li><p><strong>color_map={'expert_power_curve'</strong> (<em>'black'</em><em>, </em><em>'amateur_power_curve': 'blue'</em><em>, </em><em>'classifier': 'green'}</em>) -- a dictionary specifying colors to use for the different elements of the graph to be pltoted</p></li>
+<li><p><strong>with reference rater'</strong> (<em>y_axis_label='Agreement</em>) -- </p></li>
+<li><p><strong>center_on=None</strong> (<em>float</em>) -- If a value is provided, it will be subtracted from all scores for classifiers and power curve values</p></li>
+<li><p><strong>y_range=None</strong> -- If specified, a tuple of two values, the min and max y-values for the graph</p></li>
+<li><p><strong>name='powercurve'</strong> -- A name for the plot</p></li>
+<li><p><strong>raters'</strong> (<em>legend_label='Expert</em>) -- Legend label for the power curve for reference raters</p></li>
+<li><p><strong>raters&quot;</strong> (<em>amateur_legend_label=&quot;Lay</em>) -- Legend label for the power curve for other raters</p></li>
+<li><p><strong>verbosity=1</strong> -- Controls how much information is printed to the console during execution. Set a higher number         to help with debugging.</p></li>
+<li><p><strong>generate_pgf=False</strong> -- If True, also populate data to enable create of pgf format, suitable for inclusion in latex         after calling <cite>.plot()</cite>, run         <cite>self.template.substitute(**self.template_dict)</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -135,19 +135,33 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>include_expert_points='all'</strong> – all means to plot all reference rater survey sizes on the x-axis of the power curve
+<li><p><strong>include_expert_points='all'</strong> -- all means to plot all reference rater survey sizes on the x-axis of the power curve
 Or include a list of numbers indicating which survey sizes to include</p></li>
-<li><p><strong>connect_expert_points=True</strong> – Whether to draw straight lines connecting the dots for survey power for surveys of successive sizes</p></li>
-<li><p><strong>include_classifiers=True</strong> – Whether to include horizontal lines showing the classifier score(s)</p></li>
-<li><p><strong>include_classifier_equivalences=True</strong> – Whether to include calculation of the equivalent number of reference raters for each classifier,             based on the intersection point of the classifier line and the reference raters’ power curve</p></li>
-<li><p><strong>include_classifier_amateur_equivalences=False</strong> – Whether to include calculation of the equivalent number of other raters for each classifier,             based on the intersection point of the classifier line and the other raters’ power curve</p></li>
-<li><p><strong>other_rater_equivalences_to_include=</strong><strong>[</strong><strong>]</strong> – A list of survey sizes for non-reference raters.             For each one, compute the equivalent number of reference raters yielding the same score.</p></li>
-<li><p><strong>include_droplines=True</strong> – Whether to include vertical lines from the intersection points (survey equivalences) to the x-axis</p></li>
-<li><p><strong>include_amateur_curve=True</strong> – Whether to include a power curve for the other, non-reference raters</p></li>
-<li><p><strong>include_classifier_cis=True</strong> – Whether to include error bars around the classifier horizontal lines</p></li>
-<li><p><strong>include_seq_cis=True</strong> – Whether to include error bars around the survey equivalence values</p></li>
-<li><p><strong>x_ticks=None</strong> – If provided, a  list of x values for which tick marks should be shown.             If None, then it will be automatically calculated.</p></li>
-<li><p><strong>legend_loc=None</strong> – String indicating where to place the legend (uses default if None).             Options as documented for <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html">matplotlib.axes.Axes.legend</a>.</p></li>
+<li><p><strong>connect_expert_points=True</strong> -- Whether to draw straight lines connecting the dots for survey power for surveys of successive sizes</p></li>
+<li><p><strong>include_classifiers=True</strong> -- Whether to include horizontal lines showing the classifier score(s)</p></li>
+<li><p><strong>include_classifier_equivalences=True</strong> -- Whether to include calculation of the equivalent number of reference raters for each classifier,             based on the intersection point of the classifier line and the reference raters' power curve</p></li>
+<li><p><strong>include_classifier_amateur_equivalences=False</strong> -- Whether to include calculation of the equivalent number of other raters for each classifier,             based on the intersection point of the classifier line and the other raters' power curve</p></li>
+<li><p><strong>other_rater_equivalences_to_include=</strong><strong>[</strong><strong>]</strong> -- A list of survey sizes for non-reference raters.             For each one, compute the equivalent number of reference raters yielding the same score.</p></li>
+<li><p><strong>include_droplines=True</strong> -- Whether to include vertical lines from the intersection points (survey equivalences) to the x-axis</p></li>
+<li><p><strong>include_amateur_curve=True</strong> -- Whether to include a power curve for the other, non-reference raters</p></li>
+<li><p><strong>include_classifier_cis=True</strong> -- Whether to include error bars around the classifier horizontal lines</p></li>
+<li><p><strong>include_seq_cis=True</strong> -- Whether to include error bars around the survey equivalence values</p></li>
+<li><p><strong>x_ticks=None</strong> -- If provided, a  list of x values for which tick marks should be shown.             If None, then it will be automatically calculated.</p></li>
+<li><p><strong>legend_loc=None</strong> -- String indicating where to place the legend (uses default if None).             Options as documented for <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html">matplotlib.axes.Axes.legend</a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyequivalence.equivalence.Plot.save">
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">fig:</span> <span class="pre">&lt;module</span> <span class="pre">'matplotlib.figure'</span> <span class="pre">from</span> <span class="pre">'/home/presnick/anaconda3/envs/survey_equiv/lib/python3.7/site-packages/matplotlib/figure.py'&gt;</span></em>, <em class="sig-param"><span class="pre">name:</span> <span class="pre">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>matplotlib figure object to be saved</em>) -- </p></li>
+<li><p><strong>name</strong> (<em>Name for the file</em>) -- </p></li>
 </ul>
 </dd>
 </dl>
@@ -235,10 +249,10 @@ Or include a list of numbers indicating which survey sizes to include</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> – </p></li>
-<li><p><strong>other</strong> – The classifier scores that are compared against this PowerCurve to find equivalences
+<li><p><strong>self</strong> -- </p></li>
+<li><p><strong>other</strong> -- The classifier scores that are compared against this PowerCurve to find equivalences
 may either be an instance of ClassifierResults or a PowerCurve. Must have same row             indexes as self, one for each item sample</p></li>
-<li><p><strong>columns</strong> – a subset of the column names from other.df; if not specified, use all of them</p></li>
+<li><p><strong>columns</strong> -- a subset of the column names from other.df; if not specified, use all of them</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -256,9 +270,9 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>other</strong> – the other ClassifierResults or PowerCurve</p></li>
-<li><p><strong>self_col</strong> – the survey size (column) for self</p></li>
-<li><p><strong>other_col</strong> – the survey size (column) for other to compare, with matching bootstrap samples as rows</p></li>
+<li><p><strong>other</strong> -- the other ClassifierResults or PowerCurve</p></li>
+<li><p><strong>self_col</strong> -- the survey size (column) for self</p></li>
+<li><p><strong>other_col</strong> -- the survey size (column) for other to compare, with matching bootstrap samples as rows</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -276,8 +290,8 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>other</strong> – another PowerCurve</p></li>
-<li><p><strong>k</strong> – survey size</p></li>
+<li><p><strong>other</strong> -- another PowerCurve</p></li>
+<li><p><strong>k</strong> -- survey size</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -306,9 +320,9 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> – </p></li>
-<li><p><strong>W</strong> – item and rating dataset</p></li>
-<li><p><strong>allowable_labels</strong> – the set of labels/ratings allowed</p></li>
+<li><p><strong>labels</strong> -- </p></li>
+<li><p><strong>W</strong> -- item and rating dataset</p></li>
+<li><p><strong>allowable_labels</strong> -- the set of labels/ratings allowed</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -323,10 +337,10 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> – </p></li>
-<li><p><strong>item</strong> – </p></li>
-<li><p><strong>allowable_labels</strong> – </p></li>
-<li><p><strong>number_of_labels</strong> – </p></li>
+<li><p><strong>labels</strong> -- </p></li>
+<li><p><strong>item</strong> -- </p></li>
+<li><p><strong>allowable_labels</strong> -- </p></li>
+<li><p><strong>number_of_labels</strong> -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -344,11 +358,11 @@ information from the item/rating dataset W.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> – the set of labels/ratings allowed</p></li>
-<li><p><strong>labels</strong> – the k ratings</p></li>
-<li><p><strong>W</strong> – item and rating dataset</p></li>
-<li><p><strong>item_id</strong> – item index in W</p></li>
-<li><p><strong>to_predict_for</strong> – not used currently</p></li>
+<li><p><strong>allowable_labels</strong> -- the set of labels/ratings allowed</p></li>
+<li><p><strong>labels</strong> -- the k ratings</p></li>
+<li><p><strong>W</strong> -- item and rating dataset</p></li>
+<li><p><strong>item_id</strong> -- item index in W</p></li>
+<li><p><strong>to_predict_for</strong> -- not used currently</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -454,11 +468,11 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> – not used in this combiner</p></li>
-<li><p><strong>labels</strong> – numeric values from particular rater ids; rater ids are ignored</p></li>
-<li><p><strong>W</strong> – ignored in this combiner</p></li>
-<li><p><strong>item_id</strong> – ignored in this combiner</p></li>
-<li><p><strong>to_predict_for</strong> – ignored in this combiner</p></li>
+<li><p><strong>allowable_labels</strong> -- not used in this combiner</p></li>
+<li><p><strong>labels</strong> -- numeric values from particular rater ids; rater ids are ignored</p></li>
+<li><p><strong>W</strong> -- ignored in this combiner</p></li>
+<li><p><strong>item_id</strong> -- ignored in this combiner</p></li>
+<li><p><strong>to_predict_for</strong> -- ignored in this combiner</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -490,11 +504,11 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> – not used in this combiner</p></li>
-<li><p><strong>labels</strong> – numeric values from particular rater ids; rater ids are ignored</p></li>
-<li><p><strong>W</strong> – ignored in this combiner</p></li>
-<li><p><strong>item_id</strong> – ignored in this combiner</p></li>
-<li><p><strong>to_predict_for</strong> – ignored in this combiner</p></li>
+<li><p><strong>allowable_labels</strong> -- not used in this combiner</p></li>
+<li><p><strong>labels</strong> -- numeric values from particular rater ids; rater ids are ignored</p></li>
+<li><p><strong>W</strong> -- ignored in this combiner</p></li>
+<li><p><strong>item_id</strong> -- ignored in this combiner</p></li>
+<li><p><strong>to_predict_for</strong> -- ignored in this combiner</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -551,8 +565,8 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>classifier_predictions</strong> – numeric values</p></li>
-<li><p><strong>rater_labels</strong> – sequence of labels, which should be numeric values</p></li>
+<li><p><strong>classifier_predictions</strong> -- numeric values</p></li>
+<li><p><strong>rater_labels</strong> -- sequence of labels, which should be numeric values</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -680,9 +694,9 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>state_name</strong> – </p></li>
-<li><p><strong>labels</strong> – A sequence of strings; the allowable labels</p></li>
-<li><p><strong>probabilities</strong> – A sequence of the same length, with values adding to one, giving probabilities for each of the label strings</p></li>
+<li><p><strong>state_name</strong> -- </p></li>
+<li><p><strong>labels</strong> -- A sequence of strings; the allowable labels</p></li>
+<li><p><strong>probabilities</strong> -- A sequence of the same length, with values adding to one, giving probabilities for each of the label strings</p></li>
 </ul>
 </dd>
 </dl>
@@ -692,7 +706,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dd><p>Make n iid draws of discrete labels from the distribution</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> – How many labels to draw from the distribution</p>
+<dd class="field-odd"><p><strong>n</strong> -- How many labels to draw from the distribution</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -722,8 +736,8 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>states</strong> – a sequence of State objects</p></li>
-<li><p><strong>probabilities</strong> – a same length sequence of floats representing probabilities of the item states</p></li>
+<li><p><strong>states</strong> -- a sequence of State objects</p></li>
+<li><p><strong>probabilities</strong> -- a same length sequence of floats representing probabilities of the item states</p></li>
 </ul>
 </dd>
 </dl>
@@ -732,7 +746,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <code class="sig-name descname"><span class="pre">draw_states</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.synthetic_datasets.DiscreteState" title="surveyequivalence.synthetic_datasets.DiscreteState"><span class="pre">surveyequivalence.synthetic_datasets.DiscreteState</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates.draw_states" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> – </p>
+<dd class="field-odd"><p><strong>n</strong> -- </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -773,13 +787,13 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.synthetic_datasets.MockClassifier">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">MockClassifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_predictors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A mock classifier has access to each item’s state when generating a prediction,
+<p>A mock classifier has access to each item's state when generating a prediction,
 something that a real classifier would not have access to</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>label_predictions</strong> – a dictionary mapping from item state names to Predictions</p></li>
+<li><p><strong>name</strong> -- </p></li>
+<li><p><strong>label_predictions</strong> -- a dictionary mapping from item state names to Predictions</p></li>
 </ul>
 </dd>
 </dl>
@@ -788,7 +802,7 @@ something that a real classifier would not have access to</p>
 <code class="sig-name descname"><span class="pre">make_predictions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">surveyequivalence.synthetic_datasets.State</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><span class="pre">surveyequivalence.combiners.Prediction</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MockClassifier.make_predictions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item_states</strong> – a sequence of State objects, representing the states of some items</p>
+<dd class="field-odd"><p><strong>item_states</strong> -- a sequence of State objects, representing the states of some items</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -809,8 +823,8 @@ something that a real classifier would not have access to</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>label_predictions</strong> – a dictionary mapping from item state names to Predictions</p></li>
+<li><p><strong>name</strong> -- </p></li>
+<li><p><strong>label_predictions</strong> -- a dictionary mapping from item state names to Predictions</p></li>
 </ul>
 </dd>
 </dl>
@@ -819,7 +833,7 @@ something that a real classifier would not have access to</p>
 <code class="sig-name descname"><span class="pre">make_predictions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_states</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier.make_predictions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item_states</strong> – a sequence of State objects, representing the states of some items</p>
+<dd class="field-odd"><p><strong>item_states</strong> -- a sequence of State objects, representing the states of some items</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -846,11 +860,11 @@ Each label is an i.i.d. draw from the State</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>item_state_generator</strong> – </p></li>
-<li><p><strong>num_items_per_dataset</strong> – </p></li>
-<li><p><strong>num_labels_per_item</strong> – How many raters to generate labels for, for each item</p></li>
-<li><p><strong>mock_classifiers</strong> – A list of MockClassifier instances, which generate label predictions based on the item state</p></li>
-<li><p><strong>name</strong> – A text string naming this dataset generator</p></li>
+<li><p><strong>item_state_generator</strong> -- </p></li>
+<li><p><strong>num_items_per_dataset</strong> -- </p></li>
+<li><p><strong>num_labels_per_item</strong> -- How many raters to generate labels for, for each item</p></li>
+<li><p><strong>mock_classifiers</strong> -- A list of MockClassifier instances, which generate label predictions based on the item state</p></li>
+<li><p><strong>name</strong> -- A text string naming this dataset generator</p></li>
 </ul>
 </dd>
 </dl>
@@ -861,10 +875,10 @@ Each label is an i.i.d. draw from the State</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> – </p></li>
-<li><p><strong>item_states</strong> – a list of States, one for each item</p></li>
-<li><p><strong>num_labels_per_item=None</strong> – if None, use self.num_labels_per_item</p></li>
-<li><p><strong>rater_prefix=&quot;e&quot;</strong> – Rater columns are named as <cite>f”{rater_prefix}_{i}”</cite> where i is an integer</p></li>
+<li><p><strong>self</strong> -- </p></li>
+<li><p><strong>item_states</strong> -- a list of States, one for each item</p></li>
+<li><p><strong>num_labels_per_item=None</strong> -- if None, use self.num_labels_per_item</p></li>
+<li><p><strong>rater_prefix=&quot;e&quot;</strong> -- Rater columns are named as <cite>f&quot;{rater_prefix}_{i}&quot;</cite> where i is an integer</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -887,10 +901,10 @@ Each label is an i.i.d. draw from the State</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pct_noise=0</strong> – In addition to the reference rater labels, this generator can generator labels from “other” raters.         With probability pct_noise the binary labels will be drawn from a 50-50 coin flip, and otherwise from        the item’s State.
-If pct_noise==0, the other raters’ labels will always be i.i.d draws from the same distribution as the
+<li><p><strong>pct_noise=0</strong> -- In addition to the reference rater labels, this generator can generator labels from &quot;other&quot; raters.         With probability pct_noise the binary labels will be drawn from a 50-50 coin flip, and otherwise from        the item's State.
+If pct_noise==0, the other raters' labels will always be i.i.d draws from the same distribution as the
 reference rater labels.</p></li>
-<li><p><strong>k_other_raters_per_label=1</strong> – The number of other raters to generate labels for.</p></li>
+<li><p><strong>k_other_raters_per_label=1</strong> -- The number of other raters to generate labels for.</p></li>
 </ul>
 </dd>
 </dl>
@@ -899,7 +913,7 @@ reference rater labels.</p></li>
 <code class="sig-name descname"><span class="pre">make_histogram</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_histogram" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ax</strong> – A matplotlib Axes instance</p>
+<dd class="field-odd"><p><strong>ax</strong> -- A matplotlib Axes instance</p>
 </dd>
 </dl>
 </dd></dl>
@@ -922,132 +936,49 @@ reference rater labels.</p></li>
 <p>A Dataset will have attributes set: dataset, other_rater_dataset, classifiers, classifier_predictions</p>
 </dd></dl>
 
+<dl class="py class">
+<dt id="surveyequivalence.synthetic_datasets.SyntheticDataset">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticDataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds_generator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator" title="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator"><span class="pre">surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.Dataset" title="surveyequivalence.synthetic_datasets.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.Dataset</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ds_generator</strong> -- </p></li>
+<li><p><strong>all the attributes</strong> (<em>Sets</em>) -- </p></li>
+<li><p><strong>running the SyntheticBinaryDatasetGenerator</strong> (<em>by</em>) -- </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="surveyequivalence.synthetic_datasets.SyntheticDataset.save">
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'running_example'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticDataset.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save ratings and predictions to csv files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirname</strong> -- A subdirectory name in which to store saved results</p></li>
+<li><p><strong>include_timestamp_in_dirname</strong> -- Whether to postpend directory name with current timestamp</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
-<dt id="surveyequivalence.synthetic_running_example.make_running_example_dataset">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_running_example.</span></code><code class="sig-name descname"><span class="pre">make_running_example_dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hard_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_soft_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">surveyequivalence.synthetic_datasets.SyntheticDataset</span><a class="headerlink" href="#surveyequivalence.synthetic_running_example.make_running_example_dataset" title="Permalink to this definition">¶</a></dt>
+<dt id="surveyequivalence.synthetic_datasets.make_running_example_dataset">
+<code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">make_running_example_dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hard_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_soft_classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.synthetic_datasets.SyntheticDataset" title="surveyequivalence.synthetic_datasets.SyntheticDataset"><span class="pre">surveyequivalence.synthetic_datasets.SyntheticDataset</span></a><a class="headerlink" href="#surveyequivalence.synthetic_datasets.make_running_example_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>This generates the running example dataset used in the original Survey Equivalence paper.</p>
 <p>Three states: 70% high = 80/20, 10% med = 50/50; 20% low = 10/90</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_items_per_dataset</strong> – </p></li>
-<li><p><strong>num_labels_per_item</strong> – </p></li>
-<li><p><strong>minimal</strong> – If minimal, use FixedStateGenerator, which generates labels in exact proportion to probabilities specified         in the state, rather than each label being an iid draw from the State.</p></li>
-<li><p><strong>include_hard_classifier</strong> – Includes a hard classifier which draws labels 90/10 for high state; 50/50 for medium; 05/95 fow low state</p></li>
-<li><p><strong>include_soft_classifier</strong> – Includes a soft classifier which runs the hard_classifier to generate a label and then maps it to a calibrated         prediction (.7681 when the label is positive; .3226 when the label is negative). Also includes an ideal         classifier that always predicts the probability given by the State of the item.</p></li>
+<li><p><strong>num_items_per_dataset</strong> -- </p></li>
+<li><p><strong>num_labels_per_item</strong> -- </p></li>
+<li><p><strong>minimal</strong> -- If minimal, use FixedStateGenerator, which generates labels in exact proportion to probabilities specified         in the state, rather than each label being an iid draw from the State.</p></li>
+<li><p><strong>include_hard_classifier</strong> -- Includes a hard classifier which draws labels 90/10 for high state; 50/50 for medium; 05/95 fow low state</p></li>
+<li><p><strong>include_soft_classifier</strong> -- Includes a soft classifier which runs the hard_classifier to generate a label and then maps it to a calibrated         prediction (.7681 when the label is positive; .3226 when the label is negative). Also includes an ideal         classifier that always predicts the probability given by the State of the item.</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="module-surveyequivalence.examples.guessthekarma">
-<span id="guess-the-karma"></span><h3>Guess the Karma<a class="headerlink" href="#module-surveyequivalence.examples.guessthekarma" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt id="surveyequivalence.examples.guessthekarma.main">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.guessthekarma.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.guessthekarma.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the main driver for the Guess The Karma example. The driver function cycles through four different     combinations of ScoringFunctions and Combiners</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.examples.guessthekarma.run">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.guessthekarma.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><span class="pre">surveyequivalence.combiners.Combiner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.guessthekarma.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run GuessTheKarma example with provided combiner and scorer.</p>
-<p>With GuessTheKarma data we have annotations for image pairs (items) from non-anonymous raters. In addition, each
-“correct” item is annotated as ‘A’ (‘B’ is therefore the incorrect answer). So to balance the dataset we
-randomly swap ‘A’ for ‘B’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>combiner</strong> (<a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><em>Combiner</em></a>) – Combiner function</p></li>
-<li><p><strong>scorer</strong> (<a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><em>Scorer</em></a>) – Scoring function</p></li>
-<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
-<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
-<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
-<li><p><strong>num_processors</strong> (<em>int</em>) – Number of processors to use for parallel processing</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This function uses data collected by the GuessTheKarma Web game <a class="footnote-reference brackets" href="#id2" id="id1">1</a> to generate survey equivalence values.</p>
-<p class="rubric">References</p>
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Glenski, M., Stoddard, G., Resnick, P., &amp; Weninger, T. (2018). Guessthekarma: A game to assess social     rating systems. Proceedings of the ACM on Human-Computer Interaction, 2(CSCW), 1-15.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<span class="target" id="module-surveyequivalence.examples.credbank"></span><dl class="py function">
-<dt id="surveyequivalence.examples.credbank.main">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.credbank.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.credbank.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the main driver for the CredBank example. The driver function calls just the AnonymousBayesian and     CrossEntropy Scoring Functions</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.examples.credbank.run">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.credbank.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><span class="pre">surveyequivalence.combiners.Combiner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.credbank.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run CredBank example with provided combiner and scorer.</p>
-<p>With The Credibility study we do not have individual raters, so we simulate them. Since the AnonymousBayesian     combiner is anonymous, ie, it doesn’t matter who rated what, then we can just simulate these raters.</p>
-<p>In this case, we say that a rating was positive if credibility was rated high or medium high. Otherwise its not.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>combiner</strong> (<a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><em>Combiner</em></a>) – Combiner function</p></li>
-<li><p><strong>scorer</strong> (<a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><em>Scorer</em></a>) – Scoring function</p></li>
-<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
-<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
-<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
-<li><p><strong>num_processors</strong> (<em>int</em>) – Number of processors to use for parallel processing</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This function uses data collected by the crawler of Mitra and Gilbert <a class="footnote-reference brackets" href="#id5" id="id3">2</a> and the classifier predictions were     constructed by Mitra et al <a class="footnote-reference brackets" href="#id6" id="id4">3</a></p>
-<p class="rubric">References</p>
-<dl class="footnote brackets">
-<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
-<dd><p>Mitra, T., &amp; Gilbert, E. (2015, April). Credbank: A large-scale social media corpus with associated     credibility annotations. In Proceedings of the International AAAI Conference on Web and Social Media     (Vol. 9, No. 1).</p>
-</dd>
-<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
-<dd><p>Mitra, T., Wright, G. P., &amp; Gilbert, E. (2017, February). A parsimonious language model of social media     credibility across disparate events. In Proceedings of the 2017 ACM conference on computer supported     cooperative work and social computing (pp. 126-145).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<span class="target" id="module-surveyequivalence.examples.toxicity"></span><dl class="py function">
-<dt id="surveyequivalence.examples.toxicity.main">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.toxicity.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.toxicity.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the main driver for the Toxicity example. The driver function cycles through four different     combinations of ScoringFunctions and Combiners</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="surveyequivalence.examples.toxicity.run">
-<code class="sig-prename descclassname"><span class="pre">surveyequivalence.examples.toxicity.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><span class="pre">surveyequivalence.combiners.Combiner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.examples.toxicity.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run Toxicity example with provided combiner and scorer.</p>
-<p>With Toxicity data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
-several different raters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>combiner</strong> (<a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><em>Combiner</em></a>) – Combiner function</p></li>
-<li><p><strong>scorer</strong> (<a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><em>Scorer</em></a>) – Scoring function</p></li>
-<li><p><strong>max_k</strong> (<em>int</em>) – Maximum number of raters to use when calculating survey power curve. Lower values dramatically speed up         execution of the procedure. No default is set, but this value is typically equal to the average number of         raters per item.</p></li>
-<li><p><strong>max_items</strong> (<em>int</em>) – Maximum items to use from the dataset. Fewer items increases the speed of the procedure by results in loss         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then         the function will only take the first max_items items from the dataset thereby ignoring some data.</p></li>
-<li><p><strong>bootstrap_samples</strong> (<em>int</em>) – Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more         samples increases the statistical power, but each requires additional computational time. No default is set.</p></li>
-<li><p><strong>num_processors</strong> (<em>int</em>) – Number of processors to use for parallel processing</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This function uses data collected by Jigsaw’s Toxicity platform <a class="footnote-reference brackets" href="#id8" id="id7">4</a> to generate survey equivalence values.</p>
-<p class="rubric">References</p>
-<dl class="footnote brackets">
-<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id7">4</a></span></dt>
-<dd><p>Wulczyn, E., Thain, N., &amp; Dixon, L. (2017, April). Ex machina: Personal attacks seen at scale.     In Proceedings of the 26th international conference on world wide web (pp. 1391-1399).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1074,7 +1005,7 @@ several different raters.</p>
 
 <h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#equivalence-module">Equivalence Module</a><ul>
@@ -1093,10 +1024,6 @@ several different raters.</p>
 <li class="toctree-l3"><a class="reference internal" href="#mock-classifiers">Mock Classifiers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dataset-generators">Dataset Generators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dataset">Dataset</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-surveyequivalence.examples.guessthekarma">Guess the Karma</a></li>
 </ul>
 </li>
 </ul>

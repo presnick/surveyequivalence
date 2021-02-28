@@ -89,6 +89,7 @@ Mock Classifiers
 
 Dataset Generators
 ^^^^^^^^^^^^^^^^^^
+
 .. autoclass:: surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator
    :members:
    :show-inheritance:
@@ -103,26 +104,9 @@ Dataset
    :members:
    :show-inheritance:
 
-.. autofunction:: surveyequivalence.synthetic_running_example.make_running_example_dataset
-
-Examples
---------
-
-
-Guess the Karma
-^^^^^^^^^^^^^^^
-
-.. automodule:: surveyequivalence.examples.guessthekarma
+.. autoclass:: surveyequivalence.synthetic_datasets.SyntheticDataset
    :members:
-   :undoc-members:
    :show-inheritance:
 
-.. automodule:: surveyequivalence.examples.credbank
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: surveyequivalence.synthetic_datasets.make_running_example_dataset
 
-.. automodule:: surveyequivalence.examples.toxicity
-   :members:
-   :undoc-members:
-   :show-inheritance:
