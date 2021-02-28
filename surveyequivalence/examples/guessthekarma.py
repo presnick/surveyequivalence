@@ -7,7 +7,6 @@ from matplotlib import pyplot as plt
 from config import ROOT_DIR
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
     CrossEntropyScore, AnonymousBayesianCombiner, PluralityVote, F1Score, AgreementScore, Combiner, Scorer
-from surveyequivalence.examples import save_plot
 
 
 def main():
@@ -200,10 +199,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pgf = None
-    if pl.generate_pgf:
-        pgf = pl.template.substitute(**pl.template_dict)
-    save_plot(fig, f'GTK_{type(combiner).__name__}_{type(scorer).__name__}', pgf)
+    pl.save(fig, f'GTK_{type(combiner).__name__}_{type(scorer).__name__}')
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ from string import Template
 from typing import Sequence, Dict, Tuple
 
 import matplotlib
+from matplotlib import figure
 import numpy as np
 import pandas as pd
 import pathos
@@ -647,13 +648,13 @@ class AnalysisPipeline:
                             allowable_labels=self.combiner.allowable_labels,
                             labels=list(zip(rater_tup, label_vals)),
                             W=self.W_as_array)
-                        if self.verbosity > 0 and idx == 0:
+                        if self.verbosity > 1 and idx == 0:
                             if k == 0:
                                 print(f"baseline score:{predictions[idx][rater_tup]}")
                             if k == 1:
                                 preds_label.add(
                                     f"{label_vals.values[0] if len(label_vals) > 0 else None}: {predictions[idx][rater_tup]}")
-                    if self.verbosity > 0 and idx == 0 and k == 1:
+                    if self.verbosity > 1 and idx == 0 and k == 1:
                         print(f"scores after 1 rating is {preds_label}")
 
                 if self.verbosity > 0:
@@ -1185,3 +1186,27 @@ class Plot:
         # fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
 
         pass
+
+    def save(self, fig: figure, name: str):
+        """
+        Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.
+
+        Parameters
+        ----------
+        fig : matplotlib figure object to be saved
+        name : Name for the file
+        """
+
+        if not os.path.isdir(f'{ROOT_DIR}/plots'):
+            os.makedirs(f'{ROOT_DIR}/plots')
+
+        # save the matplotlib figure as a .png
+        fig.savefig(f'{ROOT_DIR}/plots/{name}{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+
+        # possibly save figure generator in .tex (pgf) format as well
+        if self.generate_pgf:
+            pgf = self.template.substitute(**self.template_dict)
+            # Need to get rid of extra linebreaks. This is important
+            pgf = pgf.replace('\r', '')
+            with open(f'{ROOT_DIR}/plots/{name}{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.tex', 'w') as tex:
+                tex.write(pgf)

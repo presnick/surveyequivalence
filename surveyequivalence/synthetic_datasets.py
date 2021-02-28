@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from abc import ABC, abstractmethod
-from surveyequivalence import Prediction
+from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
+from config import ROOT_DIR
 
 ########### States #############################
 
@@ -391,6 +392,32 @@ class SyntheticDataset(Dataset):
         self.classifier_predictions = pd.DataFrame({mc.name: mc.make_predictions(ds_generator.reference_rater_item_states)
                                                     for mc in ds_generator.mock_classifiers})
 
+    def save(self, dirname="running_example"):
+        """Save ratings and predictions to csv files
+
+        Parameters
+        ----------
+        dirname
+            A subdirectory name in which to store saved results
+        include_timestamp_in_dirname
+            Whether to postpend directory name with current timestamp
+        """
+        # make a directory for it
+        path = f'{ROOT_DIR}/data/{dirname}/{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
+        try:
+            os.makedirs(path)
+        except FileExistsError:
+            pass
+
+        # save the reference rater data
+        self.dataset.to_csv(f'{path}/ref_rater_labels.csv')
+
+        # save the other rater data, if any
+        if self.ds_generator.other_rater_item_states is not None:
+            self.other_rater_dataset.to_csv(f'{path}/other_rater_labels.csv')
+
+        # save the mock classifier predictions
+        self.classifier_predictions.to_csv(f'{path}/predictions.csv')
 
 def make_perceive_with_noise_datasets():
     def make_perceive_with_noise_datasets(epsilon):
@@ -496,3 +523,124 @@ def make_discrete_dataset_3():
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator)
     return SyntheticDataset(dsg)
 
+def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False,
+                                 include_hard_classifier=False, include_soft_classifier=False)->SyntheticDataset:
+    """
+    This generates the running example dataset used in the original Survey Equivalence paper.
+
+    Three states: 70% high = 80/20, 10% med = 50/50; 20% low = 10/90
+
+    Parameters
+    ----------
+    num_items_per_dataset
+    num_labels_per_item
+    minimal
+        If minimal, use FixedStateGenerator, which generates labels in exact proportion to probabilities specified \
+        in the state, rather than each label being an iid draw from the State.
+    include_hard_classifier
+        Includes a hard classifier which draws labels 90/10 for high state; 50/50 for medium; 05/95 fow low state
+    include_soft_classifier
+        Includes a soft classifier which runs the hard_classifier to generate a label and then maps it to a calibrated \
+        prediction (.7681 when the label is positive; .3226 when the label is negative). Also includes an ideal \
+        classifier that always predicts the probability given by the State of the item.
+    """
+
+    if minimal:
+        state_generator = \
+            FixedStateGenerator(states=[DiscreteState(state_name='high',
+                                                          labels=['pos', 'neg'],
+                                                          probabilities=[.8, .2]),
+                                        DiscreteState(state_name='med',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.5, .5]),
+                                        DiscreteState(state_name='low',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.1, .9])
+                                        ],
+                                probabilities=[.7, .1, .2]
+                                )
+    else:
+        state_generator = \
+            DiscreteDistributionOverStates(states=[DiscreteState(state_name='high',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.8, .2]),
+                                                   DiscreteState(state_name='med',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.5, .5]),
+                                                   DiscreteState(state_name='low',
+                                                                 labels=['pos', 'neg'],
+                                                                 probabilities=[.1, .9])
+                                                   ],
+                                           probabilities=[.7, .1, .2]
+                                           )
+
+    dsg = SyntheticBinaryDatasetGenerator(item_state_generator= state_generator,
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=num_labels_per_item,
+                                          mock_classifiers=None,
+                                          name="running example",
+                                          )
+
+    if include_hard_classifier:
+        dsg.mock_classifiers.append(MappedDiscreteMockClassifier(
+            name='mock hard classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+            },
+            prediction_map={'pos': DiscretePrediction('pos'),
+                            'neg': DiscretePrediction('neg')
+                            }
+        ))
+
+    if include_soft_classifier:
+        # dsg.mock_classifiers.append(MockClassifier(
+        #     name='mock classifier',
+        #     label_predictors={
+        #         'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+        #         'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+        #         'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+        #     }))
+
+        dsg.mock_classifiers.append(MappedDiscreteMockClassifier(
+            name='calibrated hard classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.05, .95]),
+            },
+            prediction_map = {'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.7681, .2319]),
+                              'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.3226, .6774])
+                              }
+        ))
+
+        dsg.mock_classifiers.append(MockClassifier(
+            name='h_infinity: ideal classifier',
+            label_predictors={
+                'high': DiscreteDistributionPrediction(['pos', 'neg'], [.8, .2]),
+                'med': DiscreteDistributionPrediction(['pos', 'neg'], [.5, .5]),
+                'low': DiscreteDistributionPrediction(['pos', 'neg'], [.1, .9]),
+            }))
+
+
+    return SyntheticDataset(dsg)
+
+
+def main():
+
+    num_items_per_dataset=10
+    num_labels_per_item=10
+
+    # num_items_per_dataset=1000
+    # num_labels_per_item=10
+
+
+    ds = make_running_example_dataset(minimal=False, num_items_per_dataset=num_items_per_dataset,
+                                       num_labels_per_item=num_labels_per_item,
+                                       include_soft_classifier=True, include_hard_classifier=True)
+
+    ds.save(dirname='running_example')
+
+if __name__ == '__main__':
+    main()
