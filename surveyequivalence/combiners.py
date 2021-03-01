@@ -44,7 +44,7 @@ class DiscreteDistributionPrediction(Prediction):
         super().__init__()
         self.label_names = label_names
         if no_extremes:
-            self.probabilities = [min(.98, max(.02, pr)) for pr in probabilities]
+            self.probabilities = [min(.99999, max(.00001, pr)) for pr in probabilities]
         else:
             self.probabilities = probabilities
 

@@ -170,7 +170,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
                          max_K=max_k, procs=num_processors)
 
     # Save the output
-    p.save(dirname_base=f"GTK_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+    p.save(path=p.path_for_saving(f"GTK/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
         Running GuessTheKarma experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets
@@ -185,7 +185,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              name=f'GTK {type(combiner).__name__} + {type(scorer).__name__}',
+              name=f'GTK {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -199,7 +199,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.save(fig, f'GTK_{type(combiner).__name__}_{type(scorer).__name__}')
+    pl.save(p.path_for_saving(f"GTK/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 
 if __name__ == '__main__':
