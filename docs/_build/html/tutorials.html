@@ -89,7 +89,7 @@ a set of other labels.</p>
                             <span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span>
                             <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirname_base</span> <span class="o">=</span> <span class="s2">&quot;plurality_plus_agreement&quot;</span><span class="p">,</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/plurality_plus_agreement&quot;</span><span class="p">),</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
 <span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
@@ -145,7 +145,7 @@ that additional power curve for other raters.</p></li>
 </div>
 <p>Finally, we save the plot, using <a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot.save" title="surveyequivalence.equivalence.Plot.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.Plot.save()</span></code></a>. This saves both a PDF version and, since we specified that we wanted it,
 a pgf file suitable for importing into latex.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;runningexample_majority_vote_plus_agreement&#39;</span><span class="p">)</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/plurality_plus_agreement&quot;</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -167,7 +167,7 @@ that have been seen so far.</p>
                             <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="n">pipeline2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirname_base</span> <span class="o">=</span> <span class="s2">&quot;abc_plus_cross_entropy&quot;</span><span class="p">,</span>
+<span class="n">pipeline2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/abc_plus_cross_entropy&quot;</span><span class="p">),</span>
                <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
 <span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
@@ -213,7 +213,7 @@ resulting graph adds an extra horizontal line for the ideal classifier.</p>
         <span class="n">connect_expert_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">include_classifier_cis</span><span class="o">=</span><span class="kc">True</span> <span class="c1">##change back to false</span>
         <span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;runningexampleABC+cross_entropy&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/abc_plus_cross_entropy&quot;</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -224,9 +224,8 @@ resulting graph adds an extra horizontal line for the ideal classifier.</p>
 <div class="section" id="where-to-find-the-results">
 <h3>Where to Find the Results<a class="headerlink" href="#where-to-find-the-results" title="Permalink to this headline">¶</a></h3>
 <p>In config.py, you will specify a ROOTDIR.</p>
-<p>Directory f'{ROOT_DIR}/plots' is where you'll find the plots, as .png and .tex files.</p>
-<p>Directory f'{ROOT_DIR}/saved_analyses is where you'll find text summaries and .csv files produced by calls to
-<a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.save" title="surveyequivalence.equivalence.AnalysisPipeline.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.AnalysisPipeline.save()</span></code></a></p>
+<p>Directory f'{ROOT_DIR}/saved_analyses' will have a folder named with a timestamp for the start of your AnalysisPipeline
+run. Look inside that to find three subdirectories, one for each combiner+scorer pairing.</p>
 </div>
 </div>
 <div class="section" id="generating-data-for-the-running-example">

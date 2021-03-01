@@ -63,7 +63,7 @@ We make an instance of the class :class:`surveyequivalence.equivalence.AnalysisP
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
-    pipeline.save(dirname_base = "plurality_plus_agreement",
+    pipeline.save(path = pipeline.path_for_saving("running_example/plurality_plus_agreement"),
         msg = f"""
     Running example with {num_items_per_dataset} items and {num_labels_per_item} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
@@ -126,7 +126,8 @@ a pgf file suitable for importing into latex.
 
 .. code-block:: python3
 
-    pl.save(fig, 'runningexample_majority_vote_plus_agreement')
+    pl.save(pipeline.path_for_saving("running_example/plurality_plus_agreement"), fig=fig)
+
 
 AnonymousBayesianCombiner plus CrossEntropy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -151,7 +152,7 @@ The analysis code is similar to that for the previous combiner and scorer.
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
 
-    pipeline2.save(dirname_base = "abc_plus_cross_entropy",
+    pipeline2.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"),
                    msg = f"""
     Running example with {num_items_per_dataset} items and {num_labels_per_item} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
@@ -202,7 +203,7 @@ resulting graph adds an extra horizontal line for the ideal classifier.
             connect_expert_points=True,
             include_classifier_cis=True ##change back to false
             )
-    pl.save(fig, 'runningexampleABC+cross_entropy')
+    pl.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
 
 
 
@@ -216,10 +217,8 @@ Where to Find the Results
 
 In config.py, you will specify a ROOTDIR.
 
-Directory f'{ROOT_DIR}/plots' is where you'll find the plots, as .png and .tex files.
-
-Directory f'{ROOT_DIR}/saved_analyses is where you'll find text summaries and .csv files produced by calls to
-:meth:`surveyequivalence.equivalence.AnalysisPipeline.save`
+Directory f'{ROOT_DIR}/saved_analyses' will have a folder named with a timestamp for the start of your AnalysisPipeline
+run. Look inside that to find three subdirectories, one for each combiner+scorer pairing.
 
 .. _generating-data-for-running-example:
 
