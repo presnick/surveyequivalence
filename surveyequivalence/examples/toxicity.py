@@ -198,7 +198,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               y_axis_label='score',
               color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              name=f'Toxic {type(combiner).__name__} + {type(scorer).__name__}',
+              name=f'Toxic {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )

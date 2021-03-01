@@ -152,8 +152,8 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1, classifier_predictions=classifier,
                          max_K=max_k, procs=num_processors)
 
-    p.save(dirname_base=f"CredWeb_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
-                   msg=f"""
+    p.save(path=p.path_for_saving(f"CredWeb/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
+           msg=f"""
         Running CredWeb experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}.
         Classes are calibrated at: {calibrated}
@@ -167,7 +167,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
               center_on=prior.expert_power_curve.means[0] if prior is not None else None,
-              name=f'Cred {type(combiner).__name__} + {type(scorer).__name__}',
+              name=f'Cred {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -181,7 +181,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.save(fig, f'Cred_{type(combiner).__name__}_{type(scorer).__name__}')
+    pl.save(p.path_for_saving(f"Credweb/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 
 if __name__ == '__main__':
