@@ -412,6 +412,9 @@ class AnalysisPipeline:
 
     def run(self):
         """Create the power curve(s); normally invoked during __init__ but can be called separately."""
+
+        self.run_timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")
+
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
 
@@ -423,6 +426,9 @@ class AnalysisPipeline:
             procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
 
+        self.expert_survey_equivalences = Equivalences(
+            self.expert_power_curve.compute_equivalences(self.classifier_scores))
+
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
                 print("\n\nStarting to process amateur raters")
@@ -433,9 +439,36 @@ class AnalysisPipeline:
                 max_k=min(max_K, len(self.amateur_cols)) - 1,
                 procs = self.procs,
                 max_rater_subsets=self.max_rater_subsets)
+            self.amateur_survey_equivalences = Equivalences(
+                self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
 
-    def save(self, dirname_base="analysis_pipeline", msg="", save_results = True):
+    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
+        """
+
+        Parameters
+        ----------
+        dirname_base
+            A name that describes the analysis; / will be treated as a subdirectory
+        include_timestamp
+            Whether to make a folder indicating the timestamp at which the run was done.
+
+        Returns
+        -------
+        A path of the form {ROOT_DIR}/{self.run_timestamp}/{dirname_base}
+        If the path does not exist yet, it is created.
+        """
+
+        path = f'{ROOT_DIR}/saved_analyses'
+        if include_timestamp:
+            path += f'/{self.run_timestamp}'
+        path += f'/{dirname_base}'
+        if not os.path.isdir(path):
+            os.makedirs(path)
+
+        return path
+
+    def save(self, path=None, msg="", save_results = True):
         """Save instance and results to files
 
         Parameters
@@ -447,20 +480,9 @@ class AnalysisPipeline:
         save_results=True
             If True, generates a `results_summary.txt` file with power curve and survey equivalence summary stats
         """
-        # make a directory for it
-        path = f'{ROOT_DIR}/saved_analyses/{dirname_base}/{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
-        try:
-            os.mkdir(f'{ROOT_DIR}/saved_analyses')
-        except FileExistsError:
-            pass
-        try:
-            os.mkdir(f'{ROOT_DIR}/saved_analyses/{dirname_base}')
-        except FileExistsError:
-            pass
-        try:
-            os.mkdir(path)
-        except FileExistsError:
-            pass
+
+        if not path:
+            path = self.path_for_saving()
 
         # save the message as a README file
         with open(f'{path}/README', 'w') as f:
@@ -496,10 +518,15 @@ class AnalysisPipeline:
         # save the expert power curve
         self.expert_power_curve.df.to_csv(f'{path}/expert_power_curve.csv')
 
+        # save the expert equivalences
+        self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
+
         # save the amateur power_curve
         amateur_power_curve = getattr(self, 'amateur_power_curve', None)
         if amateur_power_curve:
             amateur_power_curve.df.to_csv(f'{path}/amateur_power_curve.csv')
+            # save the amateur equivalences
+            self.amateur_survey_equivalences.df.to_csv(f'{path}/amateur_survey_equivalences.csv')
 
         # write out results summary
         if save_results:
@@ -525,11 +552,19 @@ class AnalysisPipeline:
                 f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
 
                 f.write("\n----survey equivalences----\n")
-                equivalences = self.expert_power_curve.compute_equivalences(self.classifier_scores)
-                f.write(f'{equivalences}\n')
-                f.write(f"\tmeans:\n {equivalences.mean()}\n")
-                f.write(f"\tmedians\n {equivalences.median()}\n")
-                f.write(f"\tstddevs\n {equivalences.std()}\n")
+                def output_equivalences(f, equivalences):
+                    f.write(f"\tmeans:\n {equivalences.df.mean()}\n")
+                    f.write(f"\tmedians\n {equivalences.df.median()}\n")
+                    f.write(f"\tstddevs\n {equivalences.df.std()}\n")
+                    f.write(f"\tlower bounds\n {equivalences.lower_bounds}\n")
+                    f.write(f"\tupper bounds\n {equivalences.upper_bounds}\n")
+                equivalences = self.expert_survey_equivalences
+                f.write(f'reference rater equivalences\n')
+                output_equivalences(f, self.expert_survey_equivalences)
+                if amateur_power_curve:
+                    f.write(f'other rater equivalences\n')
+                    output_equivalences(f, self.amateur_survey_equivalences)
+
 
     def output_csv(self, fname):
         """output the dataframe and the expert predictions"""
@@ -1211,7 +1246,7 @@ class Plot:
 
         pass
 
-    def save(self, fig: figure, name: str):
+    def save(self, path: str, fig: figure):
         """
         Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.
 
@@ -1221,16 +1256,13 @@ class Plot:
         name : Name for the file
         """
 
-        if not os.path.isdir(f'{ROOT_DIR}/plots'):
-            os.makedirs(f'{ROOT_DIR}/plots')
-
         # save the matplotlib figure as a .png
-        fig.savefig(f'{ROOT_DIR}/plots/{name}{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.png')
+        fig.savefig(f'{path}/plot.png')
 
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
             pgf = self.template.substitute(**self.template_dict)
             # Need to get rid of extra linebreaks. This is important
             pgf = pgf.replace('\r', '')
-            with open(f'{ROOT_DIR}/plots/{name}{datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}.tex', 'w') as tex:
+            with open(f'{path}/plot.tex', 'w') as tex:
                 tex.write(pgf)
