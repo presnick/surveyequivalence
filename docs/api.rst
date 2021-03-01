@@ -7,7 +7,7 @@ Equivalence Module
 AnalysisPipeline
 ^^^^^^^^^^^^^^^^
 .. autoclass:: surveyequivalence.equivalence.AnalysisPipeline
-   :members: output_csv, run, save
+   :members: output_csv, run, save, path_for_saving
    :show-inheritance:
 
 .. autofunction:: surveyequivalence.equivalence.load_saved_pipeline

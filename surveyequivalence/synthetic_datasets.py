@@ -629,11 +629,11 @@ def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item
 
 def main():
 
-    num_items_per_dataset=10
+    num_items_per_dataset=50
     num_labels_per_item=10
 
-    # num_items_per_dataset=1000
-    # num_labels_per_item=10
+    num_items_per_dataset=1000
+    num_labels_per_item=10
 
 
     ds = make_running_example_dataset(minimal=False, num_items_per_dataset=num_items_per_dataset,

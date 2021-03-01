@@ -36,12 +36,79 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install surveyequivalence</span>
+</pre></div>
+</div>
+<p>At root level, you should find config.py and directories surveyequivalence, docs, data, etc.</p>
 </div>
 <div class="section" id="executing-the-running-example">
 <h2>Executing the Running Example<a class="headerlink" href="#executing-the-running-example" title="Permalink to this headline">¶</a></h2>
+<p>The running example dataset has 1000 items. It takes a while to run it with 500 bootstrap item samples.
+If you're just trying to verify that your installation is good, you may want to run it on a smaller set of items
+with fewer bootstrap item samples.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">(survey_equiv) surveyequivalence[master !?]$ python</span>
+<span class="go">Python 3.7.4 (default, Aug 13 2019, 20:35:49)</span>
+<span class="go">[GCC 7.3.0] :: Anaconda, Inc. on linux</span>
+<span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
+<span class="gp">&gt;</span>&gt;&gt; from surveyequivalence.examples.paper_running_example import main
+<span class="gp">&gt;</span>&gt;&gt; main<span class="o">(</span><span class="nv">path</span><span class="o">=</span><span class="s1">&#39;data/running_example_50_items&#39;</span>, <span class="nv">num_bootstrap_item_samples</span><span class="o">=</span><span class="m">10</span><span class="o">)</span>
+<span class="go">starting classifiers: computing scores</span>
+</pre></div>
+</div>
+<p>As described in the tutorial, the running example for the paper computes three survey power curves, for three different
+combiner/scorer pairings.</p>
+<p>If you have multiple processors, the AnalysisPipeline will try to take advantage of them to speed up execution.
+That may cause the progress indicator output to show some things out of order, like what is shown here.
+That's nothing to worry about.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">starting power curve</span>
+
+<span class="go">starting to precompute predictions for various rater subsets.</span>
+<span class="go">Items processed:</span>
+<span class="go">.....    10....  0.      20.................     30...   40...............</span>
+
+<span class="go">        computing power curve results for each bootstrap item sample.</span>
+<span class="go">Samples processed:</span>
+<span class="go">.        10.......       0.</span>
+<span class="go">starting classifiers: computing scores</span>
+
+<span class="go">starting power curve</span>
+
+<span class="go">starting to precompute predictions for various rater subsets.</span>
+<span class="go">Items processed:</span>
+<span class="go">..       10....  0..     20................      30..........    40...........</span>
+
+<span class="go">        computing power curve results for each bootstrap item sample.</span>
+<span class="go">Samples processed:</span>
+<span class="go">....     0....   10.</span>
+<span class="go">starting classifiers: computing scores</span>
+
+<span class="go">starting power curve</span>
+
+<span class="go">starting to precompute predictions for various rater subsets.</span>
+<span class="go">Items processed:</span>
+<span class="go">..       0..     10..    20.................     30....  40..................</span>
+
+<span class="go">        computing power curve results for each bootstrap item sample.</span>
+<span class="go">Samples processed:</span>
+<span class="go">....     0...    10..</span>
+<span class="gp">&gt;</span>&gt;&gt;
+</pre></div>
+</div>
 </div>
 <div class="section" id="locating-the-results">
 <h2>Locating the Results<a class="headerlink" href="#locating-the-results" title="Permalink to this headline">¶</a></h2>
+<p>After executing the running example, look in the directory <code class="code docutils literal notranslate"><span class="pre">save_analyses</span></code>. There should be a subfolder with a
+timestamp. Within that there are three subfolders, one for each pairing of a combiner with a scoring function.</p>
+<p>Within each results folder, you should find:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>README says what was analyzed.</p></li>
+<li><p>results_summary.txt gives numeric summaries of the results</p></li>
+<li><p>several .csv files provide detailed data about classifier scores and equivalences</p></li>
+<li><p>plot.png, a survey power curve plot with equivalence points</p></li>
+<li><p>plot.tex; pgf formatted text that will generate the same plot within latex.</p></li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 

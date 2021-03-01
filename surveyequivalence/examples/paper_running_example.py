@@ -10,9 +10,7 @@ from surveyequivalence import AgreementScore, PluralityVote, CrossEntropyScore, 
 
 from config import ROOT_DIR
 
-def main():
-
-    path = f'{ROOT_DIR}/data/running_example'
+def main(path = f'{ROOT_DIR}/data/running_example', num_bootstrap_item_samples=500):
 
     # read the reference rater labels from file
     W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0)
@@ -31,9 +29,6 @@ def main():
     hard_classifiers = classifier_predictions.columns[:1] # ['mock hard classifier']
     soft_classifiers = classifier_predictions.columns[1:] # ['calibrated hard classifier', 'h_infinity: ideal classifier']
 
-    num_bootstrap_item_samples = 500
-    num_bootstrap_item_samples = 1
-
     #### Plurality combiner plus Agreement score ####
     plurality_combiner = PluralityVote(allowable_labels=['pos', 'neg'])
     agreement_score = AgreementScore()
@@ -45,7 +40,7 @@ def main():
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
-    pipeline.save(dirname_base = "plurality_plus_agreement",
+    pipeline.save(path = pipeline.path_for_saving("running_example/plurality_plus_agreement"),
         msg = f"""
     Running example with {len(W)} items and {len(W.columns)} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
@@ -80,8 +75,7 @@ def main():
             connect_expert_points=True,
             include_classifier_cis=True
             )
-    pl.save(fig, 'runningexample_majority_vote_plus_agreement')
-
+    pl.save(pipeline.path_for_saving("running_example/plurality_plus_agreement"), fig=fig)
 
     #### ABC + CrossEntropy
     abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
@@ -96,7 +90,7 @@ def main():
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
 
-    pipeline2.save(dirname_base = "abc_plus_cross_entropy",
+    pipeline2.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"),
                    msg = f"""
     Running example with {len(W)} items and {len(W.columns)} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
@@ -125,8 +119,7 @@ def main():
             connect_expert_points=True,
             include_classifier_cis=True ##change back to false
             )
-    pl.save(fig, 'runningexampleABC+cross_entropy')
-
+    pl.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
 
     ###### Frequency combiner plus cross entropy ######
     freq_combiner = FrequencyCombiner(allowable_labels=['pos', 'neg'])
@@ -139,7 +132,7 @@ def main():
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 verbosity = 1)
 
-    pipeline3.save(dirname_base = "frequency_plus_cross_entropy",
+    pipeline3.save(path=pipeline.path_for_saving("running_example/frequency_plus_cross_entropy"),
                    msg = f"""
     Running example with {len(W)} items and {len(W.columns)} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
