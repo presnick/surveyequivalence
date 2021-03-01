@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Test" href="getting_started.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -36,9 +36,238 @@
 <h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="synthetic-running-example">
 <h2>Synthetic Running Example<a class="headerlink" href="#synthetic-running-example" title="Permalink to this headline">¶</a></h2>
+<p>The synthetic running example, as described in the paper, is implemented in the file <cite>examples/paper_running_example.py</cite>.</p>
+<p>We first load the data that we created in <a class="reference internal" href="#generating-data-for-running-example"><span class="std std-ref">Generating Data for the Running Example</span></a></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{ROOT_DIR}</span><span class="s1">/data/running_example&#39;</span>
+
+<span class="c1"># read the reference rater labels from file</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/ref_rater_labels.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># read the predictions from file</span>
+<span class="k">def</span> <span class="nf">str2prediction_instance</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="c1"># s will be in format &quot;Prediction: [0.9, 0.1]&quot; or &quot;Prediction: neg&quot;</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">suffix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;[&#39;</span><span class="p">:</span>
+        <span class="n">pr_pos</span><span class="p">,</span> <span class="n">pr_neg</span> <span class="o">=</span> <span class="n">suffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">pr_pos</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">pr_neg</span><span class="p">)])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DiscretePrediction</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
+<span class="n">classifier_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/predictions.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">str2prediction_instance</span><span class="p">)</span>
+
+<span class="n">hard_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># [&#39;mock hard classifier&#39;]</span>
+<span class="n">soft_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># [&#39;calibrated hard classifier&#39;, &#39;h_infinity: ideal classifier&#39;]</span>
+</pre></div>
 </div>
-<div class="section" id="toxicity">
-<h2>Toxicity<a class="headerlink" href="#toxicity" title="Permalink to this headline">¶</a></h2>
+<p>Note that the .csv file has the synthetic mock classifier predictions as strings.
+We have to turn them into appropriate instances of <a class="reference internal" href="api.html#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Prediction</span></code></a>.
+You will have to do something similar to convert numeric predictions of a real classifier for a real dataset into
+instances of an appropriate subclass of Prediction.</p>
+<p>Also note that W (the reference rater's labels) and classifier_predictions are two dataframes that must have the same
+index, with the corresponding rows providing information about the same items.</p>
+<div class="section" id="run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore">
+<h3>Run the analysis pipeline for PluralityVote plus AgreementScore<a class="headerlink" href="#run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore" title="Permalink to this headline">¶</a></h3>
+<p>Next, we run the analysis pipeline and generate plots. We will do this three times in all, with three different
+pairings of combiner function with scoring function. We start with a scoring function that expects discrete label
+predictions (i.e., hard classifiers). That requires a combiner function that produces a single predicted label from
+a set of other labels.</p>
+<p>We make an instance of the class <a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline" title="surveyequivalence.equivalence.AnalysisPipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.AnalysisPipeline</span></code></a>. We pass:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <cite>.dataset</cite> as the rating matrix W.</p></li>
+<li><p>the list of all column names as the reference rater's column names</p></li>
+<li><p>the plurality_combiner; with binary labels, it just selects the label that was more popular for this item</p></li>
+<li><p>for the scorer, agreement_score returns the percentage of items for which the predicted label matches the actual.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">plurality_combiner</span> <span class="o">=</span> <span class="n">PluralityVote</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">])</span>
+<span class="n">agreement_score</span> <span class="o">=</span> <span class="n">AgreementScore</span><span class="p">()</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">AnalysisPipeline</span><span class="p">(</span><span class="n">ds2</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span>
+                            <span class="n">expert_cols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">ds2</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+                            <span class="n">classifier_predictions</span><span class="o">=</span><span class="n">ds2</span><span class="o">.</span><span class="n">classifier_predictions</span><span class="p">[</span><span class="n">hard_classifiers</span><span class="p">],</span>
+                            <span class="n">combiner</span><span class="o">=</span><span class="n">plurality_combiner</span><span class="p">,</span>
+                            <span class="n">scorer</span><span class="o">=</span><span class="n">agreement_score</span><span class="p">,</span>
+                            <span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span>
+                            <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
+                            <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirname_base</span> <span class="o">=</span> <span class="s2">&quot;plurality_plus_agreement&quot;</span><span class="p">,</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
+<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
+<span class="s2">Plurality combiner with agreement score</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot-the-results">
+<h3>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this headline">¶</a></h3>
+<p>Next we create an instance of the class <a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot" title="surveyequivalence.equivalence.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.Plot</span></code></a>, passing:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the power curve that we calculated in the AnalysisPipeline</p></li>
+<li><p>classifier scores calculated in the AnalysisPipeline</p></li>
+<li><p>The color_map says what colors to use for the different components of the plot. In this case, we don't have
+an amateur_power_curve, but we have included it to illustrate how to supply a color for it if we did have
+that additional power curve for other raters.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">)</span>
+
+<span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;expert_power_curve&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;amateur_power_curve&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hard classifier&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mock classifier&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;calibrated hard classifier&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span>
+<span class="p">}</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+          <span class="n">pipeline</span><span class="o">.</span><span class="n">expert_power_curve</span><span class="p">,</span>
+          <span class="n">classifier_scores</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">classifier_scores</span><span class="p">,</span>
+          <span class="n">color_map</span><span class="o">=</span><span class="n">color_map</span><span class="p">,</span>
+          <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;percent agreement with reference rater&#39;</span><span class="p">,</span>
+          <span class="n">y_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;running example: majority vote + agreement score&#39;</span><span class="p">,</span>
+          <span class="n">legend_label</span><span class="o">=</span><span class="s1">&#39;k raters&#39;</span><span class="p">,</span>
+          <span class="n">generate_pgf</span><span class="o">=</span><span class="kc">True</span>
+          <span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, we call the method <a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot.plot" title="surveyequivalence.equivalence.Plot.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.Plot.plot()</span></code></a> to actually create the plot.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">include_classifiers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_classifier_equivalences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_droplines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_expert_points</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+        <span class="n">connect_expert_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_classifier_cis</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we save the plot, using <a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot.save" title="surveyequivalence.equivalence.Plot.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.Plot.save()</span></code></a>. This saves both a PDF version and, since we specified that we wanted it,
+a pgf file suitable for importing into latex.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;runningexample_majority_vote_plus_agreement&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="anonymousbayesiancombiner-plus-crossentropy">
+<h3>AnonymousBayesianCombiner plus CrossEntropy<a class="headerlink" href="#anonymousbayesiancombiner-plus-crossentropy" title="Permalink to this headline">¶</a></h3>
+<p>Next we consider a scorer for soft classifiers, which predict a probability for each possible label, rather than
+outputting a single label. The Anonymous Bayesian Combiner, as described in the paper, is one such combiner.
+Essentially, it estimates the probability of a pos or neg next label conditional on having observed the labels
+that have been seen so far.</p>
+<p>The analysis code is similar to that for the previous combiner and scorer.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">abc</span> <span class="o">=</span> <span class="n">AnonymousBayesianCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">])</span>
+<span class="n">cross_entropy</span> <span class="o">=</span> <span class="n">CrossEntropyScore</span><span class="p">()</span>
+<span class="n">pipeline2</span> <span class="o">=</span> <span class="n">AnalysisPipeline</span><span class="p">(</span><span class="n">ds2</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span>
+                            <span class="n">expert_cols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">ds2</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+                            <span class="n">classifier_predictions</span><span class="o">=</span><span class="n">ds2</span><span class="o">.</span><span class="n">classifier_predictions</span><span class="p">[</span><span class="n">soft_classifiers</span><span class="p">],</span>
+                            <span class="n">combiner</span><span class="o">=</span><span class="n">abc</span><span class="p">,</span>
+                            <span class="n">scorer</span><span class="o">=</span><span class="n">cross_entropy</span><span class="p">,</span>
+                            <span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span>
+                            <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
+                            <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pipeline2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirname_base</span> <span class="o">=</span> <span class="s2">&quot;abc_plus_cross_entropy&quot;</span><span class="p">,</span>
+               <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
+<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
+<span class="s2">Anonymous Bayesian combiner with cross entropy score</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The plotting is similar, with a couple twists.</p>
+<p>Here we specify centering of y-axis values, subtracting out the score for a survey of k=0 people.
+With the cross entropy scoring
+function these centered values have a natural interpretation, as explained in the paper. The cross entropy of a
+baseline classifier that predicts the overall empirical frequency of the labels (i.e., Anonymous Bayesian Combiner
+with k=0) against
+a reference rater's labels will approach the
+entropy of the distribution from which reference raters are drawn, as the number of items grows. Thus,
+the cross-entropy of any other classifier minus this score estimates the
+information gain of the classifier (mutual information of the classifier with a random reference rater's predictions).</p>
+<p>Note that we are choosing to plot only the calibrated hard classifier, and not the ideal classifier. In the pipeline
+we calculated results for two soft classifiers. Because here we choose
+to plot a horizontal line for only one of those two classifiers, we need to make a new instance of ClassifierResults
+passing in only that column from the dataframe in the <cite>.classifier_scores</cite> object.</p>
+<p>You may find it instructive to change the code to <code class="code docutils literal notranslate"><span class="pre">classifier_scores=pipeline2.classifier_scores</span></code>, and notice that the
+resulting graph adds an extra horizontal line for the ideal classifier.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+          <span class="n">pipeline2</span><span class="o">.</span><span class="n">expert_power_curve</span><span class="p">,</span>
+          <span class="n">classifier_scores</span><span class="o">=</span><span class="n">ClassifierResults</span><span class="p">(</span><span class="n">pipeline2</span><span class="o">.</span><span class="n">classifier_scores</span><span class="o">.</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;calibrated hard classifier&#39;</span><span class="p">]]),</span>
+          <span class="n">color_map</span><span class="o">=</span><span class="n">color_map</span><span class="p">,</span>
+          <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;information gain ($c_k - c_0$)&#39;</span><span class="p">,</span>
+          <span class="n">center_on</span><span class="o">=</span><span class="n">pipeline2</span><span class="o">.</span><span class="n">expert_power_curve</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+          <span class="n">y_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>
+          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;running example: ABC + cross entropy&#39;</span><span class="p">,</span>
+          <span class="n">legend_label</span><span class="o">=</span><span class="s1">&#39;k raters&#39;</span><span class="p">,</span>
+          <span class="n">generate_pgf</span><span class="o">=</span><span class="kc">True</span>
+          <span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">include_classifiers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_classifier_equivalences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_droplines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_expert_points</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+        <span class="n">connect_expert_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_classifier_cis</span><span class="o">=</span><span class="kc">True</span> <span class="c1">##change back to false</span>
+        <span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;runningexampleABC+cross_entropy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="frequencycombiner-plus-crossentropy">
+<h3>FrequencyCombiner plus CrossEntropy<a class="headerlink" href="#frequencycombiner-plus-crossentropy" title="Permalink to this headline">¶</a></h3>
+<p>The code for the last combiner and scorer is very similar and is omitted.</p>
+</div>
+<div class="section" id="where-to-find-the-results">
+<h3>Where to Find the Results<a class="headerlink" href="#where-to-find-the-results" title="Permalink to this headline">¶</a></h3>
+<p>In config.py, you will specify a ROOTDIR.</p>
+<p>Directory f'{ROOT_DIR}/plots' is where you'll find the plots, as .png and .tex files.</p>
+<p>Directory f'{ROOT_DIR}/saved_analyses is where you'll find text summaries and .csv files produced by calls to
+<a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.save" title="surveyequivalence.equivalence.AnalysisPipeline.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.AnalysisPipeline.save()</span></code></a></p>
+</div>
+</div>
+<div class="section" id="generating-data-for-the-running-example">
+<span id="generating-data-for-running-example"></span><h2>Generating Data for the Running Example<a class="headerlink" href="#generating-data-for-the-running-example" title="Permalink to this headline">¶</a></h2>
+<p>The dataset use in the running example is synthetic. We generated it using the function <a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.make_running_example_dataset" title="surveyequivalence.synthetic_datasets.make_running_example_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.make_running_example_dataset()</span></code></a>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_items_per_dataset</span><span class="o">=</span><span class="mi">1000</span>
+<span class="n">num_labels_per_item</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">num_bootstrap_item_samples</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">make_running_example_dataset</span><span class="p">(</span><span class="n">minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_items_per_dataset</span><span class="o">=</span><span class="n">num_items_per_dataset</span><span class="p">,</span>
+                                   <span class="n">num_labels_per_item</span><span class="o">=</span><span class="n">num_labels_per_item</span><span class="p">,</span>
+                                   <span class="n">include_soft_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_hard_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ds</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;running_example&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The resulting SyntheticDataset object has an attribute <cite>.classifier_predictions</cite>, which is a dataframe with one column
+each for several classifiers.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>'mock hard classifier': a mock classifier that outputs 90/10 pos labels for high state, 50/50 for med,
+and 05/95 for low. This classifier is more informative than a single reference rater,
+whose labels are generated 80/20, 50/50, and 10/90.</p></li>
+<li><p>'calibrated hard classifier': a mock classifier that converts the hard classifier outputs to their correct
+calibrated soft predictions (probability that the next reference rater will have a positive label).</p></li>
+<li><p>'h_infinity: ideal classifier': a mock classifier that correctly predicts 80/20, 50/50 or 10/90 for every item,
+magically knowing the item's true state. No classifier can achieve higher (expected)
+cross-entropy score than this classifier.</p></li>
+</ul>
+</div></blockquote>
+<p>Two .csv files are generated, predictions.csv and ref_rater_labels.csv. They are stored in a subdirectory of
+data/running_example.</p>
+</div>
+<div class="section" id="jigsaw-toxicity-dataset-analysis">
+<h2>Jigsaw Toxicity Dataset Analysis<a class="headerlink" href="#jigsaw-toxicity-dataset-analysis" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="guess-the-karma-dataset-analysis">
+<h2>Guess the Karma Dataset Analysis<a class="headerlink" href="#guess-the-karma-dataset-analysis" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="credbank-dataset-analysis">
+<h2>CredBank Dataset Analysis<a class="headerlink" href="#credbank-dataset-analysis" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -60,10 +289,20 @@
 
 <h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#synthetic-running-example">Synthetic Running Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#toxicity">Toxicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-running-example">Synthetic Running Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore">Run the analysis pipeline for PluralityVote plus AgreementScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plot-the-results">Plot the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anonymousbayesiancombiner-plus-crossentropy">AnonymousBayesianCombiner plus CrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frequencycombiner-plus-crossentropy">FrequencyCombiner plus CrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#where-to-find-the-results">Where to Find the Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-data-for-the-running-example">Generating Data for the Running Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jigsaw-toxicity-dataset-analysis">Jigsaw Toxicity Dataset Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guess-the-karma-dataset-analysis">Guess the Karma Dataset Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#credbank-dataset-analysis">CredBank Dataset Analysis</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -73,7 +312,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="getting_started.html" title="previous chapter">Test</a></li>
+      <li>Previous: <a href="getting_started.html" title="previous chapter">Getting Started</a></li>
       <li>Next: <a href="api.html" title="next chapter">API</a></li>
   </ul></li>
 </ul>
