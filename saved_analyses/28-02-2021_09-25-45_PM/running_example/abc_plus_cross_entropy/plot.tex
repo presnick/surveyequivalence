@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\sffamily
+\begin{axis}[
+title = {running example: ABC + cross entropy},
+title style={align=center,yshift=-.1in},
+legend style={font=\small,
+	nodes={scale=0.7, transform shape},
+	at={(0.0,1)},
+	anchor=north west,
+	draw=none,
+	fill=none},
+legend cell align={left},
+width = 4.0in, height = 3.0in,
+ylabel near ticks,
+ylabel = {\small information gain ($c_k - c_0$)},
+xlabel near ticks,
+every tick label/.append style={font=\scriptsize},
+xmin=-1,xmax=10,ymin=0,ymax=0.4,
+xtick={0, 1.9593498917082321, 4, 6, 8},
+xlabel={\small Number of raters},
+xlabel style = {yshift=0.05in},
+yticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=5
+},
+scaled y ticks=false
+]
+
+\addplot[solid, mark=o, mark options={scale=.8}, black]
+plot [error bars/.cd, y dir = both, y explicit]
+table[y error index=2]{
+0	0.0	0.01420646167771622
+1	0.08024457130060247	0.013650480711853485
+2	0.13522196667360153	0.017893929991998903
+3	0.1658302431343749	0.019890606245349995
+4	0.185874088678311	0.020483550492460756
+5	0.19839480019851463	0.02033238795451031
+6	0.2072887893804759	0.02050428807458249
+7	0.21407454595234532	0.020427322863160735
+8	0.21894677641310856	0.020101528197621232
+9	0.2227354184242163	0.02000920959276542
+
+};
+\addlegendentry{k raters}
+
+
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] {0.13298712959808978};
+\addlegendentry{calibrated hard classifier}
+
+\draw [red, fill=red, opacity=0.1] (axis cs:-1,0.11433073531679905) rectangle (axis cs:31,0.15387170379744386);
+
+
+
+\addplot[mark=*, mark options={scale=.8}, red, thick]
+    table[]{
+        1.9593498917082321	0.13298712959808978
+    };
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] coordinates {(1.9593498917082321,0.13298712959808978) (1.9593498917082321,0)};
+
+\draw [red, fill=red, opacity=0.1] (axis cs:1.63125842965308,-1) rectangle (axis cs:2.5361110022354874,1);
+
+
+\end{axis}
+\end{tikzpicture}
