@@ -183,7 +183,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1,
                          classifier_predictions=classifiers, max_K=max_k, procs=num_processors)
 
-    p.save(dirname_base=f"WikiToxic_{combiner.__class__.__name__}_{scorer.__class__.__name__}",
+    p.save(path=p.path_for_saving(f"toxicity/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
         Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
@@ -212,8 +212,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.plot(fig, f'toxic_{type(combiner).__name__}_{type(scorer).__name__}')
-
+    pl.save(p.path_for_saving(f"toxicity/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 if __name__ == '__main__':
     main()
