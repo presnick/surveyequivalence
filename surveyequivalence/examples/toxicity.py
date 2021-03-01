@@ -2,10 +2,8 @@ from random import shuffle
 
 import numpy as np
 import pandas as pd
-import statsmodels.api as sm
 from matplotlib import pyplot as plt
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 
 from config import ROOT_DIR
@@ -22,8 +20,8 @@ def main():
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
     max_k = 3  # 20
-    max_items = 200
-    bootstrap_samples = 20
+    max_items = 20
+    bootstrap_samples = 5
     num_processors = 3
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -98,7 +96,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     reliability_dict = dict()
 
     # Create rating pairs from the dataset
-    for index, item in wiki.iterrows():
+    for index, item in wiki[:1000].iterrows():
 
         raters = list()
 
