@@ -551,10 +551,11 @@ class AnalysisPipeline:
                 f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
                 f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
 
-                f.write("\n----power curve mean gains-----\n")
-                f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
+                if 0 in self.expert_power_curve.index:
+                    f.write("\n----power curve mean gains-----\n")
+                    f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
 
                 f.write("\n----survey equivalences----\n")
                 def output_equivalences(f, equivalences):
