@@ -510,11 +510,12 @@ class AnalysisPipeline:
         with open(f'{path}/params.pickle', 'wb') as f:
             pickle.dump(d, f)
 
-        # save the classifier predictions
-        self.classifier_predictions.to_csv(f'{path}/predictions.csv')
+        if self.classifier_predictions is not None:
+            # save the classifier predictions
+            self.classifier_predictions.to_csv(f'{path}/predictions.csv')
 
-        # save the classifier scores
-        self.classifier_scores.df.to_csv(f'{path}/classifier_scores.csv')
+            # save the classifier scores
+            self.classifier_scores.df.to_csv(f'{path}/classifier_scores.csv')
 
         # save the expert power curve
         self.expert_power_curve.df.to_csv(f'{path}/expert_power_curve.csv')
