@@ -551,7 +551,7 @@ class AnalysisPipeline:
                 f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
                 f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
 
-                if 0 in self.expert_power_curve.index:
+                if 0 in self.expert_power_curve.df.index:
                     f.write("\n----power curve mean gains-----\n")
                     f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
                     f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
