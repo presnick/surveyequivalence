@@ -534,20 +534,22 @@ class AnalysisPipeline:
         # write out results summary
         if save_results:
             with open(f'{path}/results_summary.txt', 'w') as f:
-                f.write("\n----classifier scores-----\n")
-                f.write(f"\tActual item set score:\n {self.classifier_scores.values}\n")
-                f.write(f"\tmeans:\n{self.classifier_scores.means}\n")
-                f.write(f"\tstds:\n{self.classifier_scores.stds}\n")
+                if self.classifier_predictions is not None:
+                    f.write("\n----classifier scores-----\n")
+                    f.write(f"\tActual item set score:\n {self.classifier_scores.values}\n")
+                    f.write(f"\tmeans:\n{self.classifier_scores.means}\n")
+                    f.write(f"\tstds:\n{self.classifier_scores.stds}\n")
+
+                    f.write("\n----classifier score gains-----\n")
+                    f.write(f"\tActual item set score:\n {self.classifier_scores.values - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tmeans:\n{self.classifier_scores.means - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tstds:\n{self.classifier_scores.stds - self.expert_power_curve.values[0]}\n")
+
 
                 f.write("\n----power curve means-----\n")
                 f.write(f"\tActual item set score:\n {self.expert_power_curve.values}\n")
                 f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
                 f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
-
-                f.write("\n----classifier score gains-----\n")
-                f.write(f"\tActual item set score:\n {self.classifier_scores.values - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tmeans:\n{self.classifier_scores.means - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tstds:\n{self.classifier_scores.stds - self.expert_power_curve.values[0]}\n")
 
                 f.write("\n----power curve mean gains-----\n")
                 f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
@@ -561,7 +563,7 @@ class AnalysisPipeline:
                     f.write(f"\tstddevs\n {equivalences.df.std()}\n")
                     f.write(f"\tlower bounds\n {equivalences.lower_bounds}\n")
                     f.write(f"\tupper bounds\n {equivalences.upper_bounds}\n")
-                equivalences = self.expert_survey_equivalences
+
                 if self.classifier_predictions is not None:
                     f.write(f'reference rater equivalences\n')
                     output_equivalences(f, self.expert_survey_equivalences)
