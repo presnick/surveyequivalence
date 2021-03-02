@@ -426,8 +426,9 @@ class AnalysisPipeline:
             procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
 
-        self.expert_survey_equivalences = Equivalences(
-            self.expert_power_curve.compute_equivalences(self.classifier_scores))
+        if self.classifier_predictions is not None:
+            self.expert_survey_equivalences = Equivalences(
+                self.expert_power_curve.compute_equivalences(self.classifier_scores))
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
@@ -519,7 +520,8 @@ class AnalysisPipeline:
         self.expert_power_curve.df.to_csv(f'{path}/expert_power_curve.csv')
 
         # save the expert equivalences
-        self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
+        if self.classifier_predictions is not None:
+            self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
 
         # save the amateur power_curve
         amateur_power_curve = getattr(self, 'amateur_power_curve', None)
@@ -559,8 +561,9 @@ class AnalysisPipeline:
                     f.write(f"\tlower bounds\n {equivalences.lower_bounds}\n")
                     f.write(f"\tupper bounds\n {equivalences.upper_bounds}\n")
                 equivalences = self.expert_survey_equivalences
-                f.write(f'reference rater equivalences\n')
-                output_equivalences(f, self.expert_survey_equivalences)
+                if self.classifier_predictions is not None:
+                    f.write(f'reference rater equivalences\n')
+                    output_equivalences(f, self.expert_survey_equivalences)
                 if amateur_power_curve:
                     f.write(f'other rater equivalences\n')
                     output_equivalences(f, self.amateur_survey_equivalences)
