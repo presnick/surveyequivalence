@@ -551,10 +551,11 @@ class AnalysisPipeline:
                 f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
                 f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
 
-                f.write("\n----power curve mean gains-----\n")
-                f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
+                if 0 in self.expert_power_curve.values:
+                    f.write("\n----power curve mean gains-----\n")
+                    f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
 
                 f.write("\n----survey equivalences----\n")
                 def output_equivalences(f, equivalences):
@@ -646,7 +647,8 @@ class AnalysisPipeline:
                             if subset not in subsets:
                                 subsets.append(subset)
                                 break
-                            print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
+                            if self.verbosity > 1:
+                                print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
                     result = subsets
                 else:
                     ## just enumerate all the subsets and take a sample of max_subsets of them
@@ -679,7 +681,7 @@ class AnalysisPipeline:
         def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
             # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
-                print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
+                print('\nstarting to precompute predictions for various rater subsets. \n')
 
             def make_prediction(idx, row):
                 predictions = dict()
@@ -786,7 +788,7 @@ class AnalysisPipeline:
 
         ## Each item sample is one run
         if self.verbosity > 0:
-            print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
+            print("\n\tcomputing power curve results for each bootstrap item sample. \n")
 
         dirpath = tempfile.mkdtemp()
 
@@ -956,13 +958,14 @@ class Plot:
                 ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min,
                           ymax=score)
                 if ci:
-                    ax.errorbar(x=survey_equiv,
-                                y=0,
-                                color=color,
-                                xerr=[[survey_equiv - ci[0]], [ci[1] - survey_equiv]],
-                                fmt='none',
-                                elinewidth=6,
-                                )
+                    ax.axvspan(ci[0], ci[1], alpha=0.1, color=color)
+                    # ax.errorbar(x=survey_equiv,
+                    #             y=0,
+                    #             color=color,
+                    #             xerr=[[survey_equiv - ci[0]], [ci[1] - survey_equiv]],
+                    #             fmt='none',
+                    #             elinewidth=6,
+                    #             )
                     se_dict['ci'] = ''
                     se_dict['cicolor'] = color
                     se_dict['cilower'] = ci[0]
