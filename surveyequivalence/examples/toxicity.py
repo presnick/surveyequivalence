@@ -95,7 +95,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     reliability_dict = dict()
 
     # Create rating pairs from the dataset
-    for index, item in wiki[:1000].iterrows():
+    for index, item in wiki.iterrows():
 
         raters = list()
 
