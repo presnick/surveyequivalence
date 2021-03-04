@@ -6,4 +6,3 @@ from .synthetic_datasets import State, DiscreteState, DistributionOverStates, Di
     FixedStateGenerator, MixtureOfBetas, make_discrete_dataset_1, make_discrete_dataset_2, make_discrete_dataset_3, \
     MockClassifier, make_perceive_with_noise_datasets, SyntheticDataset, SyntheticBinaryDatasetGenerator, \
     MappedDiscreteMockClassifier
-from .examples import toxicity, credbank, paper_running_example, guessthekarma
