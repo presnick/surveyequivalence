@@ -40,13 +40,10 @@ class DiscretePrediction(Prediction):
         return self.label
 
 class DiscreteDistributionPrediction(Prediction):
-    def __init__(self, label_names, probabilities, no_extremes=True, normalize=True):
+    def __init__(self, label_names, probabilities, extreme_cutoff=0.02, normalize=True):
         super().__init__()
         self.label_names = label_names
-        if no_extremes:
-            self.probabilities = [min(.99999, max(.00001, pr)) for pr in probabilities]
-        else:
-            self.probabilities = probabilities
+        self.probabilities = [min(1-extreme_cutoff, max(extreme_cutoff, pr)) for pr in probabilities]
 
         if normalize:
             s = sum(self.probabilities)

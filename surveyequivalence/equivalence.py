@@ -426,8 +426,9 @@ class AnalysisPipeline:
             procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
 
-        self.expert_survey_equivalences = Equivalences(
-            self.expert_power_curve.compute_equivalences(self.classifier_scores))
+        if self.classifier_predictions is not None:
+            self.expert_survey_equivalences = Equivalences(
+                self.expert_power_curve.compute_equivalences(self.classifier_scores))
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
@@ -509,17 +510,19 @@ class AnalysisPipeline:
         with open(f'{path}/params.pickle', 'wb') as f:
             pickle.dump(d, f)
 
-        # save the classifier predictions
-        self.classifier_predictions.to_csv(f'{path}/predictions.csv')
+        if self.classifier_predictions is not None:
+            # save the classifier predictions
+            self.classifier_predictions.to_csv(f'{path}/predictions.csv')
 
-        # save the classifier scores
-        self.classifier_scores.df.to_csv(f'{path}/classifier_scores.csv')
+            # save the classifier scores
+            self.classifier_scores.df.to_csv(f'{path}/classifier_scores.csv')
 
         # save the expert power curve
         self.expert_power_curve.df.to_csv(f'{path}/expert_power_curve.csv')
 
         # save the expert equivalences
-        self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
+        if self.classifier_predictions is not None:
+            self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
 
         # save the amateur power_curve
         amateur_power_curve = getattr(self, 'amateur_power_curve', None)
@@ -531,25 +534,28 @@ class AnalysisPipeline:
         # write out results summary
         if save_results:
             with open(f'{path}/results_summary.txt', 'w') as f:
-                f.write("\n----classifier scores-----\n")
-                f.write(f"\tActual item set score:\n {self.classifier_scores.values}\n")
-                f.write(f"\tmeans:\n{self.classifier_scores.means}\n")
-                f.write(f"\tstds:\n{self.classifier_scores.stds}\n")
+                if self.classifier_predictions is not None:
+                    f.write("\n----classifier scores-----\n")
+                    f.write(f"\tActual item set score:\n {self.classifier_scores.values}\n")
+                    f.write(f"\tmeans:\n{self.classifier_scores.means}\n")
+                    f.write(f"\tstds:\n{self.classifier_scores.stds}\n")
+
+                    f.write("\n----classifier score gains-----\n")
+                    f.write(f"\tActual item set score:\n {self.classifier_scores.values - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tmeans:\n{self.classifier_scores.means - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tstds:\n{self.classifier_scores.stds - self.expert_power_curve.values[0]}\n")
+
 
                 f.write("\n----power curve means-----\n")
                 f.write(f"\tActual item set score:\n {self.expert_power_curve.values}\n")
                 f.write(f"\tmeans:\n{self.expert_power_curve.means}\n")
                 f.write(f"\tstds:\n{self.expert_power_curve.stds}\n")
 
-                f.write("\n----classifier score gains-----\n")
-                f.write(f"\tActual item set score:\n {self.classifier_scores.values - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tmeans:\n{self.classifier_scores.means - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tstds:\n{self.classifier_scores.stds - self.expert_power_curve.values[0]}\n")
-
-                f.write("\n----power curve mean gains-----\n")
-                f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
-                f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
+                if 0 in self.expert_power_curve.values:
+                    f.write("\n----power curve mean gains-----\n")
+                    f.write(f"\tActual item set score:\n {self.expert_power_curve.values - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tmeans:\n{self.expert_power_curve.means - self.expert_power_curve.values[0]}\n")
+                    f.write(f"\tstds:\n{self.expert_power_curve.stds - self.expert_power_curve.values[0]}\n")
 
                 f.write("\n----survey equivalences----\n")
                 def output_equivalences(f, equivalences):
@@ -558,9 +564,10 @@ class AnalysisPipeline:
                     f.write(f"\tstddevs\n {equivalences.df.std()}\n")
                     f.write(f"\tlower bounds\n {equivalences.lower_bounds}\n")
                     f.write(f"\tupper bounds\n {equivalences.upper_bounds}\n")
-                equivalences = self.expert_survey_equivalences
-                f.write(f'reference rater equivalences\n')
-                output_equivalences(f, self.expert_survey_equivalences)
+
+                if self.classifier_predictions is not None:
+                    f.write(f'reference rater equivalences\n')
+                    output_equivalences(f, self.expert_survey_equivalences)
                 if amateur_power_curve:
                     f.write(f'other rater equivalences\n')
                     output_equivalences(f, self.amateur_survey_equivalences)
@@ -640,7 +647,8 @@ class AnalysisPipeline:
                             if subset not in subsets:
                                 subsets.append(subset)
                                 break
-                            print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
+                            if self.verbosity > 1:
+                                print(f"repeat rater subset when sampling for idx {idx}; skipping and trying again.")
                     result = subsets
                 else:
                     ## just enumerate all the subsets and take a sample of max_subsets of them
@@ -673,7 +681,7 @@ class AnalysisPipeline:
         def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
             # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
-                print('\nstarting to precompute predictions for various rater subsets. \nItems processed:')
+                print('\nstarting to precompute predictions for various rater subsets. \n')
 
             def make_prediction(idx, row):
                 predictions = dict()
@@ -780,7 +788,7 @@ class AnalysisPipeline:
 
         ## Each item sample is one run
         if self.verbosity > 0:
-            print("\n\tcomputing power curve results for each bootstrap item sample. \nSamples processed:")
+            print("\n\tcomputing power curve results for each bootstrap item sample. \n")
 
         dirpath = tempfile.mkdtemp()
 
@@ -950,13 +958,14 @@ class Plot:
                 ax.vlines(x=survey_equiv, color=color, linewidths=2, linestyles='dashed', ymin=self.y_range_min,
                           ymax=score)
                 if ci:
-                    ax.errorbar(x=survey_equiv,
-                                y=0,
-                                color=color,
-                                xerr=[[survey_equiv - ci[0]], [ci[1] - survey_equiv]],
-                                fmt='none',
-                                elinewidth=6,
-                                )
+                    ax.axvspan(ci[0], ci[1], alpha=0.1, color=color)
+                    # ax.errorbar(x=survey_equiv,
+                    #             y=0,
+                    #             color=color,
+                    #             xerr=[[survey_equiv - ci[0]], [ci[1] - survey_equiv]],
+                    #             fmt='none',
+                    #             elinewidth=6,
+                    #             )
                     se_dict['ci'] = ''
                     se_dict['cicolor'] = color
                     se_dict['cilower'] = ci[0]

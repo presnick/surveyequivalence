@@ -1,0 +1,116 @@
+
+----classifier scores-----
+	Actual item set score:
+ mock hard classifier    0.7442
+Name: 0, dtype: float64
+	means:
+mock hard classifier    0.743653
+dtype: float64
+	stds:
+mock hard classifier    0.006943
+dtype: float64
+
+----power curve means-----
+	Actual item set score:
+ 0    0.493600
+1    0.687511
+2    0.686506
+3    0.736714
+4    0.737167
+5    0.759614
+6    0.759627
+7    0.771122
+8    0.771467
+9    0.778400
+Name: 0, dtype: float64
+	means:
+0    0.493671
+1    0.687306
+2    0.686261
+3    0.736483
+4    0.736904
+5    0.759343
+6    0.759389
+7    0.770868
+8    0.771201
+9    0.778297
+dtype: float64
+	stds:
+0    0.010410
+1    0.005515
+2    0.005568
+3    0.005966
+4    0.005979
+5    0.005926
+6    0.005942
+7    0.005896
+8    0.005924
+9    0.006378
+dtype: float64
+
+----classifier score gains-----
+	Actual item set score:
+ mock hard classifier    0.2506
+Name: 0, dtype: float64
+	means:
+mock hard classifier    0.250053
+dtype: float64
+	stds:
+mock hard classifier   -0.486657
+dtype: float64
+
+----power curve mean gains-----
+	Actual item set score:
+ 0    0.000000
+1    0.193911
+2    0.192906
+3    0.243114
+4    0.243567
+5    0.266014
+6    0.266027
+7    0.277522
+8    0.277867
+9    0.284800
+Name: 0, dtype: float64
+	means:
+0    0.000071
+1    0.193706
+2    0.192661
+3    0.242883
+4    0.243304
+5    0.265743
+6    0.265789
+7    0.277268
+8    0.277601
+9    0.284697
+dtype: float64
+	stds:
+0   -0.483190
+1   -0.488085
+2   -0.488032
+3   -0.487634
+4   -0.487621
+5   -0.487674
+6   -0.487658
+7   -0.487704
+8   -0.487676
+9   -0.487222
+dtype: float64
+
+----survey equivalences----
+reference rater equivalences
+	means:
+ mock hard classifier    4.175797
+dtype: float64
+	medians
+ mock hard classifier    4.32936
+dtype: float64
+	stddevs
+ mock hard classifier    0.564741
+dtype: float64
+	lower bounds
+ mock hard classifier    2.881322
+Name: 0.025, dtype: float64
+	upper bounds
+ mock hard classifier    4.808571
+Name: 0.975, dtype: float64
