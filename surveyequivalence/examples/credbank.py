@@ -181,7 +181,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.save(p.path_for_saving(f"Credweb/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
+    pl.save(p.path_for_saving(f"CredWeb/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 
 if __name__ == '__main__':
