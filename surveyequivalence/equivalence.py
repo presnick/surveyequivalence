@@ -413,7 +413,7 @@ class AnalysisPipeline:
     def run(self):
         """Create the power curve(s); normally invoked during __init__ but can be called separately."""
 
-        self.run_timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")
+        self.run_timestamp = datetime.datetime.now().strftime("%d-%B-%Y_%I-%M-%S_%p")
 
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
@@ -1065,8 +1065,11 @@ class Plot:
                 plot_dict['linestyle'] = 'only marks'
 
             pc = ''
-            for i in curve.means[points].index:
-                pc += '{0}\t{1}\t{2}\n'.format (i,actuals[i],lower_error[i])
+            # index has one entry for each survey size that we calculated.
+            # if we didn't include survey size 0, then we need to index by position when
+            # pulling out associated values
+            for pos, num_raters in enumerate(curve.means[points].index):
+                pc += '{0}\t{1}\t{2}\n'.format (num_raters,actuals[pos],lower_error[pos])
             plot_dict['plot'] = pc
             plot_dict['marker'] = 'o'
             plot_dict['color'] = color
