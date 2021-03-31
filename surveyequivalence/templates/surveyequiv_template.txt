@@ -5,4 +5,4 @@
 
 $dropline\addplot[mark=none, $dropcolor, $linestyle, thick, samples=2, domain=-1:31] coordinates {($x,$ymax) ($x,$ymin)};
 
-$ci\draw [$cicolor, fill=$cicolor, opacity=$cialpha] (axis cs:$cilower,-0.1) rectangle (axis cs:$ciupper,-0.11);
+$ci\draw [$cicolor, fill=$cicolor, opacity=$cialpha] (axis cs:$cilower,1) rectangle (axis cs:$ciupper,0);
