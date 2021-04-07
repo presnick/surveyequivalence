@@ -276,33 +276,35 @@ class AnonymousBayesianCombiner(Combiner):
                 if num_items <= 1:
                     return None
                 holdout_joint_dist_onehot = v * coef / (num_items - 1)
-            prediction[label_idx] = holdout_joint_dist_onehot
+            # smoothing with 1/labels+items>k
+            prediction[label_idx] = holdout_joint_dist_onehot + 1/(number_of_labels * num_items)
 
-        i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(labels, W[item_id], allowable_labels)
-        if str(m) not in self.memo:
-            overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(labels, W, allowable_labels)
+        #i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(labels, W[item_id], allowable_labels)
+        #if str(m) not in self.memo:
+        #    overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(labels, W, allowable_labels)
             # In this case, there are not enough raters to construct a joint distribution for k,
             # so we can't make a prediction
-            if num_items <= 1:
-                return None
-            self.memo[str(m)] = overall_joint_dist, num_items
-        overall_joint_dist_m, num_items = self.memo[str(m)]
-        holdout_joint_dist_m = overall_joint_dist_m
-        if i_r_m == 1:
-            product = 1
-            for idx in range(0, len(allowable_labels)):
-                product = product * factorial(m[idx])
-            coef = product / factorial(k)
+        #    if num_items <= 1:
+        #        return None
+        #    self.memo[str(m)] = overall_joint_dist, num_items
+        #overall_joint_dist_m, num_items = self.memo[str(m)]
+        #holdout_joint_dist_m = overall_joint_dist_m
+        #if i_r_m == 1:
+        #    product = 1
+        #    for idx in range(0, len(allowable_labels)):
+        #        product = product * factorial(m[idx])
+        #    coef = product / factorial(k)
 
-            v = overall_joint_dist_m * num_items / coef - i_v_m
-            holdout_joint_dist_m = v * coef / (num_items - 1)
+        #    v = overall_joint_dist_m * num_items / coef - i_v_m
+        #    holdout_joint_dist_m = v * coef / (num_items - 1)
 
-        if holdout_joint_dist_m == 0:
-            print(f"setting to .00001 to avoid divide by 0 with k = {k}, labels:\n{labels}")
-            holdout_joint_dist_m = 0.00001
+        #if holdout_joint_dist_m == 0:
+        #    print(f"setting to .00001 to avoid divide by 0 with k = {k}, labels:\n{labels}")
+        #    holdout_joint_dist_m = 0.00001
 
 
-        prediction = prediction / holdout_joint_dist_m
+        #prediction = prediction / sum(prediction) # holdout_joint_dist_m #num + (1/(|L|*I_k+1)  # denom + (1/(I_k+1))
+        prediction = prediction / sum(prediction)
         # TODO check that prediction is valid
 
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
