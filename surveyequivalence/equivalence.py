@@ -130,12 +130,28 @@ class ClassifierResults:
         self.compute_means_and_cis()
 
     def compute_means_and_cis(self):
-        self.means = self.df.mean()
+        #self.means = self.df.mean()
+        self.means = self._median_of_means()
         self.stds = self.df.std()
         self.std_lower_bounds = self.means - 2*self.stds
         self.std_upper_bounds = self.means + 2*self.stds
         self.empirical_lower_bounds = self.df.quantile(.025)
         self.empirical_upper_bounds = self.df.quantile(.975)
+
+    def _median_of_means(self, n_blocks=9):
+        if n_blocks > len(self.df):  # preventing the n_blocks > n_observations
+            n_blocks = int(np.ceil(len(self.df) / 2))
+        # dividing seq in k random blocks
+        indic = np.array(list(range(n_blocks)) * int(len(self.df) / n_blocks))
+        np.random.shuffle(indic)
+        # for each label size
+        medians = list()
+        for i in range(0,len(self.df.columns)):
+            # computing and saving mean per block
+            means = [np.mean(self.df[i][list(np.where(indic == block)[0])]) for block in range(n_blocks)]
+            # return median
+            medians.append(np.median(means))
+        return pd.Series(medians)
 
     @property
     def lower_bounds(self):
@@ -803,9 +819,6 @@ class AnalysisPipeline:
 
         shutil.rmtree(dirpath)
 
-        print()
-
-       # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
             print(f"\n\t\trun_results={run_results}")
         return PowerCurve(run_results)

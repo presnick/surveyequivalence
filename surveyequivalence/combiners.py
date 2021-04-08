@@ -276,8 +276,7 @@ class AnonymousBayesianCombiner(Combiner):
                 if num_items <= 1:
                     return None
                 holdout_joint_dist_onehot = v * coef / (num_items - 1)
-            # smoothing with 1/labels+items>k
-            prediction[label_idx] = holdout_joint_dist_onehot + 1/(number_of_labels * num_items)
+            prediction[label_idx] = holdout_joint_dist_onehot
 
         #i_v_m, i_r_m = AnonymousBayesianCombiner.D_k_item_contribution(labels, W[item_id], allowable_labels)
         #if str(m) not in self.memo:
