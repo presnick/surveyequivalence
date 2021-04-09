@@ -74,12 +74,32 @@ class Equivalences:
         self.compute_means_and_cis()
 
     def compute_means_and_cis(self):
-        self.means = self.df.mean()
-        self.stds = self.df.std()
+        #self.means = self.df.mean()
+        #self.stds = self.df.std()
+        self.means, self.stds = self._rob_median_of_means(500)
         self.std_lower_bounds = self.means - 2 * self.stds
         self.std_upper_bounds = self.means + 2 * self.stds
         self.empirical_lower_bounds = self.df.quantile(.025)
         self.empirical_upper_bounds = self.df.quantile(.975)
+
+    def _rob_median_of_means(self, n):
+        res = [self._median_of_means() for _ in range(n)]
+        return pd.Series(np.mean(res, axis=0)), pd.Series(np.std(res, axis=0))
+
+    def _median_of_means(self, n_blocks=9):
+        if n_blocks > len(self.df):  # preventing the n_blocks > n_observations
+            n_blocks = int(np.ceil(len(self.df) / 2))
+        # dividing seq in k random blocks
+        indic = np.array(list(range(n_blocks)) * int(len(self.df) / n_blocks))
+        np.random.shuffle(indic)
+        # for each label size
+        medians = list()
+        for i in range(0,len(self.df.columns)):
+            # computing and saving mean per block
+            means = [np.mean(self.df[i][list(np.where(indic == block)[0])]) for block in range(n_blocks)]
+            # return median
+            medians.append(np.median(means))
+        return pd.Series(medians)
 
     @property
     def lower_bounds(self):
@@ -131,12 +151,16 @@ class ClassifierResults:
 
     def compute_means_and_cis(self):
         #self.means = self.df.mean()
-        self.means = self._median_of_means()
-        self.stds = self.df.std()
+        self.means, self.stds = self._rob_median_of_means(500)
+        #self.stds = self.df.std()
         self.std_lower_bounds = self.means - 2*self.stds
         self.std_upper_bounds = self.means + 2*self.stds
         self.empirical_lower_bounds = self.df.quantile(.025)
         self.empirical_upper_bounds = self.df.quantile(.975)
+
+    def _rob_median_of_means(self, n):
+        res = [self._median_of_means() for _ in range(n)]
+        return pd.Series(np.mean(res, axis=0)), pd.Series(np.std(res, axis=0))
 
     def _median_of_means(self, n_blocks=9):
         if n_blocks > len(self.df):  # preventing the n_blocks > n_observations
