@@ -44,6 +44,24 @@ class Scorer(ABC):
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
         return retval
 
+    @staticmethod
+    def _median_of_means(seq, n_blocks=9):
+        if n_blocks > len(seq):  # preventing the n_blocks > n_observations
+            n_blocks = int(np.ceil(len(seq) / 2))
+        # dividing seq in k random blocks
+        indic = np.array(list(range(n_blocks)) * int(len(seq) / n_blocks))
+        np.random.shuffle(indic)
+        # computing and saving mean per block
+        means = [np.mean(seq[list(np.where(indic == block)[0])]) for block in range(n_blocks)]
+        # return median
+        return np.median(means)
+
+    @staticmethod
+    def rob_median_of_means(seq, n):
+        res = [Scorer._median_of_means(seq) for _ in range(n)]
+        return np.mean(res)
+
+
 class Correlation(Scorer):
     def __init__(self):
         super().__init__()
@@ -142,14 +160,14 @@ class CrossEntropyScore(Scorer):
         # compute mean score over all items
         tot_score = 0
         cnt = 0
+        seq = list()
         for (pred, label) in zip(classifier_predictions, rater_labels):
             score = item_score(pred, label)
             if score is not None:
-                tot_score += score
-                cnt += 1
+                seq.append(score)
 
-        if cnt == 0: return None
-        return tot_score/cnt
+        if len(seq) == 0: return None
+        return Scorer.rob_median_of_means(pd.Series(seq), 1)
 
 
 class PrecisionScore(Scorer):
