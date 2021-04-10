@@ -803,9 +803,6 @@ class AnalysisPipeline:
 
         shutil.rmtree(dirpath)
 
-        print()
-
-       # run_results = [compute_one_run(self.W, idxs, ratersets, predictions) for idxs in self.item_samples]
         if self.verbosity > 1:
             print(f"\n\t\trun_results={run_results}")
         return PowerCurve(run_results)
@@ -970,7 +967,7 @@ class Plot:
                     se_dict['cicolor'] = color
                     se_dict['cilower'] = ci[0]
                     se_dict['ciupper'] = ci[1]
-                    se_dict['cialpha'] = 0.1
+                    se_dict['cialpha'] = 0.6
                 else:
                     se_dict['ci'] = '%'
                     se_dict['cicolor'] = ''
