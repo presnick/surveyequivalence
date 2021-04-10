@@ -413,7 +413,7 @@ class AnalysisPipeline:
     def run(self):
         """Create the power curve(s); normally invoked during __init__ but can be called separately."""
 
-        self.run_timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")
+        self.run_timestamp = datetime.datetime.now().strftime("%d-%B-%Y_%I-%M-%S_%p")
 
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
@@ -444,7 +444,7 @@ class AnalysisPipeline:
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
 
-    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
+    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True, root_dir=ROOT_DIR):
         """
 
         Parameters
@@ -460,7 +460,7 @@ class AnalysisPipeline:
         If the path does not exist yet, it is created.
         """
 
-        path = f'{ROOT_DIR}/saved_analyses'
+        path = f'{root_dir}/saved_analyses'
         if include_timestamp:
             path += f'/{self.run_timestamp}'
         path += f'/{dirname_base}'
@@ -757,13 +757,13 @@ class AnalysisPipeline:
                         self.verbosity
                     )
 
-                    if score:
-                        if np.isnan(score):
-                            print(
-                                f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
-                        scores.append(score)
-                    else:
+                    if score is None:
                         print("ugh; no score for classifier this time ")
+                    elif pd.isna(score):
+                        print(f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
+                    else:
+                        scores.append(score)
+
                 if self.verbosity > 1:
                     print(f'\tscores for k={k}: {scores}')
                 if len(scores) > 0:
@@ -1065,8 +1065,11 @@ class Plot:
                 plot_dict['linestyle'] = 'only marks'
 
             pc = ''
-            for i in curve.means[points].index:
-                pc += '{0}\t{1}\t{2}\n'.format (i,actuals[i],lower_error[i])
+            # index has one entry for each survey size that we calculated.
+            # if we didn't include survey size 0, then we need to index by position when
+            # pulling out associated values
+            for pos, num_raters in enumerate(curve.means[points].index):
+                pc += '{0}\t{1}\t{2}\n'.format (num_raters,actuals[pos],lower_error[pos])
             plot_dict['plot'] = pc
             plot_dict['marker'] = 'o'
             plot_dict['color'] = color
@@ -1255,7 +1258,7 @@ class Plot:
 
         pass
 
-    def save(self, path: str, fig: figure):
+    def save(self, path: str, fig: figure, plotname='plot'):
         """
         Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.
 
@@ -1266,12 +1269,12 @@ class Plot:
         """
 
         # save the matplotlib figure as a .png
-        fig.savefig(f'{path}/plot.png')
+        fig.savefig(f'{path}/{plotname}.png')
 
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
             pgf = self.template.substitute(**self.template_dict)
             # Need to get rid of extra linebreaks. This is important
             pgf = pgf.replace('\r', '')
-            with open(f'{path}/plot.tex', 'w') as tex:
+            with open(f'{path}/{plotname}.tex', 'w') as tex:
                 tex.write(pgf)
