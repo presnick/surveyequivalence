@@ -444,7 +444,7 @@ class AnalysisPipeline:
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
 
-    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
+    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True, root_dir=ROOT_DIR):
         """
 
         Parameters
@@ -460,7 +460,7 @@ class AnalysisPipeline:
         If the path does not exist yet, it is created.
         """
 
-        path = f'{ROOT_DIR}/saved_analyses'
+        path = f'{root_dir}/saved_analyses'
         if include_timestamp:
             path += f'/{self.run_timestamp}'
         path += f'/{dirname_base}'
@@ -757,13 +757,13 @@ class AnalysisPipeline:
                         self.verbosity
                     )
 
-                    if score:
-                        if np.isnan(score):
-                            print(
-                                f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
-                        scores.append(score)
-                    else:
+                    if score is None:
                         print("ugh; no score for classifier this time ")
+                    elif pd.isna(score):
+                        print(f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
+                    else:
+                        scores.append(score)
+
                 if self.verbosity > 1:
                     print(f'\tscores for k={k}: {scores}')
                 if len(scores) > 0:
@@ -1255,7 +1255,7 @@ class Plot:
 
         pass
 
-    def save(self, path: str, fig: figure):
+    def save(self, path: str, fig: figure, plotname='plot'):
         """
         Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.
 
@@ -1266,12 +1266,12 @@ class Plot:
         """
 
         # save the matplotlib figure as a .png
-        fig.savefig(f'{path}/plot.png')
+        fig.savefig(f'{path}/{plotname}.png')
 
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
             pgf = self.template.substitute(**self.template_dict)
             # Need to get rid of extra linebreaks. This is important
             pgf = pgf.replace('\r', '')
-            with open(f'{path}/plot.tex', 'w') as tex:
+            with open(f'{path}/{plotname}.tex', 'w') as tex:
                 tex.write(pgf)
