@@ -795,7 +795,7 @@ class AnalysisPipeline:
         pool = ProcessPool(nodes=procs)
         pickle.dump((self.W, [idxs for idxs in self.item_samples], ratersets, predictions),
                     open(dirpath + '/state.pickle', 'wb'))
-        run_results = pool.uimap(compute_one_run, [dirpath for _ in range(0, len(self.item_samples))],
+        run_results = pool.imap(compute_one_run, [dirpath for _ in range(0, len(self.item_samples))],
                                  [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
