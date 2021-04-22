@@ -1066,7 +1066,7 @@ class Plot:
             # if we didn't include survey size 0, then we need to index by position when
             # pulling out associated values
             for pos, num_raters in enumerate(curve.means[points].index):
-                pc += '{0}\t{1}\t{2}\n'.format (num_raters,actuals[pos],lower_error[pos])
+                pc += '{0}\t{1}\t{2}\t{3}\n'.format (num_raters,actuals[pos],lower_error[pos],upper_error[pos])
             plot_dict['plot'] = pc
             plot_dict['marker'] = 'o'
             plot_dict['color'] = color
