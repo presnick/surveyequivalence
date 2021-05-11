@@ -1,0 +1,116 @@
+
+----classifier scores-----
+	Actual item set score:
+ mock hard classifier    0.7442
+Name: 0, dtype: float64
+	means:
+mock hard classifier    0.743613
+dtype: float64
+	stds:
+mock hard classifier    0.007044
+dtype: float64
+
+----classifier score gains-----
+	Actual item set score:
+ mock hard classifier    0.2358
+Name: 0, dtype: float64
+	means:
+mock hard classifier    0.235213
+dtype: float64
+	stds:
+mock hard classifier   -0.501356
+dtype: float64
+
+----power curve means-----
+	Actual item set score:
+ 0    0.508400
+1    0.687511
+2    0.687600
+3    0.736714
+4    0.736721
+5    0.759699
+6    0.759176
+7    0.771122
+8    0.771289
+9    0.778400
+Name: 0, dtype: float64
+	means:
+0    0.508057
+1    0.687496
+2    0.687606
+3    0.736708
+4    0.736679
+5    0.759715
+6    0.759147
+7    0.771077
+8    0.771263
+9    0.778319
+dtype: float64
+	stds:
+0    0.010255
+1    0.005301
+2    0.005386
+3    0.005846
+4    0.005816
+5    0.005922
+6    0.005972
+7    0.005905
+8    0.005909
+9    0.006422
+dtype: float64
+
+----power curve mean gains-----
+	Actual item set score:
+ 0    0.000000
+1    0.179111
+2    0.179200
+3    0.228314
+4    0.228321
+5    0.251299
+6    0.250776
+7    0.262722
+8    0.262889
+9    0.270000
+Name: 0, dtype: float64
+	means:
+0   -0.000343
+1    0.179096
+2    0.179206
+3    0.228308
+4    0.228279
+5    0.251315
+6    0.250747
+7    0.262677
+8    0.262863
+9    0.269919
+dtype: float64
+	stds:
+0   -0.498145
+1   -0.503099
+2   -0.503014
+3   -0.502554
+4   -0.502584
+5   -0.502478
+6   -0.502428
+7   -0.502495
+8   -0.502491
+9   -0.501978
+dtype: float64
+
+----survey equivalences----
+reference rater equivalences
+	means:
+ mock hard classifier    4.195701
+dtype: float64
+	medians
+ mock hard classifier    4.294275
+dtype: float64
+	stddevs
+ mock hard classifier    0.512767
+dtype: float64
+	lower bounds
+ mock hard classifier    2.903867
+Name: 0.025, dtype: float64
+	upper bounds
+ mock hard classifier    4.812964
+Name: 0.975, dtype: float64
