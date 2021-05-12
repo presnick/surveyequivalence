@@ -167,7 +167,7 @@ class CrossEntropyScore(Scorer):
                 seq.append(score)
 
         if len(seq) == 0: return None
-        return Scorer.rob_median_of_means(pd.Series(seq), 1)
+        return np.mean(seq) #Scorer.rob_median_of_means(pd.Series(seq), 1)
 
 
 class PrecisionScore(Scorer):

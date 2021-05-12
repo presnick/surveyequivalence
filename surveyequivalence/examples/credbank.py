@@ -16,9 +16,9 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 3  # 30
-    max_items = 20  # 1400
-    bootstrap_samples = 5  # 200
+    max_k = 2
+    max_items = 50  # 1400
+    bootstrap_samples = 2  # 200
     num_processors = 2
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -166,7 +166,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
+              center_on=prior.expert_power_curve.values[0] if prior is not None else None,
               name=f'Cred {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True

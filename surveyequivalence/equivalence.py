@@ -795,7 +795,7 @@ class AnalysisPipeline:
         pool = ProcessPool(nodes=procs)
         pickle.dump((self.W, [idxs for idxs in self.item_samples], ratersets, predictions),
                     open(dirpath + '/state.pickle', 'wb'))
-        run_results = pool.uimap(compute_one_run, [dirpath for _ in range(0, len(self.item_samples))],
+        run_results = pool.imap(compute_one_run, [dirpath for _ in range(0, len(self.item_samples))],
                                  [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
@@ -1066,7 +1066,7 @@ class Plot:
             # if we didn't include survey size 0, then we need to index by position when
             # pulling out associated values
             for pos, num_raters in enumerate(curve.means[points].index):
-                pc += '{0}\t{1}\t{2}\n'.format (num_raters,actuals[pos],lower_error[pos])
+                pc += '{0}\t{1}\t{2}\t{3}\n'.format (num_raters,actuals[pos],lower_error[pos],upper_error[pos])
             plot_dict['plot'] = pc
             plot_dict['marker'] = 'o'
             plot_dict['color'] = color

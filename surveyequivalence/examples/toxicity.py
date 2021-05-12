@@ -18,9 +18,9 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 3  # 20
+    max_k = 10  # 20
     max_items = 20
-    bootstrap_samples = 5
+    bootstrap_samples = 2
     num_processors = 3
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -197,7 +197,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
               color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
-              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
+              center_on=prior.expert_power_curve.values[0] if prior is not None else None,
               name=f'Toxic {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True

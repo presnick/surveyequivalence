@@ -184,7 +184,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               p.expert_power_curve,
               classifier_scores=p.classifier_scores,
               y_axis_label='score',
-              center_on=prior.expert_power_curve.means[0] if prior is not None else None,
+              center_on=prior.expert_power_curve.values[0] if prior is not None else None,
               name=f'GTK {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
