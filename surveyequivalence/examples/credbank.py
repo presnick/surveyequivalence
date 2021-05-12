@@ -131,7 +131,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Apply calibration probabilities to create a calibrated classifier
     classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['p', 'n'], [calibrated[cred], 1 - calibrated[cred]], normalize=True) for cred
-         in W['hard classifier']])
+         in W['hard classifier']], columns=['CredWeb Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['hard classifier'], axis=1)

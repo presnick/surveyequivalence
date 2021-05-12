@@ -1,0 +1,5 @@
+
+        Running CredWeb experiment with 1377 items and 30 raters per item
+        500 bootstrap itemsets AnonymousBayesianCombiner with CrossEntropyScore.
+        Classes are calibrated at: {3: 0.7757492951490579, 1: 0.8316659983750013, 2: 0.8004429492682937, 4: 0.7769249783655914}
+        

@@ -150,18 +150,19 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     uncalibrated_classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1 - attack_prob], normalize=True)
          for attack_prob
-         in W['soft classifier']])
+         in W['soft classifier']], columns=['Uncalibrated Jigsaw Toxicity Classifier'])
 
     # Create a calibrated classifier
     calibrated_classifier1 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
          for b, a
-         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])])
+         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])
+         ], columns=['Calibrated Jigsaw Toxicity Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
 
-    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='_uncalibrated', rsuffix='_calibrated')
+    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='left', rsuffix='right')
 
     # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
     # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore

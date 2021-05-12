@@ -146,7 +146,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
                                         normalize=False) if reddit == 'l' else
          DiscreteDistributionPrediction(['l', 'r'], [calibrated_predictions_r['l'], calibrated_predictions_r['r']],
                                         normalize=False)
-         for reddit in W['hard classifier']])
+         for reddit in W['hard classifier']], columns=['Reddit Scores Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['hard classifier'], axis=1)
