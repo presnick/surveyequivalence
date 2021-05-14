@@ -10,6 +10,11 @@ from .combiners import DiscreteDistributionPrediction, NumericPrediction
 
 
 class Scorer(ABC):
+    """
+    Scorer that defines a Scorer class as having a score() function. The scorer computes the goodness of a predictor
+    against the average human rater.
+    """
+
     @abstractmethod
     def __init__(self):
         pass
@@ -25,11 +30,25 @@ class Scorer(ABC):
                          raters: Sequence,
                          W,
                          verbosity=0):
+        """
+        Driver function that computes the mean score over all predictions
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        raters: The reference ratings. Score will compare classifier predictions with each rater in turn.
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        Mean score over all predictions for all raters.
+        """
         if verbosity > 2:
             print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
 
         if verbosity > 4:
-            print(f"ref_ratings = \n{W.loc[:,  list(raters)]}")
+            print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
 
         scores = [self.score(classifier_predictions, W[col], verbosity) for col in raters]
         non_null_scores = [score for score in scores if not pd.isna(score)]
@@ -44,25 +63,11 @@ class Scorer(ABC):
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
         return retval
 
-    @staticmethod
-    def _median_of_means(seq, n_blocks=9):
-        if n_blocks > len(seq):  # preventing the n_blocks > n_observations
-            n_blocks = int(np.ceil(len(seq) / 2))
-        # dividing seq in k random blocks
-        indic = np.array(list(range(n_blocks)) * int(len(seq) / n_blocks))
-        np.random.shuffle(indic)
-        # computing and saving mean per block
-        means = [np.mean(seq[list(np.where(indic == block)[0])]) for block in range(n_blocks)]
-        # return median
-        return np.median(means)
-
-    @staticmethod
-    def rob_median_of_means(seq, n):
-        res = [Scorer._median_of_means(seq) for _ in range(n)]
-        return np.mean(res)
-
 
 class Correlation(Scorer):
+    """
+    Computes the Pearson correlation coefficient.
+    """
     def __init__(self):
         super().__init__()
 
@@ -72,9 +77,15 @@ class Correlation(Scorer):
               verbosity=0
               ):
         """
-        :param classifier_predictions: numeric values
-        :param rater_labels: sequence of labels, which should be numeric values
-        :return: Pearson correlation coefficient
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+
+        Returns
+        -------
+        Pearson correlation coefficient
         """
 
         if verbosity > 3:
@@ -87,8 +98,8 @@ class Correlation(Scorer):
 
         # have to remove items where either pred or label is missing
         good_items = [(pred.value, label) \
-                          for (pred, label) in zip(classifier_predictions, rater_labels) \
-                          if pred and (not pd.isna(pred.value)) and (not pd.isna(label))]
+                      for (pred, label) in zip(classifier_predictions, rater_labels) \
+                      if pred and (not pd.isna(pred.value)) and (not pd.isna(label))]
         if len(good_items) == 0:
             if verbosity > 0:
                 print("ALERT: no items with both prediction and label; skipping\n")
@@ -100,7 +111,6 @@ class Correlation(Scorer):
             if verbosity > 3:
                 print(f'\t\t\tcorrelation: non null preds={non_null_preds}, non null labels={list(non_null_labels)}')
 
-
             # [convert_to_number(l) for l in rater_labels]
             retval = np.corrcoef(non_null_preds, non_null_labels)[1, 0]
             if verbosity > 2:
@@ -109,22 +119,42 @@ class Correlation(Scorer):
 
 
 class AgreementScore(Scorer):
+    """
+    Agreement Scorer
+    """
     def __init__(self):
         super().__init__()
 
     @staticmethod
     def score(classifier_predictions: Sequence[str],
-                        rater_labels: Sequence[str],
+              rater_labels: Sequence[str],
               verbosity=0):
+        """
+        Agreement score measures the normalized number of times that the predictor matched the label. Akin to a typical
+        accuracy score.
 
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+
+        Returns
+        -------
+        Agreement score
+        """
         assert len(classifier_predictions) == len(rater_labels)
         tot_score = sum([pred.value == label for (pred, label) in \
-                        zip(classifier_predictions, rater_labels)]) / \
-               len(classifier_predictions)
+                         zip(classifier_predictions, rater_labels)]) / \
+                    len(classifier_predictions)
 
         return tot_score
 
+
 class CrossEntropyScore(Scorer):
+    """
+    Cross Entropy Scorer
+    """
     def __init__(self):
         super().__init__()
 
@@ -140,6 +170,17 @@ class CrossEntropyScore(Scorer):
 
         >>> CrossEntropyScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'])
         0.87702971998
+
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+
+        Returns
+        -------
+        Cross Entropy score
+
         """
 
         assert len(classifier_predictions) == len(rater_labels);
@@ -158,8 +199,6 @@ class CrossEntropyScore(Scorer):
             #     return (log2(1-pred.label_probability(label)))
 
         # compute mean score over all items
-        tot_score = 0
-        cnt = 0
         seq = list()
         for (pred, label) in zip(classifier_predictions, rater_labels):
             score = item_score(pred, label)
@@ -167,7 +206,7 @@ class CrossEntropyScore(Scorer):
                 seq.append(score)
 
         if len(seq) == 0: return None
-        return np.mean(seq) #Scorer.rob_median_of_means(pd.Series(seq), 1)
+        return np.mean(seq)  # Scorer.rob_median_of_means(pd.Series(seq), 1)
 
 
 class PrecisionScore(Scorer):
@@ -177,16 +216,27 @@ class PrecisionScore(Scorer):
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
-              verbosity = 0,
+              verbosity=0,
               average: str = 'micro') -> float:
         """
-        precision score
+        Precision score. This function uses sklearn's precision function.
 
         >>> PrecisionScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b'], 'micro')
         0.6666666666666666
 
         >>> PrecisionScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'], 'micro')
         0.3333333333333333
+
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+        average: macro or micro averaging
+
+        Returns
+        -------
+        Precision Score
         """
         assert len(classifier_predictions) == len(rater_labels);
 
@@ -211,10 +261,10 @@ class RecallScore(Scorer):
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
-              verbosity = 0,
+              verbosity=0,
               average: str = 'micro') -> float:
         """
-        Recall
+        Recall score. This function uses sklearn's recall function.
 
         >>> RecallScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b'], 'micro')
         0.6666666666666666
@@ -225,6 +275,17 @@ class RecallScore(Scorer):
         0.3333333333333333
         >>> RecallScore.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'], 'macro')
         0.25
+
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+        average: macro or micro averaging
+
+        Returns
+        -------
+        Recall Score
         """
         assert len(classifier_predictions) == len(rater_labels);
 
@@ -249,10 +310,10 @@ class F1Score(Scorer):
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
-              verbosity = 0,
+              verbosity=0,
               average: str = 'micro') -> float:
         """
-        F1 score
+        F1 score. This function uses sklearn's F1 function.
 
         >>> F1Score.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['b', 'b', 'b'], 'micro')
         0.6666666666666666
@@ -263,6 +324,17 @@ class F1Score(Scorer):
         0.3333333333333333
         >>> F1Score.score([DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]],  ['a', 'b', 'b'], 'macro')
         0.25
+
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+        average: macro or micro averaging
+
+        Returns
+        -------
+        F1 Score
         """
         assert len(classifier_predictions) == len(rater_labels);
 
@@ -288,6 +360,19 @@ class AUCScore(Scorer):
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
               verbosity=0) -> float:
+        """
+        AUC score. This function uses sklearn's AUC function, but does not work in many cases with multiple labels.
+
+        Parameters
+        ----------
+        classifier_predictions: numeric values
+        rater_labels: sequence of labels, which should be numeric values
+        verbosity:
+
+        Returns
+        -------
+        AUC Score
+        """
         assert len(classifier_predictions) == len(rater_labels);
 
         if verbosity > 2:
