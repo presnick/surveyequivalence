@@ -38,10 +38,10 @@
 <h2>Synthetic Running Example<a class="headerlink" href="#synthetic-running-example" title="Permalink to this headline">¶</a></h2>
 <p>The synthetic running example, as described in the paper, is implemented in the file <cite>examples/paper_running_example.py</cite>.</p>
 <p>We first load the data that we created in <a class="reference internal" href="#generating-data-for-running-example"><span class="std std-ref">Generating Data for the Running Example</span></a></p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{ROOT_DIR}</span><span class="s1">/data/running_example&#39;</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT_DIR</span><span class="si">}</span><span class="s1">/data/running_example&#39;</span>
 
 <span class="c1"># read the reference rater labels from file</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/ref_rater_labels.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/ref_rater_labels.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># read the predictions from file</span>
 <span class="k">def</span> <span class="nf">str2prediction_instance</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -52,7 +52,7 @@
         <span class="k">return</span> <span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">pr_pos</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">pr_neg</span><span class="p">)])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DiscretePrediction</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
-<span class="n">classifier_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/predictions.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">str2prediction_instance</span><span class="p">)</span>
+<span class="n">classifier_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/predictions.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">str2prediction_instance</span><span class="p">)</span>
 
 <span class="n">hard_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># [&#39;mock hard classifier&#39;]</span>
 <span class="n">soft_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># [&#39;calibrated hard classifier&#39;, &#39;h_infinity: ideal classifier&#39;]</span>
@@ -90,9 +90,9 @@ a set of other labels.</p>
                             <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/plurality_plus_agreement&quot;</span><span class="p">),</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
-<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{</span><span class="n">num_items_per_dataset</span><span class="si">}</span><span class="s2"> items and </span><span class="si">{</span><span class="n">num_labels_per_item</span><span class="si">}</span><span class="s2"> raters per item</span>
+<span class="si">{</span><span class="n">num_bootstrap_item_samples</span><span class="si">}</span><span class="s2"> bootstrap itemsets</span>
 <span class="s2">Plurality combiner with agreement score</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
@@ -168,9 +168,9 @@ that have been seen so far.</p>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">pipeline2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/abc_plus_cross_entropy&quot;</span><span class="p">),</span>
-               <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
-<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
+               <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{</span><span class="n">num_items_per_dataset</span><span class="si">}</span><span class="s2"> items and </span><span class="si">{</span><span class="n">num_labels_per_item</span><span class="si">}</span><span class="s2"> raters per item</span>
+<span class="si">{</span><span class="n">num_bootstrap_item_samples</span><span class="si">}</span><span class="s2"> bootstrap itemsets</span>
 <span class="s2">Anonymous Bayesian combiner with cross entropy score</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
@@ -261,6 +261,190 @@ data/running_example.</p>
 </div>
 <div class="section" id="jigsaw-toxicity-dataset-analysis">
 <h2>Jigsaw Toxicity Dataset Analysis<a class="headerlink" href="#jigsaw-toxicity-dataset-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Calculating the survey equivalence of an real world item and rater set is easy with this package. Here we focus on the
+Jigsaw Toxcitiy Dataset. This dataset is originally discussed in this paper:</p>
+<p>Wulczyn, E., Thain, N., &amp; Dixon, L. (2017, April). Ex machina: Personal attacks seen at scale. In Proceedings of the
+26th international conference on world wide web (pp. 1391-1399).</p>
+<p>The dataset can be found in <cite>data/wiki_attack_labels_and_predictor.csv</cite>. It contains raters labels of whether or not
+some comment on Wikipedia is a personal attack. The header and first row of the dataset are:</p>
+<p><cite>rev_id,perc_labelled_attack,n_labelled_attack,n_labels,predictor_prob</cite>
+<cite>155243,0.222222222,2,9,0.037257579</cite></p>
+<p>where the columns represent the Wikipedia comment ID, the percentage of labels that indicated the the comment was an
+attack, the number of labeled attacks, the number of total labels -- where the percentage is equal to the number of
+attacks divided by the number of labels, and the probability that the Jigsaw predictor returned.</p>
+<p>We load and perform surveyequivalence analysis in <cite>examples/toxicity.py</cite></p>
+<div class="section" id="example-driver">
+<h3>Example Driver<a class="headerlink" href="#example-driver" title="Permalink to this headline">¶</a></h3>
+<p>The main function servers as a driver for four combinations of scoring and combiner functions. AnonymousBayesianCombiner
+with CrossEntropy, which has several desirable properties as discussed in the paper. Combinations of FrequencyCombiner
+and AUCScore are also performed.</p>
+<p>The first four lines of the main method are very important for the execution of the analysis. The <cite>max_k</cite> parameter
+limits the number of raters to consider. The <cite>max_items</cite> parameter truncates the dataset -- large datasets take a long
+time to run; full experiments must carefully weight limiting the dataset. The <cite>bootstrap_samples</cite> parameter indicates
+how many times to sample the surveyequivelance to generate confidence intervals. The <cite>num_processors</cite> indicates how many
+processors to use for computing.</p>
+<p>In the reported experimental results, we set <cite>max_k</cite> = 10, <cite>max_items</cite> = 2000, <cite>bootstrap_samples</cite> = 500, and we had a
+20 core compute server available to us. With these parameters, the full dataset took about 12 hours to compute each
+combiner/score pair (two days for the whole driver to complete).</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">max_items</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">bootstrap_samples</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">num_processors</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Next we iterate over various combinations of combiner and scoring functions.</span>
+<span class="n">combiner</span> <span class="o">=</span> <span class="n">AnonymousBayesianCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">])</span>
+<span class="n">scorer</span> <span class="o">=</span> <span class="n">CrossEntropyScore</span><span class="p">()</span>
+<span class="n">run</span><span class="p">(</span><span class="n">combiner</span><span class="o">=</span><span class="n">combiner</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span><span class="p">,</span> <span class="n">max_k</span><span class="o">=</span><span class="n">max_k</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="n">max_items</span><span class="p">,</span> <span class="n">bootstrap_samples</span><span class="o">=</span><span class="n">bootstrap_samples</span><span class="p">,</span>
+    <span class="n">num_processors</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
+
+<span class="n">combiner</span> <span class="o">=</span> <span class="n">FrequencyCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">])</span>
+<span class="n">scorer</span> <span class="o">=</span> <span class="n">CrossEntropyScore</span><span class="p">()</span>
+<span class="n">run</span><span class="p">(</span><span class="n">combiner</span><span class="o">=</span><span class="n">combiner</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span><span class="p">,</span> <span class="n">max_k</span><span class="o">=</span><span class="n">max_k</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="n">max_items</span><span class="p">,</span> <span class="n">bootstrap_samples</span><span class="o">=</span><span class="n">bootstrap_samples</span><span class="p">,</span>
+    <span class="n">num_processors</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
+
+<span class="n">combiner</span> <span class="o">=</span> <span class="n">AnonymousBayesianCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">])</span>
+<span class="n">scorer</span> <span class="o">=</span> <span class="n">AUCScore</span><span class="p">()</span>
+<span class="n">run</span><span class="p">(</span><span class="n">combiner</span><span class="o">=</span><span class="n">combiner</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span><span class="p">,</span> <span class="n">max_k</span><span class="o">=</span><span class="n">max_k</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="n">max_items</span><span class="p">,</span> <span class="n">bootstrap_samples</span><span class="o">=</span><span class="n">bootstrap_samples</span><span class="p">,</span>
+    <span class="n">num_processors</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
+
+<span class="n">combiner</span> <span class="o">=</span> <span class="n">FrequencyCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">])</span>
+<span class="n">scorer</span> <span class="o">=</span> <span class="n">AUCScore</span><span class="p">()</span>
+<span class="n">run</span><span class="p">(</span><span class="n">combiner</span><span class="o">=</span><span class="n">combiner</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span><span class="p">,</span> <span class="n">max_k</span><span class="o">=</span><span class="n">max_k</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="n">max_items</span><span class="p">,</span> <span class="n">bootstrap_samples</span><span class="o">=</span><span class="n">bootstrap_samples</span><span class="p">,</span>
+    <span class="n">num_processors</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-the-dataset">
+<h3>Loading the Dataset<a class="headerlink" href="#loading-the-dataset" title="Permalink to this headline">¶</a></h3>
+<p>The first step is to load the dataset. Importantly, the surveyequivalence functions assume that the data exists in a
+maxtrix form with n rows for each item (Wiki-comment in this case), and m columns for each rater. However, the dataset,
+as exists, only provides counts. So it is important that we reverse-engineer each item and estimate what each rater
+might have done. This is ok, because the rater ids (i.e, individual columns) are not important -- although this might
+be something for future work.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the dataset as a pandas dataframe</span>
+<span class="n">wiki</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT_DIR</span><span class="si">}</span><span class="s1">/data/wiki_attack_labels_and_predictor.csv&#39;</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="c1"># X and Y for calibration. These lists are matched</span>
+<span class="n">X</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+<span class="c1"># Create rating pairs from the dataset</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">wiki</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+
+    <span class="n">raters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="n">n_raters</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;n_labels&#39;</span><span class="p">])</span>
+    <span class="n">n_labelled_attack</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;n_labelled_attack&#39;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_labelled_attack</span><span class="p">):</span>
+        <span class="n">raters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;predictor_prob&#39;</span><span class="p">],</span> <span class="n">n_raters</span><span class="p">])</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_raters</span> <span class="o">-</span> <span class="n">n_labelled_attack</span><span class="p">):</span>
+        <span class="n">raters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;predictor_prob&#39;</span><span class="p">],</span> <span class="n">n_raters</span><span class="p">])</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">raters</span><span class="p">)</span>
+
+    <span class="c1"># This is the predictor i.e., score for toxic comment. It will be at index 0 in W.</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;predictor_prob&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="n">raters</span>
+</pre></div>
+</div>
+<p>At this point the <cite>dataset</cite> variable will have one row for each item (i.e., Wiki-comment) and a shuffled listing of 'a'
+and 'n' indicating attack or not-attack.</p>
+<p>This dataset is not yet in matrix form. We need to convert what is essentially an adjacency list into an adjacency
+matrix. To do this we find the max number of raters and set the number of columns to that number and pad the dataset
+with Nones for items with less than the max number of raters.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Determine the number of columns needed in W. This is the max number of raters for an item.</span>
+<span class="n">length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+<span class="c1"># Pad W with Nones if the number of raters for some item is less than the max.</span>
+<span class="n">padded_dataset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">xi</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">xi</span><span class="p">))</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;##Wiki Toxic - Dataset loaded##&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">padded_dataset</span><span class="p">))</span>
+
+<span class="c1"># Trim the dataset to only the first max_items and recast W as a dataframe</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">padded_dataset</span><span class="p">)[:</span><span class="n">max_items</span><span class="p">]</span>
+
+<span class="c1"># Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to &#39;soft classifier&#39; to keep</span>
+<span class="c1"># track of it.</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;soft classifier&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Here <cite>W</cite> is the item-rater matrix. We trim it to <cite>max_items</cite> to reduce the size of the dataset. There are very many
+items, and it would be difficult to consider all of them in a tutorial.</p>
+</div>
+<div class="section" id="calibrating-the-predictor">
+<h3>Calibrating the Predictor<a class="headerlink" href="#calibrating-the-predictor" title="Permalink to this headline">¶</a></h3>
+<p>Next we are concerned with calibrating our classifier.</p>
+<p>The Wiki-toxicity predictor was labeled <cite>predictor_prob</cite> in the dataset, and was loaded, for each rater, into <cite>X</cite>,
+which is associated with a 1 or a 0 in <cite>y</cite> if the rater labeled attack or not attack respectively. The goal of this
+predictor is to not necessarily predict attack or not attack, but rather to give a probability of the label. This
+probability is a kind of confidence about the prediction.</p>
+<p>Calibrating the predictor provides a way for the <cite>predictor_prob</cite> to be directly interprid as a confidence level. That
+is, if <cite>predictor_prob</cite> is well calibrated then for Wiki-comments it gave an attack value of 0.2, then about 20% of the
+items it labelled as attack are actually attacks.</p>
+<p>We use sklearns CalibratedClassifierCV class and the isotonic regressor to fit a calibrator.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched</span>
+<span class="n">calibrator</span> <span class="o">=</span> <span class="n">CalibratedClassifierCV</span><span class="p">(</span><span class="n">LinearSVC</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;isotonic&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]),</span> <span class="n">y</span><span class="p">,</span>
+                                                                   <span class="n">sample_weight</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Then we create our classifiers (predictors technically). For each item in W, we create a DiscreteDistributionPrediction
+with attack and not-attack labels and 'a' and 'n' respectively. These are associated with the uncalibrated and
+calibrated normalized Jigsaw predictor-probabilities.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s keep one classifier uncalibrated</span>
+<span class="n">uncalibrated_classifier</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">attack_prob</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">attack_prob</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+     <span class="k">for</span> <span class="n">attack_prob</span>
+     <span class="ow">in</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;soft classifier&#39;</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Uncalibrated Jigsaw Toxicity Classifier&#39;</span><span class="p">])</span>
+
+<span class="c1"># Create a calibrated classifier</span>
+<span class="n">calibrated_classifier1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+     <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+     <span class="ow">in</span> <span class="n">calibrator</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">W</span><span class="o">.</span><span class="n">columns</span> <span class="o">==</span> <span class="s1">&#39;soft classifier&#39;</span><span class="p">])</span>
+     <span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Calibrated Jigsaw Toxicity Classifier&#39;</span><span class="p">])</span>
+
+<span class="c1"># The classifier object now holds the classifier predictions. Let&#39;s remove this data from W now.</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;soft classifier&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">classifiers</span> <span class="o">=</span> <span class="n">uncalibrated_classifier</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">calibrated_classifier1</span><span class="p">,</span> <span class="n">lsuffix</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The last line concatenates these classifiers together into a single object so they can be passed together into the
+plot function later on.</p>
+</div>
+<div class="section" id="calculating-a-prior-score">
+<h3>Calculating a Prior Score<a class="headerlink" href="#calculating-a-prior-score" title="Permalink to this headline">¶</a></h3>
+<p>In certain cases, like with the CrossEntropyScore, we don't care about the raw values, but rather about the
+information gain that is provided by more and more raters. To measure the gain we first need to create a baseline
+(i.e., prior) score from which we can (hopefully) improve.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain</span>
+<span class="c1"># Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore</span>
+<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span> <span class="ow">is</span> <span class="n">CrossEntropyScore</span><span class="p">:</span>
+    <span class="c1"># For the prior, we don&#39;t need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2</span>
+    <span class="c1"># k=3, etc.</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="n">AnalysisPipeline</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">combiner</span><span class="o">=</span><span class="n">AnonymousBayesianCombiner</span><span class="p">(</span><span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">]),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span><span class="p">,</span>
+                             <span class="n">allowable_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">],</span> <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">classifier_predictions</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span> <span class="n">max_K</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">procs</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-analysispipeline">
+<h3>The AnalysisPipeline<a class="headerlink" href="#the-analysispipeline" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have the calibrated and uncalibrated predictors, the prior (if needed), and our item-rater dataset matrix
+<cite>W</cite>, we can begin the surveyequivalence analysis</p>
+<p>The AnalysisPipline takes in <cite>W</cite>, the combiner, scorer, and labels, and classifiers. The number of bootstrap samples
+indicates how many tests to perform to create confidence intervals around the survey power curve. <cite>Max_k</cite> indicates
+how large to grow the power curve, i.e., how many raters to consider in the limit. The AnalysisPipline does run in
+parallel, so you can set the number of CPU cores to use with the <cite>num_processors</cite> parameter.</p>
+<p>From here the plotting is very similar to the SyntheticRunningExample.</p>
+</div>
 </div>
 <div class="section" id="guess-the-karma-dataset-analysis">
 <h2>Guess the Karma Dataset Analysis<a class="headerlink" href="#guess-the-karma-dataset-analysis" title="Permalink to this headline">¶</a></h2>
@@ -299,7 +483,14 @@ data/running_example.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-data-for-the-running-example">Generating Data for the Running Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#jigsaw-toxicity-dataset-analysis">Jigsaw Toxicity Dataset Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jigsaw-toxicity-dataset-analysis">Jigsaw Toxicity Dataset Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-driver">Example Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-the-dataset">Loading the Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calibrating-the-predictor">Calibrating the Predictor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculating-a-prior-score">Calculating a Prior Score</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-analysispipeline">The AnalysisPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#guess-the-karma-dataset-analysis">Guess the Karma Dataset Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#credbank-dataset-analysis">CredBank Dataset Analysis</a></li>
 </ul>

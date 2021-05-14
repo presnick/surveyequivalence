@@ -29,8 +29,7 @@ def main():
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
 
-    # Frequency Combiner uses Laplace regularization
-    combiner = FrequencyCombiner(allowable_labels=['a', 'n'], regularizer=1)
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
     scorer = CrossEntropyScore()
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
@@ -40,8 +39,7 @@ def main():
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
 
-    # Frequency Combiner uses Laplace regularization
-    combiner = FrequencyCombiner(allowable_labels=['a', 'n'], regularizer=1)
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
     scorer = AUCScore()
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
@@ -92,8 +90,6 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     X = list()
     y = list()
 
-    reliability_dict = dict()
-
     # Create rating pairs from the dataset
     for index, item in wiki.iterrows():
 
@@ -111,12 +107,6 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             X.append([item['predictor_prob'], n_raters])
             y.append(0)
 
-        if round(item['predictor_prob'], 2) in reliability_dict :
-            reliability_dict[round(item['predictor_prob'], 2)][0] += n_labelled_attack
-            reliability_dict[round(item['predictor_prob'], 2)][1] += n_raters
-        else:
-            reliability_dict[round(item['predictor_prob'], 2)] = [n_labelled_attack,n_raters]
-
         shuffle(raters)
 
         # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
@@ -124,8 +114,6 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     # Determine the number of columns needed in W. This is the max number of raters for an item.
     length = max(map(len, dataset.values()))
-
-    print([reliability_dict[x][0]/reliability_dict[x][1] for x in sorted(reliability_dict)])
 
     # Pad W with Nones if the number of raters for some item is less than the max.
     padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])

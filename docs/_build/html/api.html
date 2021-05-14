@@ -39,7 +39,7 @@
 <h3>AnalysisPipeline<a class="headerlink" href="#analysispipeline" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
 <dt id="surveyequivalence.equivalence.AnalysisPipeline">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">AnalysisPipeline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_experts</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expert_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><span class="pre">surveyequivalence.combiners.Combiner</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstrap_item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rater_subsets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratersets_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_on_creation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.equivalence.</span></code><code class="sig-name descname"><span class="pre">AnalysisPipeline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_experts</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expert_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amateur_cols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combiner</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><span class="pre">surveyequivalence.combiners.Combiner</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstrap_item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rater_subsets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratersets_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions_memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_on_creation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The main class for running an analysis</p>
 <dl class="field-list simple">
@@ -74,7 +74,7 @@
 
 <dl class="py method">
 <dt id="surveyequivalence.equivalence.AnalysisPipeline.path_for_saving">
-<code class="sig-name descname"><span class="pre">path_for_saving</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'analysis_pipeline'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.path_for_saving" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">path_for_saving</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'analysis_pipeline'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C:\\Users\\tweni\\Documents\\workspace\\surveyequivalence'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.AnalysisPipeline.path_for_saving" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -175,7 +175,7 @@ Or include a list of numbers indicating which survey sizes to include</p></li>
 
 <dl class="py method">
 <dt id="surveyequivalence.equivalence.Plot.save">
-<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">path:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">fig:</span> <span class="pre">&lt;module</span> <span class="pre">'matplotlib.figure'</span> <span class="pre">from</span> <span class="pre">'/home/presnick/anaconda3/envs/survey_equiv/lib/python3.7/site-packages/matplotlib/figure.py'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.save" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">path:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">fig:</span> <span class="pre">&lt;module</span> <span class="pre">'matplotlib.figure'</span> <span class="pre">from</span> <span class="pre">'c:\\users\\tweni\\documents\\workspace\\survey_equivalence\\venv\\lib\\site-packages\\matplotlib\\figure.py'&gt;</span></em>, <em class="sig-param"><span class="pre">plotname='plot'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.equivalence.Plot.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for the matplotlib save_plot function. Saves all data to the ./plots directory as png and tex files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -333,6 +333,7 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dt id="surveyequivalence.combiners.AnonymousBayesianCombiner">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">AnonymousBayesianCombiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.AnonymousBayesianCombiner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Combiner</span></code></a></p>
+<p>Anonymous Bayesian Combiner Class</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.AnonymousBayesianCombiner.D_k">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">D_k</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">labels:</span> <span class="pre">numpy.array</span></em>, <em class="sig-param"><span class="pre">W:</span> <span class="pre">numpy.matrix</span></em>, <em class="sig-param"><span class="pre">allowable_labels:</span> <span class="pre">Sequence[str])</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;</span></em>, <em class="sig-param"><span class="pre">&lt;class</span> <span class="pre">'int'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.AnonymousBayesianCombiner.D_k" title="Permalink to this definition">¶</a></dt>
@@ -340,13 +341,16 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> -- </p></li>
-<li><p><strong>W</strong> -- item and rating dataset</p></li>
-<li><p><strong>allowable_labels</strong> -- the set of labels/ratings allowed</p></li>
+<li><p><strong>labels</strong> (<em>item labels from several raters</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>item and rating dataset</em>) -- </p></li>
+<li><p><strong>allowable_labels</strong> (<em>The set of labels that can be entered by the raters.</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>joint distribution, and num_items</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>joint distribution, and num_items</p>
 </dd>
 </dl>
 </dd></dl>
@@ -354,17 +358,20 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dl class="py method">
 <dt id="surveyequivalence.combiners.AnonymousBayesianCombiner.D_k_item_contribution">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">D_k_item_contribution</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">labels:</span> <span class="pre">numpy.array</span></em>, <em class="sig-param"><span class="pre">item:</span> <span class="pre">numpy.array</span></em>, <em class="sig-param"><span class="pre">allowable_labels:</span> <span class="pre">Sequence[str])</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;</span></em>, <em class="sig-param"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.AnonymousBayesianCombiner.D_k_item_contribution" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>ProbabilityOfOneItem function in Algorithm 5. Computes the contribution of a single item to the combiner</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> -- </p></li>
-<li><p><strong>item</strong> -- </p></li>
-<li><p><strong>allowable_labels</strong> -- </p></li>
-<li><p><strong>number_of_labels</strong> -- </p></li>
+<li><p><strong>labels</strong> (<em>item labels from several raters</em>) -- </p></li>
+<li><p><strong>item</strong> (<em>The item under current consideration</em>) -- </p></li>
+<li><p><strong>allowable_labels</strong> (<em>The set of labels that can be entered by the raters.</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>item contribution, and whether it counts towards number of items</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The contribution of this item.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -372,21 +379,24 @@ may either be an instance of ClassifierResults or a PowerCurve. Must have same r
 <dl class="py method">
 <dt id="surveyequivalence.combiners.AnonymousBayesianCombiner.combine">
 <code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.matrix</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_predict_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><a class="headerlink" href="#surveyequivalence.combiners.AnonymousBayesianCombiner.combine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Algorithm 5
+<dd><p>Algorithm 6
 Compute the anonymous bayesian combiner. Combines rater labels like frequency_combiner, but this uses the
 information from the item/rating dataset W.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> -- the set of labels/ratings allowed</p></li>
-<li><p><strong>labels</strong> -- the k ratings</p></li>
-<li><p><strong>W</strong> -- item and rating dataset</p></li>
-<li><p><strong>item_id</strong> -- item index in W</p></li>
-<li><p><strong>to_predict_for</strong> -- not used currently</p></li>
+<li><p><strong>allowable_labels</strong> (<em>the set of labels/ratings allowed</em>) -- </p></li>
+<li><p><strong>labels</strong> (<em>the k ratings</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>item and rating dataset</em>) -- </p></li>
+<li><p><strong>item_id</strong> (<em>item index in W</em>) -- </p></li>
+<li><p><strong>to_predict_for</strong> (<em>not used currently</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Prediction based on anonymous bayesian combiner</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Prediction based on anonymous bayesian combiner</p>
 </dd>
 </dl>
 </dd></dl>
@@ -395,8 +405,11 @@ information from the item/rating dataset W.</p>
 
 <dl class="py class">
 <dt id="surveyequivalence.combiners.Combiner">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">Combiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.Combiner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">Combiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.Combiner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class defining a combiner.</p>
+<p>A combiner selects a single label from a bag/multiset of labels (and possibly other information) according to some
+function. For example, the PluralityCombiner accepts a bag of labels and returns the label that is most frequent.</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.Combiner.combine">
 <em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.matrix</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_predict_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><a class="headerlink" href="#surveyequivalence.combiners.Combiner.combine" title="Permalink to this definition">¶</a></dt>
@@ -406,18 +419,40 @@ information from the item/rating dataset W.</p>
 
 <dl class="py class">
 <dt id="surveyequivalence.combiners.DiscreteDistributionPrediction">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">DiscreteDistributionPrediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_extremes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">DiscreteDistributionPrediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extreme_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Prediction</span></code></a></p>
+<p>A discrete distribution prediction where labels are associated with probabilities. Value takes the label with the
+highest probability.</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.DiscreteDistributionPrediction.draw_discrete_label">
 <code class="sig-name descname"><span class="pre">draw_discrete_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.DiscreteDistributionPrediction.draw_discrete_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>return one of the labels, drawn according to the distribution</p>
+<dd><p>Return one of the labels, drawn according to the distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>A label</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="surveyequivalence.combiners.DiscreteDistributionPrediction.label_probability">
 <code class="sig-name descname"><span class="pre">label_probability</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.DiscreteDistributionPrediction.label_probability" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the probability associated with an input label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label</strong> (<em>label to query</em>) -- </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Probability assicated with label.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="surveyequivalence.combiners.DiscreteDistributionPrediction.value">
@@ -430,6 +465,14 @@ Break ties by taking the first one</p>
 <span class="go">&#39;a&#39;</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>label with highest probability</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -442,6 +485,14 @@ Break ties by taking the first one</p>
 <span class="go">.4</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>highest probability</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -450,6 +501,7 @@ Break ties by taking the first one</p>
 <dt id="surveyequivalence.combiners.DiscretePrediction">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">DiscretePrediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.DiscretePrediction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Prediction</span></code></a></p>
+<p>A discrete prediction. value is defined as a label</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.DiscretePrediction.value">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">value</span></code><a class="headerlink" href="#surveyequivalence.combiners.DiscretePrediction.value" title="Permalink to this definition">¶</a></dt>
@@ -459,13 +511,13 @@ Break ties by taking the first one</p>
 
 <dl class="py class">
 <dt id="surveyequivalence.combiners.FrequencyCombiner">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">FrequencyCombiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.FrequencyCombiner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">FrequencyCombiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.FrequencyCombiner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Combiner</span></code></a></p>
+<p>Returns a vector of frequencies for each label</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.FrequencyCombiner.combine">
 <code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.matrix</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_predict_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><a class="headerlink" href="#surveyequivalence.combiners.FrequencyCombiner.combine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Ignore item_id, rater_ids (first element of each tuple in labels), and rater_id to_predict_for
-return a vector of frequencies with which the allowable labels occur</p>
+<dd><p>Returns the frequency vector for labels</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FrequencyCombiner</span><span class="p">()</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">)]),</span> <span class="p">)</span><span class="o">.</span><span class="n">probabilities</span>
 <span class="go">[0.3333333333333333, 0.6666666666666666]</span>
 </pre></div>
@@ -474,29 +526,51 @@ return a vector of frequencies with which the allowable labels occur</p>
 <span class="go">[0.0, 1.0]</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>allowable_labels</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>labels</strong> (<em>nnumeric values from particular rater ids; rater ids are ignored</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>item_id</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>to_predict_for</strong> (<em>not used in this combiner</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Frequency vector of labels</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="surveyequivalence.combiners.MeanCombiner">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">MeanCombiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.MeanCombiner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">MeanCombiner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.MeanCombiner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Combiner</span></code></a></p>
+<p>Combiner that returns the mean of all the labels.</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.MeanCombiner.combine">
 <code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.matrix</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_predict_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.combiners.NumericPrediction" title="surveyequivalence.combiners.NumericPrediction"><span class="pre">surveyequivalence.combiners.NumericPrediction</span></a><a class="headerlink" href="#surveyequivalence.combiners.MeanCombiner.combine" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Returns the single label that is most frequent</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> -- not used in this combiner</p></li>
-<li><p><strong>labels</strong> -- numeric values from particular rater ids; rater ids are ignored</p></li>
-<li><p><strong>W</strong> -- ignored in this combiner</p></li>
-<li><p><strong>item_id</strong> -- ignored in this combiner</p></li>
-<li><p><strong>to_predict_for</strong> -- ignored in this combiner</p></li>
+<li><p><strong>allowable_labels</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>labels</strong> (<em>nnumeric values from particular rater ids; rater ids are ignored</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>item_id</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>to_predict_for</strong> (<em>not used in this combiner</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the mean of the labels</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The mean of the labels</p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,6 +581,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.combiners.NumericPrediction">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">NumericPrediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.NumericPrediction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Prediction" title="surveyequivalence.combiners.Prediction"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Prediction</span></code></a></p>
+<p>A numeric prediction. value is defined as a number</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.NumericPrediction.value">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">value</span></code><a class="headerlink" href="#surveyequivalence.combiners.NumericPrediction.value" title="Permalink to this definition">¶</a></dt>
@@ -516,23 +591,28 @@ return a vector of frequencies with which the allowable labels occur</p>
 
 <dl class="py class">
 <dt id="surveyequivalence.combiners.PluralityVote">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">PluralityVote</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.PluralityVote" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">PluralityVote</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.combiners.PluralityVote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.combiners.Combiner" title="surveyequivalence.combiners.Combiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.combiners.Combiner</span></code></a></p>
+<p>Combiner that returns the single label that is most frequent</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.PluralityVote.combine">
 <code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowable_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.matrix</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_predict_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#surveyequivalence.combiners.NumericPrediction" title="surveyequivalence.combiners.NumericPrediction"><span class="pre">surveyequivalence.combiners.NumericPrediction</span></a><a class="headerlink" href="#surveyequivalence.combiners.PluralityVote.combine" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Returns the single label that is most frequent</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allowable_labels</strong> -- not used in this combiner</p></li>
-<li><p><strong>labels</strong> -- numeric values from particular rater ids; rater ids are ignored</p></li>
-<li><p><strong>W</strong> -- ignored in this combiner</p></li>
-<li><p><strong>item_id</strong> -- ignored in this combiner</p></li>
-<li><p><strong>to_predict_for</strong> -- ignored in this combiner</p></li>
+<li><p><strong>allowable_labels</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>labels</strong> (<em>numeric values from particular rater ids; rater ids are ignored</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>item_id</strong> (<em>not used in this combiner</em>) -- </p></li>
+<li><p><strong>to_predict_for</strong> (<em>not used in this combiner</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the most common label</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The most common label</p>
 </dd>
 </dl>
 </dd></dl>
@@ -543,6 +623,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.combiners.Prediction">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.combiners.</span></code><code class="sig-name descname"><span class="pre">Prediction</span></code><a class="headerlink" href="#surveyequivalence.combiners.Prediction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class that defines a value for many types of Predictions</p>
 <dl class="py method">
 <dt id="surveyequivalence.combiners.Prediction.value">
 <em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">value</span></code><a class="headerlink" href="#surveyequivalence.combiners.Prediction.value" title="Permalink to this definition">¶</a></dt>
@@ -560,7 +641,23 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.AUCScore.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#surveyequivalence.scoring_functions.AUCScore.score" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>AUC score. This function uses sklearn's AUC function, but does not work in many cases with multiple labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>AUC Score</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -568,10 +665,28 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.scoring_functions.AgreementScore">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.scoring_functions.</span></code><code class="sig-name descname"><span class="pre">AgreementScore</span></code><a class="headerlink" href="#surveyequivalence.scoring_functions.AgreementScore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></code></a></p>
+<p>Agreement Scorer</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.AgreementScore.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.scoring_functions.AgreementScore.score" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Agreement score measures the normalized number of times that the predictor matched the label. Akin to a typical
+accuracy score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Agreement score</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -579,18 +694,23 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.scoring_functions.Correlation">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.scoring_functions.</span></code><code class="sig-name descname"><span class="pre">Correlation</span></code><a class="headerlink" href="#surveyequivalence.scoring_functions.Correlation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></code></a></p>
+<p>Computes the Pearson correlation coefficient.</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.Correlation.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.NumericPrediction" title="surveyequivalence.combiners.NumericPrediction"><span class="pre">surveyequivalence.combiners.NumericPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.scoring_functions.Correlation.score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>classifier_predictions</strong> -- numeric values</p></li>
-<li><p><strong>rater_labels</strong> -- sequence of labels, which should be numeric values</p></li>
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pearson correlation coefficient</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pearson correlation coefficient</p>
 </dd>
 </dl>
 </dd></dl>
@@ -601,6 +721,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.scoring_functions.CrossEntropyScore">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.scoring_functions.</span></code><code class="sig-name descname"><span class="pre">CrossEntropyScore</span></code><a class="headerlink" href="#surveyequivalence.scoring_functions.CrossEntropyScore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.scoring_functions.Scorer" title="surveyequivalence.scoring_functions.Scorer"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.scoring_functions.Scorer</span></code></a></p>
+<p>Cross Entropy Scorer</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.CrossEntropyScore.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.scoring_functions.CrossEntropyScore.score" title="Permalink to this definition">¶</a></dt>
@@ -613,6 +734,21 @@ return a vector of frequencies with which the allowable labels occur</p>
 <span class="go">0.87702971998</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Cross Entropy score</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -624,7 +760,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.F1Score.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'micro'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#surveyequivalence.scoring_functions.F1Score.score" title="Permalink to this definition">¶</a></dt>
-<dd><p>F1 score</p>
+<dd><p>F1 score. This function uses sklearn's F1 function.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">F1Score</span><span class="o">.</span><span class="n">score</span><span class="p">([</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">prs</span><span class="p">)</span> <span class="k">for</span> <span class="n">prs</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]],</span>  <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;micro&#39;</span><span class="p">)</span>
 <span class="go">0.6666666666666666</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">F1Score</span><span class="o">.</span><span class="n">score</span><span class="p">([</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">prs</span><span class="p">)</span> <span class="k">for</span> <span class="n">prs</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]],</span>  <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;macro&#39;</span><span class="p">)</span>
@@ -637,6 +773,22 @@ return a vector of frequencies with which the allowable labels occur</p>
 <span class="go">0.25</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+<li><p><strong>average</strong> (<em>macro</em><em> or </em><em>micro averaging</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>F1 Score</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -648,7 +800,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.PrecisionScore.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'micro'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#surveyequivalence.scoring_functions.PrecisionScore.score" title="Permalink to this definition">¶</a></dt>
-<dd><p>precision score</p>
+<dd><p>Precision score. This function uses sklearn's precision function.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PrecisionScore</span><span class="o">.</span><span class="n">score</span><span class="p">([</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">prs</span><span class="p">)</span> <span class="k">for</span> <span class="n">prs</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]],</span>  <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;micro&#39;</span><span class="p">)</span>
 <span class="go">0.6666666666666666</span>
 </pre></div>
@@ -657,6 +809,22 @@ return a vector of frequencies with which the allowable labels occur</p>
 <span class="go">0.3333333333333333</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+<li><p><strong>average</strong> (<em>macro</em><em> or </em><em>micro averaging</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Precision Score</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -668,7 +836,7 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.RecallScore.score">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'micro'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#surveyequivalence.scoring_functions.RecallScore.score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Recall</p>
+<dd><p>Recall score. This function uses sklearn's recall function.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">RecallScore</span><span class="o">.</span><span class="n">score</span><span class="p">([</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">prs</span><span class="p">)</span> <span class="k">for</span> <span class="n">prs</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]],</span>  <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;micro&#39;</span><span class="p">)</span>
 <span class="go">0.6666666666666666</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">RecallScore</span><span class="o">.</span><span class="n">score</span><span class="p">([</span><span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">prs</span><span class="p">)</span> <span class="k">for</span> <span class="n">prs</span> <span class="ow">in</span> <span class="p">[[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]],</span>  <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;macro&#39;</span><span class="p">)</span>
@@ -681,6 +849,22 @@ return a vector of frequencies with which the allowable labels occur</p>
 <span class="go">0.25</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>numeric values</em>) -- </p></li>
+<li><p><strong>rater_labels</strong> (<em>sequence of labels</em><em>, </em><em>which should be numeric values</em>) -- </p></li>
+<li><p><strong>verbosity</strong> -- </p></li>
+<li><p><strong>average</strong> (<em>macro</em><em> or </em><em>micro averaging</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Recall Score</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -689,6 +873,8 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dt id="surveyequivalence.scoring_functions.Scorer">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.scoring_functions.</span></code><code class="sig-name descname"><span class="pre">Scorer</span></code><a class="headerlink" href="#surveyequivalence.scoring_functions.Scorer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Scorer that defines a Scorer class as having a score() function. The scorer computes the goodness of a predictor
+against the average human rater.</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.Scorer.score">
 <em class="property"><span class="pre">abstract</span> <span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rater_labels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#surveyequivalence.combiners.DiscreteDistributionPrediction" title="surveyequivalence.combiners.DiscreteDistributionPrediction"><span class="pre">surveyequivalence.combiners.DiscreteDistributionPrediction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#surveyequivalence.scoring_functions.Scorer.score" title="Permalink to this definition">¶</a></dt>
@@ -697,7 +883,24 @@ return a vector of frequencies with which the allowable labels occur</p>
 <dl class="py method">
 <dt id="surveyequivalence.scoring_functions.Scorer.score_classifier">
 <code class="sig-name descname"><span class="pre">score_classifier</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classifier_predictions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.scoring_functions.Scorer.score_classifier" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Driver function that computes the mean score over all predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_predictions</strong> (<em>Scoring predictions</em>) -- </p></li>
+<li><p><strong>raters</strong> (<em>The reference ratings. Score will compare classifier predictions with each rater in turn.</em>) -- </p></li>
+<li><p><strong>W</strong> (<em>The item and rating dataset</em>) -- </p></li>
+<li><p><strong>verbosity</strong> (<em>verbosity value from 1 to 4 indicating increased verbosity.</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Mean score over all predictions for all raters.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -914,7 +1117,7 @@ Each label is an i.i.d. draw from the State</p>
 
 <dl class="py class">
 <dt id="surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticBinaryDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_state_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_other_raters_per_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">SyntheticBinaryDatasetGenerator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_state_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_items_per_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels_per_item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_classifiers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_other_raters_per_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator" title="surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator</span></code></a></p>
 <p>Dataset generator for binary labels</p>
 <p>Only additional parameters for this subclass are documented here.</p>
@@ -951,9 +1154,9 @@ reference rater labels.</p></li>
 <h3>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
 <dt id="surveyequivalence.synthetic_datasets.Dataset">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">Dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_rater_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifiers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyequivalence.synthetic_datasets.Dataset" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyequivalence.synthetic_datasets.</span></code><code class="sig-name descname"><span class="pre">Dataset</span></code><a class="headerlink" href="#surveyequivalence.synthetic_datasets.Dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A Dataset will have attributes set: dataset, other_rater_dataset, classifiers, classifier_predictions</p>
+<p>A Dataset</p>
 </dd></dl>
 
 <dl class="py class">

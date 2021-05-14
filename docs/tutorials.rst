@@ -256,6 +256,224 @@ data/running_example.
 
 Jigsaw Toxicity Dataset Analysis
 --------------------------------
+Calculating the survey equivalence of an real world item and rater set is easy with this package. Here we focus on the
+Jigsaw Toxcitiy Dataset. This dataset is originally discussed in this paper:
+
+Wulczyn, E., Thain, N., & Dixon, L. (2017, April). Ex machina: Personal attacks seen at scale. In Proceedings of the
+26th international conference on world wide web (pp. 1391-1399).
+
+The dataset can be found in `data/wiki_attack_labels_and_predictor.csv`. It contains raters labels of whether or not
+some comment on Wikipedia is a personal attack. The header and first row of the dataset are:
+
+`rev_id,perc_labelled_attack,n_labelled_attack,n_labels,predictor_prob`
+`155243,0.222222222,2,9,0.037257579`
+
+where the columns represent the Wikipedia comment ID, the percentage of labels that indicated the the comment was an
+attack, the number of labeled attacks, the number of total labels -- where the percentage is equal to the number of
+attacks divided by the number of labels, and the probability that the Jigsaw predictor returned.
+
+We load and perform surveyequivalence analysis in `examples/toxicity.py`
+
+Example Driver
+^^^^^^^^^^^^^^
+
+The main function servers as a driver for four combinations of scoring and combiner functions. AnonymousBayesianCombiner
+with CrossEntropy, which has several desirable properties as discussed in the paper. Combinations of FrequencyCombiner
+and AUCScore are also performed.
+
+The first four lines of the main method are very important for the execution of the analysis. The `max_k` parameter
+limits the number of raters to consider. The `max_items` parameter truncates the dataset -- large datasets take a long
+time to run; full experiments must carefully weight limiting the dataset. The `bootstrap_samples` parameter indicates
+how many times to sample the surveyequivelance to generate confidence intervals. The `num_processors` indicates how many
+processors to use for computing.
+
+In the reported experimental results, we set `max_k` = 10, `max_items` = 2000, `bootstrap_samples` = 500, and we had a
+20 core compute server available to us. With these parameters, the full dataset took about 12 hours to compute each
+combiner/score pair (two days for the whole driver to complete).
+
+.. code-block:: python3
+
+    max_k = 10
+    max_items = 20
+    bootstrap_samples = 2
+    num_processors = 3
+
+    # Next we iterate over various combinations of combiner and scoring functions.
+    combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
+    scorer = CrossEntropyScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    scorer = CrossEntropyScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+    combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
+    scorer = AUCScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    scorer = AUCScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+Loading the Dataset
+^^^^^^^^^^^^^^^^^^^
+
+The first step is to load the dataset. Importantly, the surveyequivalence functions assume that the data exists in a
+maxtrix form with n rows for each item (Wiki-comment in this case), and m columns for each rater. However, the dataset,
+as exists, only provides counts. So it is important that we reverse-engineer each item and estimate what each rater
+might have done. This is ok, because the rater ids (i.e, individual columns) are not important -- although this might
+be something for future work.
+
+.. code-block:: python3
+
+    # Load the dataset as a pandas dataframe
+    wiki = pd.read_csv(f'{ROOT_DIR}/data/wiki_attack_labels_and_predictor.csv')
+    dataset = dict()
+
+    # X and Y for calibration. These lists are matched
+    X = list()
+    y = list()
+
+    # Create rating pairs from the dataset
+    for index, item in wiki.iterrows():
+
+        raters = list()
+
+        n_raters = int(item['n_labels'])
+        n_labelled_attack = int(item['n_labelled_attack'])
+
+        for i in range(n_labelled_attack):
+            raters.append('a')
+            X.append([item['predictor_prob'], n_raters])
+            y.append(1)
+        for i in range(n_raters - n_labelled_attack):
+            raters.append('n')
+            X.append([item['predictor_prob'], n_raters])
+            y.append(0)
+
+        shuffle(raters)
+
+        # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
+        dataset[index] = [item['predictor_prob']] + raters
+
+At this point the `dataset` variable will have one row for each item (i.e., Wiki-comment) and a shuffled listing of 'a'
+and 'n' indicating attack or not-attack.
+
+This dataset is not yet in matrix form. We need to convert what is essentially an adjacency list into an adjacency
+matrix. To do this we find the max number of raters and set the number of columns to that number and pad the dataset
+with Nones for items with less than the max number of raters.
+
+.. code-block:: python3
+
+    # Determine the number of columns needed in W. This is the max number of raters for an item.
+    length = max(map(len, dataset.values()))
+
+    # Pad W with Nones if the number of raters for some item is less than the max.
+    padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
+
+    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
+
+    # Trim the dataset to only the first max_items and recast W as a dataframe
+    W = pd.DataFrame(data=padded_dataset)[:max_items]
+
+    # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
+    # track of it.
+    W = W.rename(columns={0: 'soft classifier'})
+
+Here `W` is the item-rater matrix. We trim it to `max_items` to reduce the size of the dataset. There are very many
+items, and it would be difficult to consider all of them in a tutorial.
+
+Calibrating the Predictor
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Next we are concerned with calibrating our classifier.
+
+The Wiki-toxicity predictor was labeled `predictor_prob` in the dataset, and was loaded, for each rater, into `X`,
+which is associated with a 1 or a 0 in `y` if the rater labeled attack or not attack respectively. The goal of this
+predictor is to not necessarily predict attack or not attack, but rather to give a probability of the label. This
+probability is a kind of confidence about the prediction.
+
+Calibrating the predictor provides a way for the `predictor_prob` to be directly interprid as a confidence level. That
+is, if `predictor_prob` is well calibrated then for Wiki-comments it gave an attack value of 0.2, then about 20% of the
+items it labelled as attack are actually attacks.
+
+We use sklearns CalibratedClassifierCV class and the isotonic regressor to fit a calibrator.
+
+.. code-block:: python3
+
+    # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
+    calibrator = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X]), y,
+                                                                       sample_weight=[1 / y for x, y in X])
+
+Then we create our classifiers (predictors technically). For each item in W, we create a DiscreteDistributionPrediction
+with attack and not-attack labels and 'a' and 'n' respectively. These are associated with the uncalibrated and
+calibrated normalized Jigsaw predictor-probabilities.
+
+.. code-block:: python3
+
+    # Let's keep one classifier uncalibrated
+    uncalibrated_classifier = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1 - attack_prob], normalize=True)
+         for attack_prob
+         in W['soft classifier']], columns=['Uncalibrated Jigsaw Toxicity Classifier'])
+
+    # Create a calibrated classifier
+    calibrated_classifier1 = pd.DataFrame(
+        [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
+         for b, a
+         in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])
+         ], columns=['Calibrated Jigsaw Toxicity Classifier'])
+
+    # The classifier object now holds the classifier predictions. Let's remove this data from W now.
+    W = W.drop(['soft classifier'], axis=1)
+
+    classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='left', rsuffix='right')
+
+The last line concatenates these classifiers together into a single object so they can be passed together into the
+plot function later on.
+
+Calculating a Prior Score
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In certain cases, like with the CrossEntropyScore, we don't care about the raw values, but rather about the
+information gain that is provided by more and more raters. To measure the gain we first need to create a baseline
+(i.e., prior) score from which we can (hopefully) improve.
+
+.. code-block:: python3
+
+    # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
+    # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
+    if type(scorer) is CrossEntropyScore:
+        # For the prior, we don't need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2
+        # k=3, etc.
+        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
+                                 allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
+                                 classifier_predictions=classifiers, max_K=1, procs=num_processors)
+    else:
+        prior = None
+
+The AnalysisPipeline
+^^^^^^^^^^^^^^^^^^^^
+
+Now that we have the calibrated and uncalibrated predictors, the prior (if needed), and our item-rater dataset matrix
+`W`, we can begin the surveyequivalence analysis
+
+.. code-block::python3
+
+    p = AnalysisPipeline(W, combiner=combiner, scorer=scorer, allowable_labels=['a', 'n'],
+                         num_bootstrap_item_samples=bootstrap_samples, verbosity=1,
+                         classifier_predictions=classifiers, max_K=max_k, procs=num_processors)
+
+The AnalysisPipline takes in `W`, the combiner, scorer, and labels, and classifiers. The number of bootstrap samples
+indicates how many tests to perform to create confidence intervals around the survey power curve. `Max_k` indicates
+how large to grow the power curve, i.e., how many raters to consider in the limit. The AnalysisPipline does run in
+parallel, so you can set the number of CPU cores to use with the `num_processors` parameter.
+
+From here the plotting is very similar to the SyntheticRunningExample.
 
 Guess the Karma Dataset Analysis
 --------------------------------
