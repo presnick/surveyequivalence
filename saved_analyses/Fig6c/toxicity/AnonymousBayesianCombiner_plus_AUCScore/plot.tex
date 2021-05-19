@@ -1,0 +1,89 @@
+\begin{tikzpicture}
+\sffamily
+\begin{axis}[
+title = {Toxic AnonymousBayesianCombiner_plus_AUCScore},
+title style={align=center,yshift=-.1in},
+legend style={font=\small,
+	nodes={scale=0.7, transform shape},
+	at={(0.0,1)},
+	anchor=north west,
+	draw=none,
+	fill=none},
+legend cell align={left},
+width = 4.0in, height = 3.0in,
+ylabel near ticks,
+ylabel = {\small score},
+xlabel near ticks,
+every tick label/.append style={font=\scriptsize},
+xmin=-1,xmax=20,ymin=0.5,ymax=0.7925610450418155,
+xtick={0, 3.765792358444934, 3.947217120001903, 6, 9, 12, 15, 18},
+xlabel={\small Number of raters},
+xlabel style = {yshift=0.05in},
+yticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=5
+},
+scaled y ticks=false
+]
+
+\addplot[solid, mark=o, mark options={scale=.8}, black]
+plot [error bars/.cd, y dir = both, y explicit]
+table[y error index=2]{
+0	0.5	0.0	0.0
+1	0.608538290188263	0.013045014803354293	0.012779028248469992
+2	0.6717120617764561	0.017829238503799583	0.017219901971411766
+3	0.7051856527517107	0.01747519515474283	0.017989069472778674
+4	0.7279262421182479	0.0163832247002641	0.017222304102014308
+5	0.7320799952186493	0.01551480180424003	0.015455494966162164
+6	0.7442021825310284	0.016693954556551094	0.0177671780370543
+7	0.7444969895051412	0.01649464605964579	0.017453707767692617
+8	0.7470975612070602	0.017566563229967636	0.019457144128046888
+9	0.7556134450889516	0.018187807612442097	0.019811294156642734
+10	0.7617765119741529	0.020206084298294402	0.022010512052541342
+11	0.7659934266371806	0.020108283031531227	0.022582859933816368
+12	0.767461695776738	0.020525714276187323	0.022301151650847006
+13	0.772363186216702	0.022961851572468994	0.02253283645041304
+14	0.7734227118281832	0.02326434910321562	0.02400812148610032
+15	0.7754563375349438	0.023979962070387772	0.022981962332748296
+16	0.7737622781795761	0.02376817616364435	0.023885428939405373
+17	0.7749373961141801	0.024679020836417598	0.024235405856575465
+18	0.7724008518552778	0.025602858580582644	0.024473966825947824
+19	0.7749734742801917	0.029031072897587884	0.026321214655929515
+
+};
+\addlegendentry{k raters}
+
+
+
+\addplot[mark=none, black, dashed, thick, samples=2, domain=-1:31] {0.722600222315139};
+\addlegendentry{0_uncalibrated}
+
+\draw [black, fill=black, opacity=0.1] (axis cs:-1,0.669997143634911) rectangle (axis cs:31,0.7775795168153095);
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] {0.7267259283186279};
+\addlegendentry{0_calibrated}
+
+\draw [red, fill=red, opacity=0.1] (axis cs:-1,0.6791907030216355) rectangle (axis cs:31,0.7816359379280209);
+
+
+
+\addplot[mark=*, mark options={scale=.8}, black, thick]
+    table[]{
+        3.765792358444934	0.722600222315139
+    };
+
+\addplot[mark=none, black, dashed, thick, samples=2, domain=-1:31] coordinates {(3.765792358444934,0.722600222315139) (3.765792358444934,0.5)};
+
+\draw [black, fill=black, opacity=0.6] (axis cs:2.008259474960942,1) rectangle (axis cs:19.0,0);
+\addplot[mark=*, mark options={scale=.8}, red, thick]
+    table[]{
+        3.947217120001903	0.7267259283186279
+    };
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] coordinates {(3.947217120001903,0.7267259283186279) (3.947217120001903,0.5)};
+
+\draw [red, fill=red, opacity=0.6] (axis cs:2.238112645176561,1) rectangle (axis cs:19.0,0);
+
+
+\end{axis}
+\end{tikzpicture}
