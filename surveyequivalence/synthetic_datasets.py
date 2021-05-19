@@ -1,14 +1,15 @@
-from typing import Sequence, Dict
-
 import os
+from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import Sequence, Dict
 
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from abc import ABC, abstractmethod
-from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
+
 from config import ROOT_DIR
+from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
+
 
 ########### States #############################
 
@@ -285,7 +286,7 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
     """
     def __init__(self, item_state_generator, num_items_per_dataset=50, num_labels_per_item=3,
                  mock_classifiers=None, name=None,
-                 pct_noise=0, k_other_raters_per_label=1):
+                 pct_noise=0., k_other_raters_per_label=1):
         super().__init__(item_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers, name)
 
         self.k_other_raters_per_label = k_other_raters_per_label
@@ -347,12 +348,10 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
 
 class Dataset():
     """
-    A Dataset will have attributes set: dataset, other_rater_dataset, classifiers, classifier_predictions
+    A Dataset
     """
-    def __init__(self, dataset, other_rater_dataset, classifiers):
-        self.dataset = dataset
-        self.other_rater_dataset = other_rater_dataset
-        self.classifiers = classifiers
+    def __init__(self):
+        pass
 
 
 class SyntheticDataset(Dataset):
@@ -380,11 +379,12 @@ class SyntheticDataset(Dataset):
                                                            num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_other_raters_per_label,
                                                            rater_prefix='a')
             if ds_generator.k_other_raters_per_label > 1:
+                raise NotImplementedError()
                 # get a group of k other_rater labelers and take their majority label as the actual label
-                majority_winners = stats.mode(other_rater_dataset.reshape(-1, k_other_raters_per_label))
-                print(majority_winners)
-                foobar  # this code hasn't been tested yet, so break if someone tries using it
-                self.other_rater_dataset = stats.mode(other_rater_dataset.reshape(-1, k_other_raters_per_label)).mode
+                #majority_winners = stats.mode(other_rater_dataset.reshape(-1, k_other_raters_per_label))
+                #print(majority_winners)
+                #foobar  # this code hasn't been tested yet, so break if someone tries using it
+                #self.other_rater_dataset = stats.mode(other_rater_dataset.reshape(-1, k_other_raters_per_label)).mode
             else:
                 self.other_rater_dataset = other_rater_dataset
 
@@ -450,7 +450,7 @@ def make_perceive_with_noise_datasets():
     return [make_perceive_with_noise_datasets(pct / 100) for pct in range(2, 42, 4)]
 
 
-def make_discrete_dataset_1(num_items_per_dataset=50):
+def make_discrete_dataset_1(num_items_per_dataset=50, num_labels_per_item=10):
     item_state_generator = \
         DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                       labels=['pos', 'neg'],
@@ -465,22 +465,9 @@ def make_discrete_dataset_1(num_items_per_dataset=50):
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
                                           pct_noise=.1,
                                           name='dataset1_80exprts_90-10onhigh_25-75onlow_10noise',
-                                          num_items_per_dataset=num_items_per_dataset
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=num_labels_per_item
                                           )
-
-    # dsg.mock_classifiers.append(MockClassifier(
-    #     name='.95 .2',
-    #     label_predictors={
-    #         'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.95, .05]),
-    #         'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.2, .8])
-    #     }))
-    #
-    # dsg.mock_classifiers.append(MockClassifier(
-    #     name='.92 .24',
-    #     label_predictors={
-    #         'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.92, .08]),
-    #         'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.24, .76])
-    #     }))
 
     dsg.mock_classifiers.append(MockClassifier(
         name='h_infinity: ideal classifier',
@@ -492,7 +479,7 @@ def make_discrete_dataset_1(num_items_per_dataset=50):
     return SyntheticDataset(dsg)
 
 
-def make_discrete_dataset_2():
+def make_discrete_dataset_2(num_items_per_dataset=50, num_labels_per_item=10):
     item_state_generator = \
         DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                       labels=['pos', 'neg'],
@@ -504,11 +491,13 @@ def make_discrete_dataset_2():
                                 probabilities=[.5, .5]
                                 )
 
-    dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator)
+    dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=num_labels_per_item)
     return SyntheticDataset(dsg)
 
 
-def make_discrete_dataset_3():
+def make_discrete_dataset_3(num_items_per_dataset=50, num_labels_per_item=10):
     item_state_generator = \
         DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
                                                       labels=['pos', 'neg'],
@@ -520,7 +509,9 @@ def make_discrete_dataset_3():
                                 probabilities=[.4, .6]
                                 )
 
-    dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator)
+    dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=num_labels_per_item)
     return SyntheticDataset(dsg)
 
 def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False,
