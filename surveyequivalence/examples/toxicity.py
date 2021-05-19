@@ -76,7 +76,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     Notes
     -----
-    This function uses data collected by Jigsaw's Toxicity platform [4]_ to generate survey equivalence values.
+    This function uses data collected by Jigsaw's Personal Attack Classifier [4]_ to generate survey equivalence values.
 
     References
     ----------
@@ -130,7 +130,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Pad W with Nones if the number of raters for some item is less than the max.
     padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
 
-    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
+    print('##Wiki Personal Attack - Dataset loaded##', len(padded_dataset))
 
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
@@ -185,7 +185,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     p.save(path=p.path_for_saving(f"toxicity/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
-        Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
+        Running WikiAttack experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
         """)
 
@@ -198,7 +198,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               y_axis_label='score',
               color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.values[0] if prior is not None else None,
-              name=f'Toxic {type(combiner).__name__}_plus_{type(scorer).__name__}',
+              name=f'Attack {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )

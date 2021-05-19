@@ -254,8 +254,8 @@ each for several classifiers.
 Two .csv files are generated, predictions.csv and ref_rater_labels.csv. They are stored in a subdirectory of
 data/running_example.
 
-Jigsaw Toxicity Dataset Analysis
---------------------------------
+Jigsaw Personal Attacks Dataset Analysis
+----------------------------------------
 
 Guess the Karma Dataset Analysis
 --------------------------------
