@@ -380,7 +380,7 @@ class AnonymousBayesianCombiner(Combiner):
         :return: joint distribution, and num_items
         """
 
-        ## compute m_l counts for each label
+        ## compute m_l counts for each label (y(l) in Algorithm 5 in the paper)
         freqs = {k: 0 for k in allowable_labels}
         for label in [l[1] for l in labels]:
             freqs[label] += 1
@@ -397,13 +397,14 @@ class AnonymousBayesianCombiner(Combiner):
         v = 0
 
         # rating counts for that item i
-        mi = np.zeros(len(allowable_labels))
         num_items = 0
         for item in I:
             i_v,i_r = AnonymousBayesianCombiner.D_k_item_contribution(labels, item, allowable_labels)
             v += i_v
-            num_items += i_r
+            num_items += i_r  # i_r is 0 if this item not usable; else 1
 
+        # y(l)! and k! are constant across all items, so that multiplication, from step 5 in ProbabilityOneItem
+        # is delayed to here and done only once
         product = 1
         for label_idx in range(0,len(allowable_labels)):
             product = product * factorial(m[label_idx])
