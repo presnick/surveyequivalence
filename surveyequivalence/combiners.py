@@ -307,7 +307,6 @@ class AnonymousBayesianCombiner(Combiner):
         super().__init__(*args, **kwargs)
         self.memo = dict()
 
-
     def combine(self, allowable_labels: Sequence[str],
                 labels: Sequence[Tuple[str, str]],
                 W: np.matrix = None,
@@ -323,7 +322,7 @@ class AnonymousBayesianCombiner(Combiner):
         allowable_labels: the set of labels/ratings allowed
         labels: the k ratings
         W: item and rating dataset
-        item_id: item index in W we are predicting for
+        item_id: item index in W
         to_predict_for: not used currently
 
         Returns
@@ -334,131 +333,136 @@ class AnonymousBayesianCombiner(Combiner):
         # get number of labels in binary case, it's 2
         number_of_labels = len(allowable_labels)
 
+        ## compute m_l counts for each label
+        # freqs = {k: 0 for k in allowable_labels}
+        # for label in [l[1] for l in labels]:
+        #    freqs[label] += 1
+
+        # m = np.array([freqs[i] for i in freqs.keys()])
+
         prediction = np.zeros(number_of_labels)
-        # go through labels, amnd copute LabelSeqProb of this being the next label
-        # at the end, sum of these probabilities will be LabelSeqProb for existing sequence (denominator of line 1 in Alg 6)
-        # so we don't have to compute that separately
+
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+        m = np.array([freqs[i] for i in freqs.keys()])
+        k = sum(m) + 1  # +1 because we're adding a reference rater
+
         for label_idx in range(0, number_of_labels):
             expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
 
-            prediction[label_idx] = self.labelSeqProb(allowable_labels=allowable_labels,
-                                                         labels=expanded_labels,
-                                                         W=W,
-                                                         item_id=item_id)
-            if prediction[label_idx] == None:
-                return None
+            # TODO check W[item_id]
+            # k = int(np.sum(m + one_hot_label))
+            # Calculate the contribution of the held out item
+            i_v_onehot, i_r_onehot = AnonymousBayesianCombiner.D_k_item_contribution(expanded_labels, W[item_id],
+                                                                                     allowable_labels)
+
+            one_hot_label = np.zeros(number_of_labels)
+            one_hot_label[label_idx] = 1
+
+            if str(m + one_hot_label) not in self.memo:
+                overall_joint_dist, num_items = AnonymousBayesianCombiner.D_k(expanded_labels, W, allowable_labels)
+                # In this case, there are not enough raters to construct a joint distribution for k,
+                # so we can't make a prediction
+                if num_items <= 1:
+                    return None
+                self.memo[str(m + one_hot_label)] = overall_joint_dist, num_items
+            overall_joint_dist_onehot, num_items = self.memo[str(m + one_hot_label)]
+
+            holdout_joint_dist_onehot = overall_joint_dist_onehot
+            if i_r_onehot == 1:
+                product = 1
+                for idx in range(0, len(allowable_labels)):
+                    product = product * factorial(m[idx] + one_hot_label[idx])
+                coef = product / factorial(k + 1)  # +1 because we expand labels by 1
+
+                v = overall_joint_dist_onehot * num_items / coef - i_v_onehot
+                # In this case, there are not enough raters to construct a joint distribution for k,
+                # so we can't make a prediction
+                if num_items <= 1:
+                    return None
+                holdout_joint_dist_onehot = v * coef / (num_items - 1)
+            prediction[label_idx] = holdout_joint_dist_onehot
 
         prediction = prediction / sum(prediction)
+        # TODO check that prediction is valid
 
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
         return output
 
-    def labelSeqProb(self,
-                     allowable_labels: Sequence[str],
-                labels: Sequence[Tuple[str, str]],
-                W: np.matrix = None,
-                item_id=None,
-                to_predict_for=None) -> float:
+    @staticmethod
+    def D_k_item_contribution(labels: np.array, item: np.array, allowable_labels: Sequence[str]) -> (float, float):
         """
-        Algorithm 5: LabelSeqProb
-        """
-
-        ## compute m_l counts for each label
-        ## Line 1 of Algorithm 5: LabelSeqProb
-        freqs = {k: 0 for k in allowable_labels}
-        for label in [l[1] for l in labels]:
-            freqs[label] += 1
-        y = np.array([freqs[i] for i in freqs.keys()])
-
-
-
-        # Line 2 of Algorithm 5; get SumofProbabilities, but check if it's memoized first
-        if str(y) not in self.memo:
-            v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
-            self.memo[str(y)] = v, num_items
-        else:
-            v, num_items = self.memo[str(y)]
-
-        # Calculate the contribution of the held out item to subtract out at the end
-        # line 3 of Algorithm 5
-        i_v_excluded, excluded_count = self.probabilityOneItem(y, W[item_id], allowable_labels)
-        try:
-            return (v - i_v_excluded) / (num_items - excluded_count)
-        except ZeroDivisionError:
-            # Not enough raters to construct a joint distribution of labels
-            return None
-
-
-    def probabilityOneItem(self, y: np.array, item: np.array, allowable_labels: Sequence[str]) -> (float, int):
-        """
-        ProbabilityOneItem function in Algorithm 5. Computes the contribution of a single item to the combiner
+        ProbabilityOfOneItem function in Algorithm 5. Computes the contribution of a single item to the combiner
 
         Parameters
         ----------
-        y: vector of observed label counts that we are trying to find joint distribution for
-        item: The item's labels
+        labels: item labels from several raters
+        item: The item under current consideration
         allowable_labels: The set of labels that can be entered by the raters.
+
         Returns
         -------
         The contribution of this item.
-        A 0,1 flag for whether this item had enough labels to be used in this way
         """
 
         def comb(n, k):
-            # deprecated; now using ank instead
             # from https://stackoverflow.com/a/4941932
             k = min(k, n - k)
             numer = reduce(operator.mul, range(n, n - k, -1), 1)
             denom = reduce(operator.mul, range(1, k + 1), 1)
             return numer // denom
 
-        def ank(n, k):
-            # (n choose k) * k!
-            # selections of k items * permutations of those selected items
-            return reduce(operator.mul, range(n, n - k, -1), 1)
+        # count number of ratings in the item.
+        num_rate = 0
 
-        k = sum(y)
+        ## compute m_l counts for each label
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+
+        m = np.array([freqs[i] for i in freqs.keys()])
+
+        k = sum(m)
+        assert (k == len(labels))
 
         nonzero_itm_mask = np.nonzero(item)
         item = item[nonzero_itm_mask]
 
-        # implementing line 2 of SumOfProbabilities; exclude this item if not enough labels
-        # also num_labels is |W_i|, the quantity computed on line 3 of ProbabilityOneItem
-        num_labels = 0
-        for l in item:
-            if l is not None and l != '':
-                num_labels += 1
-        if num_labels < k:
+        for r in item:
+            if r is not None and r != '':
+                num_rate += 1
+        # only proceed if num_rate < k
+        if num_rate < k:
             return 0, 0
 
-        # line 2 of ProbabilityOneItem
+        # no_count = 0
         freqs = {lab: 0 for lab in allowable_labels}
         for label in item:
             freqs[label] += 1
-        W_i = np.array([freqs[i] for i in freqs.keys()])
+        mi = np.array([freqs[i] for i in freqs.keys()])
 
         for label_idx in range(0, len(allowable_labels)):
-            if W_i[label_idx] < y[label_idx]:
-                # line 8 of the algorithm
+            if mi[label_idx] < m[label_idx]:
+                # no_count = 1
                 return 0, 1
 
+        ki = sum(mi)
         product = 1
         for label_idx in range(0, len(allowable_labels)):
-            product = product * ank(W_i[label_idx], y[label_idx])
+            product = product * comb(mi[label_idx], m[label_idx])
 
-        return product / ank(num_labels, k), 1
+        return product / comb(ki, k), 1
 
-
-    def sumOfProbabilities(self, y: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> (float, int):
+    @staticmethod
+    def D_k(labels: np.array, W: np.matrix, allowable_labels: Sequence[str]) -> (float, int):
         """
-        SumOfProbabilities procedure in Algorithm 5 in the paper
-
         Compute the joint distribution over k anonymous ratings
 
         Parameters
         ----------
-        y: vector of observed label counts that we are trying to find joint distribution for
+        labels: item labels from several raters
         W: item and rating dataset
         allowable_labels: The set of labels that can be entered by the raters.
 
@@ -467,13 +471,32 @@ class AnonymousBayesianCombiner(Combiner):
         joint distribution, and num_items
         """
 
-        # lines 1 and 2 are handled in probabilityOneItem rather than here
+        ## compute m_l counts for each label
+        freqs = {k: 0 for k in allowable_labels}
+        for label in [l[1] for l in labels]:
+            freqs[label] += 1
+
+        m = np.array([freqs[i] for i in freqs.keys()])
+
+        k = int(np.sum(m))  # the number of raters
+        # sample_size = 1000
+        # TODO - consider subsampling?
+
+        # Sample rows from the rating matrix W with replacement
+        I = W  # [np.random.choice(W.shape[0], sample_size, replace=True)]
 
         v = 0
-        num_items = 0
-        for item in W:
-            i_v, i_r = self.probabilityOneItem(y, item, allowable_labels)
-            v += i_v
-            num_items += i_r  # i_r is 0 if this item not usable; else 1
 
+        # rating counts for that item i
+        mi = np.zeros(len(allowable_labels))
+        num_items = 0
+        for item in I:
+            i_v, i_r = AnonymousBayesianCombiner.D_k_item_contribution(labels, item, allowable_labels)
+            v += i_v
+            num_items += i_r
+
+        product = 1
+        for label_idx in range(0, len(allowable_labels)):
+            product = product * factorial(m[label_idx])
+        v = v * product / (factorial(k) * num_items)
         return v, num_items

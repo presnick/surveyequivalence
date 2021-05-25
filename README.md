@@ -22,7 +22,7 @@ Executing the Running Example
 
 The running example dataset has 1000 items. It takes a while to run it with 500 bootstrap item samples.
 If you're just trying to verify that your installation is good, you may want to run it on a smaller set of items
-with fewer bootstrap item samples, as shown below.
+with fewer bootstrap item samples.
 
 .. code-block:: console
 

@@ -1,0 +1,5 @@
+graft tests
+graft docs
+graft data
+graft saved_analysis
+global-exclude *.py[cod]

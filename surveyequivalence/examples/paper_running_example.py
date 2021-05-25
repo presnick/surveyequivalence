@@ -3,8 +3,6 @@ from datetime import datetime
 
 import pandas as pd
 from matplotlib import pyplot as plt
-import numpy as np
-import krippendorff
 
 from surveyequivalence import AgreementScore, PluralityVote, CrossEntropyScore, \
     AnonymousBayesianCombiner, FrequencyCombiner,  \
@@ -16,10 +14,6 @@ def main(path = f'{ROOT_DIR}/data/running_example_50_items', num_bootstrap_item_
 
     # read the reference rater labels from file
     W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0)
-
-    # compute Krippendorff alpha
-    arr = W.T.applymap(lambda x: int(x == 'pos')).to_numpy()
-    print(f'Krippendorff alpha for dataset is {krippendorff.alpha(reliability_data=arr)}')
 
     # read the predictions from file
     def str2prediction_instance(s):
