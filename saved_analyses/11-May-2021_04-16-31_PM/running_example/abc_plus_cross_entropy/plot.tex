@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\sffamily
+\begin{axis}[
+title = {running example: ABC + cross entropy},
+title style={align=center,yshift=-.1in},
+legend style={font=\small,
+	nodes={scale=0.7, transform shape},
+	at={(0.0,1)},
+	anchor=north west,
+	draw=none,
+	fill=none},
+legend cell align={left},
+width = 4.0in, height = 3.0in,
+ylabel near ticks,
+ylabel = {\small information gain ($c_k - c_0$)},
+xlabel near ticks,
+every tick label/.append style={font=\scriptsize},
+xmin=-1,xmax=10,ymin=0,ymax=0.4,
+xtick={0, 1.959349891708352, 4, 6, 8},
+xlabel={\small Number of raters},
+xlabel style = {yshift=0.05in},
+yticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=5
+},
+scaled y ticks=false
+]
+
+\addplot[solid, mark=o, mark options={scale=.8}, black]
+plot [error bars/.cd, y dir = both, y explicit]
+table[y error index=2]{
+0	0.0	0.013174149133330038	0.013765043957038703
+1	0.08024457130058849	0.013406378562662469	0.013045257948358091
+2	0.13522196667357766	0.017138626081452224	0.017128923839959787
+3	0.16583024313435013	0.018524492220811317	0.018842451586345565
+4	0.18584839594613023	0.01878651059024239	0.01918965109537296
+5	0.1986896732953577	0.019029619531686692	0.019157319125812866
+6	0.2082526492172606	0.019568205643781256	0.01932026302334222
+7	0.21407454595233355	0.01920408983443289	0.019074947969786593
+8	0.2189467764130909	0.01926564039033396	0.019083976437719197
+9	0.2227354184241982	0.019545597968448125	0.018868465182712124
+
+};
+\addlegendentry{k raters}
+
+
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] {0.1329871295980729};
+\addlegendentry{calibrated hard classifier}
+
+\draw [red, fill=red, opacity=0.1] (axis cs:-1,0.11287633771352956) rectangle (axis cs:31,0.15314795344051624);
+
+
+
+\addplot[mark=*, mark options={scale=.8}, red, thick]
+    table[]{
+        1.959349891708352	0.1329871295980729
+    };
+
+\addplot[mark=none, red, dashed, thick, samples=2, domain=-1:31] coordinates {(1.959349891708352,0.1329871295980729) (1.959349891708352,0)};
+
+\draw [red, fill=red, opacity=0.6] (axis cs:1.6752025280053826,1) rectangle (axis cs:2.4696027643250473,0);
+
+
+\end{axis}
+\end{tikzpicture}
