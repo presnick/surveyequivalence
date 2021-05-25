@@ -254,8 +254,9 @@ each for several classifiers.
 Two .csv files are generated, predictions.csv and ref_rater_labels.csv. They are stored in a subdirectory of
 data/running_example.
 
-Jigsaw Toxicity Dataset Analysis
---------------------------------
+Jigsaw Personal Attacks Dataset Analysis
+----------------------------------------
+
 Calculating the survey equivalence of an real world item and rater set is easy with this package. Here we focus on the
 Jigsaw Toxcitiy Dataset. This dataset is originally discussed in this paper:
 
@@ -474,6 +475,7 @@ how large to grow the power curve, i.e., how many raters to consider in the limi
 parallel, so you can set the number of CPU cores to use with the `num_processors` parameter.
 
 From here the plotting is very similar to the SyntheticRunningExample.
+>>>>>>> origin/weninger_dev
 
 Guess the Karma Dataset Analysis
 --------------------------------
