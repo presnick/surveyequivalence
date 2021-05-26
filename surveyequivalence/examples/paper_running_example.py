@@ -1,6 +1,3 @@
-import os
-from datetime import datetime
-
 import pandas as pd
 from matplotlib import pyplot as plt
 
@@ -8,9 +5,7 @@ from surveyequivalence import AgreementScore, PluralityVote, CrossEntropyScore, 
     AnonymousBayesianCombiner, FrequencyCombiner,  \
     AnalysisPipeline, Plot, ClassifierResults, DiscretePrediction, DiscreteDistributionPrediction
 
-from config import ROOT_DIR
-
-def main(path = f'{ROOT_DIR}/data/running_example_50_items', num_bootstrap_item_samples=5):
+def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
 
     # read the reference rater labels from file
     W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0)

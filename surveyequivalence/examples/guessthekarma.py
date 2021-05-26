@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from config import ROOT_DIR
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
     CrossEntropyScore, AnonymousBayesianCombiner, PluralityVote, F1Score, AgreementScore, Combiner, Scorer
 
@@ -83,7 +82,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    gtk = pd.read_csv(f'{ROOT_DIR}/data/vote_gtk2.csv')
+    gtk = pd.read_csv(f'data/vote_gtk2.csv')
 
     prefer_W = dict()
     flip_dict = dict()
