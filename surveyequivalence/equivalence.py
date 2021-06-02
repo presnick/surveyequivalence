@@ -455,11 +455,11 @@ class AnalysisPipeline:
 
         Returns
         -------
-        A path of the form {ROOT_DIR}/{self.run_timestamp}/{dirname_base}
+        A path of the form {self.run_timestamp}/{dirname_base}
         If the path does not exist yet, it is created.
         """
 
-        path = f'{root_dir}/saved_analyses'
+        path = f'saved_analyses'
         if include_timestamp:
             path += f'/{self.run_timestamp}'
         path += f'/{dirname_base}'
