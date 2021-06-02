@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.svm import LinearSVC
 
-from config import ROOT_DIR
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
     CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer
 
@@ -83,7 +82,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    wiki = pd.read_csv(f'{ROOT_DIR}/data/wiki_attack_labels_and_predictor.csv')
+    wiki = pd.read_csv(f'data/wiki_attack_labels_and_predictor.csv')
     dataset = dict()
 
     # X and Y for calibration. These lists are matched

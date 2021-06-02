@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from config import ROOT_DIR
 from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
 
 
@@ -403,7 +402,7 @@ class SyntheticDataset(Dataset):
             Whether to postpend directory name with current timestamp
         """
         # make a directory for it
-        path = f'{ROOT_DIR}/data/{dirname}/{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
+        path = f'data/{dirname}/{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
         try:
             os.makedirs(path)
         except FileExistsError:

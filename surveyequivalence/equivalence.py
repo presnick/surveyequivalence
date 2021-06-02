@@ -22,7 +22,7 @@ from pathos.pools import ProcessPool
 
 ctx._force_start_method('spawn')
 
-from config import ROOT_DIR
+from surveyequivalence.config import ROOT_DIR
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 
