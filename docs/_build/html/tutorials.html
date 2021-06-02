@@ -33,15 +33,15 @@
           <div class="body" role="main">
             
   <div class="section" id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="synthetic-running-example">
 <h2>Synthetic Running Example<a class="headerlink" href="#synthetic-running-example" title="Permalink to this headline">¶</a></h2>
 <p>The synthetic running example, as described in the paper, is implemented in the file <cite>examples/paper_running_example.py</cite>.</p>
 <p>We first load the data that we created in <a class="reference internal" href="#generating-data-for-running-example"><span class="std std-ref">Generating Data for the Running Example</span></a></p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT_DIR</span><span class="si">}</span><span class="s1">/data/running_example&#39;</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{ROOT_DIR}</span><span class="s1">/data/running_example&#39;</span>
 
 <span class="c1"># read the reference rater labels from file</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/ref_rater_labels.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/ref_rater_labels.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># read the predictions from file</span>
 <span class="k">def</span> <span class="nf">str2prediction_instance</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -52,7 +52,7 @@
         <span class="k">return</span> <span class="n">DiscreteDistributionPrediction</span><span class="p">([</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">pr_pos</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">pr_neg</span><span class="p">)])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DiscretePrediction</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
-<span class="n">classifier_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/predictions.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">str2prediction_instance</span><span class="p">)</span>
+<span class="n">classifier_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/predictions.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">str2prediction_instance</span><span class="p">)</span>
 
 <span class="n">hard_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># [&#39;mock hard classifier&#39;]</span>
 <span class="n">soft_classifiers</span> <span class="o">=</span> <span class="n">classifier_predictions</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># [&#39;calibrated hard classifier&#39;, &#39;h_infinity: ideal classifier&#39;]</span>
@@ -90,9 +90,9 @@ a set of other labels.</p>
                             <span class="n">num_bootstrap_item_samples</span><span class="o">=</span><span class="n">num_bootstrap_item_samples</span><span class="p">,</span>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/plurality_plus_agreement&quot;</span><span class="p">),</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Running example with </span><span class="si">{</span><span class="n">num_items_per_dataset</span><span class="si">}</span><span class="s2"> items and </span><span class="si">{</span><span class="n">num_labels_per_item</span><span class="si">}</span><span class="s2"> raters per item</span>
-<span class="si">{</span><span class="n">num_bootstrap_item_samples</span><span class="si">}</span><span class="s2"> bootstrap itemsets</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
+<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
 <span class="s2">Plurality combiner with agreement score</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
@@ -168,9 +168,9 @@ that have been seen so far.</p>
                             <span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">pipeline2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/abc_plus_cross_entropy&quot;</span><span class="p">),</span>
-               <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Running example with </span><span class="si">{</span><span class="n">num_items_per_dataset</span><span class="si">}</span><span class="s2"> items and </span><span class="si">{</span><span class="n">num_labels_per_item</span><span class="si">}</span><span class="s2"> raters per item</span>
-<span class="si">{</span><span class="n">num_bootstrap_item_samples</span><span class="si">}</span><span class="s2"> bootstrap itemsets</span>
+               <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Running example with </span><span class="si">{num_items_per_dataset}</span><span class="s2"> items and </span><span class="si">{num_labels_per_item}</span><span class="s2"> raters per item</span>
+<span class="si">{num_bootstrap_item_samples}</span><span class="s2"> bootstrap itemsets</span>
 <span class="s2">Anonymous Bayesian combiner with cross entropy score</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
@@ -322,7 +322,7 @@ as exists, only provides counts. So it is important that we reverse-engineer eac
 might have done. This is ok, because the rater ids (i.e, individual columns) are not important -- although this might
 be something for future work.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the dataset as a pandas dataframe</span>
-<span class="n">wiki</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT_DIR</span><span class="si">}</span><span class="s1">/data/wiki_attack_labels_and_predictor.csv&#39;</span><span class="p">)</span>
+<span class="n">wiki</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{ROOT_DIR}</span><span class="s1">/data/wiki_attack_labels_and_predictor.csv&#39;</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
 <span class="c1"># X and Y for calibration. These lists are matched</span>
