@@ -443,7 +443,7 @@ class AnalysisPipeline:
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
 
-    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True, root_dir=ROOT_DIR):
+    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
         """
 
         Parameters
