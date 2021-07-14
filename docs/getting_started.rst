@@ -27,7 +27,7 @@ with fewer bootstrap item samples.
     >>> main(path='data/running_example_50_items', num_bootstrap_item_samples=10)
     starting classifiers: computing scores
 
-As described in the tutorial, the running example for the paper computes three survey power curves, for three different
+As described in the :ref:`tutorial <Tutorials>`, the running example for the paper computes three survey power curves, for three different
 combiner/scorer pairings.
 
 If you have multiple processors, the AnalysisPipeline will try to take advantage of them to speed up execution.

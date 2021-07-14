@@ -138,7 +138,10 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(score, 0.75, places=3)
 
     def test_analysis_pipeline(self):
-        for dataset in self.datasets:
+        datasets = [synthetic_datasets.make_discrete_dataset_1(num_items_per_dataset=100).dataset,
+                    synthetic_datasets.make_discrete_dataset_2(num_items_per_dataset=100).dataset,
+                    synthetic_datasets.make_discrete_dataset_3(num_items_per_dataset=100).dataset]
+        for dataset in datasets:
             for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg']), FrequencyCombiner(allowable_labels=['pos', 'neg'])]:
                 for scorer in [CrossEntropyScore(), AgreementScore(), PrecisionScore(), RecallScore(),
                                AUCScore()]:
@@ -151,7 +154,6 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
                     p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
-                    cs = p.expert_power_curve.means
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
                     results.columns = ['mean', 'std']

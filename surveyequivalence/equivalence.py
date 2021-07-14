@@ -22,7 +22,6 @@ from pathos.pools import ProcessPool
 
 ctx._force_start_method('spawn')
 
-from config import ROOT_DIR
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 
@@ -444,7 +443,7 @@ class AnalysisPipeline:
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
 
-    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True, root_dir=ROOT_DIR):
+    def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
         """
 
         Parameters
@@ -456,11 +455,11 @@ class AnalysisPipeline:
 
         Returns
         -------
-        A path of the form {ROOT_DIR}/{self.run_timestamp}/{dirname_base}
+        A path of the form {self.run_timestamp}/{dirname_base}
         If the path does not exist yet, it is created.
         """
 
-        path = f'{root_dir}/saved_analyses'
+        path = f'saved_analyses'
         if include_timestamp:
             path += f'/{self.run_timestamp}'
         path += f'/{dirname_base}'

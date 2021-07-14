@@ -46,16 +46,16 @@
 <p>The running example dataset has 1000 items. It takes a while to run it with 500 bootstrap item samples.
 If you're just trying to verify that your installation is good, you may want to run it on a smaller set of items
 with fewer bootstrap item samples.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(survey_equiv)</span> <span class="go">surveyequivalence[master !?]$ python</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">(survey_equiv) surveyequivalence[master !?]$ python</span>
 <span class="go">Python 3.7.4 (default, Aug 13 2019, 20:35:49)</span>
 <span class="go">[GCC 7.3.0] :: Anaconda, Inc. on linux</span>
 <span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
-<span class="go">&gt;&gt;&gt; from surveyequivalence.examples.paper_running_example import main</span>
-<span class="go">&gt;&gt;&gt; main(path=&#39;data/running_example_50_items&#39;, num_bootstrap_item_samples=10)</span>
+<span class="gp">&gt;</span>&gt;&gt; from surveyequivalence.examples.paper_running_example import main
+<span class="gp">&gt;</span>&gt;&gt; main<span class="o">(</span><span class="nv">path</span><span class="o">=</span><span class="s1">&#39;data/running_example_50_items&#39;</span>, <span class="nv">num_bootstrap_item_samples</span><span class="o">=</span><span class="m">10</span><span class="o">)</span>
 <span class="go">starting classifiers: computing scores</span>
 </pre></div>
 </div>
-<p>As described in the tutorial, the running example for the paper computes three survey power curves, for three different
+<p>As described in the <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">tutorial</span></a>, the running example for the paper computes three survey power curves, for three different
 combiner/scorer pairings.</p>
 <p>If you have multiple processors, the AnalysisPipeline will try to take advantage of them to speed up execution.
 That may cause the progress indicator output to show some things out of order, like what is shown here.
@@ -91,7 +91,7 @@ That's nothing to worry about.</p>
 <span class="go">        computing power curve results for each bootstrap item sample.</span>
 <span class="go">Samples processed:</span>
 <span class="go">....     0...    10..</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;</span>&gt;&gt;
 </pre></div>
 </div>
 </div>
