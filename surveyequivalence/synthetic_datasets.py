@@ -1,4 +1,5 @@
 import os
+import random
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Sequence, Dict
@@ -232,18 +233,20 @@ class SyntheticDatasetGenerator:
                  item_state_generator: DistributionOverStates,
                  num_items_per_dataset=1000,
                  num_labels_per_item=10,
+                 min_labels_per_item=None,
                  mock_classifiers=None,
                  name=''):
         self.item_state_generator = item_state_generator
         self.num_items_per_dataset = num_items_per_dataset
         self.num_labels_per_item = num_labels_per_item
+        self.min_labels_per_item = min_labels_per_item
         self.name = name
         # make a private empty list, not a shared default empty list if mock_classifiers not specified
         self.mock_classifiers = mock_classifiers if mock_classifiers else []
 
         self.reference_rater_item_states = item_state_generator.draw_states(num_items_per_dataset)
 
-    def generate_labels(self, item_states, num_labels_per_item=None, rater_prefix="e"):
+    def generate_labels(self, item_states, max_num_labels_per_item=None, min_labels_per_item=None, rater_prefix="e"):
         """
         Normally called with item_states=self.reference_rater_item_states
 
@@ -260,11 +263,14 @@ class SyntheticDatasetGenerator:
         -------
         A pandas DataFrame with one row for each item and one column for each rater. Cells are labels.
         """
-        if not num_labels_per_item:
-            num_labels_per_item = self.num_labels_per_item
+        if not max_num_labels_per_item:
+            max_num_labels_per_item = self.num_labels_per_item
+        if not min_labels_per_item:
+            min_labels_per_item = self.min_labels_per_item
+
         return pd.DataFrame(
-            [state.draw_labels(self.num_labels_per_item) for state in item_states],
-            columns=[f"{rater_prefix}_{i}" for i in range(1, self.num_labels_per_item + 1)]
+            [state.draw_labels(random.randint(min_labels_per_item, max_num_labels_per_item)) for state in item_states],
+            columns=[f"{rater_prefix}_{i}" for i in range(1, max_num_labels_per_item + 1)]
         )
 
 class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
@@ -283,10 +289,10 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
     k_other_raters_per_label=1
         The number of other raters to generate labels for.
     """
-    def __init__(self, item_state_generator, num_items_per_dataset=50, num_labels_per_item=3,
+    def __init__(self, item_state_generator, num_items_per_dataset=50, num_labels_per_item=3, min_labels_per_item=None,
                  mock_classifiers=None, name=None,
                  pct_noise=0., k_other_raters_per_label=1):
-        super().__init__(item_state_generator, num_items_per_dataset, num_labels_per_item, mock_classifiers, name)
+        super().__init__(item_state_generator, num_items_per_dataset, num_labels_per_item, min_labels_per_item, mock_classifiers, name)
 
         self.k_other_raters_per_label = k_other_raters_per_label
         if pct_noise > 0:
@@ -375,7 +381,7 @@ class SyntheticDataset(Dataset):
         # create the other_rater dataset if applicable
         if ds_generator.other_rater_item_states is not None:
             other_rater_dataset = ds_generator.generate_labels(ds_generator.other_rater_item_states,
-                                                           num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_other_raters_per_label,
+                                                           max_num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_other_raters_per_label,
                                                            rater_prefix='a')
             if ds_generator.k_other_raters_per_label > 1:
                 raise NotImplementedError()
@@ -511,6 +517,36 @@ def make_discrete_dataset_3(num_items_per_dataset=50, num_labels_per_item=10):
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
                                           num_labels_per_item=num_labels_per_item)
+    return SyntheticDataset(dsg)
+
+
+def make_non_full_dataset_1(num_items_per_dataset=50, num_labels_per_item=10, min_labels_per_item=2):
+    item_state_generator = \
+        DiscreteDistributionOverStates(states=[DiscreteState(state_name='pos',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.9, .1]),
+                                        DiscreteState(state_name='neg',
+                                                      labels=['pos', 'neg'],
+                                                      probabilities=[.25, .75])
+                                        ],
+                                probabilities=[.8, .2]
+                                )
+
+    dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
+                                          pct_noise=.1,
+                                          name='dataset1_80exprts_90-10onhigh_25-75onlow_10noise',
+                                          num_items_per_dataset=num_items_per_dataset,
+                                          num_labels_per_item=num_labels_per_item,
+                                          min_labels_per_item=min_labels_per_item
+                                          )
+
+    dsg.mock_classifiers.append(MockClassifier(
+        name='h_infinity: ideal classifier',
+        label_predictors={
+            'pos': DiscreteDistributionPrediction(['pos', 'neg'], [.9, .1]),
+            'neg': DiscreteDistributionPrediction(['pos', 'neg'], [.25, .75])
+        }))
+
     return SyntheticDataset(dsg)
 
 def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item=10, minimal=False,

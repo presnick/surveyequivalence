@@ -343,6 +343,8 @@ class AnalysisPipeline:
     item_samples=None
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
+    min_ratings_per_item=None
+        If specified, the minimum number of ratings for an item for it to be included in the itemset.
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
@@ -366,10 +368,14 @@ class AnalysisPipeline:
                  ratersets_memo=None,
                  predictions_memo=None,
                  item_samples=None,
+                 min_ratings_per_item=None,
                  verbosity=1,
                  run_on_creation = True,
                  procs=pathos.helpers.cpu_count() - 1
                  ):
+        if min_ratings_per_item:
+            W = self.prep_anonymized_rating_matrix(W, min_ratings_per_item)
+
         if expert_cols:
             self.expert_cols = expert_cols
         else:
@@ -442,6 +448,38 @@ class AnalysisPipeline:
             self.amateur_survey_equivalences = Equivalences(
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
 
+    def prep_anonymized_rating_matrix(self, W, min_ratings_per_item=None):
+        """
+        Some scoring functions (e.g., correlation) are only well-defined for a set of (prediction, label) pairs for a
+        bunch of items. That's why we defined Algorithm 3 the way we did. But what do we want to do if "rater 19"
+        has only labeled two items in our whole data set. Surely we don't want to compute the correlation of
+        predictions with rater 19 on just those two items, and treat that as equally valid with the correlation
+        with "rater 1" who has labeled 1000 items. Conceptually, what would we want to do in that case?
+
+        What we need is a way to distinguish between single-item-based scoring functions and multi-item-based scoring
+        functions. This function restricts W so that only raters with more than some minimum number of items are
+        included.
+
+        Parameters
+        ----------
+        W: a Pandas dataframe with raters as columns and items as rows
+        min_ratings_per_item: If specified, an integer
+
+        if min_ratings_per_item is not null, set it to the minimum, over rows, of count of non-null cells.
+
+        Returns
+        -------
+        Full anonymized rating matrix with no missing data in cells.
+            Items as rows
+            Rater-ranks as columns (1, 2, 3, ..., min_ratings_per_item)
+        Omit rows (items) with fewer than min_ratings_per_item
+        For each row, select min_ratings_per_item items (without replacement) and shuffle them in random order
+        """
+
+        if not min_ratings_per_item:
+            return W
+
+        return W[W.apply(lambda item: True if item.count() >= min_ratings_per_item else False, axis=1)]
 
     def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
         """
