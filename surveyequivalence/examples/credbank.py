@@ -73,7 +73,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    cred = pd.read_csv('../data/credweb.csv')
+    cred = pd.read_csv('data/credweb.csv')
 
     W = dict()
 
