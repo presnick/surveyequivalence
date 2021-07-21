@@ -5,7 +5,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
-    CrossEntropyScore, AnonymousBayesianCombiner, PluralityVote, F1Score, AgreementScore, Combiner, Scorer
+    CrossEntropyScore, AnonymousBayesianCombiner, PluralityVote, F1Score, AgreementScore, Combiner, Scorer, \
+    find_maximal_full_rating_matrix_cols, prep_anonymized_rating_matrix
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
         num_processors=num_processors)
 
     # Frequency Combiner uses Laplace regularization
-    combiner = FrequencyCombiner(allowable_labels=['l', 'r'], regularizer=1)
+    combiner = FrequencyCombiner(allowable_labels=['l', 'r'])
     scorer = CrossEntropyScore()
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
@@ -82,7 +83,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    gtk = pd.read_csv(f'data/vote_gtk2.csv')
+    gtk = pd.read_csv(f'../data/vote_gtk2.csv')
 
     prefer_W = dict()
     flip_dict = dict()
@@ -128,6 +129,14 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Recall that index 0 was the classifier output, i.e., reddit score. We relabel this to 'hard classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'hard classifier'})
+    hard_class = pd.DataFrame(W['hard classifier'])
+    W = W.drop(['hard classifier'], axis=1)
+    num_cols = find_maximal_full_rating_matrix_cols(W)
+    print(f"Using {num_cols} columns")
+    W = prep_anonymized_rating_matrix(W, num_cols)
+    W = hard_class.join(W, how="inner")
+    W.reset_index(inplace=True, drop=True)
+
 
     # Calculate calibration probabilities
     calibrated_predictions_l = W[W['hard classifier'] == 'l'][W.columns.difference(['hard classifier'])].apply(

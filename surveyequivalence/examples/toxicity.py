@@ -7,7 +7,8 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.svm import LinearSVC
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
-    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer
+    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer, prep_anonymized_rating_matrix, \
+    find_maximal_full_rating_matrix_cols
 
 
 def main():
@@ -17,9 +18,9 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 10  # 20
-    max_items = 20
-    bootstrap_samples = 2
+    max_k = 2  # 20
+    max_items = 50
+    bootstrap_samples = 10
     num_processors = 3
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -82,7 +83,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     """
 
     # Load the dataset as a pandas dataframe
-    wiki = pd.read_csv(f'data/wiki_attack_labels_and_predictor.csv')
+    wiki = pd.read_csv(f'../data/wiki_attack_labels_and_predictor.csv')
     dataset = dict()
 
     # X and Y for calibration. These lists are matched
@@ -125,6 +126,14 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
+
+    soft_class = pd.DataFrame(W['soft classifier'])
+    W = W.drop(['soft classifier'], axis=1)
+    num_cols = find_maximal_full_rating_matrix_cols(W)
+    print(f"Using {num_cols} columns")
+    W = prep_anonymized_rating_matrix(W, num_cols)
+    W = soft_class.join(W, how="inner")
+    W.reset_index(inplace=True, drop=True)
 
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
 
