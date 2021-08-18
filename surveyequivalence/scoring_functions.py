@@ -1,3 +1,4 @@
+import random
 from abc import ABC, abstractmethod
 from math import log2
 from typing import Sequence
@@ -25,10 +26,41 @@ class Scorer(ABC):
               rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
 
+    def score_anonymous(self,
+                        classifier_predictions,
+                        W,
+                        verbosity=0):
+        """
+        Assembles several virtual "raters" from the columns of W
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+
+        """
+        # OK to have some null ratings;
+        # take a bunch of samples
+        # for each sample, pick a random rating from each row
+        # compute score for each sample
+        scores = []
+        W = W.set_index('index')
+        for i, viritual_rater_i in W.iterrows():
+            scores_for_i = np.random.choice(viritual_rater_i.values, 1000, replace=True)
+            scores.append(scores_for_i)
+        scores_matrix = np.array(scores)
+
+        return [self.score(classifier_predictions, virtual_rater) for virtual_rater in scores_matrix.T]
+
     def score_classifier(self,
                          classifier_predictions: Sequence,
                          raters: Sequence,
                          W,
+                         anonymous=False,
                          verbosity=0):
         """
         Driver function that computes the mean score over all predictions
@@ -50,8 +82,13 @@ class Scorer(ABC):
         if verbosity > 4:
             print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
 
-        scores = [self.score(classifier_predictions, W[col], verbosity) for col in raters]
-        non_null_scores = [score for score in scores if not pd.isna(score)]
+
+        if not anonymous:  # one sample for each column
+            scores = [self.score(classifier_predictions, W[col]) for col in raters]
+            non_null_scores = [score for score in scores if not pd.isna(score)]
+        else:
+            scores = self.score_anonymous(classifier_predictions, W, verbosity=verbosity)
+            non_null_scores = [score for score in scores if not pd.isna(score)]
 
         if len(non_null_scores) == 0:
             if verbosity > 2:

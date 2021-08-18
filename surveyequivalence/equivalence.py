@@ -400,6 +400,9 @@ class AnalysisPipeline:
     item_samples=None
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
+    anonymous_raters=False
+        If False, then each column in W represents an individual rater. If True, then raters are anonymous and virtual
+        raters will be sampled from the data randomly.
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
@@ -423,6 +426,7 @@ class AnalysisPipeline:
                  ratersets_memo=None,
                  predictions_memo=None,
                  item_samples=None,
+                 anonymous_raters=False,
                  verbosity=1,
                  run_on_creation = True,
                  procs=pathos.helpers.cpu_count() - 1
@@ -446,6 +450,7 @@ class AnalysisPipeline:
         self.max_rater_subsets=max_rater_subsets
         self.verbosity = verbosity
         self.procs = procs
+        self.anonymous_raters = anonymous_raters
 
         # initialize memoization cache for rater subsets
         if ratersets_memo:
@@ -655,6 +660,7 @@ class AnalysisPipeline:
             return {col_name: self.scorer.score_classifier(predictions_df[col_name],
                                                 self.expert_cols,
                                                 ref_labels_df,
+                                                anonymous=self.anonymous_raters,
                                                 verbosity=self.verbosity) \
                     for col_name in self.classifier_predictions.columns}
 
