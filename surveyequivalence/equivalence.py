@@ -866,7 +866,7 @@ class AnalysisPipeline:
         shutil.rmtree(dirpath)
 
         if self.verbosity > 1:
-            print(f"\n\t\trun_results={run_results}")
+            print(f"\n\t\trun_results={list(run_results)}")
         return PowerCurve(run_results)
 
 

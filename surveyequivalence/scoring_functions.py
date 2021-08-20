@@ -29,9 +29,12 @@ class Scorer(ABC):
     def score_anonymous(self,
                         classifier_predictions,
                         W,
+                        num_samples=1000,
                         verbosity=0):
         """
-        Assembles several virtual "raters" from the columns of W
+        A virtual rater is a randomly selected non-null rating for each column.
+        This implementation generates sample virtual raters, scores each, and takes the mean
+        Some scoring functions override this with a closed-form solution for the expectation
 
         Parameters
         ----------
@@ -41,54 +44,24 @@ class Scorer(ABC):
 
         Returns
         -------
-
+        A scalar expected score
         """
-        # OK to have some null ratings;
         # take a bunch of samples
-        # for each sample, pick a random rating from each row
+        # for each sample, pick a random non-null rating from each row
         # compute score for each sample
-        scores = []
-        W = W.set_index('index')
-        for i, viritual_rater_i in W.iterrows():
-            scores_for_i = np.random.choice(viritual_rater_i.values, 1000, replace=True)
-            scores.append(scores_for_i)
-        scores_matrix = np.array(scores)
+        samples_collection = []
+        for i, virtual_rater_i in W.iterrows():
+            vals = virtual_rater_i.dropna().values
+            if len(vals) > 0:
+                ratings_for_i = np.random.choice(vals, num_samples, replace=True)
+                samples_collection.append(ratings_for_i)
 
-        return [self.score(classifier_predictions, virtual_rater) for virtual_rater in scores_matrix.T]
+        # one row for each item; num_samples columns
+        samples_matrix = np.array(samples_collection)
 
-    def score_classifier(self,
-                         classifier_predictions: Sequence,
-                         raters: Sequence,
-                         W,
-                         anonymous=False,
-                         verbosity=0):
-        """
-        Driver function that computes the mean score over all predictions
-
-        Parameters
-        ----------
-        classifier_predictions: Scoring predictions
-        raters: The reference ratings. Score will compare classifier predictions with each rater in turn.
-        W: The item and rating dataset
-        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
-
-        Returns
-        -------
-        Mean score over all predictions for all raters.
-        """
-        if verbosity > 2:
-            print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
-
-        if verbosity > 4:
-            print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
-
-
-        if not anonymous:  # one sample for each column
-            scores = [self.score(classifier_predictions, W[col]) for col in raters]
-            non_null_scores = [score for score in scores if not pd.isna(score)]
-        else:
-            scores = self.score_anonymous(classifier_predictions, W, verbosity=verbosity)
-            non_null_scores = [score for score in scores if not pd.isna(score)]
+        # iterate through the columns of samples_matrix, scoring each
+        scores = [self.score(classifier_predictions, virtual_rater) for virtual_rater in samples_matrix.T]
+        non_null_scores = [score for score in scores if not pd.isna(score)]
 
         if len(non_null_scores) == 0:
             if verbosity > 2:
@@ -100,6 +73,70 @@ class Scorer(ABC):
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
         return retval
 
+
+    def score_non_anonymous(self,
+                        classifier_predictions,
+                        W,
+                        verbosity=0):
+        """
+        A virtual rater is a column of W
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        scores = [self.score(classifier_predictions, W[col]) for col in W.columns]
+        non_null_scores = [score for score in scores if not pd.isna(score)]
+
+        if len(non_null_scores) == 0:
+            if verbosity > 2:
+                print("\t\t\tNo non-null scores")
+            return None
+
+        retval = sum(non_null_scores) / len(non_null_scores)
+        if verbosity > 2:
+            print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
+        return retval
+
+    def score_classifier(self,
+                         classifier_predictions: Sequence,
+                         raters: Sequence,
+                         W,
+                         anonymous=False,
+                         verbosity=0):
+        """
+        Driver function that computes the expected score of the classifier against a random rater
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        raters: The reference ratings. Score will compare classifier predictions with each rater in turn.
+        W: The item and rating dataset
+        anonymous: if False, then a random rater is a column from W; if True, then it is a random non-null rating for each item
+        verbosity: verbosity value from 1 to 4 indicating increased printed feedback during execution.
+
+        Returns
+        -------
+        Expected score of the classifier against a random rater.
+        """
+        if verbosity > 2:
+            print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
+
+        if verbosity > 4:
+            print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
+
+
+        if not anonymous:  # one sample for each column
+            return self.score_non_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
+        else:
+            return self.score_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
 
 class Correlation(Scorer):
     """
