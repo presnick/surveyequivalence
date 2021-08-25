@@ -29,7 +29,7 @@ class Scorer(ABC):
     def score_anonymous(self,
                         classifier_predictions,
                         W,
-                        num_samples=1000,
+                        num_virtual_raters=1000,
                         verbosity=0):
         """
         A virtual rater is a randomly selected non-null rating for each column.
@@ -46,21 +46,20 @@ class Scorer(ABC):
         -------
         A scalar expected score
         """
-        # take a bunch of samples
-        # for each sample, pick a random non-null rating from each row
-        # compute score for each sample
-        samples_collection = []
+        # create a bunch of virtual raters (samples)
+        # for each virtual rater, pick a random non-null rating from each row
+        virtual_raters_collection = []
         for i, virtual_rater_i in W.iterrows():
             vals = virtual_rater_i.dropna().values
             if len(vals) > 0:
-                ratings_for_i = np.random.choice(vals, num_samples, replace=True)
-                samples_collection.append(ratings_for_i)
+                ratings_for_i = np.random.choice(vals, num_virtual_raters, replace=True)
+                virtual_raters_collection.append(ratings_for_i)
 
-        # one row for each item; num_samples columns
-        samples_matrix = np.array(samples_collection)
+        # one row for each item; num_virtual_raters columns
+        virtual_raters_matrix = np.array(virtual_raters_collection)
 
-        # iterate through the columns of samples_matrix, scoring each
-        scores = [self.score(classifier_predictions, virtual_rater) for virtual_rater in samples_matrix.T]
+        # iterate through the columns (virtual raters) of samples_matrix, scoring each
+        scores = [self.score(classifier_predictions, virtual_rater) for virtual_rater in virtual_raters_matrix.T]
         non_null_scores = [score for score in scores if not pd.isna(score)]
 
         if len(non_null_scores) == 0:
@@ -68,6 +67,7 @@ class Scorer(ABC):
                 print("\t\t\tNo non-null scores")
             return None
 
+        # take average score across virtual rateres
         retval = sum(non_null_scores) / len(non_null_scores)
         if verbosity > 2:
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
@@ -91,6 +91,7 @@ class Scorer(ABC):
         -------
         A scalar expected score
         """
+        # one sample for each column
 
         scores = [self.score(classifier_predictions, W[col]) for col in W.columns]
         non_null_scores = [score for score in scores if not pd.isna(score)]
@@ -133,7 +134,7 @@ class Scorer(ABC):
             print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
 
 
-        if not anonymous:  # one sample for each column
+        if not anonymous:
             return self.score_non_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
         else:
             return self.score_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
@@ -231,6 +232,53 @@ class CrossEntropyScore(Scorer):
     """
     def __init__(self):
         super().__init__()
+
+    def score_anonymous(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # -- get the probability of each label
+        # -- use those as weights, with score for when that label happens
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts/sum(counts)
+
+            if len(counts) == 0:
+                continue
+            item_tot = 0
+            for label, freq in iterrows(freqs):
+                item_tot += -freq * log2(pred.label_probability(label))
+
+            tot += item_tot
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
+
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
