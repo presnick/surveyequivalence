@@ -84,6 +84,22 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(pred.probabilities[0], 0.6463687151, delta=0.04)
         self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
 
+    def test_cross_entropy(self):
+        three_predictions = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
+        W = pd.DataFrame([['a', 'b', 'b', 'b', None],
+                          ['a', 'a', 'a', 'a', None],
+                          ['a', 'a', 'b', 'b', 'b']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        print(W)
+        score = CrossEntropyScore().score_anonymous(three_predictions, W)
+        # correct score 1.076680823, which is mean of:
+        # - .25*log2(.3) - .75*log2(.7) ==> 0.820171278
+        # - log2(.4) ==> 1.321928095
+        # - .4*log2(.6) - .6*log2(.4) ==> 1.087943095
+
+        self.assertAlmostEqual(score, 1.076680823, places=3)
+
+
     def test_scoring_functions(self):
         small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
 
