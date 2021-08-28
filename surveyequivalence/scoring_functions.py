@@ -264,12 +264,12 @@ class CrossEntropyScore(Scorer):
             # count frequency of each value
             counts = row.dropna().value_counts()
             freqs = counts/sum(counts)
-
             if len(counts) == 0:
                 continue
             item_tot = 0
-            for label, freq in iterrows(freqs):
-                item_tot += -freq * log2(pred.label_probability(label))
+            for label, freq in freqs.items():
+                score = -freq * log2(pred.label_probability(label))
+                item_tot += score
 
             tot += item_tot
             ct += 1

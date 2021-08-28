@@ -816,7 +816,8 @@ class AnalysisPipeline:
                         pd.Series(preds),
                         unused_raters,
                         ref_labels_df,
-                        self.verbosity
+                        anonymous=self.anonymous_raters,
+                        verbosity = self.verbosity
                     )
 
                     if score is None:
@@ -1059,23 +1060,35 @@ class Plot:
     def y_range_min(self):
         return self.y_range[0] if self.y_range else self.ymin
 
-    def set_ymin(self):
+    def raw_ymin(self):
         ymin = self.expert_power_curve.min_value
         if (self.amateur_power_curve):
             ymin = min(ymin, self.amateur_power_curve.min_value)
         if self.classifier_scores:
             ymin = min(ymin, self.classifier_scores.min_value)
 
-        self.ymin = self.possibly_center_score(ymin)
+        return ymin
 
-    def set_ymax(self):
+    def raw_ymax(self):
         ymax = self.expert_power_curve.max_value
         if (self.amateur_power_curve):
             ymax = max(ymax, self.amateur_power_curve.max_value)
         if self.classifier_scores:
             ymax = max(ymax, self.classifier_scores.max_value)
 
-        self.ymax = self.possibly_center_score(ymax)
+        return ymax
+
+    def set_ymin(self):
+        if self.center_on is not None and len(self.expert_power_curve.means) > 0:
+            self.ymin = self.possibly_center_score(self.raw_ymax())
+        else:
+            self.ymin=self.raw_ymin()
+
+    def set_ymax(self):
+        if self.center_on is not None and len(self.expert_power_curve.means) > 0:
+            self.ymax = self.possibly_center_score(self.raw_ymin())
+        else:
+            self.ymax=self.raw_ymax()
 
     def set_xmax(self):
         self.xmax = 1 + max(max(self.expert_power_curve.means.index),
