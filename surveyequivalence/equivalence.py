@@ -970,7 +970,7 @@ class Plot:
 
     def possibly_center_score(self, score):
         if self.center_on is not None and len(self.expert_power_curve.means) > 0:
-            return score - self.center_on
+            return self.center_on - score
         else:
             return score
 
