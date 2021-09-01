@@ -93,11 +93,11 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         print(W)
         score = CrossEntropyScore().score_anonymous(three_predictions, W)
         # correct score 1.076680823, which is mean of:
-        # - .25*log2(.3) - .75*log2(.7) ==> 0.820171278
-        # - log2(.4) ==> 1.321928095
-        # - .4*log2(.6) - .6*log2(.4) ==> 1.087943095
+        # .25*log2(.3) + .75*log2(.7) ==> -0.820171278
+        # log2(.4) ==> - 1.321928095
+        # .4*log2(.6) + .6*log2(.4) ==> - 1.087943095
 
-        self.assertAlmostEqual(score, 1.076680823, places=3)
+        self.assertAlmostEqual(score, -1.076680823, places=3)
 
 
     def test_scoring_functions(self):

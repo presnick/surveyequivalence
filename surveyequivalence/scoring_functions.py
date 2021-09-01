@@ -14,6 +14,10 @@ class Scorer(ABC):
     """
     Scorer that defines a Scorer class as having a score() function. The scorer computes the goodness of a predictor
     against the average human rater.
+
+    Note that the current implementation of survey equivalence centering on c_0 and plotting
+    both assume that higher scores are better. Currently, this only affects the CrossEntropy scorer,
+    which we have negated from the traditional definition.
     """
 
     @abstractmethod
@@ -268,7 +272,12 @@ class CrossEntropyScore(Scorer):
                 continue
             item_tot = 0
             for label, freq in freqs.items():
-                score = -freq * log2(pred.label_probability(label))
+                # We use the negated cross-entropy, so that higher scores will be better,
+                # which is true of all the other scoring functions.
+                # If we used the standard cross-entropy, scores would be positive, and higher scores would be worse
+                # Several things would have to be generalized in equivalence.py to allow for higher scores
+                # being worse, including plotting and centering.
+                score = freq * log2(pred.label_probability(label))
                 item_tot += score
 
             tot += item_tot
