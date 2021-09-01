@@ -199,10 +199,51 @@ class Correlation(Scorer):
 
 class AgreementScore(Scorer):
     """
-    Agreement Scorer
+    Agreement Scorer. Discrete labels and predictions
     """
     def __init__(self):
         super().__init__()
+
+    def score_anonymous(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # get the frequency of matches among the ratings
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts / sum(counts)
+            if len(counts) == 0:
+                # no non-null labels for this item
+                continue
+            tot += freqs[pred.value]
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
 
     @staticmethod
     def score(classifier_predictions: Sequence[str],
@@ -314,6 +355,7 @@ class CrossEntropyScore(Scorer):
 
         """
 
+        foobar # TODO: rename to score_non_anonymous
         assert len(classifier_predictions) == len(rater_labels);
 
         if verbosity > 2:
@@ -341,8 +383,59 @@ class CrossEntropyScore(Scorer):
 
 
 class PrecisionScore(Scorer):
+    """
+    Only implemented for binary labels where one of the labels is "pos" and binary predictions.
+    Calculate the expected probability of (pos rating | pos prediction).
+    (True positives divided by all positives).
+    """
+
     def __init__(self):
         super().__init__()
+
+    def score_anonymous(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # -- count it only if the prediction is "positive"
+        # -- get the frequency of positive among the ratings
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts/sum(counts)
+            if len(counts) == 0:
+                # no non-null labels for this item
+                continue
+            elif pred.value != "pos":
+                # no impact on precision if classifier didn't predict positive
+                continue
+            tot += freqs['pos']
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],

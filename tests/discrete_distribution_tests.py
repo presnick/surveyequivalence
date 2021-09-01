@@ -5,7 +5,7 @@ import pandas as pd
 
 ##TODO: update this to use the generate_labels method; it's no longer a function
 from surveyequivalence import DiscreteDistributionOverStates, DiscreteState, \
-    DiscreteDistributionPrediction, \
+    DiscretePrediction, DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     MockClassifier, NumericPrediction, synthetic_datasets
@@ -84,7 +84,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(pred.probabilities[0], 0.6463687151, delta=0.04)
         self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
 
-    def test_cross_entropy(self):
+    def test_cross_entropy_anonymous_score(self):
         three_predictions = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
         W = pd.DataFrame([['a', 'b', 'b', 'b', None],
                           ['a', 'a', 'a', 'a', None],
@@ -98,6 +98,35 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         # .4*log2(.6) + .6*log2(.4) ==> - 1.087943095
 
         self.assertAlmostEqual(score, -1.076680823, places=3)
+
+    def test_precision_anonymous_score(self):
+        three_predictions = [DiscretePrediction(x) for x in ['pos','pos', 'neg']]
+        W = pd.DataFrame([['pos', 'neg', 'neg', 'neg', None],
+                          ['pos', 'pos', 'pos', 'pos', None],
+                          ['pos', 'pos', 'neg', 'neg', 'neg']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        print(W)
+        score = PrecisionScore().score_anonymous(three_predictions, W)
+        # correct score .625, which is mean of:
+        # .25
+        # 1
+
+        self.assertAlmostEqual(score, .625, places=3)
+
+    def test_agreement_anonymous_score(self):
+        three_predictions = [DiscretePrediction(x) for x in ['pos','pos', 'neg']]
+        W = pd.DataFrame([['pos', 'neg', 'neg', 'neg', None],
+                          ['pos', 'pos', 'pos', 'pos', None],
+                          ['pos', 'pos', 'neg', 'neg', 'neg']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        print(W)
+        score = AgreementScore().score_anonymous(three_predictions, W)
+        # correct score 1.85/3 = .616667, which is mean of:
+        # .25
+        # 1
+        # .6
+
+        self.assertAlmostEqual(score, .616667, places=3)
 
 
     def test_scoring_functions(self):
