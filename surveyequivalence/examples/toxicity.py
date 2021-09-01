@@ -18,10 +18,10 @@ def main():
     """
 
     # These are small values for a quick run through. Values used in experiments are provided in comments
-    max_k = 2  # 20
-    max_items = 50
-    bootstrap_samples = 10
-    num_processors = 3
+    max_k = 10  # 20
+    max_items = 20
+    bootstrap_samples = 0
+    num_processors = 1
 
     # Next we iterate over various combinations of combiner and scoring functions.
     combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
@@ -29,20 +29,20 @@ def main():
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
 
-    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
-    scorer = CrossEntropyScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-        num_processors=num_processors)
-
-    combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
-    scorer = AUCScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-        num_processors=num_processors)
-
-    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
-    scorer = AUCScore()
-    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-        num_processors=num_processors)
+    # combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    # scorer = CrossEntropyScore()
+    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+    #     num_processors=num_processors)
+    #
+    # combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
+    # scorer = AUCScore()
+    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+    #     num_processors=num_processors)
+    #
+    # combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    # scorer = AUCScore()
+    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+    #     num_processors=num_processors)
 
 
 def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int, num_processors: int):
@@ -127,13 +127,13 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
-    soft_class = pd.DataFrame(W['soft classifier'])
-    W = W.drop(['soft classifier'], axis=1)
-    num_cols = find_maximal_full_rating_matrix_cols(W)
-    print(f"Using {num_cols} columns")
-    W = prep_anonymized_rating_matrix(W, num_cols)
-    W = soft_class.join(W, how="inner")
-    W.reset_index(inplace=True, drop=True)
+    # soft_class = pd.DataFrame(W['soft classifier'])
+    # W = W.drop(['soft classifier'], axis=1)
+    # num_cols = find_maximal_full_rating_matrix_cols(W)
+    # print(f"Using {num_cols} columns")
+    # W = prep_anonymized_rating_matrix(W, num_cols)
+    # W = soft_class.join(W, how="inner")
+    # W.reset_index(inplace=True, drop=True)
 
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
 
@@ -160,16 +160,6 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='left', rsuffix='right')
 
-    # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
-    # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
-    if type(scorer) is CrossEntropyScore:
-        # For the prior, we don't need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2
-        # k=3, etc.
-        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
-                                 allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
-                                 classifier_predictions=classifiers, max_K=1, procs=num_processors)
-    else:
-        prior = None
 
     print('Begin Survey Equivalence Analysis Pipeline')
 
@@ -178,13 +168,29 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # return a power curve.
     p = AnalysisPipeline(W, combiner=combiner, scorer=scorer, allowable_labels=['a', 'n'],
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1,
-                         classifier_predictions=classifiers, max_K=max_k, procs=num_processors)
+                         classifier_predictions=classifiers, max_K=max_k,
+                         anonymous_raters=True,
+                         procs=num_processors)
 
     p.save(path=p.path_for_saving(f"toxicity/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
         Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
         """)
+
+    # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
+    # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
+    if type(scorer) is CrossEntropyScore:
+        # For the prior, we don't need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2
+        # k=3, etc.
+        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
+                                 allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
+                                 classifier_predictions=classifiers, max_K=1,
+                                 anonymous_raters=True,
+                                 procs=num_processors)
+    else:
+        prior = None
+
 
     fig, ax = plt.subplots()
     fig.set_size_inches(8.5, 10.5)
