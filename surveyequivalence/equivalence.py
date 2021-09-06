@@ -401,8 +401,8 @@ class AnalysisPipeline:
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
     anonymous_raters=False
-        If False, then each column in W represents an individual rater. If True, then raters are anonymous and virtual
-        raters will be sampled from the data randomly.
+        If False, then each column in W represents an individual rater. If True, then raters are anonymous and
+        not all labels in a column came from the same rater.
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
@@ -657,7 +657,7 @@ class AnalysisPipeline:
             print(f"starting classifiers: computing scores")
 
         def compute_scores(predictions_df, ref_labels_df):
-            return {col_name: self.scorer.score_classifier(predictions_df[col_name],
+            return {col_name: self.scorer.expected_score(predictions_df[col_name],
                                                 self.expert_cols,
                                                 ref_labels_df,
                                                 anonymous=self.anonymous_raters,
@@ -812,7 +812,7 @@ class AnalysisPipeline:
                 for raterset in ratersets[k]:
                     preds = [predictions[idx][raterset] for idx in idxs]
                     unused_raters = ref_raters - set(raterset)
-                    score = self.scorer.score_classifier(
+                    score = self.scorer.expected_score(
                         pd.Series(preds),
                         unused_raters,
                         ref_labels_df,

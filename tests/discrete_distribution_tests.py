@@ -90,8 +90,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                           ['a', 'a', 'a', 'a', None],
                           ['a', 'a', 'b', 'b', 'b']],
                          columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
-        print(W)
-        score = CrossEntropyScore().score_anonymous(three_predictions, W)
+        score = CrossEntropyScore().expected_score_anonymous_raters(three_predictions, W)
         # correct score 1.076680823, which is mean of:
         # .25*log2(.3) + .75*log2(.7) ==> -0.820171278
         # log2(.4) ==> - 1.321928095
@@ -105,8 +104,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                           ['pos', 'pos', 'pos', 'pos', None],
                           ['pos', 'pos', 'neg', 'neg', 'neg']],
                          columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
-        print(W)
-        score = PrecisionScore().score_anonymous(three_predictions, W)
+        score = PrecisionScore().expected_score_anonymous_raters(three_predictions, W)
         # correct score .625, which is mean of:
         # .25
         # 1
@@ -119,8 +117,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                           ['pos', 'pos', 'pos', 'pos', None],
                           ['pos', 'pos', 'neg', 'neg', 'neg']],
                          columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
-        print(W)
-        score = AgreementScore().score_anonymous(three_predictions, W)
+        score = AgreementScore().expected_score_anonymous_raters(three_predictions, W)
         # correct score 1.85/3 = .616667, which is mean of:
         # .25
         # 1

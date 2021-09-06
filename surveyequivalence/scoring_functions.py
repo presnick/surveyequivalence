@@ -12,8 +12,11 @@ from .combiners import DiscreteDistributionPrediction, NumericPrediction
 
 class Scorer(ABC):
     """
-    Scorer that defines a Scorer class as having a score() function. The scorer computes the goodness of a predictor
-    against the average human rater.
+    Scorer class.
+
+    Computes numeric socre for a sequence of classifier predictions:
+    - .score() yields actual score against a sequence of reference labels
+    - .expected_score() yields expected score against a matrix of reference labels
 
     Note that the current implementation of survey equivalence centering on c_0 and plotting
     both assume that higher scores are better. Currently, this only affects the CrossEntropy scorer,
@@ -30,10 +33,10 @@ class Scorer(ABC):
               rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
 
-    def score_anonymous(self,
+    def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
-                        num_virtual_raters=1000,
+                        num_virtual_raters=100,
                         verbosity=0):
         """
         A virtual rater is a randomly selected non-null rating for each column.
@@ -78,7 +81,7 @@ class Scorer(ABC):
         return retval
 
 
-    def score_non_anonymous(self,
+    def expected_score_non_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         verbosity=0):
@@ -110,21 +113,25 @@ class Scorer(ABC):
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
         return retval
 
-    def score_classifier(self,
+    def expected_score(self,
                          classifier_predictions: Sequence,
                          raters: Sequence,
                          W,
                          anonymous=False,
                          verbosity=0):
         """
-        Driver function that computes the expected score of the classifier against a random rater
+        Computes the expected score of the classifier against a random rater.
+        With anonymous flag, compute expected score against a randomly selected label for each item
+        With non-anonymous, compute the expected score against a randomly selected column.
 
         Parameters
         ----------
-        classifier_predictions: Scoring predictions
-        raters: The reference ratings. Score will compare classifier predictions with each rater in turn.
-        W: The item and rating dataset
-        anonymous: if False, then a random rater is a column from W; if True, then it is a random non-null rating for each item
+        classifier_predictions: Predictions to be scored
+        raters: Which columns of W to use as reference raters to score the predictions against
+        W: The item and rating dataset.
+        anonymous: if False, then a random rater is a column from W; if True, then labels in a column are
+            not necessarily from the same rater.
+
         verbosity: verbosity value from 1 to 4 indicating increased printed feedback during execution.
 
         Returns
@@ -139,9 +146,9 @@ class Scorer(ABC):
 
 
         if not anonymous:
-            return self.score_non_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
+            return self.expected_score_non_anonymous_raters(classifier_predictions, W[raters], verbosity=verbosity)
         else:
-            return self.score_anonymous(classifier_predictions, W[raters], verbosity=verbosity)
+            return self.expected_score_anonymous_raters(classifier_predictions, W[raters], verbosity=verbosity)
 
 class Correlation(Scorer):
     """
@@ -204,7 +211,7 @@ class AgreementScore(Scorer):
     def __init__(self):
         super().__init__()
 
-    def score_anonymous(self,
+    def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
@@ -278,7 +285,7 @@ class CrossEntropyScore(Scorer):
     def __init__(self):
         super().__init__()
 
-    def score_anonymous(self,
+    def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
@@ -355,7 +362,6 @@ class CrossEntropyScore(Scorer):
 
         """
 
-        foobar # TODO: rename to score_non_anonymous
         assert len(classifier_predictions) == len(rater_labels);
 
         if verbosity > 2:
@@ -392,7 +398,7 @@ class PrecisionScore(Scorer):
     def __init__(self):
         super().__init__()
 
-    def score_anonymous(self,
+    def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,

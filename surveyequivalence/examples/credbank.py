@@ -5,7 +5,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, CrossEntropyScore, \
-    AnonymousBayesianCombiner, Combiner, Scorer, find_maximal_full_rating_matrix_cols, prep_anonymized_rating_matrix
+    AnonymousBayesianCombiner, Combiner, Scorer, find_maximal_full_rating_matrix_cols
 
 
 def main():
@@ -118,16 +118,6 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Recall that index 0 and 1 were for the classifier outputs, i.e., the credbank score We relabel this
     # to 'hard classifier' and 'perc' respectively to keep track of them.
     W = W.rename(columns={0: 'hard classifier', 1: 'perc'})
-
-    hard_class = pd.DataFrame(W[['hard classifier', 'perc']])
-    W = W.drop(['hard classifier'], axis=1)
-    W = W.drop(['perc'], axis=1)
-
-    num_cols = find_maximal_full_rating_matrix_cols(W)
-    print(f"Using {num_cols} columns")
-    W = prep_anonymized_rating_matrix(W, num_cols)
-    W = hard_class.join(W, how="inner")
-    W.reset_index(inplace=True, drop=True)
 
     # Next we calculate calibration probabilities
     calibrated = dict()

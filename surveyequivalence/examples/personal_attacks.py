@@ -7,7 +7,7 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.svm import LinearSVC
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
-    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer, prep_anonymized_rating_matrix, \
+    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer, \
     find_maximal_full_rating_matrix_cols
 
 
@@ -118,7 +118,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Pad W with Nones if the number of raters for some item is less than the max.
     padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
 
-    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
+    print('##Wiki Personal Attacks - Dataset loaded##', len(padded_dataset))
 
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
@@ -127,16 +127,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
-    # soft_class = pd.DataFrame(W['soft classifier'])
-    # W = W.drop(['soft classifier'], axis=1)
-    # num_cols = find_maximal_full_rating_matrix_cols(W)
-    # print(f"Using {num_cols} columns")
-    # W = prep_anonymized_rating_matrix(W, num_cols)
-    # W = soft_class.join(W, how="inner")
-    # W.reset_index(inplace=True, drop=True)
-
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
-
     print('Begin Calibration')
 
     calibrator = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X]), y,
@@ -174,7 +165,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     p.save(path=p.path_for_saving(f"personal_attacks/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
-        Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
+        Running personal attacks experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
         """)
 
@@ -201,7 +192,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               y_axis_label='score',
               color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.values[0] if prior is not None else None,
-              name=f'Toxic {type(combiner).__name__}_plus_{type(scorer).__name__}',
+              name=f'Personal Attacks {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
