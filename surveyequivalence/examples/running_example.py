@@ -13,14 +13,14 @@ from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPredic
 
 def main():
     """
-    This is the main driver for the Toxicity example. The driver function cycles through four different \
+    This is the main driver for the personal attacks example. The driver function cycles through four different \
     combinations of ScoringFunctions and Combiners
     """
 
-    # These are small values for a quick run through. Values used in experiments are provided in comments
+    # These are small values for a quick run through. Values used results reported in paper are provided as comments
     max_k = 10  # 20
-    max_items = 20
-    bootstrap_samples = 0
+    max_items = 20 # 2000
+    bootstrap_samples = 0 # 200
     num_processors = 1
 
     # Next we iterate over various combinations of combiner and scoring functions.
@@ -29,27 +29,27 @@ def main():
     run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
         num_processors=num_processors)
 
-    # combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
-    # scorer = CrossEntropyScore()
-    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-    #     num_processors=num_processors)
-    #
-    # combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
-    # scorer = AUCScore()
-    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-    #     num_processors=num_processors)
-    #
-    # combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
-    # scorer = AUCScore()
-    # run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
-    #     num_processors=num_processors)
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    scorer = CrossEntropyScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+    combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
+    scorer = AUCScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
+
+    combiner = FrequencyCombiner(allowable_labels=['a', 'n'])
+    scorer = AUCScore()
+    run(combiner=combiner, scorer=scorer, max_k=max_k, max_items=max_items, bootstrap_samples=bootstrap_samples,
+        num_processors=num_processors)
 
 
 def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int, num_processors: int):
     """
-    Run Toxicity example with provided combiner and scorer.
+    Run personal attacks example with provided combiner and scorer.
 
-    With Toxicity data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
+    With personal attacks data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
     several different raters.
 
     Parameters
@@ -74,7 +74,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     Notes
     -----
-    This function uses data collected by Jigsaw's Toxicity platform [4]_ to generate survey equivalence values.
+    This function uses data collected by Jigsaw's personal attacks platform [4]_ to generate survey equivalence values.
 
     References
     ----------
@@ -109,7 +109,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
         shuffle(raters)
 
-        # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
+        # This is the predictor i.e., personal_attack score for comment. It will be at index 0 in W.
         dataset[index] = [item['predictor_prob']] + raters
 
     # Determine the number of columns needed in W. This is the max number of raters for an item.
@@ -123,7 +123,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
 
-    # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
+    # Recall that index 0 was the classifier output, i.e., personal attacks score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
@@ -146,14 +146,14 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     uncalibrated_classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1 - attack_prob], normalize=True)
          for attack_prob
-         in W['soft classifier']], columns=['Uncalibrated Jigsaw Toxicity Classifier'])
+         in W['soft classifier']], columns=['Uncalibrated Jigsaw Personal Attacks Classifier'])
 
     # Create a calibrated classifier
     calibrated_classifier1 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
          for b, a
          in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])
-         ], columns=['Calibrated Jigsaw Toxicity Classifier'])
+         ], columns=['Calibrated Jigsaw Personal Attacks Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
@@ -172,7 +172,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
                          anonymous_raters=True,
                          procs=num_processors)
 
-    p.save(path=p.path_for_saving(f"toxicity/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
+    p.save(path=p.path_for_saving(f"personal_attacks/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
         Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
@@ -215,7 +215,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.save(p.path_for_saving(f"toxicity/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
+    pl.save(p.path_for_saving(f"personal_attacks/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 if __name__ == '__main__':
     main()

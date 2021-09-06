@@ -274,7 +274,7 @@ where the columns represent the Wikipedia comment ID, the percentage of labels t
 attack, the number of labeled attacks, the number of total labels -- where the percentage is equal to the number of
 attacks divided by the number of labels, and the probability that the Jigsaw predictor returned.
 
-We load and perform surveyequivalence analysis in `examples/toxicity.py`
+We load and perform surveyequivalence analysis in `examples/personal_attacks.py`
 
 Example Driver
 ^^^^^^^^^^^^^^
@@ -359,7 +359,7 @@ be something for future work.
 
         shuffle(raters)
 
-        # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
+        # This is the predictor i.e., personal_attack score for comment. It will be at index 0 in W.
         dataset[index] = [item['predictor_prob']] + raters
 
 At this point the `dataset` variable will have one row for each item (i.e., Wiki-comment) and a shuffled listing of 'a'
@@ -382,7 +382,7 @@ with Nones for items with less than the max number of raters.
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
 
-    # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
+    # Recall that index 0 was the classifier output, i.e., personal attack score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
@@ -394,7 +394,7 @@ Calibrating the Predictor
 
 Next we are concerned with calibrating our classifier.
 
-The Wiki-toxicity predictor was labeled `predictor_prob` in the dataset, and was loaded, for each rater, into `X`,
+The Wiki-personal_attack predictor was labeled `predictor_prob` in the dataset, and was loaded, for each rater, into `X`,
 which is associated with a 1 or a 0 in `y` if the rater labeled attack or not attack respectively. The goal of this
 predictor is to not necessarily predict attack or not attack, but rather to give a probability of the label. This
 probability is a kind of confidence about the prediction.
