@@ -1,3 +1,4 @@
+import random
 from abc import ABC, abstractmethod
 from math import log2
 from typing import Sequence
@@ -11,8 +12,15 @@ from .combiners import DiscreteDistributionPrediction, NumericPrediction
 
 class Scorer(ABC):
     """
-    Scorer that defines a Scorer class as having a score() function. The scorer computes the goodness of a predictor
-    against the average human rater.
+    Scorer class.
+
+    Computes numeric socre for a sequence of classifier predictions:
+    - .score() yields actual score against a sequence of reference labels
+    - .expected_score() yields expected score against a matrix of reference labels
+
+    Note that the current implementation of survey equivalence centering on c_0 and plotting
+    both assume that higher scores are better. Currently, this only affects the CrossEntropy scorer,
+    which we have negated from the traditional definition.
     """
 
     @abstractmethod
@@ -25,32 +33,74 @@ class Scorer(ABC):
               rater_labels: Sequence[DiscreteDistributionPrediction]) -> float:
         pass
 
-    def score_classifier(self,
-                         classifier_predictions: Sequence,
-                         raters: Sequence,
-                         W,
-                         verbosity=0):
+    def expected_score_anonymous_raters(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=100,
+                        verbosity=0):
         """
-        Driver function that computes the mean score over all predictions
+        A virtual rater is a randomly selected non-null rating for each column.
+        This implementation generates sample virtual raters, scores each, and takes the mean
+        Some scoring functions override this with a closed-form solution for the expectation
 
         Parameters
         ----------
         classifier_predictions: Scoring predictions
-        raters: The reference ratings. Score will compare classifier predictions with each rater in turn.
         W: The item and rating dataset
         verbosity: verbosity value from 1 to 4 indicating increased verbosity.
 
         Returns
         -------
-        Mean score over all predictions for all raters.
+        A scalar expected score
         """
+        # create a bunch of virtual raters (samples)
+        # for each virtual rater, pick a random non-null rating from each row
+        virtual_raters_collection = []
+        for i, virtual_rater_i in W.iterrows():
+            vals = virtual_rater_i.dropna().values
+            if len(vals) > 0:
+                ratings_for_i = np.random.choice(vals, num_virtual_raters, replace=True)
+                virtual_raters_collection.append(ratings_for_i)
+
+        # one row for each item; num_virtual_raters columns
+        virtual_raters_matrix = np.array(virtual_raters_collection)
+
+        # iterate through the columns (virtual raters) of samples_matrix, scoring each
+        scores = [self.score(classifier_predictions, virtual_rater) for virtual_rater in virtual_raters_matrix.T]
+        non_null_scores = [score for score in scores if not pd.isna(score)]
+
+        if len(non_null_scores) == 0:
+            if verbosity > 2:
+                print("\t\t\tNo non-null scores")
+            return None
+
+        # take average score across virtual rateres
+        retval = sum(non_null_scores) / len(non_null_scores)
         if verbosity > 2:
-            print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
+            print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
+        return retval
 
-        if verbosity > 4:
-            print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
 
-        scores = [self.score(classifier_predictions, W[col], verbosity) for col in raters]
+    def expected_score_non_anonymous_raters(self,
+                        classifier_predictions,
+                        W,
+                        verbosity=0):
+        """
+        A virtual rater is a column of W
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+        # one sample for each column
+
+        scores = [self.score(classifier_predictions, W[col]) for col in W.columns]
         non_null_scores = [score for score in scores if not pd.isna(score)]
 
         if len(non_null_scores) == 0:
@@ -63,6 +113,42 @@ class Scorer(ABC):
             print(f"\t\tnon_null_scores = {non_null_scores}; returning mean: {retval}")
         return retval
 
+    def expected_score(self,
+                         classifier_predictions: Sequence,
+                         raters: Sequence,
+                         W,
+                         anonymous=False,
+                         verbosity=0):
+        """
+        Computes the expected score of the classifier against a random rater.
+        With anonymous flag, compute expected score against a randomly selected label for each item
+        With non-anonymous, compute the expected score against a randomly selected column.
+
+        Parameters
+        ----------
+        classifier_predictions: Predictions to be scored
+        raters: Which columns of W to use as reference raters to score the predictions against
+        W: The item and rating dataset.
+        anonymous: if False, then a random rater is a column from W; if True, then labels in a column are
+            not necessarily from the same rater.
+
+        verbosity: verbosity value from 1 to 4 indicating increased printed feedback during execution.
+
+        Returns
+        -------
+        Expected score of the classifier against a random rater.
+        """
+        if verbosity > 2:
+            print(f"\t\tScoring predictions = {classifier_predictions} vs. ref raters {raters}")
+
+        if verbosity > 4:
+            print(f"ref_ratings = \n{W.loc[:, list(raters)]}")
+
+
+        if not anonymous:
+            return self.expected_score_non_anonymous_raters(classifier_predictions, W[raters], verbosity=verbosity)
+        else:
+            return self.expected_score_anonymous_raters(classifier_predictions, W[raters], verbosity=verbosity)
 
 class Correlation(Scorer):
     """
@@ -120,10 +206,51 @@ class Correlation(Scorer):
 
 class AgreementScore(Scorer):
     """
-    Agreement Scorer
+    Agreement Scorer. Discrete labels and predictions
     """
     def __init__(self):
         super().__init__()
+
+    def expected_score_anonymous_raters(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # get the frequency of matches among the ratings
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts / sum(counts)
+            if len(counts) == 0:
+                # no non-null labels for this item
+                continue
+            tot += freqs[pred.value]
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
 
     @staticmethod
     def score(classifier_predictions: Sequence[str],
@@ -157,6 +284,58 @@ class CrossEntropyScore(Scorer):
     """
     def __init__(self):
         super().__init__()
+
+    def expected_score_anonymous_raters(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # -- get the probability of each label
+        # -- use those as weights, with score for when that label happens
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts/sum(counts)
+            if len(counts) == 0:
+                continue
+            item_tot = 0
+            for label, freq in freqs.items():
+                # We use the negated cross-entropy, so that higher scores will be better,
+                # which is true of all the other scoring functions.
+                # If we used the standard cross-entropy, scores would be positive, and higher scores would be worse
+                # Several things would have to be generalized in equivalence.py to allow for higher scores
+                # being worse, including plotting and centering.
+                score = freq * log2(pred.label_probability(label))
+                item_tot += score
+
+            tot += item_tot
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
+
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
@@ -210,8 +389,59 @@ class CrossEntropyScore(Scorer):
 
 
 class PrecisionScore(Scorer):
+    """
+    Only implemented for binary labels where one of the labels is "pos" and binary predictions.
+    Calculate the expected probability of (pos rating | pos prediction).
+    (True positives divided by all positives).
+    """
+
     def __init__(self):
         super().__init__()
+
+    def expected_score_anonymous_raters(self,
+                        classifier_predictions,
+                        W,
+                        num_virtual_raters=None,
+                        verbosity=0):
+        """
+        A virtual rater is a randomly selected non-null rating for each column.
+        Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
+
+        Parameters
+        ----------
+        classifier_predictions: Scoring predictions
+        W: The item and rating dataset
+        verbosity: verbosity value from 1 to 4 indicating increased verbosity.
+
+        Returns
+        -------
+        A scalar expected score
+        """
+
+        # iterate through the rows
+        # for each row:
+        # -- count it only if the prediction is "positive"
+        # -- get the frequency of positive among the ratings
+
+        tot = 0
+        ct = 0
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # count frequency of each value
+            counts = row.dropna().value_counts()
+            freqs = counts/sum(counts)
+            if len(counts) == 0:
+                # no non-null labels for this item
+                continue
+            elif pred.value != "pos":
+                # no impact on precision if classifier didn't predict positive
+                continue
+            tot += freqs['pos']
+            ct += 1
+
+        if ct > 0:
+            return tot / ct
+        else:
+            return None
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],

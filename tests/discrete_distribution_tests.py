@@ -5,7 +5,7 @@ import pandas as pd
 
 ##TODO: update this to use the generate_labels method; it's no longer a function
 from surveyequivalence import DiscreteDistributionOverStates, DiscreteState, \
-    DiscreteDistributionPrediction, \
+    DiscretePrediction, DiscreteDistributionPrediction, \
     FrequencyCombiner, AnonymousBayesianCombiner, \
     AnalysisPipeline, AgreementScore, PrecisionScore, RecallScore, F1Score, AUCScore, CrossEntropyScore, \
     MockClassifier, NumericPrediction, synthetic_datasets
@@ -84,6 +84,48 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(pred.probabilities[0], 0.6463687151, delta=0.04)
         self.assertAlmostEqual(pred.probabilities[0] + pred.probabilities[1], 1.0, delta=0.01)
 
+    def test_cross_entropy_anonymous_score(self):
+        three_predictions = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
+        W = pd.DataFrame([['a', 'b', 'b', 'b', None],
+                          ['a', 'a', 'a', 'a', None],
+                          ['a', 'a', 'b', 'b', 'b']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        score = CrossEntropyScore().expected_score_anonymous_raters(three_predictions, W)
+        # correct score 1.076680823, which is mean of:
+        # .25*log2(.3) + .75*log2(.7) ==> -0.820171278
+        # log2(.4) ==> - 1.321928095
+        # .4*log2(.6) + .6*log2(.4) ==> - 1.087943095
+
+        self.assertAlmostEqual(score, -1.076680823, places=3)
+
+    def test_precision_anonymous_score(self):
+        three_predictions = [DiscretePrediction(x) for x in ['pos','pos', 'neg']]
+        W = pd.DataFrame([['pos', 'neg', 'neg', 'neg', None],
+                          ['pos', 'pos', 'pos', 'pos', None],
+                          ['pos', 'pos', 'neg', 'neg', 'neg']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        score = PrecisionScore().expected_score_anonymous_raters(three_predictions, W)
+        # correct score .625, which is mean of:
+        # .25
+        # 1
+
+        self.assertAlmostEqual(score, .625, places=3)
+
+    def test_agreement_anonymous_score(self):
+        three_predictions = [DiscretePrediction(x) for x in ['pos','pos', 'neg']]
+        W = pd.DataFrame([['pos', 'neg', 'neg', 'neg', None],
+                          ['pos', 'pos', 'pos', 'pos', None],
+                          ['pos', 'pos', 'neg', 'neg', 'neg']],
+                         columns = ['r1', 'r2', 'r3', 'r4', 'r5'])
+        score = AgreementScore().expected_score_anonymous_raters(three_predictions, W)
+        # correct score 1.85/3 = .616667, which is mean of:
+        # .25
+        # 1
+        # .6
+
+        self.assertAlmostEqual(score, .616667, places=3)
+
+
     def test_scoring_functions(self):
         small_dataset = [DiscreteDistributionPrediction(['a', 'b'], prs) for prs in [[.3, .7], [.4, .6], [.6, .4]]]
 
@@ -136,6 +178,30 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         # ROC doesn't make sense with only one class
         score = AUCScore.score(small_dataset, ['b', 'b', 'a'])
         self.assertAlmostEqual(score, 0.75, places=3)
+
+    def test_non_full_rating_matrix(self):
+        datasets = [synthetic_datasets.make_non_full_dataset_1(num_items_per_dataset=100).dataset]
+        for dataset in datasets:
+            for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])]:
+                for scorer in [CrossEntropyScore(), AgreementScore()]:
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, CrossEntropyScore):
+                        print("Cross entropy not well defined for Frequency combiner - no probabilities")
+                        continue
+                    if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, AUCScore):
+                        print("AUC not well defined for Frequency combiner - no probabilities")
+                        continue
+
+                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer, min_ratings_per_item=10,
+                                         allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
+
+                    results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
+                    results.columns = ['mean', 'std']
+                    print("*****RESULTS*****")
+                    print(combiner, scorer)
+                    print(results)
+                    for i in range(15):
+                        thresh = results['mean'][0] + .01 * i
+                        print(f"\tsurvey equivalence for {thresh} is ", p.expert_power_curve.compute_equivalence_at_actuals(thresh))
 
     def test_analysis_pipeline(self):
         datasets = [synthetic_datasets.make_discrete_dataset_1(num_items_per_dataset=100).dataset,

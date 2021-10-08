@@ -75,7 +75,8 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
     #### ABC + CrossEntropy
     abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
     cross_entropy = CrossEntropyScore()
-
+    # Here we set anonymous_raters to True, so that we will compute expected score against a randomly selected
+    # rater for each item, rather than against a randomly selected column
     pipeline2 = AnalysisPipeline(W,
                                 expert_cols=list(W.columns),
                                 classifier_predictions=classifier_predictions[soft_classifiers],
@@ -83,6 +84,7 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
                                 scorer=cross_entropy,
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
+                                anonymous_raters=True,
                                 verbosity = 1)
 
     pipeline2.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"),
@@ -112,7 +114,7 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
-            include_classifier_cis=True ##change back to false
+            include_classifier_cis=True
             )
     pl.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
 

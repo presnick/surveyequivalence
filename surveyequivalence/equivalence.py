@@ -11,6 +11,7 @@ from itertools import combinations
 from string import Template
 from typing import Sequence, Dict, Tuple
 
+import random
 import matplotlib
 from matplotlib import figure
 import multiprocess.context as ctx
@@ -60,6 +61,62 @@ def load_saved_pipeline(path):
     analysis_pipeline.expert_power_curve = expert_power_curve
     analysis_pipeline.amateur_power_curve = amateur_power_curve
     return analysis_pipeline
+
+
+def find_maximal_full_rating_matrix_cols(W) :
+    sizes = sorted(W.notnull().sum(axis=1), reverse=True)
+    best = 0
+    best_s = 0
+    for i, s in enumerate(sizes):
+        size = (i+1)*s
+        if size >= best:
+            best = size
+            best_s = s
+
+    return best_s
+
+def prep_anonymized_rating_matrix(W, min_ratings_per_item=None):
+    """
+    Some scoring functions (e.g., correlation) are only well-defined for a set of (prediction, label) pairs for a
+    bunch of items. That's why we defined Algorithm 3 the way we did. But what do we want to do if "rater 19"
+    has only labeled two items in our whole data set. Surely we don't want to compute the correlation of
+    predictions with rater 19 on just those two items, and treat that as equally valid with the correlation
+    with "rater 1" who has labeled 1000 items. Conceptually, what would we want to do in that case?
+
+    What we need is a way to distinguish between single-item-based scoring functions and multi-item-based scoring
+    functions. This function restricts W so that only raters with more than some minimum number of items are
+    included.
+
+    Parameters
+    ----------
+    W: a Pandas dataframe with raters as columns and items as rows
+    min_ratings_per_item: If specified, an integer
+
+    if min_ratings_per_item is None, find the ratings that maximize the size of a full matrix.
+
+    Returns
+    -------
+    Full anonymized rating matrix with no missing data in cells.
+        Items as rows
+        Rater-ranks as columns (1, 2, 3, ..., min_ratings_per_item)
+    Omit rows (items) with fewer than min_ratings_per_item
+    For each row, select min_ratings_per_item items (without replacement) and shuffle them in random order
+    """
+
+    if not min_ratings_per_item:
+        min_ratings_per_item = find_maximal_full_rating_matrix_cols(W)
+
+    # remove rows with too few items
+    W = W.loc[(W.notnull().sum(axis=1) >= min_ratings_per_item)]
+    # for each full-enough row, remove Nones and sample if more than min_ratings
+    new_w = list()
+    idx = list()
+    for index, row in W.iterrows():
+        new_w.append(row.dropna().sample(min_ratings_per_item).values)
+        idx.append(index)
+    new_w = pd.DataFrame(new_w)
+    new_w.set_index(pd.Index(idx), drop=False, inplace=True)
+    return new_w
 
 class Equivalences:
     """
@@ -343,6 +400,9 @@ class AnalysisPipeline:
     item_samples=None
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
+    anonymous_raters=False
+        If False, then each column in W represents an individual rater. If True, then raters are anonymous and
+        not all labels in a column came from the same rater.
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
@@ -366,10 +426,12 @@ class AnalysisPipeline:
                  ratersets_memo=None,
                  predictions_memo=None,
                  item_samples=None,
+                 anonymous_raters=False,
                  verbosity=1,
                  run_on_creation = True,
                  procs=pathos.helpers.cpu_count() - 1
                  ):
+
         if expert_cols:
             self.expert_cols = expert_cols
         else:
@@ -388,6 +450,7 @@ class AnalysisPipeline:
         self.max_rater_subsets=max_rater_subsets
         self.verbosity = verbosity
         self.procs = procs
+        self.anonymous_raters = anonymous_raters
 
         # initialize memoization cache for rater subsets
         if ratersets_memo:
@@ -441,7 +504,6 @@ class AnalysisPipeline:
                 max_rater_subsets=self.max_rater_subsets)
             self.amateur_survey_equivalences = Equivalences(
                 self.amateur_power_curve.compute_equivalences(self.classifier_scores))
-
 
     def path_for_saving(self, dirname_base="analysis_pipeline", include_timestamp=True):
         """
@@ -595,9 +657,10 @@ class AnalysisPipeline:
             print(f"starting classifiers: computing scores")
 
         def compute_scores(predictions_df, ref_labels_df):
-            return {col_name: self.scorer.score_classifier(predictions_df[col_name],
+            return {col_name: self.scorer.expected_score(predictions_df[col_name],
                                                 self.expert_cols,
                                                 ref_labels_df,
+                                                anonymous=self.anonymous_raters,
                                                 verbosity=self.verbosity) \
                     for col_name in self.classifier_predictions.columns}
 
@@ -749,7 +812,7 @@ class AnalysisPipeline:
                 for raterset in ratersets[k]:
                     preds = [predictions[idx][raterset] for idx in idxs]
                     unused_raters = ref_raters - set(raterset)
-                    score = self.scorer.score_classifier(
+                    score = self.scorer.expected_score(
                         pd.Series(preds),
                         unused_raters,
                         ref_labels_df,
@@ -803,7 +866,7 @@ class AnalysisPipeline:
         shutil.rmtree(dirpath)
 
         if self.verbosity > 1:
-            print(f"\n\t\trun_results={run_results}")
+            print(f"\n\t\trun_results={list(run_results)}")
         return PowerCurve(run_results)
 
 

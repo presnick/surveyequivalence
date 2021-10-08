@@ -7,20 +7,21 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.svm import LinearSVC
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, FrequencyCombiner, \
-    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer
+    CrossEntropyScore, AnonymousBayesianCombiner, AUCScore, Combiner, Scorer, \
+    find_maximal_full_rating_matrix_cols
 
 
 def main():
     """
-    This is the main driver for the Toxicity example. The driver function cycles through four different \
+    This is the main driver for the personal attacks example. The driver function cycles through four different \
     combinations of ScoringFunctions and Combiners
     """
 
-    # These are small values for a quick run through. Values used in experiments are provided in comments
+    # These are small values for a quick run through. Values used results reported in paper are provided as comments
     max_k = 10  # 20
-    max_items = 20
-    bootstrap_samples = 2
-    num_processors = 3
+    max_items = 20 # 2000
+    bootstrap_samples = 0 # 200
+    num_processors = 1
 
     # Next we iterate over various combinations of combiner and scoring functions.
     combiner = AnonymousBayesianCombiner(allowable_labels=['a', 'n'])
@@ -46,9 +47,9 @@ def main():
 
 def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstrap_samples: int, num_processors: int):
     """
-    Run Toxicity example with provided combiner and scorer.
+    Run personal attacks example with provided combiner and scorer.
 
-    With Toxicity data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
+    With personal attacks data we have annotations for if a Wikipedia comment is labeled as a personal attack or not from
     several different raters.
 
     Parameters
@@ -73,7 +74,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
     Notes
     -----
-    This function uses data collected by Jigsaw's Toxicity platform [4]_ to generate survey equivalence values.
+    This function uses data collected by Jigsaw's personal attacks platform [4]_ to generate survey equivalence values.
 
     References
     ----------
@@ -108,7 +109,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
 
         shuffle(raters)
 
-        # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
+        # This is the predictor i.e., personal_attack score for comment. It will be at index 0 in W.
         dataset[index] = [item['predictor_prob']] + raters
 
     # Determine the number of columns needed in W. This is the max number of raters for an item.
@@ -117,17 +118,16 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # Pad W with Nones if the number of raters for some item is less than the max.
     padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
 
-    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
+    print('##Wiki Personal Attacks - Dataset loaded##', len(padded_dataset))
 
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
 
-    # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
+    # Recall that index 0 was the classifier output, i.e., personal attacks score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
     # Calculate calibration probabilities. Use the current hour as random seed, because these lists need to be matched
-
     print('Begin Calibration')
 
     calibrator = CalibratedClassifierCV(LinearSVC(max_iter=1000), method='isotonic').fit(pd.DataFrame([x for x, y in X]), y,
@@ -137,30 +137,20 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     uncalibrated_classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1 - attack_prob], normalize=True)
          for attack_prob
-         in W['soft classifier']], columns=['Uncalibrated Jigsaw Toxicity Classifier'])
+         in W['soft classifier']], columns=['Uncalibrated Jigsaw Personal Attacks Classifier'])
 
     # Create a calibrated classifier
     calibrated_classifier1 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
          for b, a
          in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])
-         ], columns=['Calibrated Jigsaw Toxicity Classifier'])
+         ], columns=['Calibrated Jigsaw Personal Attacks Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
 
     classifiers = uncalibrated_classifier.join(calibrated_classifier1, lsuffix='left', rsuffix='right')
 
-    # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
-    # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
-    if type(scorer) is CrossEntropyScore:
-        # For the prior, we don't need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2
-        # k=3, etc.
-        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
-                                 allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
-                                 classifier_predictions=classifiers, max_K=1, procs=num_processors)
-    else:
-        prior = None
 
     print('Begin Survey Equivalence Analysis Pipeline')
 
@@ -169,13 +159,29 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
     # return a power curve.
     p = AnalysisPipeline(W, combiner=combiner, scorer=scorer, allowable_labels=['a', 'n'],
                          num_bootstrap_item_samples=bootstrap_samples, verbosity=1,
-                         classifier_predictions=classifiers, max_K=max_k, procs=num_processors)
+                         classifier_predictions=classifiers, max_K=max_k,
+                         anonymous_raters=True,
+                         procs=num_processors)
 
-    p.save(path=p.path_for_saving(f"toxicity/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
+    p.save(path=p.path_for_saving(f"personal_attacks/{combiner.__class__.__name__}_plus_{scorer.__class__.__name__}"),
            msg=f"""
-        Running WikiToxic experiment with {len(W)} items and {len(W.columns)} raters per item
+        Running personal attacks experiment with {len(W)} items and {len(W.columns)} raters per item
         {bootstrap_samples} bootstrap itemsets {combiner.__class__.__name__} with {scorer.__class__.__name__}
         """)
+
+    # Here we create a prior score. This is the c_0, i.e., the baseline score from which we measure information gain
+    # Information gain is only defined from cross entropy, so we only calculate this if the scorer is CrossEntropyScore
+    if type(scorer) is CrossEntropyScore:
+        # For the prior, we don't need any bootstrap samples and K needs to be only 1. Any improvement will be from k=2
+        # k=3, etc.
+        prior = AnalysisPipeline(W, combiner=AnonymousBayesianCombiner(allowable_labels=['a', 'n']), scorer=scorer,
+                                 allowable_labels=['a', 'n'], num_bootstrap_item_samples=0, verbosity=1,
+                                 classifier_predictions=classifiers, max_K=1,
+                                 anonymous_raters=True,
+                                 procs=num_processors)
+    else:
+        prior = None
+
 
     fig, ax = plt.subplots()
     fig.set_size_inches(8.5, 10.5)
@@ -186,7 +192,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
               y_axis_label='score',
               color_map={'expert_power_curve': 'black', '0_uncalibrated': 'black', '0_calibrated': 'red'},
               center_on=prior.expert_power_curve.values[0] if prior is not None else None,
-              name=f'Toxic {type(combiner).__name__}_plus_{type(scorer).__name__}',
+              name=f'Personal Attacks {type(combiner).__name__}_plus_{type(scorer).__name__}',
               legend_label='k raters',
               generate_pgf=True
               )
@@ -200,7 +206,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
             )
 
     # Save the figure and pgf/tikz if needed.
-    pl.save(p.path_for_saving(f"toxicity/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
+    pl.save(p.path_for_saving(f"personal_attacks/{type(combiner).__name__}_plus_{type(scorer).__name__}"), fig=fig)
 
 if __name__ == '__main__':
     main()

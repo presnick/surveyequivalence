@@ -5,7 +5,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from surveyequivalence import AnalysisPipeline, Plot, DiscreteDistributionPrediction, CrossEntropyScore, \
-    AnonymousBayesianCombiner, Combiner, Scorer
+    AnonymousBayesianCombiner, Combiner, Scorer, find_maximal_full_rating_matrix_cols
 
 
 def main():

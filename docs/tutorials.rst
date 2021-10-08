@@ -145,13 +145,16 @@ The analysis code is similar to that for the previous combiner and scorer.
 
     abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
     cross_entropy = CrossEntropyScore()
-    pipeline2 = AnalysisPipeline(ds2.dataset,
-                                expert_cols=list(ds2.dataset.columns),
-                                classifier_predictions=ds2.classifier_predictions[soft_classifiers],
+    # Here we set anonymous_raters to True, so that we will compute expected score against a randomly selected
+    # rater for each item, rather than against a randomly selected column
+    pipeline2 = AnalysisPipeline(W,
+                                expert_cols=list(W.columns),
+                                classifier_predictions=classifier_predictions[soft_classifiers],
                                 combiner=abc,
                                 scorer=cross_entropy,
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
+                                anonymous_raters=True,
                                 verbosity = 1)
 
     pipeline2.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"),
@@ -256,8 +259,8 @@ each for several classifiers.
 Two .csv files are generated, predictions.csv and ref_rater_labels.csv. They are stored in a subdirectory of
 data/running_example.
 
-Jigsaw Toxicity Dataset Analysis
---------------------------------
+Jigsaw Personal Attacks Dataset Analysis
+----------------------------------------
 Calculating the survey equivalence of an real world item and rater set is easy with this package. Here we focus on the
 Jigsaw Toxcitiy Dataset. This dataset is originally discussed in this paper:
 
@@ -274,7 +277,7 @@ where the columns represent the Wikipedia comment ID, the percentage of labels t
 attack, the number of labeled attacks, the number of total labels -- where the percentage is equal to the number of
 attacks divided by the number of labels, and the probability that the Jigsaw predictor returned.
 
-We load and perform surveyequivalence analysis in `examples/toxicity.py`
+We load and perform surveyequivalence analysis in `examples/personal_attacks.py`
 
 Example Driver
 ^^^^^^^^^^^^^^
@@ -359,7 +362,7 @@ be something for future work.
 
         shuffle(raters)
 
-        # This is the predictor i.e., score for toxic comment. It will be at index 0 in W.
+        # This is the predictor i.e., personal_attack score for comment. It will be at index 0 in W.
         dataset[index] = [item['predictor_prob']] + raters
 
 At this point the `dataset` variable will have one row for each item (i.e., Wiki-comment) and a shuffled listing of 'a'
@@ -377,12 +380,12 @@ with Nones for items with less than the max number of raters.
     # Pad W with Nones if the number of raters for some item is less than the max.
     padded_dataset = np.array([xi + [None] * (length - len(xi)) for xi in dataset.values()])
 
-    print('##Wiki Toxic - Dataset loaded##', len(padded_dataset))
+    print('##Personal Attacks - Dataset loaded##', len(padded_dataset))
 
     # Trim the dataset to only the first max_items and recast W as a dataframe
     W = pd.DataFrame(data=padded_dataset)[:max_items]
 
-    # Recall that index 0 was the classifier output, i.e., toxicity score. We relabel this to 'soft classifier' to keep
+    # Recall that index 0 was the classifier output, i.e., personal attack score. We relabel this to 'soft classifier' to keep
     # track of it.
     W = W.rename(columns={0: 'soft classifier'})
 
@@ -394,7 +397,7 @@ Calibrating the Predictor
 
 Next we are concerned with calibrating our classifier.
 
-The Wiki-toxicity predictor was labeled `predictor_prob` in the dataset, and was loaded, for each rater, into `X`,
+The Wiki-personal_attack predictor was labeled `predictor_prob` in the dataset, and was loaded, for each rater, into `X`,
 which is associated with a 1 or a 0 in `y` if the rater labeled attack or not attack respectively. The goal of this
 predictor is to not necessarily predict attack or not attack, but rather to give a probability of the label. This
 probability is a kind of confidence about the prediction.
@@ -421,14 +424,14 @@ calibrated normalized Jigsaw predictor-probabilities.
     uncalibrated_classifier = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [attack_prob, 1 - attack_prob], normalize=True)
          for attack_prob
-         in W['soft classifier']], columns=['Uncalibrated Jigsaw Toxicity Classifier'])
+         in W['soft classifier']], columns=['Uncalibrated Jigsaw Personal Attacks Classifier'])
 
     # Create a calibrated classifier
     calibrated_classifier1 = pd.DataFrame(
         [DiscreteDistributionPrediction(['a', 'n'], [a, b], normalize=True)
          for b, a
          in calibrator.predict_proba(W.loc[:, W.columns == 'soft classifier'])
-         ], columns=['Calibrated Jigsaw Toxicity Classifier'])
+         ], columns=['Calibrated Jigsaw Personal Attacks Classifier'])
 
     # The classifier object now holds the classifier predictions. Let's remove this data from W now.
     W = W.drop(['soft classifier'], axis=1)
