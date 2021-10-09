@@ -242,9 +242,13 @@ class AgreementScore(Scorer):
             counts = row.dropna().value_counts()
             freqs = counts / sum(counts)
             if len(counts) == 0:
-                # no non-null labels for this item
+                # no non-null labels for this item; skip it
                 continue
-            tot += freqs[pred.value]
+            if pred.value in freqs:
+                tot += freqs[pred.value]
+            else:
+                # predicted label never occurred in row, so no agreements to add to tot, but still increment ct
+                pass
             ct += 1
 
         if ct > 0:
