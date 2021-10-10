@@ -47,6 +47,129 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(pred.probabilities[0], 0.0, delta=0.03) #delta of 0.03 because of rounding at the extremes
         self.assertAlmostEqual(pred.probabilities[1], 1.0, delta=0.03)
 
+    def test_ABC_2(self):
+        anonymous_bayesian = AnonymousBayesianCombiner()
+        # W: A pandas DataFrame with one row for each item and one column for each rater. Cells are labels.
+        Wrows = [
+            ['pos', 'pos', 'neg'],
+            ['pos', 'pos', 'pos'],
+            ['pos', 'pos', 'pos'],
+            ['pos', 'neg', 'neg'],
+            ['pos', 'neg', 'neg'],
+            ['pos', 'neg', 'pos'],
+            ['neg', 'pos', 'pos'],
+            ['neg', 'neg', 'neg'],
+            ['neg', 'neg', 'pos']
+        ]
+        W = pd.DataFrame(Wrows, columns=['r1', 'r2', 'r3'])
+        W_np = W.to_numpy()
+
+        #     r1   r2   r3
+        # 0  pos  pos  neg
+        # 1  pos  pos  pos
+        # 2  pos  pos  pos
+        # 3  pos  neg  neg
+        # 4  pos  neg  neg
+        # 5  pos  neg  pos
+        # 6  neg  pos  pos
+        # 7  neg  neg  neg
+        # 8  neg  neg  pos
+
+        ## two or more positive labels on items 0, 1, 2, 5, 6
+        # for items 1 and 2, always get two pos, and then always get a third
+        # for items 0, 5, and 6, get two pos 1/3 of the time and, when you do, never get a third.
+
+        # excluding item 0, if we see (pos, pos),
+        # the chance that it came from items 1 or 2 is (1 + 1) / (1 + 1 + 1/3 + 1/3) = .75
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'pos'), (2, 'pos')],
+            W = W_np,
+            item_id = 0
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 0.75, delta=0.0001)
+
+        # excluding item 1, if we we see (pos, pos),
+        # the chance that it came from item 2 is 1 / (1 + 1/3 + 1/3 + 1/3) = .5
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'pos'), (2, 'pos')],
+            W = W_np,
+            item_id = 1
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 0.5, delta=0.0001)
+
+
+        ## (pos, neg) is possible on items 0, 3, 4, 5, 6, 7,
+        # for all of them, the chance of specifically (pos, neg) for first two is 1/3
+        # for items 0, 5, and 6, probability of (pos, neg, pos) is 1/3
+        # for other items, probability of (pos, neg, pos) is 0
+
+        # excluding item 0, if we see (pos, neg),
+        # the chance that it came from items 0, 5, or 6 is 2/5
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'pos'), (2, 'neg')],
+            W = W_np,
+            item_id = 0
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 0.4, delta=0.0001)
+
+        # excluding item 3, if we we see (pos, neg),
+        # the chance that it came from item 0, 5, or 6 is 3/5
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'pos'), (2, 'neg')],
+            W = W_np,
+            item_id = 3
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 0.6, delta=0.0001)
+
+        ## (neg) is possible on rows 0, 3, 4, 5, 6, 7, 8
+        # for 0, 5, and 6, pr(neg) is 1/3 and pr(neg, pos) is 1/3
+        # for 3, 4, and 8, pr(neg) is 2/3 and pr(neg, pos) is 1/3
+        # for 7, pr(neg) is 1 and pr(neg, pos) is 0
+
+        # excluding item 0, if we see (pos),
+        # the chance that it came from 5 or 6 is 2/11, and a pos will definitely follow
+        # the chance that it came from 3, 4, or 8 is 6/11, and pos will follow with prob 1/2
+        # the chance that it came from 7 is 3/11, and pos will definitely not follow
+        # so pr((neg, pos) | (neg)) = 2/11 + 6/11*1/2 = 5/11
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'neg')],
+            W = W_np,
+            item_id = 0
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 5/11, delta=0.0001)
+
+        # excluding item 3, if we see (pos),
+        # the chance that it came from 0, 5 or 6 is 3/10, and a pos will definitely follow
+        # the chance that it came from 3, 4, or 8 is 4/10, and pos will follow with prob 1/2
+        # the chance that it came from 7 is 3/10, and pos will definitely not follow
+        # so pr((neg, pos) | (neg)) = 3/10 + 4/10*1/2 = 5/10
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'neg')],
+            W = W_np,
+            item_id = 3
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 5/10, delta=0.0001)
+
+
+        # excluding item 7, if we see (pos),
+        # the chance that it came from 0, 5 or 6 is 3/9, and a pos will definitely follow
+        # the chance that it came from 3, 4, or 8 is 6/9, and pos will follow with prob 1/2
+        # the chance that it came from 7 is 0, and pos will definitely not follow
+        # so pr((neg, pos) | (neg)) = 3/9 + 6/9*1/2 = 6/9
+        pred = anonymous_bayesian.combine(
+            allowable_labels = ['pos', 'neg'],
+            labels = [(1, 'neg')],
+            W = W_np,
+            item_id = 7
+        )
+        self.assertAlmostEqual(pred.probabilities[0], 6/9, delta=0.0001)
+
     def test_anonymous_bayesian_combiner(self):
         synth_dataset = synthetic_datasets.make_discrete_dataset_1(num_items_per_dataset=1000)
         anonymous_bayesian = AnonymousBayesianCombiner()
