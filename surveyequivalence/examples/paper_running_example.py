@@ -5,10 +5,13 @@ from surveyequivalence import AgreementScore, PluralityVote, CrossEntropyScore, 
     AnonymousBayesianCombiner, FrequencyCombiner,  \
     AnalysisPipeline, Plot, ClassifierResults, DiscretePrediction, DiscreteDistributionPrediction
 
-def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
+def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, nrows=None):
 
     # read the reference rater labels from file
-    W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0)
+    if nrows:
+        W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0, nrows=nrows)
+    else:
+        W = pd.read_csv(f"{path}/ref_rater_labels.csv", index_col=0)
 
     # read the predictions from file
     def str2prediction_instance(s):
@@ -19,31 +22,14 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
             return DiscreteDistributionPrediction(['pos', 'neg'], [float(pr_pos), float(pr_neg)])
         else:
             return DiscretePrediction(suffix)
-    classifier_predictions = pd.read_csv(f"{path}/predictions.csv", index_col=0).applymap(str2prediction_instance)
+
+    if nrows:
+        classifier_predictions = pd.read_csv(f"{path}/predictions.csv", index_col=0, nrows=nrows).applymap(str2prediction_instance)
+    else:
+        classifier_predictions = pd.read_csv(f"{path}/predictions.csv", index_col=0).applymap(str2prediction_instance)
 
     hard_classifiers = classifier_predictions.columns[:1] # ['mock hard classifier']
     soft_classifiers = classifier_predictions.columns[1:] # ['calibrated hard classifier', 'h_infinity: ideal classifier']
-
-    #### Plurality combiner plus Agreement score ####
-    plurality_combiner = PluralityVote(allowable_labels=['pos', 'neg'])
-    agreement_score = AgreementScore()
-    pipeline = AnalysisPipeline(W,
-                                expert_cols=list(W.columns),
-                                classifier_predictions=classifier_predictions[hard_classifiers],
-                                combiner=plurality_combiner,
-                                scorer=agreement_score,
-                                allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=num_bootstrap_item_samples,
-                                verbosity = 1)
-    pipeline.save(path = pipeline.path_for_saving("running_example/plurality_plus_agreement"),
-        msg = f"""
-    Running example with {len(W)} items and {len(W.columns)} raters per item
-    {num_bootstrap_item_samples} bootstrap itemsets
-    Plurality combiner with agreement score
-    """)
-
-    fig, ax = plt.subplots()
-    fig.set_size_inches(8.5, 10.5)
 
     color_map = {
         'expert_power_curve': 'black',
@@ -52,25 +38,48 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
         'calibrated hard classifier': 'red'
     }
 
-    pl = Plot(ax,
-              pipeline.expert_power_curve,
-              classifier_scores=pipeline.classifier_scores,
-              color_map=color_map,
-              y_axis_label='percent agreement with reference rater',
-              y_range=(0, 1),
-              name='running example: majority vote + agreement score',
-              legend_label='k raters',
-              generate_pgf=True
-              )
-
-    pl.plot(include_classifiers=True,
-            include_classifier_equivalences=True,
-            include_droplines=True,
-            include_expert_points='all',
-            connect_expert_points=True,
-            include_classifier_cis=True
-            )
-    pl.save(pipeline.path_for_saving("running_example/plurality_plus_agreement"), fig=fig)
+    # #### Plurality combiner plus Agreement score ####
+    # plurality_combiner = PluralityVote(allowable_labels=['pos', 'neg'])
+    # agreement_score = AgreementScore()
+    # pipeline = AnalysisPipeline(W,
+    #                             expert_cols=list(W.columns),
+    #                             classifier_predictions=classifier_predictions[hard_classifiers],
+    #                             combiner=plurality_combiner,
+    #                             scorer=agreement_score,
+    #                             allowable_labels=['pos', 'neg'],
+    #                             num_bootstrap_item_samples=num_bootstrap_item_samples,
+    #                             verbosity = 1)
+    # pipeline.save(path = pipeline.path_for_saving("running_example/plurality_plus_agreement"),
+    #     msg = f"""
+    # Running example with {len(W)} items and {len(W.columns)} raters per item
+    # {num_bootstrap_item_samples} bootstrap itemsets
+    # Plurality combiner with agreement score
+    # """)
+    #
+    # fig, ax = plt.subplots()
+    # fig.set_size_inches(8.5, 10.5)
+    #
+    #
+    #
+    # pl = Plot(ax,
+    #           pipeline.expert_power_curve,
+    #           classifier_scores=pipeline.classifier_scores,
+    #           color_map=color_map,
+    #           y_axis_label='percent agreement with reference rater',
+    #           y_range=(0, 1),
+    #           name='running example: majority vote + agreement score',
+    #           legend_label='k raters',
+    #           generate_pgf=True
+    #           )
+    #
+    # pl.plot(include_classifiers=True,
+    #         include_classifier_equivalences=True,
+    #         include_droplines=True,
+    #         include_expert_points='all',
+    #         connect_expert_points=True,
+    #         include_classifier_cis=True
+    #         )
+    # pl.save(pipeline.path_for_saving("running_example/plurality_plus_agreement"), fig=fig)
 
     #### ABC + CrossEntropy
     abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
@@ -85,9 +94,10 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 anonymous_raters=True,
-                                verbosity = 1)
+                                verbosity = 1,
+                                procs=1)
 
-    pipeline2.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"),
+    pipeline2.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy"),
                    msg = f"""
     Running example with {len(W)} items and {len(W.columns)} raters per item
     {num_bootstrap_item_samples} bootstrap itemsets
@@ -116,26 +126,26 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5):
             connect_expert_points=True,
             include_classifier_cis=True
             )
-    pl.save(path=pipeline.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
+    pl.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
 
-    ###### Frequency combiner plus cross entropy ######
-    freq_combiner = FrequencyCombiner(allowable_labels=['pos', 'neg'])
-    pipeline3 = AnalysisPipeline(W,
-                                expert_cols=list(W.columns),
-                                classifier_predictions=classifier_predictions[soft_classifiers],
-                                combiner=freq_combiner,
-                                scorer=cross_entropy,
-                                allowable_labels=['pos', 'neg'],
-                                num_bootstrap_item_samples=num_bootstrap_item_samples,
-                                verbosity = 1)
-
-    pipeline3.save(path=pipeline.path_for_saving("running_example/frequency_plus_cross_entropy"),
-                   msg = f"""
-    Running example with {len(W)} items and {len(W.columns)} raters per item
-    {num_bootstrap_item_samples} bootstrap itemsets
-    frequency combiner with cross entropy score
-    """)
+    # ###### Frequency combiner plus cross entropy ######
+    # freq_combiner = FrequencyCombiner(allowable_labels=['pos', 'neg'])
+    # pipeline3 = AnalysisPipeline(W,
+    #                             expert_cols=list(W.columns),
+    #                             classifier_predictions=classifier_predictions[soft_classifiers],
+    #                             combiner=freq_combiner,
+    #                             scorer=cross_entropy,
+    #                             allowable_labels=['pos', 'neg'],
+    #                             num_bootstrap_item_samples=num_bootstrap_item_samples,
+    #                             verbosity = 1)
+    #
+    # pipeline3.save(path=pipeline.path_for_saving("running_example/frequency_plus_cross_entropy"),
+    #                msg = f"""
+    # Running example with {len(W)} items and {len(W.columns)} raters per item
+    # {num_bootstrap_item_samples} bootstrap itemsets
+    # frequency combiner with cross entropy score
+    # """)
 
 
 if __name__ == '__main__':
-    main()
+    main(path = 'data/running_example', nrows=10)

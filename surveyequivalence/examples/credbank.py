@@ -51,7 +51,7 @@ def run(combiner: Combiner, scorer: Scorer, max_k: int, max_items: int, bootstra
         of statistical power. No default is set. If this value is smaller than the number of items in the dataset then \
         the function will only take the first max_items items from the dataset thereby ignoring some data.
     bootstrap_samples : int
-        Number of samples to use when calculating survey equivalence. Like the number of samples in a t-tests, more \
+        Number of samples to use when calculating survey equivalence. Like the number of samples in a t-test, more \
         samples increases the statistical power, but each requires additional computational time. No default is set.
     num_processors : int
         Number of processors to use for parallel processing
