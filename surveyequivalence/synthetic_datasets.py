@@ -451,7 +451,7 @@ class SyntheticDataset(Dataset):
                         else:
                             beta_center = 0.1
                         alpha = beta_dispersion*beta_center
-                        beta = beta_dispersion*beta_center
+                        beta = beta_dispersion*(1-beta_center)
                         draw = np.random.beta(alpha,beta)
                         self.classifier_predictions[mc.name].append(DiscreteDistributionPrediction(['pos', 'neg'], [draw, 1-draw]))
 
