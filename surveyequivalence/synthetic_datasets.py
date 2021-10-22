@@ -8,10 +8,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-
-import sys
-sys.path.append("..") 
-
 from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
 
 

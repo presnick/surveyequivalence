@@ -8,8 +8,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-import sys
-sys.path.append("..") 
 from surveyequivalence import Prediction, DiscretePrediction, DiscreteDistributionPrediction
 
 class BernoulliNoise:
@@ -22,16 +20,15 @@ class BernoulliNoise:
         else:
             return 0
 
-def noisy_wiki_attack(dirname='',inputfile='wiki_attack_labels_and_predictor.csv',outputfile='wiki_attack_labels_and_predictor.csv',new_file=1):
-
+def noisy_wiki_attack(dirname='',inputfile='wiki_attack_labels_and_predictor.csv',outputfile='wiki_attack_labels_and_predictor.csv',new_file=1,noise=BernoulliNoise(0.1)):
+    """
+        Generate noise based on wiki_attack_labels_and_predictor dataset
+        default noise type is bernoulli(0.1)
+    """
     path = f'data/{dirname}/'
 
     dataset = pd.read_csv(f"{path}/{inputfile}", index_col=0)
-
     V = dataset.values
-    print(V)
-
-    noise = BernoulliNoise(0.1)
 
     for row in V:
         n = int(row[2])
@@ -46,10 +43,7 @@ def noisy_wiki_attack(dirname='',inputfile='wiki_attack_labels_and_predictor.csv
         row[0]= pos_num*1.0/n
         row[1]= pos_num
 
-    print(V)
-
     dataset=pd.DataFrame(data=V,index=dataset.index,columns=dataset.columns)
-    print(dataset)
 
     if new_file:
         path = f'data/{dirname}/{datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")}'
