@@ -79,7 +79,6 @@ class Scorer(ABC):
         # create a bunch of virtual raters (samples)
         # for each virtual rater, pick a random combination randomly selected set of num_ref_raters_per_virtual_rater non-null ratings for each column
 
-        # TODO: select num_ref_raters_per_virtual_rater reference raters, and combine them to produce virtual rater label
         virtual_raters_collection = []
         if ref_rater_combiner=="majority_vote":
             for _, virtual_rater_i in W.iterrows():
@@ -88,6 +87,7 @@ class Scorer(ABC):
                     ratings_for_i = []
                     num = min(len(vals),num_ref_raters_per_virtual_rater)
                     for _ in range(num_virtual_raters):
+                        #select num_ref_raters_per_virtual_rater reference raters, and combine them to produce virtual rater label
                         ratings_for_i.append(mode(np.random.choice(vals, num, replace=True)))
                     virtual_raters_collection.append(ratings_for_i)
         else:
@@ -264,8 +264,6 @@ class AgreementScore(Scorer):
         A scalar expected score
         """
 
-        ## TODO: update to handle num_ref_raters_per_virtual_rater parameter
-
         # iterate through the rows
         # for each row:
         # get the frequency of matches among the ratings
@@ -345,8 +343,6 @@ class CrossEntropyScore(Scorer):
         -------
         A scalar expected score
         """
-
-        ## TODO: update to handle num_ref_raters_per_virtual_rater parameter
 
         # iterate through the rows
         # for each row:
