@@ -236,21 +236,24 @@ class SyntheticDatasetGenerator:
     def __init__(self,
                  item_state_generator: DistributionOverStates,
                  num_items_per_dataset=1000,
-                 num_labels_per_item=10,
+                 max_labels_per_item=10,
                  min_labels_per_item=None,
                  mock_classifiers=None,
                  name=''):
         self.item_state_generator = item_state_generator
         self.num_items_per_dataset = num_items_per_dataset
-        self.num_labels_per_item = num_labels_per_item
-        self.min_labels_per_item = min_labels_per_item
+        self.max_labels_per_item = max_labels_per_item
+        if min_labels_per_item:
+            self.min_labels_per_item = min_labels_per_item
+        else:
+            self.min_labels_per_item = max_labels_per_item
         self.name = name
         # make a private empty list, not a shared default empty list if mock_classifiers not specified
         self.mock_classifiers = mock_classifiers if mock_classifiers else []
 
         self.reference_rater_item_states = item_state_generator.draw_states(num_items_per_dataset)
 
-    def generate_labels(self, item_states, max_num_labels_per_item=None, min_labels_per_item=None, rater_prefix="e"):
+    def generate_labels(self, item_states, max_labels_per_item=None, min_labels_per_item=None, rater_prefix="e"):
         """
         Normally called with item_states=self.reference_rater_item_states
 
@@ -267,15 +270,15 @@ class SyntheticDatasetGenerator:
         -------
         A pandas DataFrame with one row for each item and one column for each rater. Cells are labels.
         """
-        if not max_num_labels_per_item:
-            max_num_labels_per_item = self.num_labels_per_item
+        if not max_labels_per_item:
+            max_labels_per_item = self.max_labels_per_item
         if not min_labels_per_item:
-            min_labels_per_item = self.num_labels_per_item
+            min_labels_per_item = self.min_labels_per_item
         
 
         return pd.DataFrame(
-            [state.draw_labels(random.randint(min_labels_per_item, max_num_labels_per_item)) for state in item_states],
-            columns=[f"{rater_prefix}_{i}" for i in range(1, max_num_labels_per_item + 1)]
+            [state.draw_labels(random.randint(min_labels_per_item, max_labels_per_item)) for state in item_states],
+            columns=[f"{rater_prefix}_{i}" for i in range(1, max_labels_per_item + 1)]
         )
 
 class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
@@ -294,10 +297,10 @@ class SyntheticBinaryDatasetGenerator(SyntheticDatasetGenerator):
     k_other_raters_per_label=1
         The number of other raters to generate labels for.
     """
-    def __init__(self, item_state_generator, num_items_per_dataset=50, num_labels_per_item=3, min_labels_per_item=None,
+    def __init__(self, item_state_generator, num_items_per_dataset=50, max_labels_per_item=3, min_labels_per_item=None,
                  mock_classifiers=None, name=None,
                  pct_noise=0., k_other_raters_per_label=1):
-        super().__init__(item_state_generator, num_items_per_dataset, num_labels_per_item, min_labels_per_item, mock_classifiers, name)
+        super().__init__(item_state_generator, num_items_per_dataset, max_labels_per_item, min_labels_per_item, mock_classifiers, name)
 
         self.k_other_raters_per_label = k_other_raters_per_label
         if pct_noise > 0:
@@ -372,12 +375,24 @@ class SyntheticDataset(Dataset):
 
     Sets all the attributes, by running the SyntheticBinaryDatasetGenerator
     """
-    def __init__(self, ds_generator:SyntheticBinaryDatasetGenerator, mock_version=0):
+    def __init__(self, ds_generator:SyntheticBinaryDatasetGenerator, mock_version=0, argv=None):
+        """
+            Now we have 3 versions of mock classifier
+            version = 0
+                Default
+            version = 1
+                Generate hard classifier with Pr[hard classifier outputs Y]
+                Soft classifier is generated with a posterior after observing hard classifier
+            version = 2
+                Soft classifier: draw from beta distribution centered on beta_center, with dispersion beta_dispersion
+                Hard classifier: a threshold on the soft classifier
+                argv needed: "beta_center_dict": dict(string:float) from state name to center, "beta_dispersion": float, "threshold": float
+        """
         self.ds_generator = ds_generator
 
-        self.set_datasets(mock_version=mock_version)
+        self.set_datasets(mock_version=mock_version, argv=argv)
 
-    def set_datasets(self, mock_version=0):
+    def set_datasets(self, mock_version=0, argv=None):
         ds_generator = self.ds_generator
 
         # create the reference_rater dataset
@@ -387,7 +402,7 @@ class SyntheticDataset(Dataset):
 
         if ds_generator.other_rater_item_states is not None:
             other_rater_dataset = ds_generator.generate_labels(ds_generator.other_rater_item_states,
-                                                           max_num_labels_per_item=ds_generator.num_labels_per_item * ds_generator.k_other_raters_per_label,
+                                                           max_labels_per_item=ds_generator.max_labels_per_item * ds_generator.k_other_raters_per_label,
                                                            rater_prefix='a')
             if ds_generator.k_other_raters_per_label > 1:
                 raise NotImplementedError()
@@ -439,23 +454,31 @@ class SyntheticDataset(Dataset):
                 if mc.name=="calibrated hard classifier":
                     self.classifier_predictions[mc.name]=[]
                     self.classifier_predictions["mock hard classifier"]=[]
-                    beta_dispersion = 10
+
+                    if argv is Dict and argv["beta_dispersion"]:
+                        beta_dispersion = argv["beta_dispersion"]
+                    else:
+                        beta_dispersion = 10
+
+                    if argv is Dict and argv["beta_center_dict"]:
+                        beta_center_dict = argv["beta_center_dict"]
+                    else:
+                        beta_center_dict = {'shigh':0.9,'whigh':0.7,'wlow':0.3,'slow':0.1}
+
+                    if argv is Dict and argv["threshold"]:
+                        threshold = argv["threshold"]
+                    else:
+                        threshold = 0.5
+
                     for state in ds_generator.reference_rater_item_states:
                         name = state.state_name
-                        if name=='shigh':
-                            beta_center = 0.9
-                        elif name=='whigh':
-                            beta_center = 0.7
-                        elif name=='wlow':
-                            beta_center = 0.3
-                        else:
-                            beta_center = 0.1
+                        beta_center = beta_center_dict[name]
                         alpha = beta_dispersion*beta_center
                         beta = beta_dispersion*(1-beta_center)
                         draw = np.random.beta(alpha,beta)
                         self.classifier_predictions[mc.name].append(DiscreteDistributionPrediction(['pos', 'neg'], [draw, 1-draw]))
 
-                        if draw>0.5:
+                        if draw>threshold:
                             self.classifier_predictions["mock hard classifier"].append(DiscretePrediction('pos'))
                         else:
                             self.classifier_predictions["mock hard classifier"].append(DiscretePrediction('neg'))
@@ -545,7 +568,7 @@ def make_discrete_dataset_1(num_items_per_dataset=50, num_labels_per_item=10):
                                           pct_noise=.1,
                                           name='dataset1_80exprts_90-10onhigh_25-75onlow_10noise',
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item
+                                          max_labels_per_item=num_labels_per_item
                                           )
 
     dsg.mock_classifiers.append(MockClassifier(
@@ -572,7 +595,7 @@ def make_discrete_dataset_2(num_items_per_dataset=50, num_labels_per_item=10):
 
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item)
+                                          max_labels_per_item=num_labels_per_item)
     return SyntheticDataset(dsg)
 
 
@@ -590,7 +613,7 @@ def make_discrete_dataset_3(num_items_per_dataset=50, num_labels_per_item=10):
 
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator=item_state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item)
+                                          max_labels_per_item=num_labels_per_item)
     return SyntheticDataset(dsg)
 
 
@@ -610,7 +633,7 @@ def make_non_full_dataset_1(num_items_per_dataset=50, num_labels_per_item=10, mi
                                           pct_noise=.1,
                                           name='dataset1_80exprts_90-10onhigh_25-75onlow_10noise',
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item,
+                                          max_labels_per_item=num_labels_per_item,
                                           min_labels_per_item=min_labels_per_item
                                           )
 
@@ -676,7 +699,7 @@ def make_running_example_dataset(num_items_per_dataset = 10, num_labels_per_item
 
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator= state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item,
+                                          max_labels_per_item=num_labels_per_item,
                                           mock_classifiers=None,
                                           name="running example",
                                           )
@@ -784,7 +807,7 @@ def make_my_v1_running_example_dataset(num_items_per_dataset = 10, num_labels_pe
 
     dsg = SyntheticBinaryDatasetGenerator(item_state_generator= state_generator,
                                           num_items_per_dataset=num_items_per_dataset,
-                                          num_labels_per_item=num_labels_per_item,
+                                          max_labels_per_item=num_labels_per_item,
                                           mock_classifiers=None,
                                           name="running example",
                                           )

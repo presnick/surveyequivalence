@@ -9,6 +9,26 @@ from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_sco
 
 from .combiners import DiscreteDistributionPrediction, NumericPrediction
 
+def mode(data):
+    """
+    Calculate the mode in the data.
+    """
+    freq = dict()
+    for i in data:
+        if not i in freq:
+            freq[i]=1
+        else:
+            freq[i]+=1
+    mx = 0
+    argmx = []
+    for i in freq:
+        if freq[i]>mx:
+            mx = freq[i]
+            argmx = [i]
+        elif freq[i]==mx:
+            argmx.append(i)
+    return np.random.choice(argmx,1,replace=False)[0]
+
 
 class Scorer(ABC):
     """
@@ -57,15 +77,21 @@ class Scorer(ABC):
         A scalar expected score
         """
         # create a bunch of virtual raters (samples)
-        # for each virtual rater, pick a random non-null rating from each row
+        # for each virtual rater, pick a random combination randomly selected set of num_ref_raters_per_virtual_rater non-null ratings for each column
 
-        # TODO: select num_ref_raters_per_virtual_rater reference raters, adn combine them to produce virtual rater label
+        # TODO: select num_ref_raters_per_virtual_rater reference raters, and combine them to produce virtual rater label
         virtual_raters_collection = []
-        for i, virtual_rater_i in W.iterrows():
-            vals = virtual_rater_i.dropna().values
-            if len(vals) > 0:
-                ratings_for_i = np.random.choice(vals, num_virtual_raters, replace=True)
-                virtual_raters_collection.append(ratings_for_i)
+        if ref_rater_combiner=="majority_vote":
+            for _, virtual_rater_i in W.iterrows():
+                vals = virtual_rater_i.dropna().values
+                if len(vals) > 0:
+                    ratings_for_i = []
+                    num = min(len(vals),num_ref_raters_per_virtual_rater)
+                    for _ in range(num_virtual_raters):
+                        ratings_for_i.append(mode(np.random.choice(vals, num, replace=True)))
+                    virtual_raters_collection.append(ratings_for_i)
+        else:
+            raise NotImplementedError()
 
         # one row for each item; num_virtual_raters columns
         virtual_raters_matrix = np.array(virtual_raters_collection)
@@ -220,6 +246,8 @@ class AgreementScore(Scorer):
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
+                        num_ref_raters_per_virtual_rater=None,
+                        ref_rater_combiner="majority_vote",
                         verbosity=0):
         """
         A virtual rater is a randomly selected non-null rating for each column.
@@ -300,6 +328,8 @@ class CrossEntropyScore(Scorer):
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
+                        num_ref_raters_per_virtual_rater=None,
+                        ref_rater_combiner="majority_vote",
                         verbosity=0):
         """
         A virtual rater is a randomly selected non-null rating for each column.
@@ -374,7 +404,6 @@ class CrossEntropyScore(Scorer):
         Cross Entropy score
 
         """
-
         assert len(classifier_predictions) == len(rater_labels);
 
         if verbosity > 2:
