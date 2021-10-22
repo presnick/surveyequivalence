@@ -37,9 +37,12 @@ class Scorer(ABC):
                         classifier_predictions,
                         W,
                         num_virtual_raters=100,
+                        num_ref_raters_per_virtual_rater=1,
+                        ref_rater_combiner="majority_vote",
                         verbosity=0):
         """
-        A virtual rater is a randomly selected non-null rating for each column.
+        A virtual rater is the combined rating of a randomly selected set of num_ref_raters_per_virtual_rater non-null ratings for each column
+            Combine with majority vote for discrete labels; mean for continuous labels
         This implementation generates sample virtual raters, scores each, and takes the mean
         Some scoring functions override this with a closed-form solution for the expectation
 
@@ -55,6 +58,8 @@ class Scorer(ABC):
         """
         # create a bunch of virtual raters (samples)
         # for each virtual rater, pick a random non-null rating from each row
+
+        # TODO: select num_ref_raters_per_virtual_rater reference raters, adn combine them to produce virtual rater label
         virtual_raters_collection = []
         for i, virtual_rater_i in W.iterrows():
             vals = virtual_rater_i.dropna().values
@@ -231,6 +236,8 @@ class AgreementScore(Scorer):
         A scalar expected score
         """
 
+        ## TODO: update to handle num_ref_raters_per_virtual_rater parameter
+
         # iterate through the rows
         # for each row:
         # get the frequency of matches among the ratings
@@ -308,6 +315,8 @@ class CrossEntropyScore(Scorer):
         -------
         A scalar expected score
         """
+
+        ## TODO: update to handle num_ref_raters_per_virtual_rater parameter
 
         # iterate through the rows
         # for each row:
