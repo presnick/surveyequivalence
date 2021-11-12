@@ -371,16 +371,16 @@ class AgreementScore(Scorer_for_Hard_Classifier):
     """
     Agreement Scorer. Discrete labels and predictions
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, num_virtual_raters=100, num_ref_raters_per_virtual_rater=1, ref_rater_combiner="majority_vote", verbosity=0):
+        super().__init__(num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
 
     def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
-                        num_ref_raters_per_virtual_rater=1,
-                        ref_rater_combiner="majority_vote",
-                        verbosity=0):
+                        num_ref_raters_per_virtual_rater=None,
+                        ref_rater_combiner=None,
+                        verbosity=None):
         """
         A virtual rater is a majority vote from a group of num_ref_raters_per_virtual_rater randomly selected non-null ratings.
         Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
@@ -395,6 +395,15 @@ class AgreementScore(Scorer_for_Hard_Classifier):
         -------
         A scalar expected score
         """
+
+        if not num_virtual_raters:
+            num_virtual_raters = self.num_virtual_raters
+        if not num_ref_raters_per_virtual_rater:
+            num_ref_raters_per_virtual_rater = self.num_ref_raters_per_virtual_rater
+        if not ref_rater_combiner:
+            ref_rater_combiner = self.ref_rater_combiner
+        if not verbosity:
+            verbosity = self.verbosity
 
         # iterate through the rows
         # for each row:
@@ -418,12 +427,13 @@ class AgreementScore(Scorer_for_Hard_Classifier):
 
             # majority vote of the reference panel for particular label: freqs[]
 
-            freqs = counts
+            freqs = counts/np.sum(counts)
+
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater+1)/2)):
-                    i = (num_ref_raters_per_virtual_rater+1)/2 + ii
+                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
+                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
@@ -478,16 +488,16 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
     """
     Cross Entropy Scorer
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, num_virtual_raters=100, num_ref_raters_per_virtual_rater=1, ref_rater_combiner="majority_vote", verbosity=0):
+        super().__init__(num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
 
     def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
                         num_virtual_raters=None,
-                        num_ref_raters_per_virtual_rater=1,
-                        ref_rater_combiner="majority_vote",
-                        verbosity=0):
+                        num_ref_raters_per_virtual_rater=None,
+                        ref_rater_combiner=None,
+                        verbosity=None):
         """
         A virtual rater is a majority vote from a group of num_ref_raters_per_virtual_rater randomly selected non-null ratings.
         Closed-form solution for the expectation, so we ignore the num_virtual_raters parameter
@@ -502,6 +512,14 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
         -------
         A scalar expected score
         """
+        if not num_virtual_raters:
+            num_virtual_raters = self.num_virtual_raters
+        if not num_ref_raters_per_virtual_rater:
+            num_ref_raters_per_virtual_rater = self.num_ref_raters_per_virtual_rater
+        if not ref_rater_combiner:
+            ref_rater_combiner = self.ref_rater_combiner
+        if not verbosity:
+            verbosity = self.verbosity
 
         # iterate through the rows
         # for each row:
@@ -527,15 +545,17 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
             # majority vote of the reference panel for particular label: freqs[]
 
-            freqs = counts
+            freqs = counts/np.sum(counts)
+            
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater+1)/2)):
-                    i = (num_ref_raters_per_virtual_rater+1)/2 + ii
+                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
+                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
+                    # pick i from the current label, and the rest from other labels
                     if i*2 == num_ref_raters_per_virtual_rater:
                         sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
                     # else 
@@ -653,7 +673,7 @@ class PrecisionScore(Scorer):
         for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
             # count frequency of each value
             counts = row.dropna().value_counts()
-            freqs = counts/sum(counts)
+            freqs = counts/np.sum(counts)
             if len(counts) == 0:
                 # no non-null labels for this item
                 continue
@@ -903,7 +923,7 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
 
         return DMI
 
-class DMIScorer_for_Soft_Classifier(Scorer_for_Soft_Classifier):
+class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
 
     def __init__(self, num_virtual_raters=100, num_ref_raters_per_virtual_rater=1, ref_rater_combiner="majority_vote", verbosity=0):
         super().__init__(num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
