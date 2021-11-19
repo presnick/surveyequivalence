@@ -875,11 +875,68 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
         super().__init__(num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
 
     def expected_score_anonymous_raters(self, classifier_predictions: Sequence[DiscretePrediction], W, num_virtual_raters=None, num_ref_raters_per_virtual_rater=None, ref_rater_combiner=None, verbosity=None):
-        """
-        Calculate the expected score in the default way
-        Since the det of the sum of matrices is not the sum of the det of matrices, so we can not calculate the score by items
-        """
-        return super().expected_score_anonymous_raters(classifier_predictions, W, num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
+
+        if not num_virtual_raters:
+            num_virtual_raters = self.num_virtual_raters
+        if not num_ref_raters_per_virtual_rater:
+            num_ref_raters_per_virtual_rater = self.num_ref_raters_per_virtual_rater
+        if not ref_rater_combiner:
+            ref_rater_combiner = self.ref_rater_combiner
+        if not verbosity:
+            verbosity = self.verbosity
+
+        W_np = W.to_numpy()
+
+        # Use index to represent the labels
+        label_to_idx = dict()
+        idx = 0
+        for pred in classifier_predictions:
+            if pred.value not in label_to_idx:
+                label_to_idx[pred.value] = idx
+                idx += 1
+        for item_labels in W_np:
+            for label in item_labels:
+                if label not in label_to_idx:
+                    label_to_idx[label] = idx
+                    idx += 1
+        
+        if num_ref_raters_per_virtual_rater>1 and idx>2:
+            raise NotImplementedError()
+        
+        # calculate the freq matrix
+        freqs_matrix = np.zeros((idx,idx))
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+
+            counts = row.dropna().value_counts()
+            tot_counts=np.sum(counts)
+
+            label_prob = np.zeros(idx)
+            
+            for label, count in counts.items():
+                # calculate the probability of majority vote's outcomes
+                sum = 0
+                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
+                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                    # i is the number of votes
+
+                    # if there is a tie, choose one randomly
+                    # pick i from the current label, and the rest from other labels
+                    if i*2 == num_ref_raters_per_virtual_rater:
+                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                    # else 
+                    elif i*2 > num_ref_raters_per_virtual_rater:
+                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+
+                label_prob[label_to_idx[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+            
+            freqs_matrix[label_to_idx[pred.value]] += label_prob
+        
+        # normalization
+        freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
+        DMI=np.abs(np.linalg.det(freqs_matrix))
+
+        return DMI
+
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscretePrediction],
@@ -913,13 +970,14 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
                 idx += 1
         
         # calculate the freq matrix
-        freq = np.array((idx,idx))
+        freqs_matrix = np.zeros((idx,idx))
+
         for (pred, label) in zip(classifier_predictions, rater_labels):
-            freq[label_to_idx[pred.value],label_to_idx[label]] += 1
+            freqs_matrix[label_to_idx[pred.value]][label_to_idx[label]] += 1
 
         # normalization
-        freq = freq / np.sum(freq)
-        DMI=np.abs(np.det(freq))
+        freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
+        DMI=np.abs(np.linalg.det(freqs_matrix))
 
         return DMI
 
@@ -928,6 +986,65 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
     def __init__(self, num_virtual_raters=100, num_ref_raters_per_virtual_rater=1, ref_rater_combiner="majority_vote", verbosity=0):
         super().__init__(num_virtual_raters=num_virtual_raters, num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater, ref_rater_combiner=ref_rater_combiner, verbosity=verbosity)
     
+    def expected_score_anonymous_raters(self, classifier_predictions: Sequence[DiscreteDistributionPrediction], W, num_virtual_raters=None, num_ref_raters_per_virtual_rater=None, ref_rater_combiner=None, verbosity=None):
+     
+        if not num_virtual_raters:
+            num_virtual_raters = self.num_virtual_raters
+        if not num_ref_raters_per_virtual_rater:
+            num_ref_raters_per_virtual_rater = self.num_ref_raters_per_virtual_rater
+        if not ref_rater_combiner:
+            ref_rater_combiner = self.ref_rater_combiner
+        if not verbosity:
+            verbosity = self.verbosity
+
+        W_np = W.to_numpy()
+
+        # Use index to represent the labels
+        idx = len(classifier_predictions[0].label_names)
+        label_to_idx = dict(zip(classifier_predictions[0].label_names,range(idx)))
+
+        for item_labels in W_np:
+            for label in item_labels:
+                if label not in label_to_idx:
+                    return 0
+        
+        if num_ref_raters_per_virtual_rater>1 and idx>2:
+            raise NotImplementedError()
+        
+        # calculate the freq matrix
+        freqs_matrix = np.zeros((idx,idx))
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+
+            counts = row.dropna().value_counts()
+            tot_counts=np.sum(counts)
+
+            label_prob = np.zeros(idx)
+            
+            for label, count in counts.items():
+                # calculate the probability of majority vote's outcomes
+                sum = 0
+                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
+                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                    # i is the number of votes
+
+                    # if there is a tie, choose one randomly
+                    # pick i from the current label, and the rest from other labels
+                    if i*2 == num_ref_raters_per_virtual_rater:
+                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                    # else 
+                    elif i*2 > num_ref_raters_per_virtual_rater:
+                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+
+                label_prob[label_to_idx[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+            
+            freqs_matrix += np.array(pred.probabilities).reshape(-1,1) * label_prob
+        
+        # normalization
+        freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
+        DMI=np.abs(np.linalg.det(freqs_matrix))
+
+        return DMI
+
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
               rater_labels: Sequence[str],
@@ -956,12 +1073,12 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
                 return 0
         
         # calculate the freq matrix
-        freq = np.array((idx,idx))
+        freqs_matrix = np.zeros((idx,idx))
         for (pred, label) in zip(classifier_predictions, rater_labels):
-            freq[label_to_idx[label]] += pred.probabilities
+            freqs_matrix[label_to_idx[label]] += pred.probabilities
 
         # normalization
-        freq = freq / np.sum(freq)
-        DMI=np.abs(np.det(freq))
+        freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
+        DMI=np.abs(np.linalg.det(freqs_matrix))
 
         return DMI
