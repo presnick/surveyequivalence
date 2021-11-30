@@ -239,7 +239,7 @@ class SyntheticDatasetGenerator:
         self.item_state_generator = item_state_generator
         self.num_items_per_dataset = num_items_per_dataset
         self.num_labels_per_item = num_labels_per_item
-        self.min_labels_per_item = min_labels_per_item
+        self.min_labels_per_item = min_labels_per_item if min_labels_per_item else num_labels_per_item
         self.name = name
         # make a private empty list, not a shared default empty list if mock_classifiers not specified
         self.mock_classifiers = mock_classifiers if mock_classifiers else []
