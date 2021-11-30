@@ -148,4 +148,4 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
 
 
 if __name__ == '__main__':
-    main(path = 'data/running_example', nrows=10)
+    main(path = 'data/running_example', nrows=50)
