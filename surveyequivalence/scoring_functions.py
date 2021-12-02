@@ -999,29 +999,36 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
 
         W_np = W.to_numpy()
 
-        # Use index to represent the labels
-        idx = len(classifier_predictions[0].label_names)
-        label_to_idx = dict(zip(classifier_predictions[0].label_names,range(idx)))
+        # Create a dictionary to map label names to enumerated index values (0, 1 for binary labels)
+        num_distinct_labels = len(classifier_predictions[0].label_names)
+        label_idx_map = dict(zip(classifier_predictions[0].label_names,range(num_distinct_labels)))
 
+        # if W has any labels that are not in the classifier's output, we have an all 0 column in the matrix
+        # and DMI is 0
         for item_labels in W_np:
             for label in item_labels:
-                if label not in label_to_idx:
+                if label not in label_idx_map:
                     return 0
-        
-        if num_ref_raters_per_virtual_rater>1 and idx>2:
+
+        if num_ref_raters_per_virtual_rater>1 and num_distinct_labels>2:
             raise NotImplementedError()
         
-        # calculate the freq matrix
-        freqs_matrix = np.zeros((idx,idx))
-        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+        # calculate the freq matrix; joint distribution of classifier output and reference rater labels
+        freqs_matrix = np.zeros((num_distinct_labels, num_distinct_labels))
 
-            counts = row.dropna().value_counts()
+        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            # each row is one item
+            counts = row.dropna().value_counts() # a dict that maps from label names to frequency of that label among reference raters
             tot_counts=np.sum(counts)
 
-            label_prob = np.zeros(idx)
+            # if target panel size is 1, we could work directly with counts/tot_counts as probabilities.
+            # more generally, we need the probabilities of different majority vote outcomes
+            # rather than probabilities of different labels from individual raters
+            # majority_prob will be a mapping from labels to the probability of a majority of raters giving that label
+            majority_prob = np.zeros(num_distinct_labels)
             
             for label, count in counts.items():
-                # calculate the probability of majority vote's outcomes
+
                 sum = 0
                 for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
                     i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
@@ -1035,12 +1042,15 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
                     elif i*2 > num_ref_raters_per_virtual_rater:
                         sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
 
-                label_prob[label_to_idx[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
-            
-            freqs_matrix += np.array(pred.probabilities).reshape(-1,1) * label_prob
+                majority_prob[label_idx_map[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+
+            # get joint probability distribution of classifier output and target panel output for this item
+            # add that to the accumulating overall matrix; we will normalize later to make it a joint probability distribution
+            freqs_matrix += np.array(pred.probabilities).reshape(-1,1) * majority_prob
         
         # normalization
         freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
+        # DMI is determinant of the normalized matrix
         DMI=np.abs(np.linalg.det(freqs_matrix))
 
         return DMI
