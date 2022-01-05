@@ -30,14 +30,20 @@ from .scoring_functions import Scorer
 def load_saved_pipeline(path):
     """Loads dataset, predictions, classifiers scores, and power curve(s) previously saved using \
     :meth:`surveyequivalence.equivalence.AnalysisPipeline.save`"""
-    W = pd.read_csv(f'{path}/dataset.csv')
+    W = pd.read_csv(f'{path}/dataset.csv', index_col=0)
 
     with open(f'{path}/params.pickle', 'rb') as f:
         params = pickle.load(f)
 
-    predictions = pd.read_csv(f'{path}/predictions.csv', index_col=0)
+    try:
+        predictions = pd.read_csv(f'{path}/predictions.csv', index_col=0)
+    except:
+        predictions = None
 
-    classifier_scores = PowerCurve(df=pd.read_csv(f'{path}/classifier_scores.csv', index_col=0))
+    try:
+        classifier_scores = PowerCurve(df=pd.read_csv(f'{path}/classifier_scores.csv', index_col=0))
+    except:
+        classifier_scores = None
 
     epc_df = pd.read_csv(f'{path}/expert_power_curve.csv', index_col=0)
     epc_df.columns = epc_df.columns.astype(int)
