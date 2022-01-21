@@ -22,7 +22,7 @@ def frac(n:int):
     frac_cache[n] = frac(n-1) * n
     return frac_cache[n]
 
-def comb(m:int,n:int):
+def comb(n:int,m:int):
     """
     Calculate the combination number: pick m items from n items
     """
@@ -405,6 +405,10 @@ class AgreementScore(Scorer_for_Hard_Classifier):
         if not verbosity:
             verbosity = self.verbosity
 
+        if num_ref_raters_per_virtual_rater>W.shape[1]:
+            num_ref_raters_per_virtual_rater = W.shape[1]
+            print("Warning: target panel size is greater than ref panel size")
+
         # iterate through the rows
         # for each row:
         # get the frequency of matches among the ratings
@@ -439,12 +443,12 @@ class AgreementScore(Scorer_for_Hard_Classifier):
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
                     if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
                     # else 
                     elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
 
-                freqs[label]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+                freqs[label]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
 
             ct += 1
             if pred.value in freqs:
@@ -512,6 +516,8 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
         -------
         A scalar expected score
         """
+        W_np = W.to_numpy()
+
         if not num_virtual_raters:
             num_virtual_raters = self.num_virtual_raters
         if not num_ref_raters_per_virtual_rater:
@@ -521,6 +527,10 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
         if not verbosity:
             verbosity = self.verbosity
 
+        if num_ref_raters_per_virtual_rater>W_np.shape[1]:
+            num_ref_raters_per_virtual_rater = W_np.shape[1]
+            print("Warning: target panel size is greater than ref panel size")
+
         # iterate through the rows
         # for each row:
         # -- get the probability of each label
@@ -528,12 +538,17 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
         tot = 0
         ct = 0
-        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+        for (row, pred) in zip([row for row in W_np], classifier_predictions):
 
             # count frequency of each value
-            counts = row.dropna().value_counts()
+            counts = dict()
+            for label in row:
+                if label in counts:
+                    counts[label] += 1
+                else:
+                    counts[label] = 1
 
-            tot_counts=np.sum(counts)
+            tot_counts=row.shape[0]
 
             if len(counts) == 0:
                 # no non-null labels for this item; skip it
@@ -545,7 +560,7 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
             # majority vote of the reference panel for particular label: freqs[]
 
-            freqs = counts/np.sum(counts)
+            freqs = counts
             
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
@@ -557,12 +572,12 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
                     if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
                     # else 
                     elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
 
-                freqs[label]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+                freqs[label]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
 
             item_tot = 0
             for label, freq in freqs.items():
@@ -903,12 +918,21 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
         if num_ref_raters_per_virtual_rater>1 and idx>2:
             raise NotImplementedError()
         
+        if num_ref_raters_per_virtual_rater>W_np.shape[1]:
+            num_ref_raters_per_virtual_rater = W_np.shape[1]
+            print("Warning: target panel size is greater than ref panel size")
+
         # calculate the freq matrix
         freqs_matrix = np.zeros((idx,idx))
-        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
-
-            counts = row.dropna().value_counts()
-            tot_counts=np.sum(counts)
+        for (row, pred) in zip([row for row in W_np], classifier_predictions):
+            
+            counts = dict()
+            for label in row:
+                if label in counts:
+                    counts[label] += 1
+                else:
+                    counts[label] = 1
+            tot_counts=row.shape[0]
 
             label_prob = np.zeros(idx)
             
@@ -922,12 +946,12 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
                     if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
                     # else 
                     elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
 
-                label_prob[label_to_idx[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+                label_prob[label_to_idx[label]]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
             
             freqs_matrix[label_to_idx[pred.value]] += label_prob
         
@@ -1013,13 +1037,23 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
         if num_ref_raters_per_virtual_rater>1 and num_distinct_labels>2:
             raise NotImplementedError()
         
+        if num_ref_raters_per_virtual_rater>W_np.shape[1]:
+            num_ref_raters_per_virtual_rater = W_np.shape[1]
+            print("Warning: target panel size is greater than ref panel size")
+        
         # calculate the freq matrix; joint distribution of classifier output and reference rater labels
         freqs_matrix = np.zeros((num_distinct_labels, num_distinct_labels))
 
-        for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+        for (row, pred) in zip([row for row in W_np], classifier_predictions):
             # each row is one item
-            counts = row.dropna().value_counts() # a dict that maps from label names to frequency of that label among reference raters
-            tot_counts=np.sum(counts)
+            # a dict that maps from label names to frequency of that label among reference raters
+            counts = dict()
+            for label in row:
+                if label in counts:
+                    counts[label] += 1
+                else:
+                    counts[label] = 1
+            tot_counts=row.shape[0]
 
             # if target panel size is 1, we could work directly with counts/tot_counts as probabilities.
             # more generally, we need the probabilities of different majority vote outcomes
@@ -1037,12 +1071,12 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
                     if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)/2
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
                     # else 
                     elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(i,count)*comb(num_ref_raters_per_virtual_rater-i,tot_counts-count)
+                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
 
-                majority_prob[label_idx_map[label]]=sum/comb(num_ref_raters_per_virtual_rater,tot_counts)
+                majority_prob[label_idx_map[label]]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
 
             # get joint probability distribution of classifier output and target panel output for this item
             # add that to the accumulating overall matrix; we will normalize later to make it a joint probability distribution

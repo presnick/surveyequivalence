@@ -2,6 +2,7 @@ import datetime
 import math
 import operator
 import os
+import time
 import pickle
 import pkgutil
 import shutil
@@ -25,6 +26,7 @@ ctx._force_start_method('spawn')
 
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
+from .scoring_functions import comb
 
 
 def load_saved_pipeline(path):
@@ -477,8 +479,11 @@ class AnalysisPipeline:
 
         self.run_timestamp = datetime.datetime.now().strftime("%d-%B-%Y_%I-%M-%S_%p")
 
+        t0=time.time()
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
+        t1=time.time()
+        print("scoring time: ",t1-t0)
 
         self.expert_power_curve = self.compute_power_curve(
             raters=self.expert_cols,
@@ -487,6 +492,8 @@ class AnalysisPipeline:
             max_k=min(self.max_K, len(self.expert_cols)) - 1,
             procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
+        t2=time.time()
+        print("power curve time: ",t2-t1)
 
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences = Equivalences(
@@ -682,7 +689,12 @@ class AnalysisPipeline:
         PowerCurve
             instance containing the scores for surveys of size up to max_k
         """
-        ref_raters = set(ref_raters)
+        ref_rater_idx = set()
+        for ref_rater in ref_raters:
+            ref_rater_idx.add(raters.index(ref_rater))
+        ref_raters = ref_rater_idx
+
+        raters_np = np.array(raters)
 
         if self.verbosity > 0:
             print(f"\nstarting power curve")
@@ -690,15 +702,9 @@ class AnalysisPipeline:
 
                 print(f"\tcomputing scores for {raters} with ref_raters {ref_raters}")
 
-        def comb(n, k):
-            # from https://stackoverflow.com/a/4941932
-            k = min(k, n - k)
-            numer = reduce(operator.mul, range(n, n - k, -1), 1)
-            denom = reduce(operator.mul, range(1, k + 1), 1)
-            return numer // denom
-
         def rater_subsets(raters, k, max_subsets):
             K = len(raters)
+            raters = range(K)
             if comb(K, k) > max_subsets:
                 if comb(K, k) > 5 * max_subsets:
                     ## repeatedly grab a random subset and throw it away if it's a duplicate
@@ -745,19 +751,35 @@ class AnalysisPipeline:
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \n')
 
+            predicted = dict()
+
             def make_prediction(idx, row):
                 predictions = dict()
                 cached = False
                 preds_label = set([])
                 # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
                 predictions[idx] = dict()
+                
                 for k in ratersets:
                     for rater_tup in ratersets[k]:
-                        label_vals = row.loc[list(rater_tup)].dropna()
-                        predictions[idx][rater_tup] = self.combiner.combine(
+
+                        label_vals = row[list(rater_tup)]
+
+                        freqs = {k: 0 for k in self.combiner.allowable_labels}
+                        for label in label_vals:
+                            freqs[label] += 1
+                        y = np.array([freqs[i] for i in freqs.keys()])
+                        y = str(y)
+
+                        if y not in predicted:
+                            predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
                             labels=list(zip(rater_tup, label_vals)),
                             W=self.W_as_array)
+                            predicted[y] = predictions[idx][rater_tup]
+                        else:
+                            predictions[idx][rater_tup] = predicted[y]
+
                         if self.verbosity > 1 and idx == 0:
                             if k == 0:
                                 print(f"baseline score:{predictions[idx][rater_tup]}")
@@ -775,17 +797,29 @@ class AnalysisPipeline:
 
                 return predictions
 
+            t0=time.time()
             ## iterate through rows, accumulating predictions for that item
+            '''
             pool = ProcessPool(nodes=procs)
             predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
             pool.close()
             pool.join()
             pool.clear()
+            '''
+            predictions_list = []
+            W_np = W.to_numpy()
+            idx = 0
+            for row in W_np:
+                predictions_list.append(make_prediction(idx,row))
+                idx += 1
+            
 
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
                     predictions[k] = v
+            t1=time.time()
+            print("make prediction time: ",t1-t0)
 
             if self.verbosity > 0:
                 print()
@@ -814,7 +848,7 @@ class AnalysisPipeline:
                     unused_raters = ref_raters - set(raterset)
                     score = self.scorer.expected_score(
                         pd.Series(preds),
-                        unused_raters,
+                        raters_np[list(unused_raters)],
                         ref_labels_df,
                         self.verbosity
                     )
@@ -843,10 +877,18 @@ class AnalysisPipeline:
             if self.verbosity > 1:
                 print(f"getting cached rater subsets for {canonical_raters_tuple}")
         ratersets = self.ratersets_memo[canonical_raters_tuple]
-
+        '''
+        raters_np = np.array(raters)
+        str_ratersets = dict()
+        for idx in ratersets:
+            subset = list()
+            for s in ratersets[idx]:
+                subset.append(tuple(raters_np[list(s)]))
+            str_ratersets[idx] = subset
+        '''
+            
         ## get predictions
         predictions = get_predictions(self.W, ratersets)
-
 
         ## Each item sample is one run
         if self.verbosity > 0:
@@ -862,6 +904,8 @@ class AnalysisPipeline:
         pool.close()
         pool.join()
         pool.clear()
+
+        
 
         shutil.rmtree(dirpath)
 

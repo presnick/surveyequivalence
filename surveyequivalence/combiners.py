@@ -306,7 +306,8 @@ class AnonymousBayesianCombiner(Combiner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.memo = dict()
-
+        self.count = 0
+        self.combined = dict()
 
     def combine(self, allowable_labels: Sequence[str],
                 labels: Sequence[Tuple[str, str]],
@@ -338,6 +339,7 @@ class AnonymousBayesianCombiner(Combiner):
         # go through labels, amnd copute LabelSeqProb of this being the next label
         # at the end, sum of these probabilities will be LabelSeqProb for existing sequence (denominator of line 1 in Alg 6)
         # so we don't have to compute that separately
+
         for label_idx in range(0, number_of_labels):
             expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
 
@@ -349,7 +351,7 @@ class AnonymousBayesianCombiner(Combiner):
                 return None
 
         prediction = prediction / sum(prediction)
-
+        
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
         return output
@@ -364,13 +366,16 @@ class AnonymousBayesianCombiner(Combiner):
         Algorithm 5: LabelSeqProb
         """
 
+        self.count += 1
+        if self.count % 10000 == 0:
+            print(self.count)
+
         ## compute m_l counts for each label
         ## Line 1 of Algorithm 5: LabelSeqProb
         freqs = {k: 0 for k in allowable_labels}
         for label in [l[1] for l in labels]:
             freqs[label] += 1
         y = np.array([freqs[i] for i in freqs.keys()])
-
 
 
         # Line 2 of Algorithm 5; get SumofProbabilities, but check if it's memoized first
