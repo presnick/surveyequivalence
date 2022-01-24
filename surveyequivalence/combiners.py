@@ -366,10 +366,6 @@ class AnonymousBayesianCombiner(Combiner):
         Algorithm 5: LabelSeqProb
         """
 
-        self.count += 1
-        if self.count % 10000 == 0:
-            print(self.count)
-
         ## compute m_l counts for each label
         ## Line 1 of Algorithm 5: LabelSeqProb
         freqs = {k: 0 for k in allowable_labels}

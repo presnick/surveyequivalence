@@ -728,13 +728,13 @@ class AnalysisPipeline:
             return result
 
 
-        def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[str, ...]]]:
+        def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[int, ...]]]:
             """
             :param raters: sequence of strings
             :param min_k:
             :param max_k:
             :param max_subsets: integer
-            :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k
+            :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k, each tuple contains an index subset of raters
             """
 
             retval = dict()
@@ -746,7 +746,7 @@ class AnalysisPipeline:
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
-        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[int, ...], Prediction]]:
             # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \n')
@@ -765,11 +765,11 @@ class AnalysisPipeline:
 
                         label_vals = row[list(rater_tup)]
 
+                        # memoization with the count of different labels
                         freqs = {k: 0 for k in self.combiner.allowable_labels}
                         for label in label_vals:
                             freqs[label] += 1
-                        y = np.array([freqs[i] for i in freqs.keys()])
-                        y = str(y)
+                        y = str(freqs)
 
                         if y not in predicted:
                             predictions[idx][rater_tup] = self.combiner.combine(
@@ -797,7 +797,6 @@ class AnalysisPipeline:
 
                 return predictions
 
-            t0=time.time()
             ## iterate through rows, accumulating predictions for that item
             '''
             pool = ProcessPool(nodes=procs)
@@ -813,13 +812,10 @@ class AnalysisPipeline:
                 predictions_list.append(make_prediction(idx,row))
                 idx += 1
             
-
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
                     predictions[k] = v
-            t1=time.time()
-            print("make prediction time: ",t1-t0)
 
             if self.verbosity > 0:
                 print()
@@ -903,9 +899,7 @@ class AnalysisPipeline:
                                  [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
-        pool.clear()
-
-        
+        pool.clear()        
 
         shutil.rmtree(dirpath)
 

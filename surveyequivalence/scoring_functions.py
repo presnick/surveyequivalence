@@ -540,7 +540,7 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
         ct = 0
         for (row, pred) in zip([row for row in W_np], classifier_predictions):
 
-            # count frequency of each value
+            # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
             for label in row:
                 if label in counts:
@@ -926,6 +926,7 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
         freqs_matrix = np.zeros((idx,idx))
         for (row, pred) in zip([row for row in W_np], classifier_predictions):
             
+            # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
             for label in row:
                 if label in counts:
@@ -1046,6 +1047,7 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
 
         for (row, pred) in zip([row for row in W_np], classifier_predictions):
             # each row is one item
+
             # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
             for label in row:
