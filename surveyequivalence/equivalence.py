@@ -479,11 +479,8 @@ class AnalysisPipeline:
 
         self.run_timestamp = datetime.datetime.now().strftime("%d-%B-%Y_%I-%M-%S_%p")
 
-        t0=time.time()
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
-        t1=time.time()
-        print("scoring time: ",t1-t0)
 
         self.expert_power_curve = self.compute_power_curve(
             raters=self.expert_cols,
@@ -492,8 +489,6 @@ class AnalysisPipeline:
             max_k=min(self.max_K, len(self.expert_cols)) - 1,
             procs=self.procs,
             max_rater_subsets=self.max_rater_subsets)
-        t2=time.time()
-        print("power curve time: ",t2-t1)
 
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences = Equivalences(
