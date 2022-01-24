@@ -305,9 +305,6 @@ class AnonymousBayesianCombiner(Combiner):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.memo = dict()
-        self.count = 0
-        self.combined = dict()
 
     def combine(self, allowable_labels: Sequence[str],
                 labels: Sequence[Tuple[str, str]],
@@ -373,13 +370,9 @@ class AnonymousBayesianCombiner(Combiner):
             freqs[label] += 1
         y = np.array([freqs[i] for i in freqs.keys()])
 
-
-        # Line 2 of Algorithm 5; get SumofProbabilities, but check if it's memoized first
-        if str(y) not in self.memo:
-            v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
-            self.memo[str(y)] = v, num_items
-        else:
-            v, num_items = self.memo[str(y)]
+        # Line 2 of Algorithm 5; get SumofProbabilities
+        # temporarily remove memoization for correctness
+        v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
 
         # Calculate the contribution of the held out item to subtract out at the end
         # line 3 of Algorithm 5

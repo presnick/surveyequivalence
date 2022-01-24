@@ -751,6 +751,7 @@ class AnalysisPipeline:
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \n')
 
+            # use a dict to save calculated predictions for memoization
             predicted = dict()
 
             def make_prediction(idx, row):
@@ -765,7 +766,7 @@ class AnalysisPipeline:
 
                         label_vals = row[list(rater_tup)]
 
-                        # memoization with the count of different labels
+                        # memoization: key is the count of different labels
                         freqs = {k: 0 for k in self.combiner.allowable_labels}
                         for label in label_vals:
                             freqs[label] += 1
@@ -797,7 +798,6 @@ class AnalysisPipeline:
 
                 return predictions
 
-            ## iterate through rows, accumulating predictions for that item
             '''
             pool = ProcessPool(nodes=procs)
             predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
@@ -805,6 +805,7 @@ class AnalysisPipeline:
             pool.join()
             pool.clear()
             '''
+            ## iterate through rows, accumulating predictions for that item
             predictions_list = []
             W_np = W.to_numpy()
             idx = 0
