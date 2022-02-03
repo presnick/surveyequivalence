@@ -281,7 +281,7 @@ class FrequencyCombiner(Combiner):
 
         """
 
-        freqs = {k: 1 for k in allowable_labels}
+        freqs = {k: 0 for k in allowable_labels}
 
         if len(labels) > 0:
             # k>0; use the actual labels

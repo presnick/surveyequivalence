@@ -407,7 +407,7 @@ class AgreementScore(Scorer_for_Hard_Classifier):
 
         if num_ref_raters_per_virtual_rater>W.shape[1]:
             num_ref_raters_per_virtual_rater = W.shape[1]
-            print("Warning: target panel size is greater than ref panel size")
+            #print("Warning: target panel size is greater than ref panel size")
 
         # iterate through the rows
         # for each row:
@@ -529,7 +529,7 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
         if num_ref_raters_per_virtual_rater>W_np.shape[1]:
             num_ref_raters_per_virtual_rater = W_np.shape[1]
-            print("Warning: target panel size is greater than ref panel size")
+            #print("Warning: target panel size is greater than ref panel size")
 
         # iterate through the rows
         # for each row:
@@ -542,13 +542,15 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
             # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
+            tot_counts = 0
             for label in row:
+                if label == None:
+                    continue
                 if label in counts:
                     counts[label] += 1
                 else:
                     counts[label] = 1
-
-            tot_counts=row.shape[0]
+                tot_counts += 1
 
             if len(counts) == 0:
                 # no non-null labels for this item; skip it
@@ -920,7 +922,7 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
         
         if num_ref_raters_per_virtual_rater>W_np.shape[1]:
             num_ref_raters_per_virtual_rater = W_np.shape[1]
-            print("Warning: target panel size is greater than ref panel size")
+            #print("Warning: target panel size is greater than ref panel size")
 
         # calculate the freq matrix
         freqs_matrix = np.zeros((idx,idx))
@@ -928,12 +930,15 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
             
             # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
+            tot_counts = 0
             for label in row:
+                if label == None:
+                    continue
                 if label in counts:
                     counts[label] += 1
                 else:
                     counts[label] = 1
-            tot_counts=row.shape[0]
+                tot_counts += 1
 
             label_prob = np.zeros(idx)
             
@@ -1040,7 +1045,7 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
         
         if num_ref_raters_per_virtual_rater>W_np.shape[1]:
             num_ref_raters_per_virtual_rater = W_np.shape[1]
-            print("Warning: target panel size is greater than ref panel size")
+            #print("Warning: target panel size is greater than ref panel size")
         
         # calculate the freq matrix; joint distribution of classifier output and reference rater labels
         freqs_matrix = np.zeros((num_distinct_labels, num_distinct_labels))
@@ -1050,12 +1055,15 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
 
             # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
+            tot_counts = 0
             for label in row:
+                if label == None:
+                    continue
                 if label in counts:
                     counts[label] += 1
                 else:
                     counts[label] = 1
-            tot_counts=row.shape[0]
+                tot_counts += 1
 
             # if target panel size is 1, we could work directly with counts/tot_counts as probabilities.
             # more generally, we need the probabilities of different majority vote outcomes

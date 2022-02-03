@@ -684,6 +684,9 @@ class AnalysisPipeline:
         PowerCurve
             instance containing the scores for surveys of size up to max_k
         """
+
+        # Use index to represent ref_raters
+        raters = list(raters)
         ref_rater_idx = set()
         for ref_rater in ref_raters:
             ref_rater_idx.add(raters.index(ref_rater))
@@ -764,13 +767,20 @@ class AnalysisPipeline:
                         # memoization: key is the count of different labels
                         freqs = {k: 0 for k in self.combiner.allowable_labels}
                         for label in label_vals:
+                            if label == None:
+                                continue
                             freqs[label] += 1
                         y = str(freqs)
 
                         if y not in predicted:
+                            labels=list(zip(rater_tup, label_vals))
+                            # delete the empty labels for non_full_rating_matrix cases
+                            for label in labels:
+                                if label[1] == None:
+                                    labels.remove(label)
                             predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
-                            labels=list(zip(rater_tup, label_vals)),
+                            labels=labels,
                             W=self.W_as_array)
                             predicted[y] = predictions[idx][rater_tup]
                         else:
@@ -793,13 +803,6 @@ class AnalysisPipeline:
 
                 return predictions
 
-            '''
-            pool = ProcessPool(nodes=procs)
-            predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
-            pool.close()
-            pool.join()
-            pool.clear()
-            '''
             ## iterate through rows, accumulating predictions for that item
             predictions_list = []
             W_np = W.to_numpy()
@@ -869,16 +872,7 @@ class AnalysisPipeline:
             if self.verbosity > 1:
                 print(f"getting cached rater subsets for {canonical_raters_tuple}")
         ratersets = self.ratersets_memo[canonical_raters_tuple]
-        '''
-        raters_np = np.array(raters)
-        str_ratersets = dict()
-        for idx in ratersets:
-            subset = list()
-            for s in ratersets[idx]:
-                subset.append(tuple(raters_np[list(s)]))
-            str_ratersets[idx] = subset
-        '''
-            
+
         ## get predictions
         predictions = get_predictions(self.W, ratersets)
 
