@@ -314,7 +314,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                         print("AUC not well defined for Frequency combiner - no probabilities")
                         continue
 
-                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer, min_ratings_per_item=10,
+                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
@@ -332,7 +332,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                     synthetic_datasets.make_discrete_dataset_3(num_items_per_dataset=100).dataset]
         for dataset in datasets:
             for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg']), FrequencyCombiner(allowable_labels=['pos', 'neg'])]:
-                for scorer in [CrossEntropyScore(), AgreementScore(), PrecisionScore(), RecallScore(),
+                for scorer in [CrossEntropyScore(), AgreementScore(), RecallScore(),
                                AUCScore()]:
                     if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, CrossEntropyScore):
                         print("Cross entropy not well defined for Frequency combiner - no probabilities")
