@@ -347,6 +347,8 @@ class AnonymousBayesianCombiner(Combiner):
         Prediction based on anonymous bayesian combiner
         """
 
+        # if W is a property then use memoization
+        # memoization of the calculated results of Combine
         memo_flag = False
         if self.W_np is not None:
             memo_flag = True
@@ -364,7 +366,6 @@ class AnonymousBayesianCombiner(Combiner):
 
             if y in self.combined:
                 return self.combined[y]
-
 
         # get number of labels in binary case, it's 2        
         number_of_labels = len(allowable_labels)
@@ -413,7 +414,6 @@ class AnonymousBayesianCombiner(Combiner):
         y_str = str(y)
 
         # Line 2 of Algorithm 5; get SumofProbabilities
-        # temporarily remove memoization for correctness
         if self.W_np is not None:
             if y_str not in self.memo:
                 v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
