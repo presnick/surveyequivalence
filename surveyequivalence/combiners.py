@@ -357,8 +357,10 @@ class AnonymousBayesianCombiner(Combiner):
                 if label == None:
                     continue
                 freqs[label] += 1
-            freqs["item_id"] = item_id
-            y = str(freqs)
+                
+            y = freqs
+            y["item_id"] = item_id
+            y = str(y)
 
             if y in self.memo:
                 return self.memo[y]
