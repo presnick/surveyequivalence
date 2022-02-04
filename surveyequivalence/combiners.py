@@ -153,7 +153,7 @@ class Combiner(ABC):
     function. For example, the PluralityCombiner accepts a bag of labels and returns the label that is most frequent.
     """
 
-    def __init__(self, allowable_labels: Sequence[str] = None, verbosity=0):
+    def __init__(self, allowable_labels: Sequence[str] = None, W = None, verbosity=0):
         """
         Constructor
 
@@ -164,6 +164,12 @@ class Combiner(ABC):
         """
         self.allowable_labels = allowable_labels
         self.verbosity = verbosity
+        self.W = W
+        if W is not None:
+            self.W_np = W.to_numpy()
+        else:
+            self.W_np = None
+        self.memo = dict()
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],
@@ -330,6 +336,21 @@ class AnonymousBayesianCombiner(Combiner):
         """
 
         # get number of labels in binary case, it's 2
+        memo_flag = False
+        if self.W_np is not None:
+            W = self.W_np
+            memo_flag = True
+        
+            freqs = {k: 0 for k in allowable_labels}
+            for _,label in labels:
+                if label == None:
+                    continue
+                freqs[label] += 1
+            y = str(freqs)
+
+            if y in self.memo:
+                return self.memo[y]
+        
         number_of_labels = len(allowable_labels)
 
         prediction = np.zeros(number_of_labels)
@@ -350,6 +371,9 @@ class AnonymousBayesianCombiner(Combiner):
         prediction = prediction / sum(prediction)
         
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
+
+        if memo_flag:
+            self.memo[y] = output
 
         return output
 

@@ -765,26 +765,15 @@ class AnalysisPipeline:
                         label_vals = row[list(rater_tup)]
 
                         # memoization: key is the count of different labels
-                        freqs = {k: 0 for k in self.combiner.allowable_labels}
-                        for label in label_vals:
-                            if label == None:
-                                continue
-                            freqs[label] += 1
-                        y = str(freqs)
-
-                        if y not in predicted:
-                            labels=list(zip(rater_tup, label_vals))
-                            # delete the empty labels for non_full_rating_matrix cases
-                            for label in labels:
-                                if label[1] == None:
-                                    labels.remove(label)
-                            predictions[idx][rater_tup] = self.combiner.combine(
+                        labels=list(zip(rater_tup, label_vals))
+                        # delete the empty labels for non_full_rating_matrix cases
+                        for label in labels:
+                            if label[1] == None:
+                                labels.remove(label)
+                        predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
                             labels=labels,
                             W=self.W_as_array)
-                            predicted[y] = predictions[idx][rater_tup]
-                        else:
-                            predictions[idx][rater_tup] = predicted[y]
 
                         if self.verbosity > 1 and idx == 0:
                             if k == 0:
