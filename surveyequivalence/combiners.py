@@ -357,13 +357,13 @@ class AnonymousBayesianCombiner(Combiner):
                 if label == None:
                     continue
                 freqs[label] += 1
-                
+
             y = freqs
             y["item_id"] = item_id
             y = str(y)
 
-            if y in self.memo:
-                return self.memo[y]
+            if y in self.combined:
+                return self.combined[y]
 
 
         # get number of labels in binary case, it's 2        
@@ -389,7 +389,7 @@ class AnonymousBayesianCombiner(Combiner):
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
         if memo_flag:
-            self.memo[y] = output
+            self.combined[y] = output
         
         return output
 
