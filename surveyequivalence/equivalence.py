@@ -773,7 +773,8 @@ class AnalysisPipeline:
                         predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
                             labels=labels,
-                            W=self.W_as_array)
+                            W=self.W_as_array,
+                            item_id=idx)
 
                         if self.verbosity > 1 and idx == 0:
                             if k == 0:

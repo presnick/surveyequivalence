@@ -161,15 +161,27 @@ class Combiner(ABC):
         ----------
         allowable_labels: all labels that can be present in the data set.
         verbosity: verbosity parameter. Takes values 1, 2, or 3 for increasing verbosity.
+        W: if W is not None, memoization will be performed
         """
         self.allowable_labels = allowable_labels
         self.verbosity = verbosity
         self.W = W
+
+        #self.W is pandas.dataframe
+        #self.W_np is numpy.ndarray
         if W is not None:
-            self.W_np = W.to_numpy()
+            if type(self.W) is np.ndarray:
+                self.W_np = W
+                self.W = pd.DataFrame(W)
+            else:
+                self.W_np = W.to_numpy()
         else:
             self.W_np = None
+
+        #self.memo is a dict to memoize the rusults of SumOfProbabilities
         self.memo = dict()
+        #self.memo is a dict to memoize the results of Combine
+        self.combined = dict()
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],
@@ -335,22 +347,24 @@ class AnonymousBayesianCombiner(Combiner):
         Prediction based on anonymous bayesian combiner
         """
 
-        # get number of labels in binary case, it's 2
         memo_flag = False
         if self.W_np is not None:
-            W = self.W_np
             memo_flag = True
-        
+            W = self.W_np
+
             freqs = {k: 0 for k in allowable_labels}
             for _,label in labels:
                 if label == None:
                     continue
                 freqs[label] += 1
+            freqs["item_id"] = item_id
             y = str(freqs)
 
             if y in self.memo:
                 return self.memo[y]
-        
+
+
+        # get number of labels in binary case, it's 2        
         number_of_labels = len(allowable_labels)
 
         prediction = np.zeros(number_of_labels)
@@ -369,13 +383,14 @@ class AnonymousBayesianCombiner(Combiner):
                 return None
 
         prediction = prediction / sum(prediction)
-        
+
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
         if memo_flag:
             self.memo[y] = output
-
+        
         return output
+
 
     def labelSeqProb(self,
                      allowable_labels: Sequence[str],
@@ -393,10 +408,18 @@ class AnonymousBayesianCombiner(Combiner):
         for label in [l[1] for l in labels]:
             freqs[label] += 1
         y = np.array([freqs[i] for i in freqs.keys()])
+        y_str = str(y)
 
         # Line 2 of Algorithm 5; get SumofProbabilities
         # temporarily remove memoization for correctness
-        v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
+        if self.W_np is not None:
+            if y_str not in self.memo:
+                v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
+                self.memo[y_str] = v, num_items
+            else:
+                v, num_items = self.memo[y_str]
+        else:
+            v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
 
         # Calculate the contribution of the held out item to subtract out at the end
         # line 3 of Algorithm 5
