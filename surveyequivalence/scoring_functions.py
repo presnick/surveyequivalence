@@ -663,6 +663,7 @@ class PrecisionScore(Scorer):
     def expected_score_anonymous_raters(self,
                         classifier_predictions,
                         W,
+                        positive_label='pos',
                         num_virtual_raters=None,
                         verbosity=0):
         """
@@ -673,6 +674,7 @@ class PrecisionScore(Scorer):
         ----------
         classifier_predictions: Scoring predictions
         W: The item and rating dataset
+        positive_label: the label for positive, default pos
         verbosity: verbosity value from 1 to 4 indicating increased verbosity.
 
         Returns
@@ -694,10 +696,11 @@ class PrecisionScore(Scorer):
             if len(counts) == 0:
                 # no non-null labels for this item
                 continue
-            elif pred.value != "pos":
+            elif pred.value != positive_label:
                 # no impact on precision if classifier didn't predict positive
                 continue
-            tot += freqs['pos']
+            if positive_label in freqs:
+                tot += freqs[positive_label]
             ct += 1
 
         if ct > 0:
