@@ -95,6 +95,7 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 anonymous_raters=True,
+                                performance_ratio_k = 2,
                                 verbosity = 1,
                                 procs=1)
 
@@ -117,7 +118,8 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
               y_range=(0, 0.4),
               name='running example: ABC + cross entropy',
               legend_label='k raters',
-              generate_pgf=True
+              generate_pgf=True,
+              performance_ratio_k=3,
               )
 
         pl.plot(include_classifiers=True,
@@ -145,6 +147,7 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 anonymous_raters=True,
                                 verbosity = 1,
+                                performance_ratio_k = 2,
                                 procs=1)
 
         pipeline4.save(path=pipeline4.path_for_saving("running_example/abc_plus_dmi_target_panel_size_"+str(target_panel_size)),
@@ -166,7 +169,8 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
               y_range=(0, 0.4),
               name='running example: ABC + dmi',
               legend_label='k raters',
-              generate_pgf=True
+              generate_pgf=True,
+              performance_ratio_k=2
               )
 
         pl.plot(include_classifiers=True,
@@ -178,12 +182,12 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
             )
         pl.save(path=pipeline4.path_for_saving("running_example/abc_plus_dmi_target_panel_size_"+str(target_panel_size)), fig=fig)
 
-    for i in range(3):
+    for i in range(1):
         t0=time.time()
         ABC_CE(i*2+1)
         t1=time.time()
         print("running time: ",t1-t0)
-    for i in range(3):
+    for i in range(0):
         t0=time.time()
         ABC_DMI(i*2+1)
         t1=time.time()

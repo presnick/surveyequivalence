@@ -343,6 +343,18 @@ class PowerCurve(ClassifierResults):
         """
         return (self.df[k] > other.df[other_col]).sum() / len(self.df)
 
+    def compute_performance_ratio(self, other, K, columns=None):
+        if columns is None:
+            columns = other.df.columns
+        run_results = list()
+        for run_idx, row in self.df.iterrows():
+            run_ratio = dict()
+            for h in columns:
+                score = other.df.loc[run_idx, h]
+                run_ratio[h] = (score-row[0]) / (row[K]-row[0])
+            run_results.append(run_ratio)
+        return pd.DataFrame(run_results)
+
 
 class LabeledItem:
     def __init__(self,
@@ -428,6 +440,7 @@ class AnalysisPipeline:
                  ratersets_memo=None,
                  predictions_memo=None,
                  item_samples=None,
+                 performance_ratio_k=None,
                  anonymous_raters=False,
                  verbosity=1,
                  run_on_creation = True,
@@ -453,6 +466,7 @@ class AnalysisPipeline:
         self.verbosity = verbosity
         self.procs = procs
         self.anonymous_raters = anonymous_raters
+        self.performance_ratio_k = performance_ratio_k
 
         # initialize memoization cache for rater subsets
         if ratersets_memo:
@@ -493,6 +507,9 @@ class AnalysisPipeline:
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences = Equivalences(
                 self.expert_power_curve.compute_equivalences(self.classifier_scores))
+
+        if self.performance_ratio_k is not None:
+            self.performance_ratio = self.expert_power_curve.compute_performance_ratio(self.classifier_scores,K=self.performance_ratio_k)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
@@ -586,6 +603,10 @@ class AnalysisPipeline:
         # save the expert equivalences
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
+        
+        # save the k performance ratio
+        if self.performance_ratio_k is not None:
+            self.performance_ratio.to_csv(f'{path}/{self.performance_ratio_k}_performance_ratio.csv')
 
         # save the amateur power_curve
         amateur_power_curve = getattr(self, 'amateur_power_curve', None)
@@ -935,6 +956,7 @@ class Plot:
                  legend_label='Expert raters',
                  amateur_legend_label="Lay raters",
                  verbosity=1,
+                 performance_ratio_k=None,
                  generate_pgf=False
                  ):
         self.expert_power_curve = expert_power_curve
@@ -946,11 +968,17 @@ class Plot:
         self.y_range = y_range
         self.name = name
         self.x_intercepts = []
+        self.performance_ratio_intercepts = []
         self.legend_label = legend_label
         self.amateur_legend_label = amateur_legend_label
         self.verbosity = verbosity
         self.ax = ax
         self.generate_pgf = generate_pgf
+
+        if center_on == expert_power_curve.values[0]:
+            self.performance_ratio_k = performance_ratio_k
+        else:
+            self.performance_ratio_k = None
 
         if self.generate_pgf:
             self.template = Template(pkgutil.get_data(__name__, "templates/pgf_template.txt").decode('utf-8'))
@@ -1162,6 +1190,7 @@ class Plot:
              include_classifiers=True,
              include_classifier_equivalences=True,
              include_classifier_amateur_equivalences=False,
+             include_performance_ratio=True,
              other_rater_equivalences_to_include=[],
              include_droplines=True,
              include_amateur_curve=True,
@@ -1235,6 +1264,14 @@ class Plot:
             print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
+
+            if self.performance_ratio_k is not None and include_performance_ratio:
+                ratio = self.expert_power_curve.compute_performance_ratio(self.classifier_scores,K=self.performance_ratio_k)
+                ax2 = ax.twinx()
+                ylims = self.y_range if self.y_range else (self.ymin, self.ymax)
+                ylims /= (self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0])
+                ax2.set(ylim = ylims)
+
             survey_equivalences = Equivalences(self.expert_power_curve.compute_equivalences(self.classifier_scores))
             if include_classifier_amateur_equivalences:
                 amateur_equivalences = Equivalences(self.amateur_power_curve.compute_equivalences(self.classifier_scores))
@@ -1264,6 +1301,10 @@ class Plot:
                                                       include_droplines=include_droplines,
                                                       ci=(seq_lower_bound, seq_upper_bound) \
                                                            if include_seq_cis else None)
+                    if self.performance_ratio_k is not None and include_performance_ratio:
+                        ratio_point = ratio.at[0,classifier_name]
+                        self.performance_ratio_intercepts.append(ratio_point)
+
                 if include_classifier_amateur_equivalences:
                     seq_point = amateur_equivalences.df.at[0, classifier_name]
                     seq_lower_bound = amateur_equivalences.lower_bounds[classifier_name]
@@ -1275,6 +1316,9 @@ class Plot:
                                                       include_droplines=include_droplines,
                                                       ci=(seq_lower_bound, seq_upper_bound) \
                                                            if include_seq_cis else None)
+
+
+                
         for idx in other_rater_equivalences_to_include:
             score = self.amateur_power_curve.means[idx]
             survey_eq = self.expert_power_curve.compute_equivalence_at_actuals(score)
@@ -1332,6 +1376,15 @@ class Plot:
 
         ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
         # fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
+
+
+        if self.performance_ratio_k is not None and include_performance_ratio:
+            scale = self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0]
+            regular_ticks = [i/2 for i in range(0, math.ceil(self.ymax/scale)*2+2)]
+            ticks_to_use = list(set(regular_ticks) - set([nearest_tick(regular_ticks, y) for y in self.performance_ratio_intercepts]))
+            y_ticks = sorted(ticks_to_use+self.performance_ratio_intercepts)
+            ax2.set_yticks(y_ticks)
+            ax2.set_ylabel(f"{self.performance_ratio_k} performance ratio",fontsize=16)
 
         pass
 
