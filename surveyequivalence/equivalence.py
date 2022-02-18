@@ -1437,14 +1437,9 @@ class Plot:
         name : Name for the file
         """
 
-        # save the matplotlib figure as a .png
+        # save the matplotlib figure as a .png and a .pdf
         fig.savefig(f'{path}/{plotname}.png')
         fig.savefig(f'{path}/{plotname}.pdf')
-        '''
-        if self.generate_pgf:
-            import tikzplotlib
-            tikzplotlib.save(f'{path}/{plotname}.tex')
-        '''
         
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
