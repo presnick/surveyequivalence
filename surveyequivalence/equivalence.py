@@ -1386,6 +1386,18 @@ class Plot:
             ax2.set_yticks(y_ticks)
             ax2.set_ylabel(f"{self.performance_ratio_k} performance ratio",fontsize=16)
 
+            if self.generate_pgf:
+                pratio_dict = {}
+                pratio_dict['xmax'] = self.template_dict['xmax']
+                pratio_dict['y2max'] = float(self.template_dict['ymax'])/scale
+                pratio_dict['y2ticks'] = ', '.join(map(str, y_ticks))
+                pratio_dict['y2label'] = str(self.performance_ratio_k)+' performance ratio'
+
+                pratio_template = Template(
+                    pkgutil.get_data(__name__, "templates/performance_ratio_template.txt").decode('utf-8'))
+                s = pratio_template.substitute(**pratio_dict)
+                self.template_dict['performance_ratio'] = s
+
         pass
 
     def save(self, path: str, fig: figure, plotname='plot'):
@@ -1400,7 +1412,13 @@ class Plot:
 
         # save the matplotlib figure as a .png
         fig.savefig(f'{path}/{plotname}.png')
-
+        fig.savefig(f'{path}/{plotname}.pdf')
+        '''
+        if self.generate_pgf:
+            import tikzplotlib
+            tikzplotlib.save(f'{path}/{plotname}.tex')
+        '''
+        
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
             pgf = self.template.substitute(**self.template_dict)
@@ -1408,3 +1426,4 @@ class Plot:
             pgf = pgf.replace('\r', '')
             with open(f'{path}/{plotname}.tex', 'w') as tex:
                 tex.write(pgf)
+        

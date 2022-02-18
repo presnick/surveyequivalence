@@ -33,4 +33,7 @@ $classifiers
 $surveyequivs
 
 \end{axis}
+
+$performance_ratio
+
 \end{tikzpicture}

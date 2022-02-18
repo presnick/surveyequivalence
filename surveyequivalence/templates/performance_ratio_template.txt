@@ -1,0 +1,28 @@
+\begin{axis}[
+	legend style={font=\small,
+		nodes={scale=0.7, transform shape},
+		at={(0.0,1)},
+		anchor=north west,
+		draw=none,
+		fill=none},
+	legend cell align={left},
+	width = 4.0in, height = 3.0in,
+	ylabel near ticks,
+	ylabel = {\small $y2label},
+	xlabel near ticks,
+	every tick label/.append style={font=\scriptsize},
+	xmin=-1,xmax=$xmax,
+	ymin=0, ymax=$y2max,
+	axis x line = none,
+	yticklabel style={
+			/pgf/number format/fixed,
+			/pgf/number format/precision=5
+	},
+	ytick={$y2ticks},
+    yticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=3
+    },
+	ytick pos=right
+	]
+\end{axis}
