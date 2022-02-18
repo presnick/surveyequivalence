@@ -344,6 +344,22 @@ class PowerCurve(ClassifierResults):
         return (self.df[k] > other.df[other_col]).sum() / len(self.df)
 
     def compute_performance_ratio(self, other, K, columns=None):
+        """
+        Parameters
+        ----------
+        self
+        other
+            The classifier scores that are compared against this PowerCurve to find equivalences
+            may either be an instance of ClassifierResults or a PowerCurve. Must have same row \
+            indexes as self, one for each item sample
+        columns
+            a subset of the column names from other.df; if not specified, use all of them
+        Returns
+        -------
+            a df with one row for each bootstrap run, and columns as specified by the columns parameter \
+            Each cell is a float, the performance_ratio value for that column from other. \
+            That is, the classifier's information gain over k raters' information gain.
+        """
         if columns is None:
             columns = other.df.columns
         run_results = list()
@@ -414,6 +430,8 @@ class AnalysisPipeline:
     item_samples=None
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
+    performance_ratio_k=None
+        Parameter k for the performance_ratio: classifier's information gain over k raters' information gain
     anonymous_raters=False
         If False, then each column in W represents an individual rater. If True, then raters are anonymous and
         not all labels in a column came from the same rater.
@@ -938,6 +956,8 @@ class Plot:
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
+    performance_ratio_k=None
+        Parameter k for the performance_ratio: classifier's information gain over k raters' information gain
     generate_pgf=False
         If True, also populate data to enable create of pgf format, suitable for inclusion in latex \
         after calling `.plot()`, run \
@@ -975,6 +995,7 @@ class Plot:
         self.ax = ax
         self.generate_pgf = generate_pgf
 
+        # only center_on is set properly, we can calculate the performance ratio
         if center_on == expert_power_curve.values[0]:
             self.performance_ratio_k = performance_ratio_k
         else:
@@ -1216,6 +1237,8 @@ class Plot:
         include_classifier_amateur_equivalences=False
             Whether to include calculation of the equivalent number of other raters for each classifier, \
             based on the intersection point of the classifier line and the other raters' power curve
+        include_performance_ratio=True
+            Whether to include performance_ratio
         other_rater_equivalences_to_include=[]
             A list of survey sizes for non-reference raters. \
             For each one, compute the equivalent number of reference raters yielding the same score.
@@ -1264,7 +1287,8 @@ class Plot:
             print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
-
+            
+            # add another axis for performance ratio, and set the range
             if self.performance_ratio_k is not None and include_performance_ratio:
                 ratio = self.expert_power_curve.compute_performance_ratio(self.classifier_scores,K=self.performance_ratio_k)
                 ax2 = ax.twinx()
@@ -1301,6 +1325,8 @@ class Plot:
                                                       include_droplines=include_droplines,
                                                       ci=(seq_lower_bound, seq_upper_bound) \
                                                            if include_seq_cis else None)
+                    
+                    # find the performance ratio point
                     if self.performance_ratio_k is not None and include_performance_ratio:
                         ratio_point = ratio.at[0,classifier_name]
                         self.performance_ratio_intercepts.append(ratio_point)
@@ -1377,7 +1403,7 @@ class Plot:
         ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
         # fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
 
-
+        # add the right y-axis for performance_ratio
         if self.performance_ratio_k is not None and include_performance_ratio:
             scale = self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0]
             regular_ticks = [i/2 for i in range(0, math.ceil(self.ymax/scale)*2+2)]
@@ -1386,6 +1412,7 @@ class Plot:
             ax2.set_yticks(y_ticks)
             ax2.set_ylabel(f"{self.performance_ratio_k} performance ratio",fontsize=16)
 
+            # add pgf command
             if self.generate_pgf:
                 pratio_dict = {}
                 pratio_dict['xmax'] = self.template_dict['xmax']
