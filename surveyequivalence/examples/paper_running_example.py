@@ -1,9 +1,10 @@
 import pandas as pd
 from matplotlib import pyplot as plt
+import time
 
 from surveyequivalence import AgreementScore, PluralityVote, CrossEntropyScore, \
     AnonymousBayesianCombiner, FrequencyCombiner,  \
-    AnalysisPipeline, Plot, ClassifierResults, DiscretePrediction, DiscreteDistributionPrediction
+    AnalysisPipeline, Plot, ClassifierResults, DiscretePrediction, DiscreteDistributionPrediction, DMIScore_for_Soft_Classifier
 
 def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, nrows=None):
 
@@ -81,12 +82,12 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
     #         )
     # pl.save(pipeline.path_for_saving("running_example/plurality_plus_agreement"), fig=fig)
 
-    #### ABC + CrossEntropy
-    abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])
-    cross_entropy = CrossEntropyScore()
-    # Here we set anonymous_raters to True, so that we will compute expected score against a randomly selected
-    # rater for each item, rather than against a randomly selected column
-    pipeline2 = AnalysisPipeline(W,
+    def ABC_CE(target_panel_size=1):
+        abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'],W=W)
+        cross_entropy = CrossEntropyScore(num_ref_raters_per_virtual_rater=target_panel_size)
+        # Here we set anonymous_raters to True, so that we will compute expected score against a randomly selected
+        # rater for each item, rather than against a randomly selected column
+        pipeline2 = AnalysisPipeline(W,
                                 expert_cols=list(W.columns),
                                 classifier_predictions=classifier_predictions[soft_classifiers],
                                 combiner=abc,
@@ -94,20 +95,21 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
                                 allowable_labels=['pos', 'neg'],
                                 num_bootstrap_item_samples=num_bootstrap_item_samples,
                                 anonymous_raters=True,
+                                performance_ratio_k = 2,
                                 verbosity = 1,
                                 procs=1)
 
-    pipeline2.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy"),
+        pipeline2.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy_target_panel_size_"+str(target_panel_size)),
                    msg = f"""
-    Running example with {len(W)} items and {len(W.columns)} raters per item
-    {num_bootstrap_item_samples} bootstrap itemsets
-    Anonymous Bayesian combiner with cross entropy score
-    """)
+        Running example with {len(W)} items and {len(W.columns)} raters per item
+        {num_bootstrap_item_samples} bootstrap itemsets
+        Anonymous Bayesian combiner with cross entropy score
+        """)
 
-    fig, ax = plt.subplots()
-    fig.set_size_inches(8.5, 10.5)
+        fig, ax = plt.subplots()
+        fig.set_size_inches(8.5, 10.5)
 
-    pl = Plot(ax,
+        pl = Plot(ax,
               pipeline2.expert_power_curve,
               classifier_scores=ClassifierResults(pipeline2.classifier_scores.df[['calibrated hard classifier']]),
               color_map=color_map,
@@ -116,17 +118,80 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
               y_range=(0, 0.4),
               name='running example: ABC + cross entropy',
               legend_label='k raters',
-              generate_pgf=True
+              generate_pgf=True,
+              performance_ratio_k=3,
               )
 
-    pl.plot(include_classifiers=True,
+        pl.plot(include_classifiers=True,
             include_classifier_equivalences=True,
             include_droplines=True,
             include_expert_points='all',
             connect_expert_points=True,
             include_classifier_cis=True
             )
-    pl.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy"), fig=fig)
+        pl.save(path=pipeline2.path_for_saving("running_example/abc_plus_cross_entropy_target_panel_size_"+str(target_panel_size)), fig=fig)
+
+
+    def ABC_DMI(target_panel_size=1):
+        # abc+dmi
+        abc = AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'],W=W)
+        dmi = DMIScore_for_Soft_Classifier(num_ref_raters_per_virtual_rater=target_panel_size)
+        # Here we set anonymous_raters to True, so that we will compute expected score against a randomly selected
+        # rater for each item, rather than against a randomly selected column
+        pipeline4 = AnalysisPipeline(W,
+                                expert_cols=list(W.columns),
+                                classifier_predictions=classifier_predictions[soft_classifiers],
+                                combiner=abc,
+                                scorer=dmi,
+                                allowable_labels=['pos', 'neg'],
+                                num_bootstrap_item_samples=num_bootstrap_item_samples,
+                                anonymous_raters=True,
+                                verbosity = 1,
+                                performance_ratio_k = 2,
+                                procs=1)
+
+        pipeline4.save(path=pipeline4.path_for_saving("running_example/abc_plus_dmi_target_panel_size_"+str(target_panel_size)),
+                   msg = f"""
+        Running example with {len(W)} items and {len(W.columns)} raters per item
+        {num_bootstrap_item_samples} bootstrap itemsets
+        Anonymous Bayesian combiner with cross entropy score
+        """)
+
+        fig, ax = plt.subplots()
+        fig.set_size_inches(8.5, 10.5)
+
+        pl = Plot(ax,
+              pipeline4.expert_power_curve,
+              classifier_scores=ClassifierResults(pipeline4.classifier_scores.df[['calibrated hard classifier']]),
+              color_map=color_map,
+              y_axis_label='information gain ($c_k - c_0$)',
+              center_on=pipeline4.expert_power_curve.values[0],
+              y_range=(0, 0.4),
+              name='running example: ABC + dmi',
+              legend_label='k raters',
+              generate_pgf=True,
+              performance_ratio_k=2
+              )
+
+        pl.plot(include_classifiers=True,
+            include_classifier_equivalences=True,
+            include_droplines=True,
+            include_expert_points='all',
+            connect_expert_points=True,
+            include_classifier_cis=True
+            )
+        pl.save(path=pipeline4.path_for_saving("running_example/abc_plus_dmi_target_panel_size_"+str(target_panel_size)), fig=fig)
+
+    for i in range(1):
+        t0=time.time()
+        ABC_CE(i*2+1)
+        t1=time.time()
+        print("running time: ",t1-t0)
+    for i in range(0):
+        t0=time.time()
+        ABC_DMI(i*2+1)
+        t1=time.time()
+        print("running time: ",t1-t0)
 
     # ###### Frequency combiner plus cross entropy ######
     # freq_combiner = FrequencyCombiner(allowable_labels=['pos', 'neg'])
@@ -148,4 +213,4 @@ def main(path = f'data/running_example_50_items', num_bootstrap_item_samples=5, 
 
 
 if __name__ == '__main__':
-    main(path = 'data/running_example', nrows=50)
+    main(path = '../data/running_example', nrows=200)

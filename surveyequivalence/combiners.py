@@ -153,7 +153,7 @@ class Combiner(ABC):
     function. For example, the PluralityCombiner accepts a bag of labels and returns the label that is most frequent.
     """
 
-    def __init__(self, allowable_labels: Sequence[str] = None, verbosity=0):
+    def __init__(self, allowable_labels: Sequence[str] = None, W = None, verbosity=0):
         """
         Constructor
 
@@ -161,9 +161,27 @@ class Combiner(ABC):
         ----------
         allowable_labels: all labels that can be present in the data set.
         verbosity: verbosity parameter. Takes values 1, 2, or 3 for increasing verbosity.
+        W: if W is not None, memoization will be performed
         """
         self.allowable_labels = allowable_labels
         self.verbosity = verbosity
+        self.W = W
+
+        #self.W is pandas.dataframe
+        #self.W_np is numpy.ndarray
+        if W is not None:
+            if type(self.W) is np.ndarray:
+                self.W_np = W
+                self.W = pd.DataFrame(W)
+            else:
+                self.W_np = W.to_numpy()
+        else:
+            self.W_np = None
+
+        #self.memo is a dict to memoize the rusults of SumOfProbabilities
+        self.memo = dict()
+        #self.memo is a dict to memoize the results of Combine
+        self.combined = dict()
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],
@@ -281,7 +299,7 @@ class FrequencyCombiner(Combiner):
 
         """
 
-        freqs = {k: 1 for k in allowable_labels}
+        freqs = {k: 0 for k in allowable_labels}
 
         if len(labels) > 0:
             # k>0; use the actual labels
@@ -305,8 +323,6 @@ class AnonymousBayesianCombiner(Combiner):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.memo = dict()
-
 
     def combine(self, allowable_labels: Sequence[str],
                 labels: Sequence[Tuple[str, str]],
@@ -331,13 +347,34 @@ class AnonymousBayesianCombiner(Combiner):
         Prediction based on anonymous bayesian combiner
         """
 
-        # get number of labels in binary case, it's 2
+        # if W is a property then use memoization
+        # memoization of the calculated results of Combine
+        memo_flag = False
+        if self.W_np is not None:
+            memo_flag = True
+            W = self.W_np
+
+            freqs = {k: 0 for k in allowable_labels}
+            for _,label in labels:
+                if label == None:
+                    continue
+                freqs[label] += 1
+
+            y = freqs
+            y["item_id"] = item_id
+            y = str(y)
+
+            if y in self.combined:
+                return self.combined[y]
+
+        # get number of labels in binary case, it's 2        
         number_of_labels = len(allowable_labels)
 
         prediction = np.zeros(number_of_labels)
         # go through labels, amnd copute LabelSeqProb of this being the next label
         # at the end, sum of these probabilities will be LabelSeqProb for existing sequence (denominator of line 1 in Alg 6)
         # so we don't have to compute that separately
+
         for label_idx in range(0, number_of_labels):
             expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
 
@@ -352,7 +389,11 @@ class AnonymousBayesianCombiner(Combiner):
 
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
+        if memo_flag:
+            self.combined[y] = output
+        
         return output
+
 
     def labelSeqProb(self,
                      allowable_labels: Sequence[str],
@@ -370,15 +411,17 @@ class AnonymousBayesianCombiner(Combiner):
         for label in [l[1] for l in labels]:
             freqs[label] += 1
         y = np.array([freqs[i] for i in freqs.keys()])
+        y_str = str(y)
 
-
-
-        # Line 2 of Algorithm 5; get SumofProbabilities, but check if it's memoized first
-        if str(y) not in self.memo:
-            v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
-            self.memo[str(y)] = v, num_items
+        # Line 2 of Algorithm 5; get SumofProbabilities
+        if self.W_np is not None:
+            if y_str not in self.memo:
+                v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
+                self.memo[y_str] = v, num_items
+            else:
+                v, num_items = self.memo[y_str]
         else:
-            v, num_items = self.memo[str(y)]
+            v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
 
         # Calculate the contribution of the held out item to subtract out at the end
         # line 3 of Algorithm 5

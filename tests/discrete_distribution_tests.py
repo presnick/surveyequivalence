@@ -25,12 +25,12 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         W[7] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
         W[8] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
 
-        res = AnonymousBayesianCombiner().combine(['p', 'n'],
+        res = AnonymousBayesianCombiner(W=W).combine(['p', 'n'],
                                                   [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
                                                    ('x', 'n'), ('x', 'n')], W, 1)
         self.assertAlmostEqual(res.probabilities[0], 0.2002, delta=0.001)
 
-        res = AnonymousBayesianCombiner().combine(['p', 'n'],
+        res = AnonymousBayesianCombiner(W=W).combine(['p', 'n'],
                                                   [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
                                                    ('x', 'n'),
                                                    ('x', 'n')], W, 7)
@@ -48,7 +48,6 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         self.assertAlmostEqual(pred.probabilities[1], 1.0, delta=0.03)
 
     def test_ABC_2(self):
-        anonymous_bayesian = AnonymousBayesianCombiner()
         # W: A pandas DataFrame with one row for each item and one column for each rater. Cells are labels.
         Wrows = [
             ['pos', 'pos', 'neg'],
@@ -63,6 +62,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         ]
         W = pd.DataFrame(Wrows, columns=['r1', 'r2', 'r3'])
         W_np = W.to_numpy()
+
+        anonymous_bayesian = AnonymousBayesianCombiner(W=W)
 
         #     r1   r2   r3
         # 0  pos  pos  neg
@@ -305,7 +306,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
     def test_non_full_rating_matrix(self):
         datasets = [synthetic_datasets.make_non_full_dataset_1(num_items_per_dataset=100).dataset]
         for dataset in datasets:
-            for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'])]:
+            for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'],W=dataset)]:
                 for scorer in [CrossEntropyScore(), AgreementScore()]:
                     if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, CrossEntropyScore):
                         print("Cross entropy not well defined for Frequency combiner - no probabilities")
@@ -314,7 +315,7 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                         print("AUC not well defined for Frequency combiner - no probabilities")
                         continue
 
-                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer, min_ratings_per_item=10,
+                    p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
@@ -331,8 +332,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                     synthetic_datasets.make_discrete_dataset_2(num_items_per_dataset=100).dataset,
                     synthetic_datasets.make_discrete_dataset_3(num_items_per_dataset=100).dataset]
         for dataset in datasets:
-            for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg']), FrequencyCombiner(allowable_labels=['pos', 'neg'])]:
-                for scorer in [CrossEntropyScore(), AgreementScore(), PrecisionScore(), RecallScore(),
+            for combiner in [AnonymousBayesianCombiner(allowable_labels=['pos', 'neg'],W=dataset), FrequencyCombiner(allowable_labels=['pos', 'neg'])]:
+                for scorer in [CrossEntropyScore(), AgreementScore(), RecallScore(),
                                AUCScore()]:
                     if isinstance(combiner, FrequencyCombiner) and isinstance(scorer, CrossEntropyScore):
                         print("Cross entropy not well defined for Frequency combiner - no probabilities")

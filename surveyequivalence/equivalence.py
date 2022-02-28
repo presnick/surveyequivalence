@@ -2,6 +2,7 @@ import datetime
 import math
 import operator
 import os
+import time
 import pickle
 import pkgutil
 import shutil
@@ -25,6 +26,7 @@ ctx._force_start_method('spawn')
 
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
+from .scoring_functions import comb
 
 
 def load_saved_pipeline(path):
@@ -347,6 +349,34 @@ class PowerCurve(ClassifierResults):
         """
         return (self.df[k] > other.df[other_col]).sum() / len(self.df)
 
+    def compute_performance_ratio(self, other, K, columns=None):
+        """
+        Parameters
+        ----------
+        self
+        other
+            The classifier scores that are compared against this PowerCurve to find equivalences
+            may either be an instance of ClassifierResults or a PowerCurve. Must have same row \
+            indexes as self, one for each item sample
+        columns
+            a subset of the column names from other.df; if not specified, use all of them
+        Returns
+        -------
+            a df with one row for each bootstrap run, and columns as specified by the columns parameter \
+            Each cell is a float, the performance_ratio value for that column from other. \
+            That is, the classifier's information gain over k raters' information gain.
+        """
+        if columns is None:
+            columns = other.df.columns
+        run_results = list()
+        for run_idx, row in self.df.iterrows():
+            run_ratio = dict()
+            for h in columns:
+                score = other.df.loc[run_idx, h]
+                run_ratio[h] = (score-row[0]) / (row[K]-row[0])
+            run_results.append(run_ratio)
+        return pd.DataFrame(run_results)
+
 
 class LabeledItem:
     def __init__(self,
@@ -406,6 +436,8 @@ class AnalysisPipeline:
     item_samples=None
         If specified, the set of bootstrap item samples to use for computing error bars. \
         If not specified, a new set of bootstrap item samples will be created.
+    performance_ratio_k=None
+        Parameter k for the performance_ratio: classifier's information gain over k raters' information gain
     anonymous_raters=False
         If False, then each column in W represents an individual rater. If True, then raters are anonymous and
         not all labels in a column came from the same rater.
@@ -432,6 +464,7 @@ class AnalysisPipeline:
                  ratersets_memo=None,
                  predictions_memo=None,
                  item_samples=None,
+                 performance_ratio_k=None,
                  anonymous_raters=False,
                  verbosity=1,
                  run_on_creation = True,
@@ -457,6 +490,7 @@ class AnalysisPipeline:
         self.verbosity = verbosity
         self.procs = procs
         self.anonymous_raters = anonymous_raters
+        self.performance_ratio_k = performance_ratio_k
 
         # initialize memoization cache for rater subsets
         if ratersets_memo:
@@ -497,6 +531,9 @@ class AnalysisPipeline:
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences = Equivalences(
                 self.expert_power_curve.compute_equivalences(self.classifier_scores))
+
+        if self.performance_ratio_k is not None:
+            self.performance_ratio = self.expert_power_curve.compute_performance_ratio(self.classifier_scores,K=self.performance_ratio_k)
 
         if self.amateur_cols is not None and len(self.amateur_cols) > 0:
             if self.verbosity > 0:
@@ -590,6 +627,10 @@ class AnalysisPipeline:
         # save the expert equivalences
         if self.classifier_predictions is not None:
             self.expert_survey_equivalences.df.to_csv(f'{path}/expert_survey_equivalences.csv')
+        
+        # save the k performance ratio
+        if self.performance_ratio_k is not None:
+            self.performance_ratio.to_csv(f'{path}/{self.performance_ratio_k}_performance_ratio.csv')
 
         # save the amateur power_curve
         amateur_power_curve = getattr(self, 'amateur_power_curve', None)
@@ -688,7 +729,15 @@ class AnalysisPipeline:
         PowerCurve
             instance containing the scores for surveys of size up to max_k
         """
-        ref_raters = set(ref_raters)
+
+        # Use index to represent ref_raters
+        raters = list(raters)
+        ref_rater_idx = set()
+        for ref_rater in ref_raters:
+            ref_rater_idx.add(raters.index(ref_rater))
+        ref_raters = ref_rater_idx
+
+        raters_np = np.array(raters)
 
         if self.verbosity > 0:
             print(f"\nstarting power curve")
@@ -696,15 +745,9 @@ class AnalysisPipeline:
 
                 print(f"\tcomputing scores for {raters} with ref_raters {ref_raters}")
 
-        def comb(n, k):
-            # from https://stackoverflow.com/a/4941932
-            k = min(k, n - k)
-            numer = reduce(operator.mul, range(n, n - k, -1), 1)
-            denom = reduce(operator.mul, range(1, k + 1), 1)
-            return numer // denom
-
         def rater_subsets(raters, k, max_subsets):
             K = len(raters)
+            raters = range(K)
             if comb(K, k) > max_subsets:
                 if comb(K, k) > 5 * max_subsets:
                     ## repeatedly grab a random subset and throw it away if it's a duplicate
@@ -728,13 +771,13 @@ class AnalysisPipeline:
             return result
 
 
-        def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[str, ...]]]:
+        def generate_rater_subsets(raters, min_k, max_k, max_subsets) -> Dict[int, Sequence[Tuple[int, ...]]]:
             """
             :param raters: sequence of strings
             :param min_k:
             :param max_k:
             :param max_subsets: integer
-            :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k
+            :return: dictionary with k=num_raters as keys; values are sequences of rater tuples, up to max_subsets for each value of k, each tuple contains an index subset of raters
             """
 
             retval = dict()
@@ -746,10 +789,13 @@ class AnalysisPipeline:
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
-        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[str, ...], Prediction]]:
+        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[int, ...], Prediction]]:
             # add additional entries in predictions dictionary, for additional items, as necessary
             if self.verbosity > 0:
                 print('\nstarting to precompute predictions for various rater subsets. \n')
+
+            # use a dict to save calculated predictions for memoization
+            predicted = dict()
 
             def make_prediction(idx, row):
                 predictions = dict()
@@ -757,13 +803,24 @@ class AnalysisPipeline:
                 preds_label = set([])
                 # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
                 predictions[idx] = dict()
+                
                 for k in ratersets:
                     for rater_tup in ratersets[k]:
-                        label_vals = row.loc[list(rater_tup)].dropna()
+
+                        label_vals = row[list(rater_tup)]
+
+                        # memoization: key is the count of different labels
+                        labels=list(zip(rater_tup, label_vals))
+                        # delete the empty labels for non_full_rating_matrix cases
+                        for label in labels:
+                            if label[1] == None:
+                                labels.remove(label)
                         predictions[idx][rater_tup] = self.combiner.combine(
                             allowable_labels=self.combiner.allowable_labels,
-                            labels=list(zip(rater_tup, label_vals)),
-                            W=self.W_as_array)
+                            labels=labels,
+                            W=self.W_as_array,
+                            item_id=idx)
+
                         if self.verbosity > 1 and idx == 0:
                             if k == 0:
                                 print(f"baseline score:{predictions[idx][rater_tup]}")
@@ -782,12 +839,13 @@ class AnalysisPipeline:
                 return predictions
 
             ## iterate through rows, accumulating predictions for that item
-            pool = ProcessPool(nodes=procs)
-            predictions_list = pool.map(make_prediction, [idx for idx, _ in W.iterrows()], [row for _, row in W.iterrows()])
-            pool.close()
-            pool.join()
-            pool.clear()
-
+            predictions_list = []
+            W_np = W.to_numpy()
+            idx = 0
+            for row in W_np:
+                predictions_list.append(make_prediction(idx,row))
+                idx += 1
+            
             predictions = dict()
             for pred_dict in predictions_list:
                 for k,v in pred_dict.items():
@@ -820,7 +878,7 @@ class AnalysisPipeline:
                     unused_raters = ref_raters - set(raterset)
                     score = self.scorer.expected_score(
                         pd.Series(preds),
-                        unused_raters,
+                        raters_np[list(unused_raters)],
                         ref_labels_df,
                         self.verbosity
                     )
@@ -853,7 +911,6 @@ class AnalysisPipeline:
         ## get predictions
         predictions = get_predictions(self.W, ratersets)
 
-
         ## Each item sample is one run
         if self.verbosity > 0:
             print("\n\tcomputing power curve results for each bootstrap item sample. \n")
@@ -867,7 +924,7 @@ class AnalysisPipeline:
                                  [i for i in range(0, len(self.item_samples))])
         pool.close()
         pool.join()
-        pool.clear()
+        pool.clear()        
 
         shutil.rmtree(dirpath)
 
@@ -905,6 +962,8 @@ class Plot:
     verbosity=1
         Controls how much information is printed to the console during execution. Set a higher number \
         to help with debugging.
+    performance_ratio_k=None
+        Parameter k for the performance_ratio: classifier's information gain over k raters' information gain
     generate_pgf=False
         If True, also populate data to enable create of pgf format, suitable for inclusion in latex \
         after calling `.plot()`, run \
@@ -923,6 +982,7 @@ class Plot:
                  legend_label='Expert raters',
                  amateur_legend_label="Lay raters",
                  verbosity=1,
+                 performance_ratio_k=None,
                  generate_pgf=False
                  ):
         self.expert_power_curve = expert_power_curve
@@ -934,11 +994,18 @@ class Plot:
         self.y_range = y_range
         self.name = name
         self.x_intercepts = []
+        self.performance_ratio_intercepts = []
         self.legend_label = legend_label
         self.amateur_legend_label = amateur_legend_label
         self.verbosity = verbosity
         self.ax = ax
         self.generate_pgf = generate_pgf
+
+        # only center_on is set properly, we can calculate the performance ratio
+        if center_on == expert_power_curve.values[0]:
+            self.performance_ratio_k = performance_ratio_k
+        else:
+            self.performance_ratio_k = None
 
         if self.generate_pgf:
             self.template = Template(pkgutil.get_data(__name__, "templates/pgf_template.txt").decode('utf-8'))
@@ -1150,6 +1217,7 @@ class Plot:
              include_classifiers=True,
              include_classifier_equivalences=True,
              include_classifier_amateur_equivalences=False,
+             include_performance_ratio=True,
              other_rater_equivalences_to_include=[],
              include_droplines=True,
              include_amateur_curve=True,
@@ -1175,6 +1243,8 @@ class Plot:
         include_classifier_amateur_equivalences=False
             Whether to include calculation of the equivalent number of other raters for each classifier, \
             based on the intersection point of the classifier line and the other raters' power curve
+        include_performance_ratio=True
+            Whether to include performance_ratio
         other_rater_equivalences_to_include=[]
             A list of survey sizes for non-reference raters. \
             For each one, compute the equivalent number of reference raters yielding the same score.
@@ -1223,6 +1293,15 @@ class Plot:
             print(f"y-axis range: {self.ymin}, {self.ymax}")
 
         if include_classifiers:
+            
+            # add another axis for performance ratio, and set the range
+            if self.performance_ratio_k is not None and include_performance_ratio:
+                ratio = self.expert_power_curve.compute_performance_ratio(self.classifier_scores,K=self.performance_ratio_k)
+                ax2 = ax.twinx()
+                ylims = self.y_range if self.y_range else (self.ymin, self.ymax)
+                ylims /= (self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0])
+                ax2.set(ylim = ylims)
+
             survey_equivalences = Equivalences(self.expert_power_curve.compute_equivalences(self.classifier_scores))
             if include_classifier_amateur_equivalences:
                 amateur_equivalences = Equivalences(self.amateur_power_curve.compute_equivalences(self.classifier_scores))
@@ -1252,6 +1331,12 @@ class Plot:
                                                       include_droplines=include_droplines,
                                                       ci=(seq_lower_bound, seq_upper_bound) \
                                                            if include_seq_cis else None)
+                    
+                    # find the performance ratio point
+                    if self.performance_ratio_k is not None and include_performance_ratio:
+                        ratio_point = ratio.at[0,classifier_name]
+                        self.performance_ratio_intercepts.append(ratio_point)
+
                 if include_classifier_amateur_equivalences:
                     seq_point = amateur_equivalences.df.at[0, classifier_name]
                     seq_lower_bound = amateur_equivalences.lower_bounds[classifier_name]
@@ -1263,6 +1348,9 @@ class Plot:
                                                       include_droplines=include_droplines,
                                                       ci=(seq_lower_bound, seq_upper_bound) \
                                                            if include_seq_cis else None)
+
+
+                
         for idx in other_rater_equivalences_to_include:
             score = self.amateur_power_curve.means[idx]
             survey_eq = self.expert_power_curve.compute_equivalence_at_actuals(score)
@@ -1321,6 +1409,28 @@ class Plot:
         ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
         # fig.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(xtick_formatter))
 
+        # add the right y-axis for performance_ratio
+        if self.performance_ratio_k is not None and include_performance_ratio:
+            scale = self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0]
+            regular_ticks = [i/2 for i in range(0, math.ceil(self.ymax/scale)*2+2)]
+            ticks_to_use = list(set(regular_ticks) - set([nearest_tick(regular_ticks, y) for y in self.performance_ratio_intercepts]))
+            y_ticks = sorted(ticks_to_use+self.performance_ratio_intercepts)
+            ax2.set_yticks(y_ticks)
+            ax2.set_ylabel(f"{self.performance_ratio_k} performance ratio",fontsize=16)
+
+            # add pgf command
+            if self.generate_pgf:
+                pratio_dict = {}
+                pratio_dict['xmax'] = self.template_dict['xmax']
+                pratio_dict['y2max'] = float(self.template_dict['ymax'])/scale
+                pratio_dict['y2ticks'] = ', '.join(map(str, y_ticks))
+                pratio_dict['y2label'] = str(self.performance_ratio_k)+' performance ratio'
+
+                pratio_template = Template(
+                    pkgutil.get_data(__name__, "templates/performance_ratio_template.txt").decode('utf-8'))
+                s = pratio_template.substitute(**pratio_dict)
+                self.template_dict['performance_ratio'] = s
+
         pass
 
     def save(self, path: str, fig: figure, plotname='plot'):
@@ -1333,9 +1443,10 @@ class Plot:
         name : Name for the file
         """
 
-        # save the matplotlib figure as a .png
+        # save the matplotlib figure as a .png and a .pdf
         fig.savefig(f'{path}/{plotname}.png')
-
+        fig.savefig(f'{path}/{plotname}.pdf')
+        
         # possibly save figure generator in .tex (pgf) format as well
         if self.generate_pgf:
             pgf = self.template.substitute(**self.template_dict)
@@ -1343,3 +1454,4 @@ class Plot:
             pgf = pgf.replace('\r', '')
             with open(f'{path}/{plotname}.tex', 'w') as tex:
                 tex.write(pgf)
+        
