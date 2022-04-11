@@ -1412,7 +1412,7 @@ class Plot:
         # add the right y-axis for performance_ratio
         if self.performance_ratio_k is not None and include_performance_ratio:
             scale = self.expert_power_curve.values[self.performance_ratio_k]-self.expert_power_curve.values[0]
-            regular_ticks = [i/2 for i in range(0, math.ceil(self.ymax/scale)*2+2)]
+            regular_ticks = [i/2 for i in range(0, math.ceil(self.ymax/scale)*2+1)]
             ticks_to_use = list(set(regular_ticks) - set([nearest_tick(regular_ticks, y) for y in self.performance_ratio_intercepts]))
             y_ticks = sorted(ticks_to_use+self.performance_ratio_intercepts)
             ax2.set_yticks(y_ticks)
