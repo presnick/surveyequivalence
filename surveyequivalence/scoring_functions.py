@@ -111,10 +111,11 @@ class Scorer(ABC):
         # create a bunch of virtual raters (samples)
         # for each virtual rater, pick a random combination randomly selected set of num_ref_raters_per_virtual_rater non-null ratings for each column
 
+        W_np = W.to_numpy()
+
         virtual_raters_collection = []
         if ref_rater_combiner=="majority_vote":
-            for _, virtual_rater_i in W.iterrows():
-                vals = virtual_rater_i.dropna().values
+            for vals in W_np:
                 if len(vals) > 0:
                     ratings_for_i = []
                     num = min(len(vals),num_ref_raters_per_virtual_rater)
@@ -799,8 +800,8 @@ class RecallScore(Scorer):
 
 
 class F1Score(Scorer):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, num_virtual_raters=100, num_ref_raters_per_virtual_rater=1, ref_rater_combiner="majority_vote", verbosity=0):
+        super().__init__(num_virtual_raters, num_ref_raters_per_virtual_rater, ref_rater_combiner, verbosity)
 
     @staticmethod
     def score(classifier_predictions: Sequence[DiscreteDistributionPrediction],
