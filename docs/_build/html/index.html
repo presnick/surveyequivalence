@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
     <title>Welcome to SurveyEquivalence&#39;s documentation! &#8212; SurveyEquivalence 1.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="getting_started.html" />
@@ -31,8 +31,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-surveyequivalence-s-documentation">
-<h1>Welcome to SurveyEquivalence's documentation!<a class="headerlink" href="#welcome-to-surveyequivalence-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="welcome-to-surveyequivalence-s-documentation">
+<h1>Welcome to SurveyEquivalence's documentation!<a class="headerlink" href="#welcome-to-surveyequivalence-s-documentation" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
@@ -65,36 +65,242 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#equivalence-module">Equivalence Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#analysispipeline">AnalysisPipeline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#plot">Plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#equivalences">Equivalences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#classifierresults">ClassifierResults</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#powercurve">PowerCurve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#analysispipeline">AnalysisPipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline"><code class="docutils literal notranslate"><span class="pre">AnalysisPipeline</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.output_csv"><code class="docutils literal notranslate"><span class="pre">AnalysisPipeline.output_csv()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.path_for_saving"><code class="docutils literal notranslate"><span class="pre">AnalysisPipeline.path_for_saving()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.run"><code class="docutils literal notranslate"><span class="pre">AnalysisPipeline.run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.AnalysisPipeline.save"><code class="docutils literal notranslate"><span class="pre">AnalysisPipeline.save()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-surveyequivalence.combiners">Combiners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-surveyequivalence.scoring_functions">Scoring Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.load_saved_pipeline"><code class="docutils literal notranslate"><span class="pre">load_saved_pipeline()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#plot">Plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot"><code class="docutils literal notranslate"><span class="pre">Plot</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot.plot"><code class="docutils literal notranslate"><span class="pre">Plot.plot()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot.save"><code class="docutils literal notranslate"><span class="pre">Plot.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#equivalences">Equivalences</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Equivalences"><code class="docutils literal notranslate"><span class="pre">Equivalences</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Equivalences.lower_bounds"><code class="docutils literal notranslate"><span class="pre">Equivalences.lower_bounds</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.Equivalences.upper_bounds"><code class="docutils literal notranslate"><span class="pre">Equivalences.upper_bounds</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#classifierresults">ClassifierResults</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.ClassifierResults"><code class="docutils literal notranslate"><span class="pre">ClassifierResults</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.ClassifierResults.lower_bounds"><code class="docutils literal notranslate"><span class="pre">ClassifierResults.lower_bounds</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.ClassifierResults.upper_bounds"><code class="docutils literal notranslate"><span class="pre">ClassifierResults.upper_bounds</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.ClassifierResults.values"><code class="docutils literal notranslate"><span class="pre">ClassifierResults.values</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#powercurve">PowerCurve</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve"><code class="docutils literal notranslate"><span class="pre">PowerCurve</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_actuals"><code class="docutils literal notranslate"><span class="pre">PowerCurve.compute_equivalence_at_actuals()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve.compute_equivalence_at_mean"><code class="docutils literal notranslate"><span class="pre">PowerCurve.compute_equivalence_at_mean()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve.compute_equivalences"><code class="docutils literal notranslate"><span class="pre">PowerCurve.compute_equivalences()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve.reliability_of_beating_classifier"><code class="docutils literal notranslate"><span class="pre">PowerCurve.reliability_of_beating_classifier()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.equivalence.PowerCurve.reliability_of_difference"><code class="docutils literal notranslate"><span class="pre">PowerCurve.reliability_of_difference()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-surveyequivalence.combiners">Combiners</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.AnonymousBayesianCombiner"><code class="docutils literal notranslate"><span class="pre">AnonymousBayesianCombiner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.AnonymousBayesianCombiner.combine"><code class="docutils literal notranslate"><span class="pre">AnonymousBayesianCombiner.combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.AnonymousBayesianCombiner.labelSeqProb"><code class="docutils literal notranslate"><span class="pre">AnonymousBayesianCombiner.labelSeqProb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.AnonymousBayesianCombiner.probabilityOneItem"><code class="docutils literal notranslate"><span class="pre">AnonymousBayesianCombiner.probabilityOneItem()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.AnonymousBayesianCombiner.sumOfProbabilities"><code class="docutils literal notranslate"><span class="pre">AnonymousBayesianCombiner.sumOfProbabilities()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.Combiner"><code class="docutils literal notranslate"><span class="pre">Combiner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.Combiner.combine"><code class="docutils literal notranslate"><span class="pre">Combiner.combine()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscreteDistributionPrediction"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionPrediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscreteDistributionPrediction.draw_discrete_label"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionPrediction.draw_discrete_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscreteDistributionPrediction.label_probability"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionPrediction.label_probability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscreteDistributionPrediction.value"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionPrediction.value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscreteDistributionPrediction.value_prob"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionPrediction.value_prob</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscretePrediction"><code class="docutils literal notranslate"><span class="pre">DiscretePrediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.DiscretePrediction.value"><code class="docutils literal notranslate"><span class="pre">DiscretePrediction.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.FrequencyCombiner"><code class="docutils literal notranslate"><span class="pre">FrequencyCombiner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.FrequencyCombiner.combine"><code class="docutils literal notranslate"><span class="pre">FrequencyCombiner.combine()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.MeanCombiner"><code class="docutils literal notranslate"><span class="pre">MeanCombiner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.MeanCombiner.combine"><code class="docutils literal notranslate"><span class="pre">MeanCombiner.combine()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.NumericPrediction"><code class="docutils literal notranslate"><span class="pre">NumericPrediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.NumericPrediction.value"><code class="docutils literal notranslate"><span class="pre">NumericPrediction.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.PluralityVote"><code class="docutils literal notranslate"><span class="pre">PluralityVote</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.PluralityVote.combine"><code class="docutils literal notranslate"><span class="pre">PluralityVote.combine()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.combiners.Prediction"><code class="docutils literal notranslate"><span class="pre">Prediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.combiners.Prediction.value"><code class="docutils literal notranslate"><span class="pre">Prediction.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-surveyequivalence.scoring_functions">Scoring Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.AUCScore"><code class="docutils literal notranslate"><span class="pre">AUCScore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.AUCScore.score"><code class="docutils literal notranslate"><span class="pre">AUCScore.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.AgreementScore"><code class="docutils literal notranslate"><span class="pre">AgreementScore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.AgreementScore.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">AgreementScore.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.AgreementScore.score"><code class="docutils literal notranslate"><span class="pre">AgreementScore.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Correlation"><code class="docutils literal notranslate"><span class="pre">Correlation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Correlation.score"><code class="docutils literal notranslate"><span class="pre">Correlation.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.CrossEntropyScore"><code class="docutils literal notranslate"><span class="pre">CrossEntropyScore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.CrossEntropyScore.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">CrossEntropyScore.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.CrossEntropyScore.score"><code class="docutils literal notranslate"><span class="pre">CrossEntropyScore.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Hard_Classifier"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Hard_Classifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Hard_Classifier.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Hard_Classifier.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Hard_Classifier.score"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Hard_Classifier.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Soft_Classifier"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Soft_Classifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Soft_Classifier.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Soft_Classifier.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.DMIScore_for_Soft_Classifier.score"><code class="docutils literal notranslate"><span class="pre">DMIScore_for_Soft_Classifier.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.F1Score.score"><code class="docutils literal notranslate"><span class="pre">F1Score.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.PrecisionScore"><code class="docutils literal notranslate"><span class="pre">PrecisionScore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.PrecisionScore.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">PrecisionScore.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.PrecisionScore.score"><code class="docutils literal notranslate"><span class="pre">PrecisionScore.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.RecallScore"><code class="docutils literal notranslate"><span class="pre">RecallScore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.RecallScore.score"><code class="docutils literal notranslate"><span class="pre">RecallScore.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer"><code class="docutils literal notranslate"><span class="pre">Scorer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer.expected_score"><code class="docutils literal notranslate"><span class="pre">Scorer.expected_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer.expected_score_non_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer.expected_score_non_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer.score"><code class="docutils literal notranslate"><span class="pre">Scorer.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Hard_Classifier"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Hard_Classifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Hard_Classifier.expected_score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Hard_Classifier.expected_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Hard_Classifier.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Hard_Classifier.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Hard_Classifier.expected_score_non_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Hard_Classifier.expected_score_non_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Hard_Classifier.score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Hard_Classifier.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Numeric_Classifier"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Numeric_Classifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Numeric_Classifier.expected_score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Numeric_Classifier.expected_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Numeric_Classifier.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Numeric_Classifier.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Numeric_Classifier.expected_score_non_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Numeric_Classifier.expected_score_non_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Numeric_Classifier.score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Numeric_Classifier.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Soft_Classifier"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Soft_Classifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Soft_Classifier.expected_score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Soft_Classifier.expected_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Soft_Classifier.expected_score_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Soft_Classifier.expected_score_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Soft_Classifier.expected_score_non_anonymous_raters"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Soft_Classifier.expected_score_non_anonymous_raters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.Scorer_for_Soft_Classifier.score"><code class="docutils literal notranslate"><span class="pre">Scorer_for_Soft_Classifier.score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.comb"><code class="docutils literal notranslate"><span class="pre">comb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.frac"><code class="docutils literal notranslate"><span class="pre">frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#surveyequivalence.scoring_functions.mode"><code class="docutils literal notranslate"><span class="pre">mode()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#synthetic-dataset-generation">Synthetic Dataset Generation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#states">States</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#distributions-over-states">Distributions Over States</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#mock-classifiers">Mock Classifiers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#dataset-generators">Dataset Generators</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#dataset">Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#states">States</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.DiscreteState"><code class="docutils literal notranslate"><span class="pre">DiscreteState</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.DiscreteState.draw_labels"><code class="docutils literal notranslate"><span class="pre">DiscreteState.draw_labels()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#distributions-over-states">Distributions Over States</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.DistributionOverStates"><code class="docutils literal notranslate"><span class="pre">DistributionOverStates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionOverStates</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.DiscreteDistributionOverStates.draw_states"><code class="docutils literal notranslate"><span class="pre">DiscreteDistributionOverStates.draw_states()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.FixedStateGenerator"><code class="docutils literal notranslate"><span class="pre">FixedStateGenerator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.FixedStateGenerator.draw_states"><code class="docutils literal notranslate"><span class="pre">FixedStateGenerator.draw_states()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#mock-classifiers">Mock Classifiers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.MockClassifier"><code class="docutils literal notranslate"><span class="pre">MockClassifier</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.MockClassifier.make_predictions"><code class="docutils literal notranslate"><span class="pre">MockClassifier.make_predictions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier"><code class="docutils literal notranslate"><span class="pre">MappedDiscreteMockClassifier</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.MappedDiscreteMockClassifier.make_predictions"><code class="docutils literal notranslate"><span class="pre">MappedDiscreteMockClassifier.make_predictions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#dataset-generators">Dataset Generators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator"><code class="docutils literal notranslate"><span class="pre">SyntheticDatasetGenerator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticDatasetGenerator.generate_labels"><code class="docutils literal notranslate"><span class="pre">SyntheticDatasetGenerator.generate_labels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator"><code class="docutils literal notranslate"><span class="pre">SyntheticBinaryDatasetGenerator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.make_histogram"><code class="docutils literal notranslate"><span class="pre">SyntheticBinaryDatasetGenerator.make_histogram()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticBinaryDatasetGenerator.plot_item_state_distribution"><code class="docutils literal notranslate"><span class="pre">SyntheticBinaryDatasetGenerator.plot_item_state_distribution()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#dataset">Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticDataset"><code class="docutils literal notranslate"><span class="pre">SyntheticDataset</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.SyntheticDataset.save"><code class="docutils literal notranslate"><span class="pre">SyntheticDataset.save()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.make_running_example_dataset"><code class="docutils literal notranslate"><span class="pre">make_running_example_dataset()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
           </div>
@@ -131,12 +337,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -153,8 +359,8 @@
       &copy;2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/index.rst.txt"
