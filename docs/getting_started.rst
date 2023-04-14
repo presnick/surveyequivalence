@@ -24,7 +24,9 @@ with fewer bootstrap item samples.
     [GCC 7.3.0] :: Anaconda, Inc. on linux
     Type "help", "copyright", "credits" or "license" for more information.
     >>> from surveyequivalence.examples.paper_running_example import main
-    >>> main(path='data/running_example_50_items', num_bootstrap_item_samples=10)
+    >>> import pkg_resources
+    >>> DATA_PATH = pkg_resources.resource_filename('surveyequivalence', 'data')
+    >>> main(path=f"{DATA_PATH}/running_example_50_items", num_bootstrap_item_samples=10)
     starting classifiers: computing scores
 
 As described in the :ref:`tutorial <Tutorials>`, the running example for the paper computes three survey power curves, for three different

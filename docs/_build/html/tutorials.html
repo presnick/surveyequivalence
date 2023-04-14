@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
     <title>Tutorials &#8212; SurveyEquivalence 1.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API" href="api.html" />
@@ -32,10 +32,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="tutorials">
-<span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="synthetic-running-example">
-<h2>Synthetic Running Example<a class="headerlink" href="#synthetic-running-example" title="Permalink to this headline">¶</a></h2>
+  <section id="tutorials">
+<span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading">¶</a></h1>
+<section id="synthetic-running-example">
+<h2>Synthetic Running Example<a class="headerlink" href="#synthetic-running-example" title="Permalink to this heading">¶</a></h2>
 <p>The synthetic running example, as described in the paper, is implemented in the file <cite>examples/paper_running_example.py</cite>.</p>
 <p>We first load the data that we created in <a class="reference internal" href="#generating-data-for-running-example"><span class="std std-ref">Generating Data for the Running Example</span></a></p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT_DIR</span><span class="si">}</span><span class="s1">/data/running_example&#39;</span>
@@ -64,8 +64,8 @@ You will have to do something similar to convert numeric predictions of a real c
 instances of an appropriate subclass of Prediction.</p>
 <p>Also note that W (the reference rater's labels) and classifier_predictions are two dataframes that must have the same
 index, with the corresponding rows providing information about the same items.</p>
-<div class="section" id="run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore">
-<h3>Run the analysis pipeline for PluralityVote plus AgreementScore<a class="headerlink" href="#run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore" title="Permalink to this headline">¶</a></h3>
+<section id="run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore">
+<h3>Run the analysis pipeline for PluralityVote plus AgreementScore<a class="headerlink" href="#run-the-analysis-pipeline-for-pluralityvote-plus-agreementscore" title="Permalink to this heading">¶</a></h3>
 <p>Next, we run the analysis pipeline and generate plots. We will do this three times in all, with three different
 pairings of combiner function with scoring function. We start with a scoring function that expects discrete label
 predictions (i.e., hard classifiers). That requires a combiner function that produces a single predicted label from
@@ -97,9 +97,9 @@ a set of other labels.</p>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="plot-the-results">
-<h3>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="plot-the-results">
+<h3>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this heading">¶</a></h3>
 <p>Next we create an instance of the class <a class="reference internal" href="api.html#surveyequivalence.equivalence.Plot" title="surveyequivalence.equivalence.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyequivalence.equivalence.Plot</span></code></a>, passing:</p>
 <blockquote>
 <div><ul class="simple">
@@ -148,9 +148,9 @@ a pgf file suitable for importing into latex.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/plurality_plus_agreement&quot;</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="anonymousbayesiancombiner-plus-crossentropy">
-<h3>AnonymousBayesianCombiner plus CrossEntropy<a class="headerlink" href="#anonymousbayesiancombiner-plus-crossentropy" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="anonymousbayesiancombiner-plus-crossentropy">
+<h3>AnonymousBayesianCombiner plus CrossEntropy<a class="headerlink" href="#anonymousbayesiancombiner-plus-crossentropy" title="Permalink to this heading">¶</a></h3>
 <p>Next we consider a scorer for soft classifiers, which predict a probability for each possible label, rather than
 outputting a single label. The Anonymous Bayesian Combiner, as described in the paper, is one such combiner.
 Essentially, it estimates the probability of a pos or neg next label conditional on having observed the labels
@@ -219,20 +219,20 @@ resulting graph adds an extra horizontal line for the ideal classifier.</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">path_for_saving</span><span class="p">(</span><span class="s2">&quot;running_example/abc_plus_cross_entropy&quot;</span><span class="p">),</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="frequencycombiner-plus-crossentropy">
-<h3>FrequencyCombiner plus CrossEntropy<a class="headerlink" href="#frequencycombiner-plus-crossentropy" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="frequencycombiner-plus-crossentropy">
+<h3>FrequencyCombiner plus CrossEntropy<a class="headerlink" href="#frequencycombiner-plus-crossentropy" title="Permalink to this heading">¶</a></h3>
 <p>The code for the last combiner and scorer is very similar and is omitted.</p>
-</div>
-<div class="section" id="where-to-find-the-results">
-<h3>Where to Find the Results<a class="headerlink" href="#where-to-find-the-results" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="where-to-find-the-results">
+<h3>Where to Find the Results<a class="headerlink" href="#where-to-find-the-results" title="Permalink to this heading">¶</a></h3>
 <p>In config.py, you will specify a ROOTDIR.</p>
 <p>Directory f'{ROOT_DIR}/saved_analyses' will have a folder named with a timestamp for the start of your AnalysisPipeline
 run. Look inside that to find three subdirectories, one for each combiner+scorer pairing.</p>
-</div>
-</div>
-<div class="section" id="generating-data-for-the-running-example">
-<span id="generating-data-for-running-example"></span><h2>Generating Data for the Running Example<a class="headerlink" href="#generating-data-for-the-running-example" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="generating-data-for-the-running-example">
+<span id="generating-data-for-running-example"></span><h2>Generating Data for the Running Example<a class="headerlink" href="#generating-data-for-the-running-example" title="Permalink to this heading">¶</a></h2>
 <p>The dataset use in the running example is synthetic. We generated it using the function <a class="reference internal" href="api.html#surveyequivalence.synthetic_datasets.make_running_example_dataset" title="surveyequivalence.synthetic_datasets.make_running_example_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">surveyequivalence.synthetic_datasets.make_running_example_dataset()</span></code></a>.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_items_per_dataset</span><span class="o">=</span><span class="mi">1000</span>
 <span class="n">num_labels_per_item</span><span class="o">=</span><span class="mi">10</span>
@@ -261,9 +261,9 @@ cross-entropy score than this classifier.</p></li>
 </div></blockquote>
 <p>Two .csv files are generated, predictions.csv and ref_rater_labels.csv. They are stored in a subdirectory of
 data/running_example.</p>
-</div>
-<div class="section" id="jigsaw-personal-attacks-dataset-analysis">
-<h2>Jigsaw Personal Attacks Dataset Analysis<a class="headerlink" href="#jigsaw-personal-attacks-dataset-analysis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="jigsaw-personal-attacks-dataset-analysis">
+<h2>Jigsaw Personal Attacks Dataset Analysis<a class="headerlink" href="#jigsaw-personal-attacks-dataset-analysis" title="Permalink to this heading">¶</a></h2>
 <p>Calculating the survey equivalence of an real world item and rater set is easy with this package. Here we focus on the
 Jigsaw Toxcitiy Dataset. This dataset is originally discussed in this paper:</p>
 <p>Wulczyn, E., Thain, N., &amp; Dixon, L. (2017, April). Ex machina: Personal attacks seen at scale. In Proceedings of the
@@ -276,8 +276,8 @@ some comment on Wikipedia is a personal attack. The header and first row of the 
 attack, the number of labeled attacks, the number of total labels -- where the percentage is equal to the number of
 attacks divided by the number of labels, and the probability that the Jigsaw predictor returned.</p>
 <p>We load and perform surveyequivalence analysis in <cite>examples/personal_attacks.py</cite></p>
-<div class="section" id="example-driver">
-<h3>Example Driver<a class="headerlink" href="#example-driver" title="Permalink to this headline">¶</a></h3>
+<section id="example-driver">
+<h3>Example Driver<a class="headerlink" href="#example-driver" title="Permalink to this heading">¶</a></h3>
 <p>The main function servers as a driver for four combinations of scoring and combiner functions. AnonymousBayesianCombiner
 with CrossEntropy, which has several desirable properties as discussed in the paper. Combinations of FrequencyCombiner
 and AUCScore are also performed.</p>
@@ -316,9 +316,9 @@ combiner/score pair (two days for the whole driver to complete).</p>
     <span class="n">num_processors</span><span class="o">=</span><span class="n">num_processors</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="loading-the-dataset">
-<h3>Loading the Dataset<a class="headerlink" href="#loading-the-dataset" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="loading-the-dataset">
+<h3>Loading the Dataset<a class="headerlink" href="#loading-the-dataset" title="Permalink to this heading">¶</a></h3>
 <p>The first step is to load the dataset. Importantly, the surveyequivalence functions assume that the data exists in a
 maxtrix form with n rows for each item (Wiki-comment in this case), and m columns for each rater. However, the dataset,
 as exists, only provides counts. So it is important that we reverse-engineer each item and estimate what each rater
@@ -378,9 +378,9 @@ with Nones for items with less than the max number of raters.</p>
 </div>
 <p>Here <cite>W</cite> is the item-rater matrix. We trim it to <cite>max_items</cite> to reduce the size of the dataset. There are very many
 items, and it would be difficult to consider all of them in a tutorial.</p>
-</div>
-<div class="section" id="calibrating-the-predictor">
-<h3>Calibrating the Predictor<a class="headerlink" href="#calibrating-the-predictor" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="calibrating-the-predictor">
+<h3>Calibrating the Predictor<a class="headerlink" href="#calibrating-the-predictor" title="Permalink to this heading">¶</a></h3>
 <p>Next we are concerned with calibrating our classifier.</p>
 <p>The Wiki-personal_attack predictor was labeled <cite>predictor_prob</cite> in the dataset, and was loaded, for each rater, into <cite>X</cite>,
 which is associated with a 1 or a 0 in <cite>y</cite> if the rater labeled attack or not attack respectively. The goal of this
@@ -419,9 +419,9 @@ calibrated normalized Jigsaw predictor-probabilities.</p>
 </div>
 <p>The last line concatenates these classifiers together into a single object so they can be passed together into the
 plot function later on.</p>
-</div>
-<div class="section" id="calculating-a-prior-score">
-<h3>Calculating a Prior Score<a class="headerlink" href="#calculating-a-prior-score" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="calculating-a-prior-score">
+<h3>Calculating a Prior Score<a class="headerlink" href="#calculating-a-prior-score" title="Permalink to this heading">¶</a></h3>
 <p>In certain cases, like with the CrossEntropyScore, we don't care about the raw values, but rather about the
 information gain that is provided by more and more raters. To measure the gain we first need to create a baseline
 (i.e., prior) score from which we can (hopefully) improve.</p>
@@ -437,9 +437,9 @@ information gain that is provided by more and more raters. To measure the gain w
     <span class="n">prior</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="the-analysispipeline">
-<h3>The AnalysisPipeline<a class="headerlink" href="#the-analysispipeline" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-analysispipeline">
+<h3>The AnalysisPipeline<a class="headerlink" href="#the-analysispipeline" title="Permalink to this heading">¶</a></h3>
 <p>Now that we have the calibrated and uncalibrated predictors, the prior (if needed), and our item-rater dataset matrix
 <cite>W</cite>, we can begin the surveyequivalence analysis</p>
 <p>The AnalysisPipline takes in <cite>W</cite>, the combiner, scorer, and labels, and classifiers. The number of bootstrap samples
@@ -447,15 +447,15 @@ indicates how many tests to perform to create confidence intervals around the su
 how large to grow the power curve, i.e., how many raters to consider in the limit. The AnalysisPipline does run in
 parallel, so you can set the number of CPU cores to use with the <cite>num_processors</cite> parameter.</p>
 <p>From here the plotting is very similar to the SyntheticRunningExample.</p>
-</div>
-</div>
-<div class="section" id="guess-the-karma-dataset-analysis">
-<h2>Guess the Karma Dataset Analysis<a class="headerlink" href="#guess-the-karma-dataset-analysis" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="credbank-dataset-analysis">
-<h2>CredBank Dataset Analysis<a class="headerlink" href="#credbank-dataset-analysis" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
+<section id="guess-the-karma-dataset-analysis">
+<h2>Guess the Karma Dataset Analysis<a class="headerlink" href="#guess-the-karma-dataset-analysis" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="credbank-dataset-analysis">
+<h2>CredBank Dataset Analysis<a class="headerlink" href="#credbank-dataset-analysis" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
 
 
           </div>
@@ -514,12 +514,12 @@ parallel, so you can set the number of CPU cores to use with the <cite>num_proce
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -536,8 +536,8 @@ parallel, so you can set the number of CPU cores to use with the <cite>num_proce
       &copy;2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/tutorials.rst.txt"
