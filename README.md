@@ -10,6 +10,7 @@ Given a dataset W of ratings for
 
 Installation
 ------------
+Requires Python version 3.8 or higher. We have tested this with VirtualEnvironment and Conda using Python 3.8 and 3.10 
 
 .. code-block:: console
 
@@ -26,13 +27,17 @@ with fewer bootstrap item samples.
 
 .. code-block:: console
 
-    (survey_equiv) surveyequivalence[master !?]$ python
-    Python 3.7.4 (default, Aug 13 2019, 20:35:49)
-    [GCC 7.3.0] :: Anaconda, Inc. on linux
+
+    % python 
+    Python 3.8.16 (default, Mar  1 2023, 21:18:45) 
+    [Clang 14.0.6 ] :: Anaconda, Inc. on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     >>> from surveyequivalence.examples.paper_running_example import main
-    >>> main(path='data/running_example_50_items', num_bootstrap_item_samples=10)
+    >>> import pkg_resources
+    >>> DATA_PATH = pkg_resources.resource_filename('surveyequivalence', 'data')
+    >>> main(path=f"{DATA_PATH}/running_example_50_items", num_bootstrap_item_samples=10)
     starting classifiers: computing scores
+
 
 As described in the tutorial, the running example for the paper computes three survey power curves, for three different
 combiner/scorer pairings.
