@@ -1,0 +1,127 @@
+
+----classifier scores-----
+	Actual item set score:
+ calibrated hard classifier     -0.816203
+h_infinity: ideal classifier   -0.726288
+Name: 0, dtype: float64
+	means:
+calibrated hard classifier     -0.798738
+h_infinity: ideal classifier   -0.713352
+dtype: float64
+	stds:
+calibrated hard classifier      0.047016
+h_infinity: ideal classifier    0.040089
+dtype: float64
+
+----classifier score gains-----
+	Actual item set score:
+ calibrated hard classifier      0.159036
+h_infinity: ideal classifier    0.248951
+Name: 0, dtype: float64
+	means:
+calibrated hard classifier      0.176501
+h_infinity: ideal classifier    0.261887
+dtype: float64
+	stds:
+calibrated hard classifier      1.022255
+h_infinity: ideal classifier    1.015328
+dtype: float64
+
+----power curve means-----
+	Actual item set score:
+ 0   -0.975239
+1   -0.898786
+2   -0.824760
+3   -0.788366
+4   -0.766657
+5   -0.756387
+6   -0.750545
+7   -0.754656
+8   -0.780558
+9   -1.104912
+Name: 0, dtype: float64
+	means:
+0   -0.983072
+1   -0.896908
+2   -0.817840
+3   -0.779729
+4   -0.757855
+5   -0.748195
+6   -0.742201
+7   -0.746355
+8   -0.772057
+9   -1.119816
+dtype: float64
+	stds:
+0    0.030508
+1    0.016117
+2    0.022366
+3    0.023132
+4    0.026972
+5    0.028894
+6    0.030271
+7    0.033633
+8    0.041538
+9    0.141075
+dtype: float64
+
+----power curve mean gains-----
+	Actual item set score:
+ 0    0.000000
+1    0.076453
+2    0.150479
+3    0.186873
+4    0.208582
+5    0.218852
+6    0.224694
+7    0.220583
+8    0.194681
+9   -0.129673
+Name: 0, dtype: float64
+	means:
+0   -0.007833
+1    0.078331
+2    0.157399
+3    0.195510
+4    0.217384
+5    0.227044
+6    0.233038
+7    0.228884
+8    0.203182
+9   -0.144577
+dtype: float64
+	stds:
+0    1.005747
+1    0.991356
+2    0.997605
+3    0.998371
+4    1.002211
+5    1.004133
+6    1.005510
+7    1.008872
+8    1.016777
+9    1.116314
+dtype: float64
+
+----survey equivalences----
+reference rater equivalences
+	means:
+ calibrated hard classifier      2.678123
+h_infinity: ideal classifier    8.614323
+dtype: float64
+	medians
+ calibrated hard classifier      2.7737
+h_infinity: ideal classifier    9.0000
+dtype: float64
+	stddevs
+ calibrated hard classifier      0.906143
+h_infinity: ideal classifier    1.279146
+dtype: float64
+	lower bounds
+ calibrated hard classifier      0.865837
+h_infinity: ideal classifier    6.056031
+dtype: float64
+	upper bounds
+ calibrated hard classifier       4.490409
+h_infinity: ideal classifier    11.172615
+dtype: float64
