@@ -23,7 +23,8 @@ yticklabel style={
 		/pgf/number format/fixed,
 		/pgf/number format/precision=5
 },
-scaled y ticks=false
+scaled y ticks=false,
+ytick pos=left
 ]
 
 $plots
