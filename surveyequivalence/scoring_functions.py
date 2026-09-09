@@ -8,6 +8,39 @@ import pandas as pd
 from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score
 
 from .combiners import DiscreteDistributionPrediction, NumericPrediction, DiscretePrediction
+from ._data import is_missing
+
+
+def _prediction_is_missing(pred):
+    if is_missing(pred):
+        return True
+    # A prediction explicitly naming the empty string declares it as a label.
+    value = pred.value
+    vocabulary = getattr(pred, 'label_names', None)
+    if isinstance(value, str) and value == '':
+        vocabulary = ('',)
+    return is_missing(value, vocabulary)
+
+
+def _reference_vocabulary(reference, predictions):
+    vocabulary = getattr(reference, 'attrs', {}).get('allowable_labels')
+    if vocabulary is not None:
+        return vocabulary
+    for pred in predictions:
+        if is_missing(pred):
+            continue
+        if '' in getattr(pred, 'label_names', ()):
+            return ('',)
+        if isinstance(pred.value, str) and pred.value == '':
+            return ('',)
+    return None
+
+
+def _usable_pairs(classifier_predictions, rater_labels):
+    vocabulary = _reference_vocabulary(rater_labels, classifier_predictions)
+    return [(pred, label) for pred, label in zip(classifier_predictions, rater_labels)
+            if not _prediction_is_missing(pred)
+            and not is_missing(label, vocabulary)]
 
 frac_cache = dict()
 
@@ -112,9 +145,14 @@ class Scorer(ABC):
         # for each virtual rater, pick a random combination randomly selected set of num_ref_raters_per_virtual_rater non-null ratings for each column
 
         virtual_raters_collection = []
+        usable_predictions = []
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
         if ref_rater_combiner=="majority_vote":
-            for _, virtual_rater_i in W.iterrows():
-                vals = virtual_rater_i.dropna().values
+            for (_, virtual_rater_i), pred in zip(W.iterrows(), classifier_predictions):
+                if _prediction_is_missing(pred):
+                    continue
+                vals = np.array([label for label in virtual_rater_i
+                                 if not is_missing(label, vocabulary)])
                 if len(vals) > 0:
                     ratings_for_i = []
                     num = min(len(vals),num_ref_raters_per_virtual_rater)
@@ -122,14 +160,22 @@ class Scorer(ABC):
                         #select num_ref_raters_per_virtual_rater reference raters, and combine them to produce virtual rater label
                         ratings_for_i.append(mode(np.random.choice(vals, num, replace=True)))
                     virtual_raters_collection.append(ratings_for_i)
+                    usable_predictions.append(pred)
         else:
             raise NotImplementedError()
+
+        if not usable_predictions:
+            return None
 
         # one row for each item; num_virtual_raters columns
         virtual_raters_matrix = np.array(virtual_raters_collection)
 
         # iterate through the columns (virtual raters) of samples_matrix, scoring each
-        scores = [self.score(classifier_predictions, virtual_rater) for virtual_rater in virtual_raters_matrix.T]
+        scores = []
+        for virtual_rater in virtual_raters_matrix.T:
+            labels = pd.Series(virtual_rater)
+            labels.attrs['allowable_labels'] = vocabulary
+            scores.append(self.score(usable_predictions, labels))
         non_null_scores = [score for score in scores if not pd.isna(score)]
 
         if len(non_null_scores) == 0:
@@ -346,9 +392,8 @@ class Correlation(Scorer_for_Numeric_Classifier):
             return None
 
         # have to remove items where either pred or label is missing
-        good_items = [(pred.value, label) \
-                      for (pred, label) in zip(classifier_predictions, rater_labels) \
-                      if pred and (not pd.isna(pred.value)) and (not pd.isna(label))]
+        good_items = [(pred.value, label)
+                      for pred, label in _usable_pairs(classifier_predictions, rater_labels)]
         if len(good_items) == 0:
             if verbosity > 0:
                 print("ALERT: no items with both prediction and label; skipping\n")
@@ -415,18 +460,22 @@ class AgreementScore(Scorer_for_Hard_Classifier):
 
         tot = 0
         ct = 0
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
         for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            if _prediction_is_missing(pred):
+                continue
             # count frequency of each value
-            counts = row.dropna().value_counts()
+            counts = row[[not is_missing(label, vocabulary) for label in row]].value_counts()
 
             tot_counts=np.sum(counts)
 
             if len(counts) == 0:
                 # no non-null labels for this item; skip it
                 continue
+            panel_size = min(num_ref_raters_per_virtual_rater, tot_counts)
             
             # NOTE: the fast combination calculation for majority vote rule is only for binary case
-            if len(counts) > 2 and num_ref_raters_per_virtual_rater > 1:
+            if len(counts) > 2 and panel_size > 1:
                 return super().expected_score_anonymous_raters(classifier_predictions,W,num_virtual_raters=num_virtual_raters,num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater,ref_rater_combiner=ref_rater_combiner,verbosity=verbosity)
 
             # majority vote of the reference panel for particular label: freqs[]
@@ -436,19 +485,19 @@ class AgreementScore(Scorer_for_Hard_Classifier):
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
-                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                for ii in range(int((panel_size)/2)+1):
+                    i = int((panel_size+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
-                    if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
+                    if i*2 == panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)/2
                     # else 
-                    elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
+                    elif i*2 > panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)
 
-                freqs[label]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
+                freqs[label]=sum/comb(tot_counts,panel_size)
 
             ct += 1
             if pred.value in freqs:
@@ -481,9 +530,10 @@ class AgreementScore(Scorer_for_Hard_Classifier):
         Agreement score
         """
         assert len(classifier_predictions) == len(rater_labels)
-        tot_score = sum([pred.value == label for (pred, label) in \
-                         zip(classifier_predictions, rater_labels)]) / \
-                    len(classifier_predictions)
+        pairs = _usable_pairs(classifier_predictions, rater_labels)
+        if not pairs:
+            return None
+        tot_score = sum([pred.value == label for (pred, label) in pairs]) / len(pairs)
 
         return tot_score
 
@@ -538,13 +588,16 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
         tot = 0
         ct = 0
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
         for (row, pred) in zip([row for row in W_np], classifier_predictions):
+            if _prediction_is_missing(pred):
+                continue
 
             # a dict that maps from label names to frequency of that label among reference raters
             counts = dict()
             tot_counts = 0
             for label in row:
-                if label == None:
+                if is_missing(label, vocabulary):
                     continue
                 if label in counts:
                     counts[label] += 1
@@ -555,9 +608,10 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
             if len(counts) == 0:
                 # no non-null labels for this item; skip it
                 continue
+            panel_size = min(num_ref_raters_per_virtual_rater, tot_counts)
             
             # NOTE: the fast combination calculation for majority vote rule is only for binary case
-            if len(counts) > 2 and num_ref_raters_per_virtual_rater > 1:
+            if len(counts) > 2 and panel_size > 1:
                 return super().expected_score_anonymous_raters(classifier_predictions,W,num_virtual_raters=num_virtual_raters,num_ref_raters_per_virtual_rater=num_ref_raters_per_virtual_rater,ref_rater_combiner=ref_rater_combiner,verbosity=verbosity)
 
             # majority vote of the reference panel for particular label: freqs[]
@@ -567,19 +621,19 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
-                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                for ii in range(int((panel_size)/2)+1):
+                    i = int((panel_size+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
-                    if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
+                    if i*2 == panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)/2
                     # else 
-                    elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
+                    elif i*2 > panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)
 
-                freqs[label]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
+                freqs[label]=sum/comb(tot_counts,panel_size)
 
             item_tot = 0
             for label, freq in freqs.items():
@@ -631,8 +685,6 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
             print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
 
         def item_score(pred, label):
-            if pred is None: return None
-            if label is None: return None
             return log2(pred.label_probability(label))
             # if pred.value == label:
             #     return log2(pred.label_probability(label))
@@ -641,7 +693,7 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
 
         # compute mean score over all items
         seq = list()
-        for (pred, label) in zip(classifier_predictions, rater_labels):
+        for (pred, label) in _usable_pairs(classifier_predictions, rater_labels):
             score = item_score(pred, label)
             if score is not None:
                 seq.append(score)
@@ -689,9 +741,12 @@ class PrecisionScore(Scorer):
 
         tot = 0
         ct = 0
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
         for (row, pred) in zip([row for _, row in W.iterrows()], classifier_predictions):
+            if _prediction_is_missing(pred):
+                continue
             # count frequency of each value
-            counts = row.dropna().value_counts()
+            counts = row[[not is_missing(label, vocabulary) for label in row]].value_counts()
             freqs = counts/np.sum(counts)
             if len(counts) == 0:
                 # no non-null labels for this item
@@ -741,10 +796,12 @@ class PrecisionScore(Scorer):
 
         new_pred = list()
         new_label = list()
-        for (pred, label) in zip(classifier_predictions, rater_labels):
-            if pred is not None and label is not None:
-                new_pred.append(pred)
-                new_label.append(label)
+        for (pred, label) in _usable_pairs(classifier_predictions, rater_labels):
+            new_pred.append(pred)
+            new_label.append(label)
+
+        if not new_pred:
+            return None
 
         return precision_score(new_label, [p.value for p in new_pred], average=average)
 
@@ -790,10 +847,12 @@ class RecallScore(Scorer):
 
         new_pred = list()
         new_label = list()
-        for (pred, label) in zip(classifier_predictions, rater_labels):
-            if pred is not None and label is not None:
-                new_pred.append(pred)
-                new_label.append(label)
+        for (pred, label) in _usable_pairs(classifier_predictions, rater_labels):
+            new_pred.append(pred)
+            new_label.append(label)
+
+        if not new_pred:
+            return None
 
         return recall_score(new_label, [p.value for p in new_pred], average=average)
 
@@ -839,10 +898,12 @@ class F1Score(Scorer):
 
         new_pred = list()
         new_label = list()
-        for (pred, label) in zip(classifier_predictions, rater_labels):
-            if pred is not None and label is not None:
-                new_pred.append(pred)
-                new_label.append(label)
+        for (pred, label) in _usable_pairs(classifier_predictions, rater_labels):
+            new_pred.append(pred)
+            new_label.append(label)
+
+        if not new_pred:
+            return None
 
         return f1_score(new_label, [p.value for p in new_pred], average=average)
 
@@ -876,10 +937,12 @@ class AUCScore(Scorer):
 
         new_pred = list()
         new_label = list()
-        for (pred, label) in zip(classifier_predictions, rater_labels):
-            if pred is not None and label is not None:
-                new_pred.append(pred)
-                new_label.append(label)
+        for (pred, label) in _usable_pairs(classifier_predictions, rater_labels):
+            new_pred.append(pred)
+            new_label.append(label)
+
+        if not new_pred:
+            return None
 
         if len(set(new_label)) == 1:
             return np.nan
@@ -906,6 +969,14 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
             verbosity = self.verbosity
 
         W_np = W.to_numpy()
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
+        usable_rows = [(row, pred) for row, pred in zip(W_np, classifier_predictions)
+                       if not _prediction_is_missing(pred)
+                       and any(not is_missing(label, vocabulary) for label in row)]
+        if not usable_rows:
+            return None
+        W_np = np.array([row for row, _ in usable_rows])
+        classifier_predictions = [pred for _, pred in usable_rows]
 
         # Use index to represent the labels
         label_to_idx = dict()
@@ -916,6 +987,8 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
                 idx += 1
         for item_labels in W_np:
             for label in item_labels:
+                if is_missing(label, vocabulary):
+                    continue
                 if label not in label_to_idx:
                     label_to_idx[label] = idx
                     idx += 1
@@ -935,7 +1008,7 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
             counts = dict()
             tot_counts = 0
             for label in row:
-                if label == None:
+                if is_missing(label, vocabulary):
                     continue
                 if label in counts:
                     counts[label] += 1
@@ -944,23 +1017,24 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
                 tot_counts += 1
 
             label_prob = np.zeros(idx)
+            panel_size = min(num_ref_raters_per_virtual_rater, tot_counts)
             
             for label, count in counts.items():
                 # calculate the probability of majority vote's outcomes
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
-                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                for ii in range(int((panel_size)/2)+1):
+                    i = int((panel_size+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
-                    if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
+                    if i*2 == panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)/2
                     # else 
-                    elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
+                    elif i*2 > panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)
 
-                label_prob[label_to_idx[label]]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
+                label_prob[label_to_idx[label]]=sum/comb(tot_counts,panel_size)
             
             freqs_matrix[label_to_idx[pred.value]] += label_prob
         
@@ -989,6 +1063,11 @@ class DMIScore_for_Hard_Classifier(Scorer_for_Hard_Classifier):
         DMI Score
         """
         assert len(classifier_predictions) == len(rater_labels)
+
+        pairs = _usable_pairs(classifier_predictions, rater_labels)
+        if not pairs:
+            return None
+        classifier_predictions, rater_labels = zip(*pairs)
 
         # Use index to represent the labels
         label_to_idx = dict()
@@ -1031,6 +1110,14 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
             verbosity = self.verbosity
 
         W_np = W.to_numpy()
+        vocabulary = _reference_vocabulary(W, classifier_predictions)
+        usable_rows = [(row, pred) for row, pred in zip(W_np, classifier_predictions)
+                       if not _prediction_is_missing(pred)
+                       and any(not is_missing(label, vocabulary) for label in row)]
+        if not usable_rows:
+            return None
+        W_np = np.array([row for row, _ in usable_rows])
+        classifier_predictions = [pred for _, pred in usable_rows]
 
         # Create a dictionary to map label names to enumerated index values (0, 1 for binary labels)
         num_distinct_labels = len(classifier_predictions[0].label_names)
@@ -1040,6 +1127,8 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
         # and DMI is 0
         for item_labels in W_np:
             for label in item_labels:
+                if is_missing(label, vocabulary):
+                    continue
                 if label not in label_idx_map:
                     return 0
 
@@ -1060,7 +1149,7 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
             counts = dict()
             tot_counts = 0
             for label in row:
-                if label == None:
+                if is_missing(label, vocabulary):
                     continue
                 if label in counts:
                     counts[label] += 1
@@ -1073,23 +1162,24 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
             # rather than probabilities of different labels from individual raters
             # majority_prob will be a mapping from labels to the probability of a majority of raters giving that label
             majority_prob = np.zeros(num_distinct_labels)
+            panel_size = min(num_ref_raters_per_virtual_rater, tot_counts)
             
             for label, count in counts.items():
 
                 sum = 0
-                for ii in range(int((num_ref_raters_per_virtual_rater)/2)+1):
-                    i = int((num_ref_raters_per_virtual_rater+1)/2) + ii
+                for ii in range(int((panel_size)/2)+1):
+                    i = int((panel_size+1)/2) + ii
                     # i is the number of votes
 
                     # if there is a tie, choose one randomly
                     # pick i from the current label, and the rest from other labels
-                    if i*2 == num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)/2
+                    if i*2 == panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)/2
                     # else 
-                    elif i*2 > num_ref_raters_per_virtual_rater:
-                        sum += comb(count,i)*comb(tot_counts-count,num_ref_raters_per_virtual_rater-i)
+                    elif i*2 > panel_size:
+                        sum += comb(count,i)*comb(tot_counts-count,panel_size-i)
 
-                majority_prob[label_idx_map[label]]=sum/comb(tot_counts,num_ref_raters_per_virtual_rater)
+                majority_prob[label_idx_map[label]]=sum/comb(tot_counts,panel_size)
 
             # get joint probability distribution of classifier output and target panel output for this item
             # add that to the accumulating overall matrix; we will normalize later to make it a joint probability distribution
@@ -1120,6 +1210,11 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
         DMI Score
         """
         assert len(classifier_predictions) == len(rater_labels)
+
+        pairs = _usable_pairs(classifier_predictions, rater_labels)
+        if not pairs:
+            return None
+        classifier_predictions, rater_labels = zip(*pairs)
 
         # Use index to represent the labels
         idx = len(classifier_predictions[0].label_names)

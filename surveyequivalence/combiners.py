@@ -8,6 +8,8 @@ from typing import Sequence, Tuple
 import numpy as np
 import pandas as pd
 
+from ._data import as_rating_array, is_missing
+
 
 class Prediction(ABC):
     """
@@ -170,11 +172,9 @@ class Combiner(ABC):
         #self.W is pandas.dataframe
         #self.W_np is numpy.ndarray
         if W is not None:
-            if type(self.W) is np.ndarray:
-                self.W_np = W
-                self.W = pd.DataFrame(W)
-            else:
-                self.W_np = W.to_numpy()
+            self.W_np = as_rating_array(W)
+            if not isinstance(W, pd.DataFrame):
+                self.W = pd.DataFrame(self.W_np)
         else:
             self.W_np = None
 
@@ -218,6 +218,8 @@ class PluralityVote(Combiner):
         The most common label
         """
 
+        labels = [(rater, value) for rater, value in labels
+                  if not is_missing(value, allowable_labels)]
         if len(labels) == 0:
             # with no labels, just pick one of the allowable labels at random
             return NumericPrediction(random.choice(allowable_labels))
@@ -258,7 +260,8 @@ class MeanCombiner(Combiner):
         """
 
         # ignore any null labels
-        non_null_label_values = [val for rater, val in labels if not pd.isna(val)]
+        non_null_label_values = [val for rater, val in labels
+                                 if not is_missing(val, allowable_labels)]
 
         if len(non_null_label_values) == 0:
             return None
@@ -301,6 +304,9 @@ class FrequencyCombiner(Combiner):
 
         freqs = {k: 0 for k in allowable_labels}
 
+        labels = [(rater, value) for rater, value in labels
+                  if not is_missing(value, allowable_labels)]
+
         if len(labels) > 0:
             # k>0; use the actual labels
             for label in [l[1] for l in labels]:
@@ -309,11 +315,16 @@ class FrequencyCombiner(Combiner):
         else:
             # no labels yet; use the Bayesian prior, based on overall frequencies in the dataset
             # for each, loop through all labels
-            for label in np.nditer(W, flags=['refs_ok']):
-                if label in allowable_labels:
-                    freqs[str(label)] += 1
+            dataset = self.W_np if self.W_np is not None else W
+            if dataset is None:
+                return None
+            for label in as_rating_array(dataset).flat:
+                if not is_missing(label, allowable_labels) and label in freqs:
+                    freqs[label] += 1
 
         tot = sum(freqs.values())
+        if tot == 0:
+            return None
         return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
 
 
@@ -339,7 +350,7 @@ class AnonymousBayesianCombiner(Combiner):
         allowable_labels: the set of labels/ratings allowed
         labels: the k ratings
         W: item and rating dataset
-        item_id: item index in W we are predicting for
+        item_id: row position in W to exclude; None uses every eligible item
         to_predict_for: not used currently
 
         Returns
@@ -347,25 +358,23 @@ class AnonymousBayesianCombiner(Combiner):
         Prediction based on anonymous bayesian combiner
         """
 
-        # if W is a property then use memoization
-        # memoization of the calculated results of Combine
-        memo_flag = False
-        if self.W_np is not None:
-            memo_flag = True
-            W = self.W_np
+        labels = [(rater, value) for rater, value in labels
+                  if not is_missing(value, allowable_labels)]
+        W = as_rating_array(self.W_np if self.W_np is not None else W)
+        if item_id is not None and (
+                not isinstance(item_id, (int, np.integer)) or
+                not 0 <= item_id < len(W)):
+            raise ValueError("item_id must be a row position in the rating matrix")
 
-            freqs = {k: 0 for k in allowable_labels}
-            for _,label in labels:
-                if label == None:
-                    continue
+        # Include the ordered vocabulary: equal counts can name different labels.
+        memo_flag = self.W_np is not None
+        if memo_flag:
+            freqs = {label: 0 for label in allowable_labels}
+            for _, label in labels:
                 freqs[label] += 1
-
-            y = freqs
-            y["item_id"] = item_id
-            y = str(y)
-
-            if y in self.combined:
-                return self.combined[y]
+            cache_key = (tuple(allowable_labels), tuple(freqs.values()), item_id)
+            if cache_key in self.combined:
+                return self.combined[cache_key]
 
         # get number of labels in binary case, it's 2        
         number_of_labels = len(allowable_labels)
@@ -376,21 +385,26 @@ class AnonymousBayesianCombiner(Combiner):
         # so we don't have to compute that separately
 
         for label_idx in range(0, number_of_labels):
-            expanded_labels = labels + [('l', str(allowable_labels[label_idx]))]
+            expanded_labels = labels + [('l', allowable_labels[label_idx])]
 
-            prediction[label_idx] = self.labelSeqProb(allowable_labels=allowable_labels,
-                                                         labels=expanded_labels,
-                                                         W=W,
-                                                         item_id=item_id)
-            if prediction[label_idx] == None:
+            probability = self.labelSeqProb(allowable_labels=allowable_labels,
+                                            labels=expanded_labels,
+                                            W=W,
+                                            item_id=item_id)
+            if probability is None:
                 return None
+            prediction[label_idx] = probability
 
-        prediction = prediction / sum(prediction)
+        total = sum(prediction)
+        if (not np.all(np.isfinite(prediction)) or
+                np.any(prediction < 0) or not np.isfinite(total) or total <= 0):
+            return None
+        prediction = prediction / total
 
         output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
 
         if memo_flag:
-            self.combined[y] = output
+            self.combined[cache_key] = output
         
         return output
 
@@ -405,32 +419,40 @@ class AnonymousBayesianCombiner(Combiner):
         Algorithm 5: LabelSeqProb
         """
 
+        W = as_rating_array(self.W_np if self.W_np is not None else W)
+        if item_id is not None and (
+                not isinstance(item_id, (int, np.integer)) or
+                not 0 <= item_id < len(W)):
+            raise ValueError("item_id must be a row position in the rating matrix")
+
         ## compute m_l counts for each label
         ## Line 1 of Algorithm 5: LabelSeqProb
         freqs = {k: 0 for k in allowable_labels}
         for label in [l[1] for l in labels]:
-            freqs[label] += 1
+            if not is_missing(label, allowable_labels):
+                freqs[label] += 1
         y = np.array([freqs[i] for i in freqs.keys()])
-        y_str = str(y)
+        cache_key = (tuple(allowable_labels), tuple(y))
 
         # Line 2 of Algorithm 5; get SumofProbabilities
         if self.W_np is not None:
-            if y_str not in self.memo:
+            if cache_key not in self.memo:
                 v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
-                self.memo[y_str] = v, num_items
+                self.memo[cache_key] = v, num_items
             else:
-                v, num_items = self.memo[y_str]
+                v, num_items = self.memo[cache_key]
         else:
             v, num_items = self.sumOfProbabilities(y, W, allowable_labels)
 
         # Calculate the contribution of the held out item to subtract out at the end
         # line 3 of Algorithm 5
-        i_v_excluded, excluded_count = self.probabilityOneItem(y, W[item_id], allowable_labels)
-        try:
-            return (v - i_v_excluded) / (num_items - excluded_count)
-        except ZeroDivisionError:
+        i_v_excluded, excluded_count = 0, 0
+        if item_id is not None:
+            i_v_excluded, excluded_count = self.probabilityOneItem(y, W[item_id], allowable_labels)
+        if num_items <= excluded_count:
             # Not enough raters to construct a joint distribution of labels
             return None
+        return (v - i_v_excluded) / (num_items - excluded_count)
 
 
     def probabilityOneItem(self, y: np.array, item: np.array, allowable_labels: Sequence[str]) -> (float, int):
@@ -456,15 +478,12 @@ class AnonymousBayesianCombiner(Combiner):
 
         k = sum(y)
 
-        nonzero_itm_mask = np.nonzero(item)
-        item = item[nonzero_itm_mask]
+        item = [label for label in np.asarray(item).flat
+                if not is_missing(label, allowable_labels)]
 
         # implementing line 2 of SumOfProbabilities; exclude this item if not enough labels
         # also num_labels is |W_i|, the quantity computed on line 3 of ProbabilityOneItem
-        num_labels = 0
-        for l in item:
-            if l is not None and l != '':
-                num_labels += 1
+        num_labels = len(item)
         if num_labels < k:
             return 0, 0
 
@@ -504,6 +523,7 @@ class AnonymousBayesianCombiner(Combiner):
 
         # lines 1 and 2 are handled in probabilityOneItem rather than here
 
+        W = as_rating_array(W)
         v = 0
         num_items = 0
         for item in W:
