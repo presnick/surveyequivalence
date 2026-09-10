@@ -29,45 +29,49 @@ from ._random import random_stream
 
 
 def load_saved_pipeline(path):
-    """Loads dataset, predictions, classifiers scores, and power curve(s) previously saved using \
-    :meth:`surveyequivalence.equivalence.AnalysisPipeline.save`"""
-    W = pd.read_csv(f'{path}/dataset.csv', index_col=0)
+    """Load an analysis saved by :meth:`AnalysisPipeline.save`.
 
-    with open(f'{path}/params.pickle', 'rb') as f:
-        params = pickle.load(f)
-
+    Saved analyses already contain pickle metadata and must be trusted inputs.
+    New saves retain typed input frames; legacy CSV-only inputs still load.
+    """
+    with open(f'{path}/params.pickle', 'rb') as handle:
+        params = pickle.load(handle)
     try:
-        predictions = pd.read_csv(f'{path}/predictions.csv', index_col=0)
-    except:
-        predictions = None
-
-    try:
-        classifier_scores = PowerCurve(df=pd.read_csv(f'{path}/classifier_scores.csv', index_col=0))
-    except:
-        classifier_scores = None
-
-    epc_df = pd.read_csv(f'{path}/expert_power_curve.csv', index_col=0)
-    epc_df.columns = epc_df.columns.astype(int)
-    expert_power_curve = PowerCurve(df=epc_df)
-
-    try:
-        apc_df = pd.read_csv(f'{path}/amateur_power_curve.csv', index_col=0)
-        apc_df.columns = apc_df.columns.astype(int)
-        amateur_power_curve = PowerCurve(df=apc_df)
-
-        # amateur_power_curve = PowerCurve(df=pd.read_csv(f'{path}/amateur_power_curve.csv'))
+        with open(f'{path}/inputs.pickle', 'rb') as handle:
+            W, predictions = pickle.load(handle)
     except FileNotFoundError:
-        amateur_power_curve = None
+        W = pd.read_csv(f'{path}/dataset.csv', index_col=0, float_precision='round_trip')
+        try:
+            predictions = pd.read_csv(f'{path}/predictions.csv', index_col=0)
+        except FileNotFoundError:
+            predictions = None
 
-    analysis_pipeline = AnalysisPipeline(run_on_creation=False,
-                                         W=W,
-                                         classifier_predictions=predictions,
-                                         **params)
+    def read_result(name, cls=None, integer_columns=False):
+        cls = PowerCurve if cls is None else cls
+        try:
+            frame = pd.read_csv(f'{path}/{name}.csv', index_col=0, float_precision='round_trip')
+        except FileNotFoundError:
+            return None
+        if integer_columns:
+            frame.columns = frame.columns.astype(int)
+        return cls(df=frame)
 
-    analysis_pipeline.classifier_scores = classifier_scores
-    analysis_pipeline.expert_power_curve = expert_power_curve
-    analysis_pipeline.amateur_power_curve = amateur_power_curve
-    return analysis_pipeline
+    pipeline = AnalysisPipeline(W=W, classifier_predictions=predictions,
+                                run_on_creation=False, **params)
+    pipeline.classifier_scores = read_result('classifier_scores', ClassifierResults)
+    pipeline.expert_power_curve = read_result('expert_power_curve', integer_columns=True)
+    if pipeline.expert_power_curve is None:
+        raise FileNotFoundError(f'{path}/expert_power_curve.csv')
+    pipeline.amateur_power_curve = read_result('amateur_power_curve', integer_columns=True)
+    pipeline.expert_survey_equivalences = read_result('expert_survey_equivalences', Equivalences)
+    pipeline.amateur_survey_equivalences = read_result('amateur_survey_equivalences', Equivalences)
+    if pipeline.performance_ratio_k is not None:
+        filename = f'{path}/{pipeline.performance_ratio_k}_performance_ratio.csv'
+        try:
+            pipeline.performance_ratio = pd.read_csv(filename, index_col=0, float_precision='round_trip')
+        except FileNotFoundError:
+            pass
+    return pipeline
 
 
 def find_maximal_full_rating_matrix_cols(W) :
@@ -625,6 +629,8 @@ class AnalysisPipeline:
 
         # save the dataset
         self.W.to_csv(f'{path}/dataset.csv')
+        with open(f'{path}/inputs.pickle', 'wb') as handle:
+            pickle.dump((self.W, self.classifier_predictions), handle)
 
         # save parameters
         d = dict(
@@ -639,13 +645,13 @@ class AnalysisPipeline:
                 max_rater_subsets = self.max_rater_subsets,
                 verbosity = self.verbosity,
                 ratersets_memo = self.ratersets_memo,
-                item_samples = self.item_samples
-                , max_K = self.max_K
-                , anonymous_raters = self.anonymous_raters
-                , performance_ratio_k = self.performance_ratio_k
-                , procs = self.procs
-                , random_state = self.random_state
-                , working_memory_mb = self.working_memory_mb
+                item_samples = self.item_samples,
+                max_K = self.max_K,
+                anonymous_raters = self.anonymous_raters,
+                performance_ratio_k = self.performance_ratio_k,
+                procs = self.procs,
+                random_state = self.random_state,
+                working_memory_mb = self.working_memory_mb
         )
         with open(f'{path}/params.pickle', 'wb') as f:
             pickle.dump(d, f)
@@ -673,7 +679,8 @@ class AnalysisPipeline:
         if amateur_power_curve:
             amateur_power_curve.df.to_csv(f'{path}/amateur_power_curve.csv')
             # save the amateur equivalences
-            self.amateur_survey_equivalences.df.to_csv(f'{path}/amateur_survey_equivalences.csv')
+            if self.classifier_predictions is not None:
+                self.amateur_survey_equivalences.df.to_csv(f'{path}/amateur_survey_equivalences.csv')
 
         # write out results summary
         if save_results:
