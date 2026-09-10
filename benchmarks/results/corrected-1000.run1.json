@@ -1,0 +1,779 @@
+{
+  "spec": {
+    "workload": "dense1000",
+    "items": null,
+    "raters": null,
+    "bootstraps": 20,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "cross_entropy",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "imported_package": "/private/tmp/surveyequivalence-corrected/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    1000,
+    10
+  ],
+  "input_digest": "67ed985f5f51744d6155308bd04ea5106d65846c863627d38f56db614d471f7f",
+  "result_digest": "b09633cd824014c4d6e867cc724e41f8dac6643951ad19d707801a9eda3d248b",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.2f69f2bbfa71bp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.3444966d21b86p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2c16247f1e22ep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.306e124ea1fccp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2fb1147359db5p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.320d77d1d2054p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2c340e0ba32b2p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2d133e9c7a200p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2fbba21fecea0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.32f4dc48a779cp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2cb9d94e4d6dep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2c17d5d99480ap+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2c30fb5dd6a63p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.30bb7728bc813p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.33e86b5a12ceap+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2fbbafea8aac7p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2ed2a375ad02ap+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2d86df6c0b11cp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.328e80d480017p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.31d08aaa71afbp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.3263fad837805p+0"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.2fbbcd9808455p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.5c48818091771p-7"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.352cef9e0a8b3p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.2a4aab9205ff7p+0"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.001ca124e0abap+0"
+            },
+            {
+              "float_hex": "-0x1.e42a4eedae94ap-1"
+            },
+            {
+              "float_hex": "-0x1.d42386ff070b2p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0026afe5f88a3p+0"
+            },
+            {
+              "float_hex": "-0x1.e400efa943e16p-1"
+            },
+            {
+              "float_hex": "-0x1.d49881ade8327p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.002798c02b8bfp+0"
+            },
+            {
+              "float_hex": "-0x1.e465a1d13b84ap-1"
+            },
+            {
+              "float_hex": "-0x1.d4756f1539aa0p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.000e8078e73a1p+0"
+            },
+            {
+              "float_hex": "-0x1.e4ac2444df422p-1"
+            },
+            {
+              "float_hex": "-0x1.d54e207ce9209p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0039a46a53aafp+0"
+            },
+            {
+              "float_hex": "-0x1.e0deebd479b6ap-1"
+            },
+            {
+              "float_hex": "-0x1.cec9cd0d545a2p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0030902aea89ap+0"
+            },
+            {
+              "float_hex": "-0x1.e5971dfbcca3ep-1"
+            },
+            {
+              "float_hex": "-0x1.d594ab4cf4b99p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0006283059afbp+0"
+            },
+            {
+              "float_hex": "-0x1.e42363e9f8b16p-1"
+            },
+            {
+              "float_hex": "-0x1.d414f2a9cf36ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0029609e776a2p+0"
+            },
+            {
+              "float_hex": "-0x1.e23ca5dd91900p-1"
+            },
+            {
+              "float_hex": "-0x1.d111df17e56b9p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.003baa9ad3675p+0"
+            },
+            {
+              "float_hex": "-0x1.e3c39f126b4d8p-1"
+            },
+            {
+              "float_hex": "-0x1.d3ae08f2c501ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001a155010ae1p+0"
+            },
+            {
+              "float_hex": "-0x1.e67377adbc9a6p-1"
+            },
+            {
+              "float_hex": "-0x1.d748b0f81ddd2p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.fffdfd09a89e2p-1"
+            },
+            {
+              "float_hex": "-0x1.e209316c0fbcep-1"
+            },
+            {
+              "float_hex": "-0x1.d0e76c0b9328ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00135df30ddd3p+0"
+            },
+            {
+              "float_hex": "-0x1.e0a884ebfa662p-1"
+            },
+            {
+              "float_hex": "-0x1.cff53fdc6ba24p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.000ce7213ec99p+0"
+            },
+            {
+              "float_hex": "-0x1.e5f5c43834cdap-1"
+            },
+            {
+              "float_hex": "-0x1.d705a328cdee9p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001bbe307898ep+0"
+            },
+            {
+              "float_hex": "-0x1.e57423ddd515bp-1"
+            },
+            {
+              "float_hex": "-0x1.d5a62ae6901d0p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.fffc0c942cddfp-1"
+            },
+            {
+              "float_hex": "-0x1.e4d213468282ap-1"
+            },
+            {
+              "float_hex": "-0x1.d53c14fc6604ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00290b770cfb3p+0"
+            },
+            {
+              "float_hex": "-0x1.e6f3a4b4a5d03p-1"
+            },
+            {
+              "float_hex": "-0x1.d7ee339c69f44p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001987aca301ep+0"
+            },
+            {
+              "float_hex": "-0x1.e67ebd69cff8dp-1"
+            },
+            {
+              "float_hex": "-0x1.d7aa4aaa0314bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00208855bf78cp+0"
+            },
+            {
+              "float_hex": "-0x1.e2ecb18722688p-1"
+            },
+            {
+              "float_hex": "-0x1.d19ca7ccb3067p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.003261a744c8cp+0"
+            },
+            {
+              "float_hex": "-0x1.e19c28ac4a05dp-1"
+            },
+            {
+              "float_hex": "-0x1.d00ddb50d01a4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001b87e2bbb19p+0"
+            },
+            {
+              "float_hex": "-0x1.e5f70235b2a5dp-1"
+            },
+            {
+              "float_hex": "-0x1.d745765b51712p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.002b66bfea5f7p+0"
+            },
+            {
+              "float_hex": "-0x1.e3d2be8c4bc2dp-1"
+            },
+            {
+              "float_hex": "-0x1.d3ab2ef59b524p-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.001e65e078d78p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e4246c15f9c1ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.d417cd0b5c4e0p-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.1ae3e45ddb648p-12"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.dbc27780ac521p-9"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.604e48601861dp-8"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.0041c25d0492fp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e7dbf104fb1a8p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.d999062cdcaf8p-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.fff612c7da382p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e06ce726f8694p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.ce9693e9dbec8p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.010745167000000055,
+    "combiner_create_seconds": 1.7624999999910074e-05,
+    "pipeline_create_seconds": 0.0033673749999998392,
+    "classifier_scoring_seconds": 0.32214070800000005,
+    "power_curve_seconds": 10.477932,
+    "pipeline_run_seconds": 10.801958417
+  },
+  "resource": {
+    "self_peak_rss_bytes": 167641088,
+    "children_max_rss_bytes": 115294208
+  },
+  "parent_only_profile": [],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 12.182685625000001,
+    "sampled_tree_peak_rss_bytes": null,
+    "sampled_peak_process_count": null,
+    "sampled_peak_temp_bytes": 753420,
+    "sampled_peak_pickle_bytes": 753420,
+    "samples": 114,
+    "sample_interval_seconds": 0.1
+  }
+}

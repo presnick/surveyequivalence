@@ -1,0 +1,559 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 10,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "cross_entropy",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "imported_package": "/private/tmp/surveyequivalence-corrected/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    50,
+    10
+  ],
+  "input_digest": "4cfc7c48e9a0b1966a299e0c7e3e74221ff3119f7bd96c05bfb69d45ac456f48",
+  "result_digest": "73445e3d6f3afb68794800c5f4ed0c327785d86b476d51136e15f1a55a424fa7",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.5c1d78809e0d6p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.40cda451195cap+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2fea100274e3fp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.5bf90f59c212dp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.4c87f01908526p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.5f4efb9d9b344p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.6b54aa158186fp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.7e80e5c55ec1bp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.4095ad7efddf4p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.547cd76e42fd7p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.7b5b980f6967dp+0"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.58a0cd8576f35p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.88be1c6795e89p-4"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.89b8911269b06p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.278909f884364p+0"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.f3528669e3064p-1"
+            },
+            {
+              "float_hex": "-0x1.cc2dbc5b59c18p-1"
+            },
+            {
+              "float_hex": "-0x1.a83ffe9000605p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.ebfc4cf4c57e8p-1"
+            },
+            {
+              "float_hex": "-0x1.d991744c23a58p-1"
+            },
+            {
+              "float_hex": "-0x1.c457e526c5226p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.d40155e554448p-1"
+            },
+            {
+              "float_hex": "-0x1.cef0153ac5bf3p-1"
+            },
+            {
+              "float_hex": "-0x1.bce8bf746f7e4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.ec262af1d0cfdp-1"
+            },
+            {
+              "float_hex": "-0x1.bea0d0a076048p-1"
+            },
+            {
+              "float_hex": "-0x1.9d619f773f9d3p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.026bfc843e568p+0"
+            },
+            {
+              "float_hex": "-0x1.d65fd1f7655e2p-1"
+            },
+            {
+              "float_hex": "-0x1.a472b8944c24bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.eadde5fb9f79fp-1"
+            },
+            {
+              "float_hex": "-0x1.d48964b883e00p-1"
+            },
+            {
+              "float_hex": "-0x1.b2286551bf1f5p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.fa324f52e5029p-1"
+            },
+            {
+              "float_hex": "-0x1.c623fd8abdb7dp-1"
+            },
+            {
+              "float_hex": "-0x1.9c01109d8ca02p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.f08a7888f00c4p-1"
+            },
+            {
+              "float_hex": "-0x1.ca57673832f1ep-1"
+            },
+            {
+              "float_hex": "-0x1.9bf9acc9260d5p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e7abfdc33300fp-1"
+            },
+            {
+              "float_hex": "-0x1.da05ef37ebad3p-1"
+            },
+            {
+              "float_hex": "-0x1.b9dafdc55378fp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.d5e83382a4e6cp-1"
+            },
+            {
+              "float_hex": "-0x1.bb81b830587d8p-1"
+            },
+            {
+              "float_hex": "-0x1.9526f8e036e52p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.dff67c9d77194p-1"
+            },
+            {
+              "float_hex": "-0x1.c91d6689e81a5p-1"
+            },
+            {
+              "float_hex": "-0x1.acd3dbdfdf590p-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.eadbf816a42a3p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.ccd99d1511651p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.aa4ce7506b4c4p-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d08bcca107beep-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.492e3f1aa8ba9p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ef69342f6e833p-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.03f25a705a531p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e16c8106bbf0cp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.c9437a9362347p-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.cdd33b4c93ae4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.b846b92366d96p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.8b56540d74641p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.0030934590000000206,
+    "combiner_create_seconds": 1.0457999999990975e-05,
+    "pipeline_create_seconds": 0.0016105420000001036,
+    "classifier_scoring_seconds": 0.01419266600000002,
+    "power_curve_seconds": 0.4010072090000001,
+    "pipeline_run_seconds": 0.41695325000000016
+  },
+  "resource": {
+    "self_peak_rss_bytes": 149667840,
+    "children_max_rss_bytes": 96468992
+  },
+  "parent_only_profile": [],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 1.706900583,
+    "sampled_tree_peak_rss_bytes": null,
+    "sampled_peak_process_count": null,
+    "sampled_peak_temp_bytes": 25461,
+    "sampled_peak_pickle_bytes": 25461,
+    "samples": 16,
+    "sample_interval_seconds": 0.1
+  }
+}

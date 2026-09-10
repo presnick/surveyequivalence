@@ -1,0 +1,393 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 2,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "soft_dmi",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "imported_package": "/private/tmp/surveyequivalence-corrected/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    50,
+    10
+  ],
+  "input_digest": "5d58b904850182d80d0fae537a7e654ca9ae82dfe41ce9d4f2ab100af77fd037",
+  "result_digest": "3527456c29de9e23ebee5f532746e80103359b360de3c7dcbe9c821dc07f6da9",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.0068404ae45cdp-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.d90efdc8d083ep-10"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.709004675d898p-8"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.f826ec570bb49p-8"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d4a1c4c0f960dp-8"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.b11c9d2ae70d1p-8"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.685a9d763f9d9p-6"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.f3fa6875576d0p-10"
+            },
+            {
+              "float_hex": "0x1.770cde285e8cfp-6"
+            },
+            {
+              "float_hex": "0x1.82bb2cb05a7cbp-5"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.882561dc680c8p-10"
+            },
+            {
+              "float_hex": "0x1.120605b6aba79p-6"
+            },
+            {
+              "float_hex": "0x1.1ec9f4ac4b931p-5"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0843369365d35p-10"
+            },
+            {
+              "float_hex": "0x1.3f3910f2f0dc9p-7"
+            },
+            {
+              "float_hex": "0x1.4af2edb3944f1p-6"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.817655a1b7199p-10"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0d8fcec82b8b9p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.17aa32bcd0127p-5"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d7ffda8da7618p-12"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.af279cec606b4p-8"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.bb3372d9d61b6p-7"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.2aecd0b5c6d1ap-11"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.afe0028fdaaf8p-9"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.d083ca7f28260p-8"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.36bb217445652p-9"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.e5239d3e5bc13p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.f543ec29bb202p-5"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.4f502966db97bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.4c10102514a60p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0e962d744583cp-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.9ad9e4e8312b1p-2"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.57fa91b3aa7d3p-2"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.151b3e7f23cf5p-2"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.12b3c213e1896p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.002992875000000117,
+    "combiner_create_seconds": 7.832999999957124e-06,
+    "pipeline_create_seconds": 0.0005271669999999951,
+    "classifier_scoring_seconds": 0.006178958000000012,
+    "power_curve_seconds": 0.306240375,
+    "pipeline_run_seconds": 0.3134294580000001
+  },
+  "resource": {
+    "self_peak_rss_bytes": 142966784,
+    "children_max_rss_bytes": 30507008
+  },
+  "parent_only_profile": [],
+  "execution_stats": [],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 1.5377689159999997,
+    "sampled_tree_peak_rss_bytes": 172523520,
+    "sampled_peak_process_count": 2,
+    "sampled_peak_temp_bytes": 21513,
+    "sampled_peak_pickle_bytes": 21513,
+    "samples": 12,
+    "sample_interval_seconds": 0.1
+  }
+}

@@ -124,7 +124,8 @@ def worker(spec, output):
     import surveyequivalence
     from surveyequivalence import (
         AnalysisPipeline, AnonymousBayesianCombiner, FrequencyCombiner,
-        PluralityVote, CrossEntropyScore, AgreementScore,
+        PluralityVote, CrossEntropyScore, AgreementScore, AUCScore, F1Score,
+        DMIScore_for_Hard_Classifier, DMIScore_for_Soft_Classifier,
     )
 
     random.seed(spec['seed'])
@@ -156,16 +157,24 @@ def worker(spec, output):
     combiner = combine_cls(allowable_labels=labels,
                           **({'W': ratings} if spec['combiner'] == 'abc' else {}))
     stages['combiner_create_seconds'] = time.perf_counter() - start
-    scorer = {'cross_entropy': CrossEntropyScore, 'agreement': AgreementScore}[
-        spec['scorer']](num_ref_raters_per_virtual_rater=spec['panel_size'])
+    scorer = {'cross_entropy': CrossEntropyScore, 'agreement': AgreementScore,
+              'auc': AUCScore, 'f1': F1Score, 'hard_dmi': DMIScore_for_Hard_Classifier,
+              'soft_dmi': DMIScore_for_Soft_Classifier}[spec['scorer']]()
+    scorer.num_ref_raters_per_virtual_rater = spec['panel_size']
+    scorer.num_virtual_raters = spec.get('virtual_raters', 100)
     start = time.perf_counter()
+    extras = {}
+    if spec.get('random_state') is not None:
+        extras['random_state'] = spec['random_state']
+    if spec.get('working_memory_mb') is not None:
+        extras['working_memory_mb'] = spec['working_memory_mb']
     pipeline = TimedPipeline(
         ratings, expert_cols=list(ratings.columns), classifier_predictions=classifiers,
         combiner=combiner, scorer=scorer, allowable_labels=labels,
         num_bootstrap_item_samples=spec['bootstraps'], item_samples=samples,
         max_K=spec['max_k'], max_rater_subsets=spec['max_subsets'],
         anonymous_raters=True, verbosity=1, procs=spec['procs'],
-        run_on_creation=False)
+        run_on_creation=False, **extras)
     stages['pipeline_create_seconds'] = time.perf_counter() - start
     profiler = cProfile.Profile() if spec['profile'] else None
     start = time.perf_counter()
@@ -205,6 +214,7 @@ def worker(spec, output):
             'children_max_rss_bytes': resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss * units,
         },
         'parent_only_profile': profile_summary,
+        'execution_stats': getattr(pipeline, 'execution_stats', []),
     }
     output.write_text(json.dumps(payload, indent=2) + '\n')
 
@@ -252,7 +262,7 @@ def controller(args):
     spec = {name: getattr(args, name) for name in
             ('workload', 'items', 'raters', 'bootstraps', 'max_k', 'max_subsets',
              'combiner', 'scorer', 'panel_size', 'procs', 'seed', 'profile',
-             'missing_fraction')}
+             'missing_fraction', 'random_state', 'virtual_raters', 'working_memory_mb')}
     spec['repo'] = str(args.repo.resolve())
     runs = []
     for repetition in range(args.repeat):
@@ -267,7 +277,7 @@ def controller(args):
             started = time.perf_counter()
             with log_file.open('w') as log:
                 process = subprocess.Popen(
-                    [str(args.python.resolve()), str(Path(__file__).resolve()), '--worker',
+                    [str(args.python.absolute()), str(Path(__file__).resolve()), '--worker',
                      json.dumps(spec), '--worker-output', str(child_output)],
                     cwd=spec['repo'], env=env, stdout=log, stderr=subprocess.STDOUT)
                 peak_rss = peak_processes = None
@@ -348,10 +358,13 @@ def main():
     parser.add_argument('--max-k', type=int, default=3)
     parser.add_argument('--max-subsets', type=int, default=20)
     parser.add_argument('--combiner', choices=('abc', 'frequency', 'plurality'), default='abc')
-    parser.add_argument('--scorer', choices=('cross_entropy', 'agreement'), default='cross_entropy')
+    parser.add_argument('--scorer', choices=('cross_entropy', 'agreement', 'auc', 'f1', 'hard_dmi', 'soft_dmi'), default='cross_entropy')
     parser.add_argument('--panel-size', type=int, default=1)
     parser.add_argument('--missing-fraction', type=float, default=.2)
-    parser.add_argument('--procs', type=int, default=1)
+    parser.add_argument('--procs', type=lambda value: None if value == 'auto' else int(value), default=1)
+    parser.add_argument('--random-state', type=int, help='Seed independent pipeline task streams when supported')
+    parser.add_argument('--virtual-raters', type=int, default=100)
+    parser.add_argument('--working-memory-mb', type=float)
     parser.add_argument('--seed', type=int, default=1729)
     parser.add_argument('--repeat', type=int, default=3)
     parser.add_argument('--sample-interval', type=float, default=.1)

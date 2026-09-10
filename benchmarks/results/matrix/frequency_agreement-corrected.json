@@ -1,0 +1,545 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 10,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "frequency",
+    "scorer": "agreement",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "repeat": 3,
+  "exactly_repeatable": true,
+  "median_pipeline_seconds": 4.673978459000001,
+  "median_end_to_end_seconds": 5.890071042,
+  "runs": [
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/frequency_agreement-corrected.run1.json",
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/frequency_agreement-corrected.run2.json",
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/frequency_agreement-corrected.run3.json"
+  ],
+  "input_digest": "4cfc7c48e9a0b1966a299e0c7e3e74221ff3119f7bd96c05bfb69d45ac456f48",
+  "result_digest": "2daabb55dd1c758bd74589b16bb0205c3720edef90cdf9fa716d5d03acaec17b",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.db22d0e56041ap-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ed916872b020dp-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0b4395810624ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.d916872b020c4p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.f9db22d0e5608p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.978d4fdf3b646p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.c49ba5e353f7fp-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ae147ae147ae3p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.f5c28f5c28f5fp-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.cac083126e97ap-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.d916872b020c4p-2"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d94630c7963fcp-2"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.1eed2369be3b6p-5"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.918ae7ed26b0ep-2"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.1080bcd102e75p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.395810624dd2fp-1"
+            },
+            {
+              "float_hex": "0x1.5c28f5c28f5c4p-1"
+            },
+            {
+              "float_hex": "0x1.7ea61d950c840p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.428f5c28f5c28p-1"
+            },
+            {
+              "float_hex": "0x1.4a2ee05ea9c1bp-1"
+            },
+            {
+              "float_hex": "0x1.6f258bf258bf4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.65604189374bcp-1"
+            },
+            {
+              "float_hex": "0x1.485cd7b900aeep-1"
+            },
+            {
+              "float_hex": "0x1.7530eca8641fep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.449ba5e353f7dp-1"
+            },
+            {
+              "float_hex": "0x1.65f1e43cfc21bp-1"
+            },
+            {
+              "float_hex": "0x1.87530eca86421p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.1fbe76c8b4396p-1"
+            },
+            {
+              "float_hex": "0x1.5b7a32846ff52p-1"
+            },
+            {
+              "float_hex": "0x1.7fedcba987654p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.449ba5e353f7dp-1"
+            },
+            {
+              "float_hex": "0x1.4f3078263ab5bp-1"
+            },
+            {
+              "float_hex": "0x1.7b05b05b05b05p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.3020c49ba5e34p-1"
+            },
+            {
+              "float_hex": "0x1.65f1e43cfc21cp-1"
+            },
+            {
+              "float_hex": "0x1.87f6e5d4c3b2bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.3d70a3d70a3d6p-1"
+            },
+            {
+              "float_hex": "0x1.5c9d77ebf9a0ep-1"
+            },
+            {
+              "float_hex": "0x1.8444444444444p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.48b4395810625p-1"
+            },
+            {
+              "float_hex": "0x1.485cd7b900aedp-1"
+            },
+            {
+              "float_hex": "0x1.73b2a1907f6e4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.645a1cac08312p-1"
+            },
+            {
+              "float_hex": "0x1.5d867c3ece2a6p-1"
+            },
+            {
+              "float_hex": "0x1.8c962fc962fc8p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.54fdf3b645a1bp-1"
+            },
+            {
+              "float_hex": "0x1.551b1440a0332p-1"
+            },
+            {
+              "float_hex": "0x1.7f5c28f5c28f8p-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.454277875aabap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.56fd001a7aac7p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.7ea61d950c840p-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.4ca95e4cf9426p-5"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.622743ac1e92bp-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.27855ff391b9dp-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.1bad4bbdbb835p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.40da8bdfb8c34p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.6c2dc795d3686p-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.6ed7a350f9d3fp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.6d1f74553c95ap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.911e7394459fap-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "measurement_notes": [
+    "RSS and temporary file sizes are sampled; short-lived peaks may be missed.",
+    "Child ru_maxrss is a maximum, not the sum across workers.",
+    "cProfile describes the parent process only; pickle loads in workers are not counted.",
+    "Native math-library threads are capped at one per process for comparable CPU runs."
+  ]
+}

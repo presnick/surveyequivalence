@@ -1,0 +1,375 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 2,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "hard_dmi",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "repeat": 3,
+  "exactly_repeatable": true,
+  "median_pipeline_seconds": 0.326710375,
+  "median_end_to_end_seconds": 1.5409122919999998,
+  "runs": [
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/hard_dmi-corrected.run1.json",
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/hard_dmi-corrected.run2.json",
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/matrix/hard_dmi-corrected.run3.json"
+  ],
+  "input_digest": "5d58b904850182d80d0fae537a7e654ca9ae82dfe41ce9d4f2ab100af77fd037",
+  "result_digest": "c12195753224011790147df88727bfab73059d32a103107fac24cb5f94142eb8",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.704ff43419e34p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.7c1bda5119ce0p-7"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.205bc01a36e2cp-7"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d45d2b9bd6d27p-7"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d99cff9e59cafp-8"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.4ff500a0be200p-13"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d6fd159d184ebp-6"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            },
+            {
+              "float_hex": "0x1.3ee7cc14b776ep-4"
+            },
+            {
+              "float_hex": "0x1.7df3b645a1cacp-4"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            },
+            {
+              "float_hex": "0x1.cffeb074a771ep-5"
+            },
+            {
+              "float_hex": "0x1.1910b3dc23226p-4"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            },
+            {
+              "float_hex": "0x1.0d47b76692ac6p-5"
+            },
+            {
+              "float_hex": "0x1.45f35910b3dc3p-5"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.c9075556e3040p-5"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.1354b238b4f3cp-4"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.70ba6e0a6f9a6p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.b66758953b690p-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.61339d31cda68p-7"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.c1082f70b9fa0p-7"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.9ce0e1b0a94f3p-4"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ee885e8352a84p-4"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.27a94107bec42p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.a36f5e02e4850p-3"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.12232ac8340ecp-2"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.03d6b39b21b1dp-2"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.65c36efdfd3aep-5"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.54cbafb744c63p-3"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.5d478f5aa1008p-2"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "measurement_notes": [
+    "RSS and temporary file sizes are sampled; short-lived peaks may be missed.",
+    "Child ru_maxrss is a maximum, not the sum across workers.",
+    "cProfile describes the parent process only; pickle loads in workers are not counted.",
+    "Native math-library threads are capped at one per process for comparable CPU runs."
+  ]
+}

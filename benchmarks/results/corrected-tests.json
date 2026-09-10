@@ -1,0 +1,19 @@
+{
+  "repo": "/Users/brianrabideau/surveyequivalence",
+  "imported_package": "/Users/brianrabideau/surveyequivalence/surveyequivalence/__init__.py",
+  "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+  "numpy": "1.24.4",
+  "pandas": "2.0.3",
+  "seed": 1729,
+  "elapsed_seconds": 15.164906708,
+  "tests_run": 18,
+  "successful": false,
+  "failures": [
+    {
+      "test": "test_leave_one_item_out (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence)",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/brianrabideau/surveyequivalence/tests/discrete_distribution_tests.py\", line 31, in test_leave_one_item_out\n    self.assertAlmostEqual(res.probabilities[0], 0.2002, delta=0.001)\nAssertionError: 0.19342359767891681 != 0.2002 within 0.001 delta (0.006776402321083175 difference)\n"
+    }
+  ],
+  "errors": [],
+  "skipped": []
+}

@@ -96,14 +96,26 @@ Within each results folder, you should find:
     - plot.tex; pgf formatted text that will generate the same plot within latex.
 
 
+## Performance and reproducibility
+
+`AnalysisPipeline` accepts `random_state` for reproducible sampling and
+`working_memory_mb` for controlling prepared prediction/score blocks. Automatic
+worker selection uses the serial fast path for deterministic prepared scores;
+set `procs` explicitly to choose a worker count.
+
+Rectangular matrices may contain uneven numbers of ratings, including `None`,
+`NaN`, and empty padding. Reference panels use the available ratings for each item.
+
+See [performance and correctness details](docs/performance.md) and the
+[measured benchmark report](benchmarks/REPORT.md), including the unchanged
+pre-existing test failure and exact-parity validation.
+
 ## License
 This Project is MIT-licensed.
 
 Please send us e-mail or leave comments on github if have any questions.
 
 Copyright (c) 2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger 
-
-
 
 
 

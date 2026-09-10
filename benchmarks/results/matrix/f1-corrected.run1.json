@@ -1,0 +1,365 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 1,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "f1",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "imported_package": "/private/tmp/surveyequivalence-corrected/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    50,
+    10
+  ],
+  "input_digest": "1ad59bf1c76798361b3cdcf271180bbba6205d83515e3ae809c9126f6d536c8e",
+  "result_digest": "dfe4b1fedb200ee76a08e3e68da08a8af0ec9a86b0a0e56f1114170d0d8cb251",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.dcfaacd9e83e0p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ea4a8c154c981p-2"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.e3a29c779a6b0p-2"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.2d37573ff5cb1p-7"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.d0cf27039b0e5p-2"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.f67611eb99c7bp-2"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.3b645a1cac083p-1"
+            },
+            {
+              "float_hex": "0x1.5c21187e7c06ep-1"
+            },
+            {
+              "float_hex": "0x1.7fbd01f4fc7eep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.437b4a2339c0cp-1"
+            },
+            {
+              "float_hex": "0x1.4baf102363b26p-1"
+            },
+            {
+              "float_hex": "0x1.6fe7f85aa87b7p-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.3f6fd21ff2e48p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.53e81450efdcap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.77d27d27d27d2p-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.6e17eff326c55p-7"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.741e2a03ca6ebp-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.663dc5165a43ap-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.33ff12a059ae5p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.3ca631b0b335bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.616ea0d66cd8ep-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.4ae0919f8c1abp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.6b29f6f12c839p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.8e36597938216p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.0026314170000000248,
+    "combiner_create_seconds": 7.832999999957124e-06,
+    "pipeline_create_seconds": 0.0004072909999999208,
+    "classifier_scoring_seconds": 0.2910888330000001,
+    "power_curve_seconds": 8.396165290999999,
+    "pipeline_run_seconds": 8.688213625
+  },
+  "resource": {
+    "self_peak_rss_bytes": 143245312,
+    "children_max_rss_bytes": 33193984
+  },
+  "parent_only_profile": [],
+  "execution_stats": [],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 9.882343417,
+    "sampled_tree_peak_rss_bytes": 176193536,
+    "sampled_peak_process_count": 2,
+    "sampled_peak_temp_bytes": 21039,
+    "sampled_peak_pickle_bytes": 21039,
+    "samples": 77,
+    "sample_interval_seconds": 0.1
+  }
+}

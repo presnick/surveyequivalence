@@ -1,0 +1,25 @@
+{
+  "implementation_revision": "6ba59b91abdd0b3bc9e77c1f4b48ca6342d6e399",
+  "command": ".venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v",
+  "environment": {
+    "MPLCONFIGDIR": "/private/tmp/surveyequivalence-mpl",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "tests_run": 73,
+  "passed": 72,
+  "failures": [
+    "test_leave_one_item_out (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence)"
+  ],
+  "errors": [],
+  "elapsed_seconds": 33.131,
+  "successful": false,
+  "exit_code": 1,
+  "baseline_failure": {
+    "original_revision": "a4bbe2e",
+    "actual": 0.19342359767891681,
+    "expected": 0.2002,
+    "unchanged_tolerance": 0.001
+  },
+  "log_sha256": "0487fa519b53c18444f933512bec578a1589c2b90d244603464766a756f8c1eb",
+  "traceback": "FAIL: test_leave_one_item_out (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/brianrabideau/surveyequivalence/tests/discrete_distribution_tests.py\", line 41, in test_leave_one_item_out\n    self.assertAlmostEqual(res.probabilities[0], 0.2002, delta=0.001)\nAssertionError: 0.19342359767891681 != 0.2002 within 0.001 delta (0.006776402321083175 difference)\n\n----------------------------------------------------------------------\nRan 73 tests in 33.131s\n\nFAILED (failures=1)"
+}

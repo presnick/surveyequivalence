@@ -1,0 +1,783 @@
+{
+  "spec": {
+    "workload": "sparse1000",
+    "items": null,
+    "raters": null,
+    "bootstraps": 20,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "abc",
+    "scorer": "cross_entropy",
+    "panel_size": 3,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/private/tmp/surveyequivalence-corrected"
+  },
+  "imported_package": "/private/tmp/surveyequivalence-corrected/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    1000,
+    10
+  ],
+  "input_digest": "ee1d02660a247a8b0c0353e378920311ce8f1b33462b8c8ea5572644798906d8",
+  "result_digest": "97fd7586e5597b1acb5da647222aad088d5ee35b054a1fc5aec254f4e012fb08",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.2f21e1247395bp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2cda8edb41707p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2dc1a78e41463p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.358a4d5d8abbep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2b96e1af0add6p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2becdba4638bep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2f5593200bcd3p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.33420ae845e41p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2d4cff881a61fp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.28d3b30a7be37p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2a4ee4ffd36d7p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.3053d8b6f0046p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2d621754b7a56p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2f0e8fa9e7babp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.38b7a45461c55p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2c16e5511af35p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2edc95b135217p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.31e648459d5d9p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.2e3526ae084e6p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.32bb4c976df8ep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.28c3a6eb9e150p+0"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.2ec165c7753a8p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.ff55439fa26a7p-7"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.36bebad5f3c43p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.26c410b8f6b0dp+0"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.0027ce1a84390p+0"
+            },
+            {
+              "float_hex": "-0x1.ddb56e67b7138p-1"
+            },
+            {
+              "float_hex": "-0x1.c622093160a2bp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.003e6afadbe72p+0"
+            },
+            {
+              "float_hex": "-0x1.deb5ef266aaf3p-1"
+            },
+            {
+              "float_hex": "-0x1.c73e922e8264ep-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001b66768fc3ap+0"
+            },
+            {
+              "float_hex": "-0x1.dc8cd8e1809fap-1"
+            },
+            {
+              "float_hex": "-0x1.c372a424456cap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00470ea5c7a35p+0"
+            },
+            {
+              "float_hex": "-0x1.d81d25baff4cbp-1"
+            },
+            {
+              "float_hex": "-0x1.bd6d231dadff0p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.fff933890165fp-1"
+            },
+            {
+              "float_hex": "-0x1.dc563f89320fdp-1"
+            },
+            {
+              "float_hex": "-0x1.c44d34c73b570p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00204a1937cfcp+0"
+            },
+            {
+              "float_hex": "-0x1.dcbfb9558927dp-1"
+            },
+            {
+              "float_hex": "-0x1.c473a6733a1ccp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00165b5e32569p+0"
+            },
+            {
+              "float_hex": "-0x1.dd7b3039500cdp-1"
+            },
+            {
+              "float_hex": "-0x1.c4ef112ef2de5p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.002c2044e39cfp+0"
+            },
+            {
+              "float_hex": "-0x1.db817cd1b6bb5p-1"
+            },
+            {
+              "float_hex": "-0x1.c2fd1622ba297p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00206c8f040bbp+0"
+            },
+            {
+              "float_hex": "-0x1.db0bd77f58eaap-1"
+            },
+            {
+              "float_hex": "-0x1.c175b62e00829p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00362503eccabp+0"
+            },
+            {
+              "float_hex": "-0x1.e209555c30873p-1"
+            },
+            {
+              "float_hex": "-0x1.ccadb676b3777p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0014b5e180f72p+0"
+            },
+            {
+              "float_hex": "-0x1.df414a8b57150p-1"
+            },
+            {
+              "float_hex": "-0x1.c81bf0733d799p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.000834605b839p+0"
+            },
+            {
+              "float_hex": "-0x1.de819a74968f0p-1"
+            },
+            {
+              "float_hex": "-0x1.c6ee8800f537cp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00304a9d449bdp+0"
+            },
+            {
+              "float_hex": "-0x1.ddad11dc2e9b2p-1"
+            },
+            {
+              "float_hex": "-0x1.c6c9b3dd6f3b4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.002655196217ap+0"
+            },
+            {
+              "float_hex": "-0x1.dbcf67196da7ap-1"
+            },
+            {
+              "float_hex": "-0x1.c3ec65e96a83dp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.005f55d6f0593p+0"
+            },
+            {
+              "float_hex": "-0x1.e0fe32ed9b102p-1"
+            },
+            {
+              "float_hex": "-0x1.ca4b4c72d2fccp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0031effdf7567p+0"
+            },
+            {
+              "float_hex": "-0x1.d98d7ff319fe6p-1"
+            },
+            {
+              "float_hex": "-0x1.c006dee7036fcp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0035d8eecb431p+0"
+            },
+            {
+              "float_hex": "-0x1.dda71a46ab2fap-1"
+            },
+            {
+              "float_hex": "-0x1.c56fc2a0655e9p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.00302cf169cabp+0"
+            },
+            {
+              "float_hex": "-0x1.dee0ad331439ep-1"
+            },
+            {
+              "float_hex": "-0x1.c7a528fa102c4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.002f3471dac4cp+0"
+            },
+            {
+              "float_hex": "-0x1.df099c62481dbp-1"
+            },
+            {
+              "float_hex": "-0x1.c80789bc7d277p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.001ba9e20088bp+0"
+            },
+            {
+              "float_hex": "-0x1.db9af7fc0f6e2p-1"
+            },
+            {
+              "float_hex": "-0x1.c251461aa89d4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.0012323c9a16dp+0"
+            },
+            {
+              "float_hex": "-0x1.dcab79216044ap-1"
+            },
+            {
+              "float_hex": "-0x1.c3f51025e4a1cp-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.0027edfa12dd2p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.dd3b6eb3cad31p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.c52af82486d80p-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.6081e4dec5ffdp-12"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.264f3ed7280f1p-8"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.b89e6f13c24b1p-8"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.0053fe36aeb5ep+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.e1d4abaf27735p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.cc0d71e0d5e13p-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.fff7bb7aee08cp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.d8a231b86e32dp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.be487e6837cedp-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.011364417000000016,
+    "combiner_create_seconds": 1.137499999992464e-05,
+    "pipeline_create_seconds": 0.003571875000000002,
+    "classifier_scoring_seconds": 0.323166834,
+    "power_curve_seconds": 13.177123291,
+    "pipeline_run_seconds": 13.501890125
+  },
+  "resource": {
+    "self_peak_rss_bytes": 163610624,
+    "children_max_rss_bytes": 117260288
+  },
+  "parent_only_profile": [],
+  "execution_stats": [],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 15.075469334,
+    "sampled_tree_peak_rss_bytes": 280854528,
+    "sampled_peak_process_count": 2,
+    "sampled_peak_temp_bytes": 736866,
+    "sampled_peak_pickle_bytes": 736866,
+    "samples": 118,
+    "sample_interval_seconds": 0.1
+  }
+}

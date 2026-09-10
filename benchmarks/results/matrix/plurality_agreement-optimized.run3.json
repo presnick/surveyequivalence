@@ -1,0 +1,408 @@
+{
+  "spec": {
+    "workload": "repo50",
+    "items": null,
+    "raters": null,
+    "bootstraps": 2,
+    "max_k": 3,
+    "max_subsets": 20,
+    "combiner": "plurality",
+    "scorer": "agreement",
+    "panel_size": 1,
+    "procs": 1,
+    "seed": 1729,
+    "profile": false,
+    "missing_fraction": 0.2,
+    "random_state": 1729,
+    "virtual_raters": 100,
+    "working_memory_mb": null,
+    "repo": "/Users/brianrabideau/surveyequivalence"
+  },
+  "imported_package": "/Users/brianrabideau/surveyequivalence/surveyequivalence/__init__.py",
+  "versions": {
+    "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "1.24.4",
+    "pandas": "2.0.3"
+  },
+  "shape": [
+    50,
+    10
+  ],
+  "input_digest": "5d58b904850182d80d0fae537a7e654ca9ae82dfe41ce9d4f2ab100af77fd037",
+  "result_digest": "4ae5bae84bdc85267c50ddcaf1ba06d2b59663a71d6c43e1a1067123c0bf5f9f",
+  "results": {
+    "classifier_scores": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.db22d0e56041ap-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.ed916872b020dp-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0b4395810624ep-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.f513cc1e098ecp-2"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.e6656361dd12cp-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.b8471fb1cdec6p-2"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.18f03c4522989p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_power_curve": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          0,
+          1,
+          2
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.eb851eb851ebap-2"
+            },
+            {
+              "float_hex": "0x1.5c28f5c28f5c4p-1"
+            },
+            {
+              "float_hex": "0x1.5c16c16c16c17p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.cccccccccccd1p-2"
+            },
+            {
+              "float_hex": "0x1.4a2ee05ea9c1bp-1"
+            },
+            {
+              "float_hex": "0x1.482d82d82d82dp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.b4395810624e0p-2"
+            },
+            {
+              "float_hex": "0x1.485cd7b900aeep-1"
+            },
+            {
+              "float_hex": "0x1.4fa4fa4fa4fa5p-1"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.ced916872b024p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.4f918f48bdeefp-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.514dbf86a314dp-1"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.bb46fc53a987ep-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.5e28281474d49p-6"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.41e11299d0480p-6"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.977036fcb5d14p-2"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.39af0cc776a1ap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.3d2fae5d06105p-1"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.0320fb08d019ap-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.657411ca053c4p-1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.656bd0b040195p-1"
+            }
+          ]
+        ]
+      }
+    },
+    "expert_survey_equivalences": {
+      "df": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "fixed_soft_classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x0.0p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.50460e985fbccp-3"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.c88526d5fe696p-2"
+            }
+          ]
+        ]
+      },
+      "means": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "means"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.a0701ec1742fdp-3"
+            }
+          ]
+        ]
+      },
+      "stds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "stds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.cdc4cb8bd7c27p-3"
+            }
+          ]
+        ]
+      },
+      "lower_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "lower_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.fb1978563b551p-3"
+            }
+          ]
+        ]
+      },
+      "upper_bounds": {
+        "index": [
+          "fixed_soft_classifier"
+        ],
+        "columns": [
+          "upper_bounds"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.4efe6d7648ed3p-1"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "stages": {
+    "workload_build_seconds": 0.002429291000000111,
+    "combiner_create_seconds": 6.41700000003631e-06,
+    "pipeline_create_seconds": 0.0005443749999998193,
+    "classifier_scoring_seconds": 0.0020569169999999914,
+    "power_curve_seconds": 0.157203333,
+    "pipeline_run_seconds": 0.16017208299999997
+  },
+  "resource": {
+    "self_peak_rss_bytes": 142589952,
+    "children_max_rss_bytes": 0
+  },
+  "parent_only_profile": [],
+  "execution_stats": [
+    {
+      "ratings_preparation_seconds": 0.0004884169999999077,
+      "prediction_seconds": 0.13701854199999985,
+      "preparation_seconds": 0.017485833999999922,
+      "bootstrap_seconds": 0.0002659169999998934,
+      "workers": 1,
+      "blocks": 1,
+      "prepared_subsets": 29,
+      "fallback_subsets": 0,
+      "max_block_bytes": 26100,
+      "shared_array_bytes": 0,
+      "prediction_cache_hits": 0,
+      "prediction_cache_misses": 1450
+    }
+  ],
+  "controller_metrics": {
+    "subprocess_end_to_end_seconds": 1.412897333,
+    "sampled_tree_peak_rss_bytes": 142508032,
+    "sampled_peak_process_count": 1,
+    "sampled_peak_temp_bytes": 0,
+    "sampled_peak_pickle_bytes": 0,
+    "samples": 11,
+    "sample_interval_seconds": 0.1
+  }
+}
