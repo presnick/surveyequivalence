@@ -1,4 +1,6 @@
 import unittest
+from fractions import Fraction
+from math import comb
 
 import numpy as np
 import pandas as pd
@@ -35,17 +37,27 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         W[7] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
         W[8] = ['p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', '', '', '']
 
-        res = AnonymousBayesianCombiner(W=W).combine(['p', 'n'],
-                                                  [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
-                                                   ('x', 'n'), ('x', 'n')], W, 1)
-        self.assertAlmostEqual(res.probabilities[0], 0.2002, delta=0.001)
+        labels = [('x', label) for label in ['p'] * 3 + ['n'] * 4]
+        # Independently count unordered samples of three positives and four
+        # negatives. Group A has 5p/10n; group B has 3p/9n (padding is missing).
+        likelihood_a = Fraction(comb(5, 3) * comb(10, 4), comb(15, 7))
+        likelihood_b = Fraction(comb(3, 3) * comb(9, 4), comb(12, 7))
+        # Given those observations, A has 2/8 positives left and B has none.
+        # The old expectations encoded a historical extra-factorial bug that
+        # removed only one ninth of the held-out item's contribution.
+        for item_id, count_a, count_b, expected in (
+                (1, 5, 3, Fraction(100, 517)),
+                (7, 6, 2, Fraction(20, 93))):
+            with self.subTest(item_id=item_id):
+                posterior_a = (count_a * likelihood_a /
+                               (count_a * likelihood_a + count_b * likelihood_b))
+                self.assertEqual(posterior_a * Fraction(2, 8), expected)
+                res = AnonymousBayesianCombiner(W=W).combine(['p', 'n'], labels, W, item_id)
+                self.assertAlmostEqual(res.probabilities[0], float(expected), delta=0.001)
 
-        res = AnonymousBayesianCombiner(W=W).combine(['p', 'n'],
-                                                  [('x', 'p'), ('x', 'p'), ('x', 'p'), ('x', 'n'), ('x', 'n'),
-                                                   ('x', 'n'),
-                                                   ('x', 'n')], W, 7)
-
-        self.assertAlmostEqual(res.probabilities[0], 0.2024, delta=0.001)
+                remaining = np.delete(W, item_id, axis=0)
+                removed = AnonymousBayesianCombiner(W=remaining).combine(['p', 'n'], labels)
+                self.assertEqual(res.probabilities, removed.probabilities)
 
     def test_frequency_combiner(self):
         frequency = FrequencyCombiner()

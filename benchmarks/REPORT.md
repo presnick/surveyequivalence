@@ -6,11 +6,17 @@ The optimized implementation preserves exact results in the frozen historical/co
 
 ## Correctness baseline
 
-The untouched historical revision `a4bbe2e` ran all 18 original test methods: **17 passed and one failed**. `test_leave_one_item_out` expects `0.2002 ± 0.001`, but returns `0.19342359767891681`. Both the corrected reference and optimized implementation return that exact same value. The existing assertion and tolerance remain unchanged. See [historical results](results/historical-tests.json) and [corrected results](results/corrected-tests.json).
+The untouched historical revision `a4bbe2e` ran all 18 original test methods: **17 passed and one failed**. `test_leave_one_item_out` expected `0.2002 ± 0.001`, but returned `0.19342359767891681`. Both the corrected reference and optimized implementation return that exact same value. Those baseline artifacts remain unchanged: [historical results](results/historical-tests.json) and [corrected results](results/corrected-tests.json).
 
 The corrected reference is commit `093c94c`. Missing-data, alignment, panel-size, and unsupported-prediction fixes were applied before freezing the performance reference. Speedups below compare against that corrected reference, not buggy historical behavior.
 
-The final suite ran **73 methods: 72 passed, one failed**, in 33.131 seconds against implementation commit `6ba59b9`. It includes the original tests, hand-calculated missing-data/panel/indexing regressions, exact differential comparisons, persistence checks, and worker cleanup tests. The only failure is the historical assertion above; the suite intentionally retains a nonzero exit status. See [final validation](results/final-tests.json). The exact command is:
+The optimization-stage suite ran **73 methods: 72 passed, one failed**, in 33.131 seconds against implementation commit `6ba59b9`, preserving the original assertions. See [optimization-stage validation](results/final-tests.json).
+
+The leave-one-out expectations were subsequently corrected, with user authorization, after an independent combinatorial derivation established `100/517` for excluding row 1 and `20/93` for excluding row 7. The old values match a historical normalization bug in `f6b8673`; the current combiner already produces the correct values. Both exclusions are now checked independently, retaining the `0.001` tolerance and adding exact prediction-vector parity with physically deleting the row. See [the derivation](../docs/performance.md#exactness-and-tests). This changes test expectations only; numerical implementation and benchmark outputs are unchanged.
+
+After the test correction, **all 73 methods pass**, in 33.455 seconds. See [current validation](results/leave-one-out-fixed-tests.json).
+
+The full suite includes missing-data/panel/indexing regressions, exact differential comparisons, persistence checks, and worker cleanup tests. The exact command is:
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v

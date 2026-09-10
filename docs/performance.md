@@ -58,7 +58,13 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v
 ```
 
-The original 18-test baseline has **17 passes and one existing failure**. The final suite has **72 passes and that same failure across 73 tests**. `test_leave_one_item_out` expects `0.2002 ± 0.001`; the original and updated implementations both return `0.19342359767891681`. That assertion has not been changed, skipped, or marked expected-failure. See `benchmarks/results/historical-tests.json` and `benchmarks/results/final-tests.json`. The full-suite command therefore remains nonzero for this known baseline failure.
+The original 18-test baseline had **17 passes and one existing failure**. The optimization-stage suite preserved it, recording **72 passes across 73 tests** in `benchmarks/results/final-tests.json`. A subsequent independent calculation established that both leave-one-out expectations were stale, and they have now been corrected to `100/517` and `20/93`, retaining the original `0.001` tolerance. The combiner implementation is unchanged by this test correction.
+
+The fixture has six items with 5 positive/10 negative ratings and three with 3 positive/9 negative ratings. For an observation of three positives and four negatives, the group likelihoods are `A = C(5,3) C(10,4) / C(15,7) = 140/429` and `B = C(3,3) C(9,4) / C(12,7) = 7/44`. Only the first group can supply another positive, with probability `2/8`. Excluding row 1 gives `5A/(5A+3B) × 2/8 = 100/517`; excluding row 7 gives `6A/(6A+2B) × 2/8 = 20/93`. Both cases now run as separate subtests and verify exact equality of the full prediction vector with physically deleting the held-out row.
+
+The stale expectations, `0.2002` and `0.2024`, match the implementation in historical commit `f6b8673`. Its holdout normalization used `9!` where `8!` was required, effectively subtracting only one ninth of the held-out contribution in this case. That historical behavior is not the intended leave-one-out calculation. The original baseline artifacts remain unchanged.
+
+After this test correction, **all 73 tests pass**. The full-suite run completed in 33.455 seconds; see [current validation](../benchmarks/results/leave-one-out-fixed-tests.json).
 
 ## Reproducing measurements
 

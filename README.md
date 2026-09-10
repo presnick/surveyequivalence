@@ -107,8 +107,8 @@ Rectangular matrices may contain uneven numbers of ratings, including `None`,
 `NaN`, and empty padding. Reference panels use the available ratings for each item.
 
 See [performance and correctness details](docs/performance.md) and the
-[measured benchmark report](benchmarks/REPORT.md), including the unchanged
-pre-existing test failure and exact-parity validation.
+[measured benchmark report](benchmarks/REPORT.md), including the independently
+justified leave-one-out test correction and exact-parity validation.
 
 ## License
 This Project is MIT-licensed.
@@ -116,7 +116,6 @@ This Project is MIT-licensed.
 Please send us e-mail or leave comments on github if have any questions.
 
 Copyright (c) 2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger 
-
 
 
 

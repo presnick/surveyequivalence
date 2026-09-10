@@ -1,0 +1,28 @@
+{
+  "base_revision": "a984de397e728c6fd5de928d2fdb73526d9e4666",
+  "scope": "Leave-one-out test expectations corrected; numerical implementation unchanged.",
+  "command": ".venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v",
+  "environment": {
+    "MPLCONFIGDIR": "/private/tmp/surveyequivalence-mpl",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "tests_run": 73,
+  "passed": 73,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "elapsed_seconds": 33.455,
+  "successful": true,
+  "exit_code": 0,
+  "expectations": {
+    "excluded_row_1": "100/517",
+    "excluded_row_7": "20/93",
+    "unchanged_tolerance": 0.001
+  },
+  "independent_checks": [
+    "Exact rational combinatorial derivation",
+    "Exact prediction-vector equality with physically removing the held-out row"
+  ],
+  "test_file_sha256": "91fe73bd281da13772676e4e7c9bbef2414c42673935e91a8e37b1db42d126b0",
+  "log_sha256": "6959d55c72d55e87cf8a9727b02bb5e9aa4c6aa797456efe66e472725e84c0ea"
+}
