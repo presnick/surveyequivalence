@@ -8,7 +8,7 @@ from typing import Sequence, Tuple
 import numpy as np
 import pandas as pd
 
-from ._data import as_rating_array, is_missing
+from ._data import PreparedRatings, as_rating_array, is_missing
 
 
 class Prediction(ABC):
@@ -172,9 +172,9 @@ class Combiner(ABC):
         #self.W is pandas.dataframe
         #self.W_np is numpy.ndarray
         if W is not None:
-            self.W_np = as_rating_array(W)
-            if not isinstance(W, pd.DataFrame):
-                self.W = pd.DataFrame(self.W_np)
+            self.W_np = as_rating_array(W).copy()
+            self.W_np.flags.writeable = False
+            self.W = W.copy(deep=True) if isinstance(W, pd.DataFrame) else pd.DataFrame(self.W_np)
         else:
             self.W_np = None
 
@@ -182,6 +182,16 @@ class Combiner(ABC):
         self.memo = dict()
         #self.memo is a dict to memoize the results of Combine
         self.combined = dict()
+        self._prepared_ratings = None
+        self._count_probabilities = {}
+
+    def _prepare(self, W, allowable_labels, prepared=None):
+        """Bind a private combiner copy to one immutable pipeline snapshot."""
+        self.W_np = W
+        self._prepared_ratings = prepared or PreparedRatings(W, allowable_labels)
+        self.memo = {}
+        self.combined = {}
+        self._count_probabilities = {}
 
     @abstractmethod
     def combine(self, allowable_labels: Sequence[str],
@@ -315,12 +325,17 @@ class FrequencyCombiner(Combiner):
         else:
             # no labels yet; use the Bayesian prior, based on overall frequencies in the dataset
             # for each, loop through all labels
-            dataset = self.W_np if self.W_np is not None else W
+            dataset = W if W is not None else self.W_np
             if dataset is None:
                 return None
-            for label in as_rating_array(dataset).flat:
-                if not is_missing(label, allowable_labels) and label in freqs:
-                    freqs[label] += 1
+            prepared = self._prepared_ratings
+            if (prepared is not None and dataset is self.W_np
+                    and prepared.labels == tuple(allowable_labels)):
+                freqs = {label: int(prepared.frequencies[i]) for i, label in enumerate(allowable_labels)}
+            else:
+                for label in as_rating_array(dataset).flat:
+                    if not is_missing(label, allowable_labels) and label in freqs:
+                        freqs[label] += 1
 
         tot = sum(freqs.values())
         if tot == 0:
@@ -392,12 +407,16 @@ class AnonymousBayesianCombiner(Combiner):
                                             W=W,
                                             item_id=item_id)
             if probability is None:
+                if memo_flag:
+                    self.combined[cache_key] = None
                 return None
             prediction[label_idx] = probability
 
         total = sum(prediction)
         if (not np.all(np.isfinite(prediction)) or
                 np.any(prediction < 0) or not np.isfinite(total) or total <= 0):
+            if memo_flag:
+                self.combined[cache_key] = None
             return None
         prediction = prediction / total
 
@@ -448,11 +467,35 @@ class AnonymousBayesianCombiner(Combiner):
         # line 3 of Algorithm 5
         i_v_excluded, excluded_count = 0, 0
         if item_id is not None:
-            i_v_excluded, excluded_count = self.probabilityOneItem(y, W[item_id], allowable_labels)
+            prepared = self._prepared_ratings
+            if prepared is not None and prepared.labels == tuple(allowable_labels):
+                i_v_excluded, excluded_count = self._probability_from_counts(
+                    y, prepared.counts[item_id], int(prepared.totals[item_id]))
+            else:
+                i_v_excluded, excluded_count = self.probabilityOneItem(y, W[item_id], allowable_labels)
         if num_items <= excluded_count:
             # Not enough raters to construct a joint distribution of labels
             return None
         return (v - i_v_excluded) / (num_items - excluded_count)
+
+    def _probability_from_counts(self, y, counts, total):
+        # Reuse equal integer histograms, but never regroup their floating-point
+        # contributions in the dataset sum: its row order is significant.
+        key = (tuple(y), tuple(counts))
+        if key in self._count_probabilities:
+            return self._count_probabilities[key]
+        k = sum(y)
+        if total < k:
+            result = (0, 0)
+        elif any(count < wanted for count, wanted in zip(counts, y)):
+            result = (0, 1)
+        else:
+            product = 1
+            for count, wanted in zip(counts, y):
+                product = product * reduce(operator.mul, range(count, count - wanted, -1), 1)
+            result = (product / reduce(operator.mul, range(total, total - k, -1), 1), 1)
+        self._count_probabilities[key] = result
+        return result
 
 
     def probabilityOneItem(self, y: np.array, item: np.array, allowable_labels: Sequence[str]) -> (float, int):
@@ -526,8 +569,15 @@ class AnonymousBayesianCombiner(Combiner):
         W = as_rating_array(W)
         v = 0
         num_items = 0
-        for item in W:
-            i_v, i_r = self.probabilityOneItem(y, item, allowable_labels)
+        prepared = self._prepared_ratings
+        use_counts = (prepared is not None and W is self.W_np
+                      and prepared.labels == tuple(allowable_labels))
+        for position, item in enumerate(W):
+            if use_counts:
+                i_v, i_r = self._probability_from_counts(y, prepared.counts[position],
+                                                        int(prepared.totals[position]))
+            else:
+                i_v, i_r = self.probabilityOneItem(y, item, allowable_labels)
             v += i_v
             num_items += i_r  # i_r is 0 if this item not usable; else 1
 

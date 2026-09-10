@@ -34,6 +34,35 @@ class PipelineRegressionTests(unittest.TestCase):
         self.assertEqual(pipeline.expert_power_curve.values[0], 2 / 3)
         self.assertEqual(pipeline.expert_power_curve.values[1], (.5 + 2 / 3 + .5) / 3)
 
+    def test_single_item_column_and_undefined_equivalences(self):
+        from surveyequivalence import AnonymousBayesianCombiner
+        ratings = pd.DataFrame([['a']], columns=['r0'])
+        predictions = pd.DataFrame({'classifier': [DiscretePrediction('a')]})
+        frequency = self.pipeline(ratings, classifier_predictions=predictions)
+        self.assertEqual(frequency.expert_power_curve.values[0], 1)
+        unsupported = self.pipeline(ratings, classifier_predictions=predictions,
+                                     combiner=AnonymousBayesianCombiner())
+        self.assertTrue(np.isnan(unsupported.expert_power_curve.values[0]))
+        self.assertTrue(np.isnan(unsupported.expert_survey_equivalences.df.iloc[0, 0]))
+
+    def test_all_missing_inputs_produce_missing_scores(self):
+        ratings = pd.DataFrame([[None, None], [None, None]], columns=['r0', 'r1'])
+        predictions = pd.DataFrame({'classifier': [None, None]})
+        pipeline = self.pipeline(ratings, classifier_predictions=predictions)
+        self.assertTrue(pipeline.expert_power_curve.df.isna().all().all())
+        self.assertTrue(pipeline.classifier_scores.df.isna().all().all())
+        self.assertTrue(pipeline.expert_survey_equivalences.df.isna().all().all())
+
+    def test_anonymization_helpers_use_shared_missing_rules(self):
+        from surveyequivalence import find_maximal_full_rating_matrix_cols, prep_anonymized_rating_matrix
+        ratings = pd.DataFrame([[0, '', pd.NA], [1, None, np.nan]])
+        self.assertEqual(find_maximal_full_rating_matrix_cols(ratings), 1)
+        result = prep_anonymized_rating_matrix(ratings)
+        self.assertEqual(result.shape, (2, 1))
+        self.assertEqual(result.iloc[:, 0].tolist(), [0, 1])
+        self.assertTrue(prep_anonymized_rating_matrix(pd.DataFrame([[None, '']])).empty)
+        self.assertEqual(prep_anonymized_rating_matrix(ratings, 2).shape, (0, 2))
+
     def test_item_identifiers_and_repeated_samples(self):
         reference = self.pipeline(item_samples=[[0, 1, 2], [2, 0, 2, 1]])
         for index in (['first', 'middle', 'last'], [30, 10, 90]):

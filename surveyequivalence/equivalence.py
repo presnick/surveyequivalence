@@ -1,4 +1,5 @@
 import datetime
+import copy
 import math
 import operator
 import os
@@ -19,13 +20,17 @@ import numpy as np
 import pandas as pd
 import pathos
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from pathos.pools import ProcessPool
+import multiprocess
 
 from .combiners import Prediction, Combiner
 from .scoring_functions import Scorer
 from .scoring_functions import comb
-from ._data import is_missing
+from ._data import PreparedRatings, is_missing
 from ._random import random_stream
+from ._scoring import prepare_scores, score_prepared
+from ._execution import BUILTIN_COMBINERS, PredictionBlock, initialize_worker, worker_score, score_block
+from .combiners import AnonymousBayesianCombiner, FrequencyCombiner, MeanCombiner, PluralityVote
+from .scoring_functions import AgreementScore, CrossEntropyScore
 
 
 def load_saved_pipeline(path):
@@ -75,7 +80,9 @@ def load_saved_pipeline(path):
 
 
 def find_maximal_full_rating_matrix_cols(W) :
-    sizes = sorted(W.notnull().sum(axis=1), reverse=True)
+    vocabulary = W.attrs.get('allowable_labels')
+    valid = W.applymap(lambda value: not is_missing(value, vocabulary))
+    sizes = sorted(valid.sum(axis=1), reverse=True)
     best = 0
     best_s = 0
     for i, s in enumerate(sizes):
@@ -116,17 +123,23 @@ def prep_anonymized_rating_matrix(W, min_ratings_per_item=None):
 
     if not min_ratings_per_item:
         min_ratings_per_item = find_maximal_full_rating_matrix_cols(W)
+    if not isinstance(min_ratings_per_item, (int, np.integer)) or min_ratings_per_item < 0:
+        raise ValueError("min_ratings_per_item must be a nonnegative integer")
+    if min_ratings_per_item == 0:
+        return pd.DataFrame(index=W.index[:0])
 
     # remove rows with too few items
-    W = W.loc[(W.notnull().sum(axis=1) >= min_ratings_per_item)]
+    vocabulary = W.attrs.get('allowable_labels')
+    valid = W.applymap(lambda value: not is_missing(value, vocabulary))
+    W = W.loc[(valid.sum(axis=1) >= min_ratings_per_item)]
     # for each full-enough row, remove Nones and sample if more than min_ratings
     new_w = list()
     idx = list()
     for index, row in W.iterrows():
-        new_w.append(row.dropna().sample(min_ratings_per_item).values)
+        new_w.append(row[valid.loc[index]].sample(min_ratings_per_item).values)
         idx.append(index)
-    new_w = pd.DataFrame(new_w)
-    new_w.set_index(pd.Index(idx), drop=False, inplace=True)
+    new_w = pd.DataFrame(new_w, index=pd.Index(idx), columns=range(min_ratings_per_item))
+    new_w.attrs.update(W.attrs)
     return new_w
 
 class Equivalences:
@@ -307,6 +320,11 @@ class PowerCurve(ClassifierResults):
         if not k_powers:
             # compute it for scores for row 0, the values for the actual item sample
             k_powers = self.values.to_dict()
+        if pd.isna(classifier_score):
+            return np.nan
+        k_powers = {k: value for k, value in k_powers.items() if not pd.isna(value)}
+        if not k_powers:
+            return np.nan
         better_ks = [k for (k, v) in k_powers.items() if v > classifier_score]
         first_better_k = min(better_ks, default=0)
         if len(better_ks) == 0:
@@ -449,8 +467,16 @@ class AnalysisPipeline:
         to help with debugging.
     run_on_creation = True
         Whether to actually run the analysis pipeline
-    procs=pathos.helpers.cpu_count() - 1
-        How many processors are available for parallel execution"""
+    procs=None
+        Select workers automatically; use 1 for serial execution or an explicit positive count.
+        Prepared deterministic scorers and small workloads default to serial execution.
+    random_state=None
+        Nonnegative integer for reproducible Python and NumPy task streams. With None,
+        sampling uses the existing global random state.
+    working_memory_mb=512
+        Working budget for prepared prediction/score blocks. Does not limit total process RSS,
+        input frames, bootstrap indices, or custom Python objects. A subset larger than the
+        budget is backed by temporary memory-mapped arrays."""
     def __init__(self,
                  W: pd.DataFrame,
                  sparse_experts: bool =True,
@@ -512,8 +538,17 @@ class AnalysisPipeline:
             raise ValueError("random_state must be a nonnegative integer or None")
         if not isinstance(working_memory_mb, (int, float)) or not math.isfinite(working_memory_mb) or working_memory_mb <= 0:
             raise ValueError("working_memory_mb must be positive and finite")
-        if num_bootstrap_item_samples < 0 or max_rater_subsets < 1 or min_k < 0 or max_K < 1:
+        if (any(not isinstance(value, (int, np.integer)) for value in
+                (num_bootstrap_item_samples, max_rater_subsets, min_k, max_K))
+                or num_bootstrap_item_samples < 0 or max_rater_subsets < 1 or min_k < 0 or max_K < 1):
             raise ValueError("sample counts and survey sizes must be nonnegative, with positive max_K and max_rater_subsets")
+        if min_k >= min(max_K, len(self.expert_cols)):
+            raise ValueError("min_k exceeds the available survey size")
+        if performance_ratio_k is not None:
+            if classifier_predictions is None:
+                raise ValueError("performance_ratio_k requires classifier_predictions")
+            if min_k != 0 or performance_ratio_k not in range(1, min(max_K, len(self.expert_cols))):
+                raise ValueError("performance_ratio_k requires k=0 and a computed positive survey size")
         self.procs = procs
         self.random_state = int(random_state) if random_state is not None else None
         self.working_memory_mb = working_memory_mb
@@ -548,7 +583,11 @@ class AnalysisPipeline:
         if self.combiner is None or self.scorer is None:
             raise ValueError("combiner and scorer are required to run an analysis")
         self.run_timestamp = datetime.datetime.now().strftime("%d-%B-%Y_%I-%M-%S_%p")
-        self.W_as_array = self.W.to_numpy()
+        self.W = self.W.copy(deep=True)
+        self.W.attrs["allowable_labels"] = self.allowable_labels
+        self.W_as_array = self.W.to_numpy().copy()
+        self.W_as_array.flags.writeable = False
+        self.execution_stats = []
 
         if self.classifier_predictions is not None:
             self.classifier_scores = self.compute_classifier_scores()
@@ -738,53 +777,50 @@ class AnalysisPipeline:
             return [self.W.index] + [generate_item_sample() for _ in range(num_bootstrap_item_samples)]
 
     def compute_classifier_scores(self) -> ClassifierResults:
-        """
-        Returns
-        -------
-        ClassifierResults
-            instance containing the scores for the classifier(s) on each of the itemsets
-        """
-        if self.verbosity > 0:
-            print(f"starting classifiers: computing scores")
+        """Reuse one classifier's deterministic terms at a time."""
+        columns = list(self.classifier_predictions.columns)
+        samples = [self.W.index.get_indexer(sample) for sample in self.item_samples]
+        if any(np.any(sample < 0) for sample in samples):
+            raise ValueError("item_samples contain identifiers absent from the current W")
+        results = [{} for _ in samples]
 
-        def compute_one_run(run_id, idxs):
-            predictions_df = self.classifier_predictions.loc[idxs, :].reset_index(drop=True)
-            ref_labels_df = self.W.loc[idxs, :].reset_index(drop=True)
-            scores = {}
-            for column_id, col_name in enumerate(self.classifier_predictions.columns):
-                with random_stream(self.random_state, 1, run_id, column_id):
-                    scores[col_name] = self.scorer.expected_score(
-                        predictions_df[col_name], self.expert_cols, ref_labels_df,
-                        anonymous=self.anonymous_raters, verbosity=self.verbosity)
-            return scores
+        def fallback(run_id, column_id):
+            indices = samples[run_id]
+            name = columns[column_id]
+            predictions = self.classifier_predictions.iloc[indices][name].reset_index(drop=True)
+            reference = self.W.iloc[indices].reset_index(drop=True)
+            with random_stream(self.random_state, 1, run_id, column_id):
+                return self.scorer.expected_score(predictions, self.expert_cols, reference,
+                                                 anonymous=self.anonymous_raters, verbosity=self.verbosity)
 
-        ## Each item sample is one run
-        run_results = [compute_one_run(run_id, idxs) for run_id, idxs in enumerate(self.item_samples)]
-        return ClassifierResults(run_results)
+        can_prepare = (type(self.scorer) in (AgreementScore, CrossEntropyScore)
+                       and not any(name in vars(self.scorer) for name in
+                                   ('score', 'expected_score', 'expected_score_anonymous_raters',
+                                    'expected_score_non_anonymous_raters')))
+        if can_prepare:
+            reference = self.W[self.expert_cols]
+            for column_id, name in enumerate(columns):
+                terms = prepare_scores(self.scorer, self.classifier_predictions[name], reference, self.anonymous_raters)
+                for run_id, indices in enumerate(samples):
+                    if terms is None:
+                        results[run_id][name] = fallback(run_id, column_id)
+                    else:
+                        values, valid, mode = terms
+                        results[run_id][name] = score_prepared(values, valid, indices, mode)
+        else:
+            # Preserve call order for stateful user-provided scorers.
+            for run_id in range(len(samples)):
+                for column_id, name in enumerate(columns):
+                    results[run_id][name] = fallback(run_id, column_id)
+        return ClassifierResults(df=pd.DataFrame(results, dtype=float))
 
-    def compute_power_curve(self, raters, ref_raters, min_k, max_k, procs, max_rater_subsets=200) -> PowerCurve:
-        """
-        The main analysis script
-
-        Returns
-        -------
-        PowerCurve
-            instance containing the scores for surveys of size up to max_k
-        """
-
-        raters = list(raters)
-        ref_raters = list(ref_raters)
+    def compute_power_curve(self, raters, ref_raters, min_k, max_k, procs, max_rater_subsets=200):
+        """Evaluate ordered subset blocks with immutable worker-local state."""
+        raters, ref_raters = list(raters), list(ref_raters)
         rater_positions = [self.W.columns.get_loc(rater) for rater in raters]
         curve_key = (len(rater_positions), *rater_positions)
         if min_k > max_k:
             raise ValueError("min_k exceeds the available survey size")
-
-        if self.verbosity > 0:
-            print(f"\nstarting power curve")
-            if self.verbosity > 1:
-
-                print(f"\tcomputing scores for {raters} with ref_raters {ref_raters}")
-
         def rater_subsets(raters, k, max_subsets):
             K = len(raters)
             raters = range(K)
@@ -792,10 +828,12 @@ class AnalysisPipeline:
                 if comb(K, k) > 5 * max_subsets:
                     ## repeatedly grab a random subset and throw it away if it's a duplicate
                     subsets = list()
+                    seen = set()
                     for idx in range(max_subsets):
                         while True:
                             subset = tuple(np.random.choice(raters, k, replace=False))
-                            if subset not in subsets:
+                            if subset not in seen:
+                                seen.add(subset)
                                 subsets.append(subset)
                                 break
                             if self.verbosity > 1:
@@ -804,7 +842,7 @@ class AnalysisPipeline:
                 else:
                     ## just enumerate all the subsets and take a sample of max_subsets of them
                     all_k_subsets = list(combinations(raters, k))
-                    selected_idxs = np.random.choice(len(all_k_subsets), max_subsets)
+                    selected_idxs = set(np.random.choice(len(all_k_subsets), max_subsets))
                     result = [subset for idx, subset in enumerate(all_k_subsets) if idx in selected_idxs]
             else:
                 result = list(combinations(raters, k))
@@ -829,127 +867,28 @@ class AnalysisPipeline:
                 retval[k] = rater_subsets(raters, k, max_subsets)
             return retval
 
-        def get_predictions(W, ratersets) -> Dict[int, Dict[Tuple[int, ...], Prediction]]:
-            # add additional entries in predictions dictionary, for additional items, as necessary
-            if self.verbosity > 0:
-                print('\nstarting to precompute predictions for various rater subsets. \n')
-
-            # use a dict to save calculated predictions for memoization
-            predicted = dict()
-
-            def make_prediction(idx, row):
-                predictions = dict()
-                cached = False
-                preds_label = set([])
-                # make a dictionary with rater_tups as keys and prediction outputted by combiner as values
-                predictions[idx] = dict()
-                
-                for k in ratersets:
-                    for rater_tup in ratersets[k]:
-
-                        label_vals = row[[rater_positions[rater] for rater in rater_tup]]
-
-                        # memoization: key is the count of different labels
-                        labels = [(rater, value) for rater, value in zip(rater_tup, label_vals)
-                                  if not is_missing(value, self.allowable_labels)]
-                        with random_stream(self.random_state, 3, *curve_key, idx, len(rater_tup), *rater_tup):
-                            predictions[idx][rater_tup] = self.combiner.combine(
-                                allowable_labels=self.allowable_labels,
-                                labels=labels,
-                                W=self.W_as_array,
-                                item_id=idx)
-
-                        if self.verbosity > 1 and idx == 0:
-                            if k == 0:
-                                print(f"baseline score:{predictions[idx][rater_tup]}")
-                            if k == 1:
-                                preds_label.add(
-                                    f"{label_vals[0] if len(label_vals) > 0 else None}: {predictions[idx][rater_tup]}")
-                    if self.verbosity > 1 and idx == 0 and k == 1:
-                        print(f"scores after 1 rating is {preds_label}")
-
-                if self.verbosity > 0:
-                    if idx % 10 == 0:
-                        print("\t", idx, flush=True, end='')
-                    else:
-                        print(f"{'.' if not cached else ','}", end='', flush=True)
-
-                return predictions
-
-            ## iterate through rows, accumulating predictions for that item
-            predictions_list = []
-            W_np = W.to_numpy()
-            idx = 0
-            for row in W_np:
-                predictions_list.append(make_prediction(idx,row))
-                idx += 1
-            
-            predictions = dict()
-            for pred_dict in predictions_list:
-                for k,v in pred_dict.items():
-                    predictions[k] = v
-
-            if self.verbosity > 0:
-                print()
-
-            return predictions
-
-        def compute_one_run(dirpath, call_count):
-            with open(dirpath + '/state.pickle', 'rb') as state_file:
-                W, idxs, ratersets, predictions = pickle.load(state_file)
-
-            # get the ith item
-            idxs = idxs[call_count]
-
-            if self.verbosity > 0:
-                if call_count % 10 == 0:
-                    print("\t", call_count, flush=True, end='')
-                else:
-                    print(f".", end='', flush=True)
-            power_levels = dict()
-            item_positions = W.index.get_indexer(idxs)
-            ref_labels_df = W.loc[idxs, :].reset_index(drop=True)
-            for k in range(min_k, max_k+1):
-                if self.verbosity > 2:
-                    print(f"\t\tcompute_one_run, k={k}")
-                scores = []
-                for subset_id, raterset in enumerate(ratersets[k]):
-                    preds = [predictions[idx][raterset] for idx in item_positions]
-                    used_raters = {raters[rater] for rater in raterset}
-                    unused_raters = [rater for rater in ref_raters if rater not in used_raters]
-                    with random_stream(self.random_state, 4, *curve_key, call_count, k, subset_id):
-                        score = self.scorer.expected_score(
-                            pd.Series(preds), unused_raters, ref_labels_df,
-                            anonymous=self.anonymous_raters, verbosity=self.verbosity)
-
-                    if score is None:
-                        print("ugh; no score for classifier this time ")
-                    elif pd.isna(score):
-                        print(f'!!!!!!!!!Unexpected NaN !!!!!! \n\t\t\preds={preds}\nunused_raters={unused_raters}\nscore={score}\ttype(score)={type(score)}')
-                    else:
-                        scores.append(score)
-
-                if self.verbosity > 1:
-                    print(f'\tscores for k={k}: {scores}')
-                if len(scores) > 0:
-                    power_levels[k] = sum(scores) / len(scores)
-                else:
-                    power_levels[k] = None
-            return power_levels
-
         ## get rater samples
         canonical_raters_tuple = ("v2", tuple(raters), min_k, max_k, max_rater_subsets, self.random_state)
+        def valid_subsets(entry):
+            try:
+                return (isinstance(entry, dict)
+                        and all(k in entry and 0 < len(entry[k]) <= max_rater_subsets
+                                and all(len(tup) == k and len(set(tup)) == k
+                                        and all(isinstance(i, (int, np.integer)) and 0 <= i < len(raters) for i in tup)
+                                        for tup in entry[k])
+                                for k in range(min_k, max_k + 1)))
+            except (TypeError, ValueError):
+                return False
+        if not valid_subsets(self.ratersets_memo.get(canonical_raters_tuple)):
+            self.ratersets_memo.pop(canonical_raters_tuple, None)
         if canonical_raters_tuple not in self.ratersets_memo:
             # Legacy entries used sorted names but positional subsets; only reuse
             # them when the original ordering is unambiguous and all sizes fit.
             legacy = self.ratersets_memo.get(tuple(raters))
-            valid_legacy = (tuple(raters) == tuple(sorted(raters, key=str))
-                            and isinstance(legacy, dict)
-                            and all(k in legacy and 0 < len(legacy[k]) <= max_rater_subsets
-                                    and all(len(tup) == k and len(set(tup)) == k
-                                            and all(isinstance(i, (int, np.integer)) and 0 <= i < len(raters) for i in tup)
-                                            for tup in legacy[k])
-                                    for k in range(min_k, max_k + 1)))
+            try:
+                valid_legacy = tuple(raters) == tuple(sorted(raters)) and valid_subsets(legacy)
+            except TypeError:
+                valid_legacy = False
             with random_stream(self.random_state, 2, *curve_key):
                 self.ratersets_memo[canonical_raters_tuple] = (
                     {k: list(legacy[k]) for k in range(min_k, max_k + 1)} if valid_legacy
@@ -959,31 +898,179 @@ class AnalysisPipeline:
                 print(f"getting cached rater subsets for {canonical_raters_tuple}")
         ratersets = self.ratersets_memo[canonical_raters_tuple]
 
-        ## get predictions
-        predictions = get_predictions(self.W, ratersets)
-
-        ## Each item sample is one run
-        if self.verbosity > 0:
-            print("\n\tcomputing power curve results for each bootstrap item sample. \n")
-
-        workers = min(procs if procs is not None else max(1, pathos.helpers.cpu_count() - 1), len(self.item_samples))
-        with tempfile.TemporaryDirectory() as dirpath:
-            with open(dirpath + '/state.pickle', 'wb') as state_file:
-                pickle.dump((self.W, list(self.item_samples), ratersets, predictions), state_file)
-            pool = ProcessPool(nodes=workers)
+        subsets = [(k, ordinal, tuple(subset)) for k in range(min_k, max_k + 1)
+                   for ordinal, subset in enumerate(ratersets[k])]
+        samples = [self.W.index.get_indexer(sample) for sample in self.item_samples]
+        if any(np.any(sample < 0) for sample in samples):
+            raise ValueError("item_samples contain identifiers absent from the current W")
+        workers = min(procs if procs is not None else max(1, pathos.helpers.cpu_count() - 1), len(samples))
+        builtin = type(self.combiner) in BUILTIN_COMBINERS and 'combine' not in vars(self.combiner)
+        builtin_scorer = (type(self.scorer).__module__ == Scorer.__module__
+                       and not any(name in vars(self.scorer) for name in
+                                   ('score', 'expected_score', 'expected_score_anonymous_raters',
+                                    'expected_score_non_anonymous_raters')))
+        can_prepare = builtin and builtin_scorer and type(self.scorer) in (AgreementScore, CrossEntropyScore)
+        if procs is None:
+            deterministic_terms = can_prepare and (not self.anonymous_raters
+                                  or self.scorer.num_ref_raters_per_virtual_rater == 1
+                                  or (self.allowable_labels is not None and len(self.allowable_labels) <= 2))
+            if deterministic_terms or len(self.W) * len(subsets) * len(samples) < 100000:
+                workers = 1
+        preparation_start = time.perf_counter()
+        prepared = None
+        prior_bytes = 0
+        combiner = self.combiner
+        if builtin and type(combiner) is not MeanCombiner:
+            prepared = PreparedRatings(self.W_as_array, self.allowable_labels)
+            combiner = copy.copy(combiner)
+            # ABC's explicit bound training matrix has always taken precedence
+            # over combine(W=...). Retain that public behavior for separate data.
+            if type(combiner) is AnonymousBayesianCombiner and combiner.W_np is not None:
+                training = combiner.W_np
+                prior = PreparedRatings(training, self.allowable_labels)
+                if np.array_equal(prior.codes, prepared.codes):
+                    prior = prepared
+                else:
+                    prior_bytes = prior.nbytes
+                combiner._prepare(training, self.allowable_labels, prior)
+            else:
+                combiner._prepare(self.W_as_array, self.allowable_labels, prepared)
+        width = len(self.allowable_labels) if type(combiner) in (AnonymousBayesianCombiner, FrequencyCombiner) else 1
+        score_width = 1 if self.anonymous_raters else len(ref_raters)
+        per_subset = max(1, len(self.W) * (width * 8 + 1 + (score_width * 9 if can_prepare else 0)))
+        budget = int(self.working_memory_mb * 1024 * 1024)
+        base_bytes = (prepared.nbytes if prepared is not None else 0) + prior_bytes
+        # Reserve half the available buffer budget for construction/scoring
+        # scratch. A single oversized subset uses disk-backed arrays.
+        block_size = max(1, (budget - base_bytes) // (2 * per_subset))
+        if not builtin or not builtin_scorer:
+            # Stateful custom combiners retain the historical row-major order.
+            block_size = len(subsets)
+        state = dict(W=self.W, samples=samples, scorer=self.scorer,
+                     anonymous=self.anonymous_raters, verbosity=self.verbosity,
+                     seed=self.random_state, curve_key=curve_key,
+                     custom_scorer=not builtin_scorer)
+        totals = [{k: [0, 0] for k in range(min_k, max_k + 1)} for _ in samples]
+        metrics = dict(ratings_preparation_seconds=time.perf_counter() - preparation_start,
+                       prediction_seconds=0.0, preparation_seconds=0.0, bootstrap_seconds=0.0,
+                       workers=workers, blocks=0, prepared_subsets=0, fallback_subsets=0,
+                       max_block_bytes=0, shared_array_bytes=0,
+                       prediction_cache_hits=0, prediction_cache_misses=0)
+        frequency_cache = {}
+        pool = None
+        if self.verbosity:
+            print(f"Computing {len(subsets)} rater subsets and {len(samples)} item samples ({workers} worker(s))")
+        with tempfile.TemporaryDirectory(prefix='surveyequivalence-') as directory:
             try:
-                run_results = list(pool.imap(compute_one_run, [dirpath] * len(self.item_samples), range(len(self.item_samples))))
-                pool.close()
-            except BaseException:
-                pool.terminate()
-                raise
+                if workers > 1:
+                    # Use a local context; importing the library never changes
+                    # the application's global multiprocessing start method.
+                    pool = multiprocess.get_context('spawn').Pool(workers, initializer=initialize_worker, initargs=(state,))
+                for offset in range(0, len(subsets), block_size):
+                    selected = subsets[offset:offset + block_size]
+                    block_dir = os.path.join(directory, str(offset))
+                    os.mkdir(block_dir)
+                    disk = workers > 1 or per_subset * len(selected) + base_bytes > budget // 2
+                    block = PredictionBlock(block_dir, selected, len(self.W), self.allowable_labels,
+                                            combiner, len(ref_raters), disk=disk,
+                                            prepared_scores=can_prepare, anonymous=self.anonymous_raters,
+                                            force_objects=not builtin or not builtin_scorer)
+                    started = time.perf_counter()
+                    try:
+                        for item_id, row in enumerate(self.W_as_array):
+                            for subset_id, (k, ordinal, rater_tup) in enumerate(selected):
+                                counts = None
+                                if prepared is not None:
+                                    counts = [0] * len(prepared.labels)
+                                    labels = []
+                                    for rater in rater_tup:
+                                        code = int(prepared.codes[item_id, rater_positions[rater]])
+                                        if code >= 0:
+                                            counts[code] += 1
+                                            labels.append((rater, prepared.labels[code]))
+                                else:
+                                    labels = [(rater, row[rater_positions[rater]]) for rater in rater_tup
+                                              if not is_missing(row[rater_positions[rater]], self.allowable_labels)]
+                                if builtin and type(combiner) is FrequencyCombiner:
+                                    key = tuple(counts)
+                                    if key in frequency_cache:
+                                        metrics['prediction_cache_hits'] += 1
+                                    else:
+                                        metrics['prediction_cache_misses'] += 1
+                                        frequency_cache[key] = combiner.combine(self.allowable_labels, labels, self.W_as_array, item_id)
+                                    prediction = frequency_cache[key]
+                                elif builtin and type(combiner) is AnonymousBayesianCombiner:
+                                    key = (prepared.labels, tuple(counts), item_id)
+                                    if key in combiner.combined:
+                                        metrics['prediction_cache_hits'] += 1
+                                        prediction = combiner.combined[key]
+                                    else:
+                                        metrics['prediction_cache_misses'] += 1
+                                        prediction = combiner.combine(self.allowable_labels, labels, self.W_as_array, item_id)
+                                elif builtin and type(combiner) is MeanCombiner:
+                                    metrics['prediction_cache_misses'] += 1
+                                    prediction = combiner.combine(self.allowable_labels, labels, self.W_as_array, item_id)
+                                else:
+                                    metrics['prediction_cache_misses'] += 1
+                                    with random_stream(self.random_state, 3, *curve_key, item_id, len(rater_tup), *rater_tup):
+                                        prediction = combiner.combine(self.allowable_labels, labels, self.W_as_array, item_id)
+                                block.put(subset_id, item_id, prediction)
+                        metrics['prediction_seconds'] += time.perf_counter() - started
+                        started = time.perf_counter()
+                        for subset_id, (_, _, rater_tup) in enumerate(selected):
+                            used = {raters[rater] for rater in rater_tup}
+                            unused = [rater for rater in ref_raters if rater not in used]
+                            block.ref_columns.append(unused)
+                            terms = None
+                            if can_prepare:
+                                terms = prepare_scores(self.scorer, block.predictions(subset_id, range(len(self.W))),
+                                                       self.W[unused], self.anonymous_raters)
+                            if terms is not None:
+                                values, valid, mode = terms
+                                if mode == 'anonymous':
+                                    block.scores[subset_id, :, 0] = values
+                                    block.score_valid[subset_id, :, 0] = valid
+                                else:
+                                    block.scores[subset_id, :, :len(unused)] = values
+                                    block.score_valid[subset_id, :, :len(unused)] = valid
+                                block.score_modes[subset_id] = mode
+                                metrics['prepared_subsets'] += 1
+                            else:
+                                metrics['fallback_subsets'] += 1
+                        metrics['preparation_seconds'] += time.perf_counter() - started
+                        block.seal()
+                        metrics['blocks'] += 1
+                        metrics['max_block_bytes'] = max(metrics['max_block_bytes'], per_subset * len(selected))
+                        if disk:
+                            metrics['shared_array_bytes'] += sum(os.path.getsize(path) for path in block.paths.values())
+                        started = time.perf_counter()
+                        if pool is None:
+                            results = (score_block(state, block, run_id) for run_id in range(len(samples)))
+                        else:
+                            descriptor = block.descriptor()
+                            results = pool.imap(worker_score, ((descriptor, run_id) for run_id in range(len(samples))))
+                        for run_id, scores in enumerate(results):
+                            for (k, _, _), score in zip(selected, scores):
+                                if score is not None and not pd.isna(score):
+                                    totals[run_id][k][0] += score
+                                    totals[run_id][k][1] += 1
+                        metrics['bootstrap_seconds'] += time.perf_counter() - started
+                    finally:
+                        block.close()
+                    del block
+                if pool is not None:
+                    pool.close()
+                    pool.join()
+                    pool = None
             finally:
-                pool.join()
-                pool.clear()
-
-        if self.verbosity > 1:
-            print(f"\n\t\trun_results={run_results}")
-        return PowerCurve(run_results)
+                if pool is not None:
+                    pool.terminate()
+                    pool.join()
+        if not hasattr(self, 'execution_stats'):
+            self.execution_stats = []
+        self.execution_stats.append(metrics)
+        runs = [{k: total / count if count else np.nan for k, (total, count) in row.items()} for row in totals]
+        return PowerCurve(df=pd.DataFrame(runs, dtype=float))
 
 
 class Plot:

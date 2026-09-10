@@ -1,0 +1,2581 @@
+{
+  "source": "/private/tmp/surveyequivalence-baseline/surveyequivalence/__init__.py",
+  "cases": {
+    "abc_cross_entropy": {
+      "classifier_scores": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42bp+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.33e3d0c9d1bcep+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42ap+0"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2e747e252e161p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.2d3af034e861ap-6"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.37de55a6d5592p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.250aa6a386d30p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.37de55a6d5592p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.250aa6a386d30p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.337b7763df106p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42ap+0"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_power_curve": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.ffc3884e047ebp-1"
+              },
+              {
+                "float_hex": "-0x1.fcf42f61e6b4dp-1"
+              },
+              {
+                "float_hex": "-0x1.fb66c2cc515d0p-1"
+              },
+              {
+                "float_hex": "-0x1.fdba9a30c69e5p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f936b94d0dbd9p-1"
+              },
+              {
+                "float_hex": "-0x1.f44b3e5db5276p-1"
+              },
+              {
+                "float_hex": "-0x1.ef97246c4307dp-1"
+              },
+              {
+                "float_hex": "-0x1.ef74eb069fe1bp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.ffc3884e047ecp-1"
+              },
+              {
+                "float_hex": "-0x1.fcf42f61e6b4bp-1"
+              },
+              {
+                "float_hex": "-0x1.fb66c2cc515d0p-1"
+              },
+              {
+                "float_hex": "-0x1.fdba9a30c69e5p-1"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.fd9498a30793bp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.fa11346080db0p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f776e356f7409p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f8f8b522b9b4cp-1"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.e40d8e2df0964p-8"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3ffce98c35a27p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.b46bf884ac834p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.07ae9417bc540p-6"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.0292676ddfab0p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.02088dd671441p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.028d218d8e525p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.04b9cf321abd0p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f604626a4fd15p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f0114d141f2dfp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.e9d38392d1dc7p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.e87dcbe13def8p-1"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.0292676ddfab0p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.02088dd671441p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.028d218d8e525p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.04b9cf321abd0p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f604626a4fd15p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f0114d141f2dfp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.e9d38392d1dc7p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.e87dcbe13def8p-1"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.ffc3884e047ecp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.fcf42f61e6b4dp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.fb66c2cc515d0p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.fdba9a30c69e5p-1"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f98a9073807a7p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f4ba1737846e7p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f02e52bddd58ep-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f02b9a2f21d18p-1"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_survey_equivalences": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        }
+      },
+      "performance_ratio": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "-0x1.f36ef25d1f890p+4"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.67936305b8d3ap+4"
+            }
+          ],
+          [
+            {
+              "float_hex": "-0x1.f36ef25d1f66ap+4"
+            }
+          ]
+        ]
+      }
+    },
+    "abc_agreement": {
+      "classifier_scores": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.999999999999bp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.82d82d82d82d9p-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.9999999999999p-2"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.9203cae759204p-2"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.a469e40cd1576p-7"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.77bd2ca68c0adp-2"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.ac4a69282635bp-2"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.77bd2ca68c0adp-2"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.ac4a69282635bp-2"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.83fb72ea61d96p-2"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.999999999999bp-2"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_power_curve": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              },
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              },
+              {
+                "float_hex": "0x1.38e38e38e38e3p-1"
+              },
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3333333333333p-1"
+              },
+              {
+                "float_hex": "0x1.05b05b05b05b0p-1"
+              },
+              {
+                "float_hex": "0x1.4444444444444p-1"
+              },
+              {
+                "float_hex": "0x1.0b60b60b60b61p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              },
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              },
+              {
+                "float_hex": "0x1.38e38e38e38e4p-1"
+              },
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.2b9d6480f2b9dp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.fc3518a6dfc35p-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3cae759203cafp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0000000000000p-1"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.a469e40cd1563p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a469e40cd1564p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a469e40cd1576p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3b4f6b099d01dp-6"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.1e7a15608c2f2p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.e1ee7a6612adfp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.2f8b26719d403p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.d896129ecc5fcp-2"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.38c0b3a159448p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0b3ddb73d66c6p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.49d1c4b26a55bp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.13b4f6b099d02p-1"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.1e7a15608c2f2p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.e1ee7a6612adfp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.2f8b26719d403p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.d896129ecc5fcp-2"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.38c0b3a159448p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0b3ddb73d66c6p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.49d1c4b26a55bp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.13b4f6b099d02p-1"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.38e38e38e38e3p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.f49f49f49f4a0p-2"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.32a1907f6e5d5p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.051eb851eb852p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.43b2a1907f6e6p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0a8641fdb9753p-1"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_survey_equivalences": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        }
+      },
+      "performance_ratio": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.ffffffffffffdp+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.3fffffffffffdp+1"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.0000000000001p+1"
+            }
+          ]
+        ]
+      }
+    },
+    "frequency_cross_entropy": {
+      "classifier_scores": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42bp+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.33e3d0c9d1bcep+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42ap+0"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2e747e252e161p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.2d3af034e861ap-6"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.37de55a6d5592p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.250aa6a386d30p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.37de55a6d5592p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.250aa6a386d30p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.337b7763df106p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.2bbcd4d2dc42ap+0"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_power_curve": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f706d7f04762ep-1"
+              },
+              {
+                "float_hex": "-0x1.92ffbdaa89882p+1"
+              },
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              },
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f1e0ce620c085p-1"
+              },
+              {
+                "float_hex": "-0x1.92ffbdaa89882p+1"
+              },
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              },
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.f706d7f04762ep-1"
+              },
+              {
+                "float_hex": "-0x1.92ffbdaa89882p+1"
+              },
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              },
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f54f7f6b88ef5p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89883p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.7c7c0eeb24d20p-8"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3988e1409212ep-51"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.fb416fa73582ap-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89885p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.ef5d8f2fdc5c0p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89881p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.fb416fa73582ap-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89885p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.ef5d8f2fdc5c0p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89881p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f706d7f04762ep-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89882p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "-0x1.f222b542c2334p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.92ffbdaa89882p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.1067416de5700p+1"
+              }
+            ],
+            [
+              {
+                "float_hex": "-0x1.a52e269cfce53p+0"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_survey_equivalences": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        }
+      },
+      "performance_ratio": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.643c08e0c28d3p-4"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.b175b0bde1a6ep-4"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.643c08e0c28cbp-4"
+            }
+          ]
+        ]
+      }
+    },
+    "frequency_agreement": {
+      "classifier_scores": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.999999999999bp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.82d82d82d82d9p-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.9999999999999p-2"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.9203cae759204p-2"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.a469e40cd1576p-7"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.77bd2ca68c0adp-2"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.ac4a69282635bp-2"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.77bd2ca68c0adp-2"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.ac4a69282635bp-2"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.83fb72ea61d96p-2"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.999999999999bp-2"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_power_curve": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              },
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              },
+              {
+                "float_hex": "0x1.0000000000000p-1"
+              },
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fap-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3333333333333p-1"
+              },
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              },
+              {
+                "float_hex": "0x1.0b60b60b60b62p-1"
+              },
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fap-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              },
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              },
+              {
+                "float_hex": "0x1.0000000000000p-1"
+              },
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fap-2"
+              }
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.2b9d6480f2b9dp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.03cae759203cbp-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fbp-2"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.a469e40cd1563p-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a469e40cd15adp-7"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.3988e1409212ep-54"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.1e7a15608c2f2p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.ed4f30717363bp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4f9p-2"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.38c0b3a159448p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.10ee367986c78p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fdp-2"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.1e7a15608c2f2p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.ed4f30717363bp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4f9p-2"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.38c0b3a159448p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.10ee367986c78p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fdp-2"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.27d27d27d27d3p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0000000000000p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fap-2"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x1.32a1907f6e5d5p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.c71c71c71c71dp-2"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.0acf13579be03p-1"
+              }
+            ],
+            [
+              {
+                "float_hex": "0x1.a4fa4fa4fa4fap-2"
+              }
+            ]
+          ]
+        }
+      },
+      "expert_survey_equivalences": {
+        "df": {
+          "index": [
+            0,
+            1,
+            2
+          ],
+          "columns": [
+            "classifier"
+          ],
+          "data": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "means": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "means"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "stds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "stds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "std_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "std_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_lower_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_lower_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        },
+        "empirical_upper_bounds": {
+          "index": [
+            "classifier"
+          ],
+          "columns": [
+            "empirical_upper_bounds"
+          ],
+          "data": [
+            [
+              {
+                "float_hex": "0x0.0p+0"
+              }
+            ]
+          ]
+        }
+      },
+      "performance_ratio": {
+        "index": [
+          0,
+          1,
+          2
+        ],
+        "columns": [
+          "classifier"
+        ],
+        "data": [
+          [
+            {
+              "float_hex": "0x1.5555555555553p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.6db6db6db6db7p+0"
+            }
+          ],
+          [
+            {
+              "float_hex": "0x1.5555555555557p+0"
+            }
+          ]
+        ]
+      }
+    }
+  }
+}

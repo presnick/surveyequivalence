@@ -13,6 +13,16 @@ from surveyequivalence import DiscreteDistributionOverStates, DiscreteState, \
 
 class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
+    def assert_valid_power_curve(self, pipeline, scorer):
+        values = pipeline.expert_power_curve.df.to_numpy(dtype=float)
+        self.assertEqual(values.shape, (3, 3))
+        self.assertTrue(np.isfinite(values).all())
+        if isinstance(scorer, CrossEntropyScore):
+            self.assertTrue((values <= 0).all())
+        else:
+            self.assertTrue(((values >= 0) & (values <= 1)).all())
+
+
     def test_leave_one_item_out(self):
         W = np.zeros((9, 15), dtype=str)
         W[0] = ['p', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
@@ -318,6 +328,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
                     p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
 
+                    self.assert_valid_power_curve(p, scorer)
+
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
                     results.columns = ['mean', 'std']
                     print("*****RESULTS*****")
@@ -344,6 +356,8 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
 
                     p = AnalysisPipeline(dataset, combiner=combiner, scorer=scorer,
                                          allowable_labels=['pos', 'neg'], num_bootstrap_item_samples=2, max_K=3)
+
+                    self.assert_valid_power_curve(p, scorer)
 
                     results = pd.concat([p.expert_power_curve.means, p.expert_power_curve.stds], axis=1)
                     results.columns = ['mean', 'std']
