@@ -1,0 +1,52 @@
+{
+  "revision": "b6a9846ff3da37c33496c3257ef1b5cbf3b8d92f",
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "checks": [
+    {
+      "name": "combiners",
+      "script": "tests/combiner_input_audit.py",
+      "exit_code": 1,
+      "elapsed_seconds": 1.282588,
+      "passed": false,
+      "report": "combiners.json"
+    },
+    {
+      "name": "scorers",
+      "script": "benchmarks/scorer_math_audit.py",
+      "exit_code": 1,
+      "elapsed_seconds": 1.3587162910000001,
+      "passed": false,
+      "report": "scorers.json"
+    },
+    {
+      "name": "statistics",
+      "script": "benchmarks/statistics_audit.py",
+      "exit_code": 1,
+      "elapsed_seconds": 1.294197,
+      "passed": false,
+      "report": "statistics.json"
+    },
+    {
+      "name": "execution",
+      "script": "benchmarks/execution_audit.py",
+      "exit_code": 1,
+      "elapsed_seconds": 1.8622431659999998,
+      "passed": false,
+      "report": "execution.json"
+    }
+  ],
+  "passed": false,
+  "numerical_source_sha256": {
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "0988ae4935224b2f98c11b947d5414eda82c4225495f227b808fc28e0fba7133",
+    "surveyequivalence/combiners.py": "c70b825116188b2aa63cd1bc99835e7a8aa52d9ff58b61568bae3cd4560143a3",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "b6e772cb4d1e09dbd20296108e7b752a9f417c399d6d7a927f609c39e1951766",
+    "surveyequivalence/scoring_functions.py": "e2ceededc4c95bba8fc8a689d9b1d86366face6081ee791c28ce52f4ebeaf790",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  },
+  "note": "Regression-suite success is separate from these independent diagnostics. Each FAIL needs resolution or an explicitly justified contract decision."
+}

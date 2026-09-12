@@ -1,0 +1,33 @@
+{
+  "input": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      ""
+    ]
+  ],
+  "findings": [
+    {
+      "combiner": "Frequency",
+      "expected": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "actual": null,
+      "passes": false
+    },
+    {
+      "combiner": "ABC",
+      "expected": [
+        0.25,
+        0.75
+      ],
+      "actual": "KeyError: '0'",
+      "passes": false
+    }
+  ],
+  "failed": 2
+}

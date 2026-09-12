@@ -110,12 +110,15 @@ See [performance and correctness details](docs/performance.md) and the
 [measured benchmark report](benchmarks/REPORT.md), including the independently
 justified leave-one-out test correction and exact-parity validation.
 
+An [independent mathematical audit](docs/correctness_audit.md) identified further
+unresolved scoring and result-handling errors. Its counterexample diagnostics
+are separate from the passing regression suite and document the proposed fixes.
+
 ## License
 This Project is MIT-licensed.
 
 Please send us e-mail or leave comments on github if have any questions.
 
 Copyright (c) 2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger 
-
 
 

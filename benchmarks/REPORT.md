@@ -4,6 +4,8 @@ Measured on September 10, 2026, on the local Apple M1 Pro, macOS 26.6.2 arm64, P
 
 The optimized implementation preserves exact results in the frozen historical/corrected fixtures and every measured comparison. It substantially reduces deterministic Agreement/CrossEntropy work. Sampled AUC and F1 remain approximately unchanged because their metric implementations and sampling budgets are retained.
 
+**Interpretation update:** the subsequent [mathematical audit](../docs/correctness_audit.md) found unresolved errors, including errors reproduced in the original scoring module. These timings and parity comparisons do not establish the mathematical validity of affected outputs. The audit records passing independent checks, failing counterexamples, and proposed corrections separately.
+
 ## Correctness baseline
 
 The untouched historical revision `a4bbe2e` ran all 18 original test methods: **17 passed and one failed**. `test_leave_one_item_out` expected `0.2002 ± 0.001`, but returned `0.19342359767891681`. Both the corrected reference and optimized implementation return that exact same value. Those baseline artifacts remain unchanged: [historical results](results/historical-tests.json) and [corrected results](results/corrected-tests.json).

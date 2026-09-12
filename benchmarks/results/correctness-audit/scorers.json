@@ -1,0 +1,333 @@
+{
+  "current_revision": "b6a9846ff3da37c33496c3257ef1b5cbf3b8d92f",
+  "numpy_version": "1.24.4",
+  "pandas_version": "2.0.3",
+  "current_cases": [
+    {
+      "name": "auc_perfect_binary_ranking",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 1.0,
+      "actual": 0.5,
+      "matches_reference": false,
+      "explanation": "All four positive-negative pairs rank correctly using P(pos). Maximum-class confidence loses direction.",
+      "current_source_lines": [
+        950
+      ]
+    },
+    {
+      "name": "soft_dmi_static_reordered_labels",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 0.15,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The label-aligned joint matrix is [[.4,.1],[.1,.4]], with determinant .16-.01=.15; per-item vocabulary ordering changes no probabilities.",
+      "current_source_lines": [
+        1186,
+        1230
+      ]
+    },
+    {
+      "name": "soft_dmi_anonymous_reordered_labels",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 0.15,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The label-aligned joint matrix is [[.4,.1],[.1,.4]], with determinant .16-.01=.15; per-item vocabulary ordering changes no probabilities.",
+      "current_source_lines": [
+        1186,
+        1230
+      ]
+    },
+    {
+      "name": "agreement_int64_factorial_overflow_21_raters",
+      "category": "implementation_bug",
+      "severity": "critical",
+      "expected": 0.6666666666666666,
+      "actual": -8.01560442293844,
+      "matches_reference": false,
+      "explanation": "A single reference draw matches 14 of 21 raters. Pandas NumPy-integer counts enter the factorial cache and overflow at 21!.",
+      "current_source_lines": [
+        47,
+        55,
+        65,
+        468,
+        500
+      ]
+    },
+    {
+      "name": "cross_entropy_after_agreement_cache_contamination",
+      "category": "implementation_bug",
+      "severity": "critical",
+      "expected": -0.9885947615540288,
+      "actual": 11.88627681480937,
+      "matches_reference": false,
+      "explanation": "The same valid cross-entropy call changes with previous Agreement calls because the shared factorial cache contains overflowed integers.",
+      "current_source_lines": [
+        45,
+        55,
+        65,
+        636
+      ]
+    },
+    {
+      "name": "cross_entropy_fresh_cache_control",
+      "category": "control",
+      "severity": "none",
+      "expected": -0.9885947615540288,
+      "actual": -0.9885947615540288,
+      "matches_reference": true,
+      "explanation": "A control: Python-integer factorials avoid the NumPy-integer overflow in this small example.",
+      "current_source_lines": [
+        636
+      ]
+    },
+    {
+      "name": "DMIScore_for_Hard_Classifier_expected_score_contract",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.125,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The four equiprobable complete reference vectors give scores [0.0, 0.25, 0.25, 0.0]; their arithmetic mean is 0.125. Current code instead returns abs(det(E[joint])).",
+      "current_source_lines": [
+        1042,
+        1043,
+        1189,
+        1191
+      ]
+    },
+    {
+      "name": "DMIScore_for_Soft_Classifier_expected_score_contract",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.075,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The four equiprobable complete reference vectors give scores [0.0, 0.15, 0.15, 0.0]; their arithmetic mean is 0.075. Current code instead returns abs(det(E[joint])).",
+      "current_source_lines": [
+        1042,
+        1043,
+        1189,
+        1191
+      ]
+    },
+    {
+      "name": "precision_anonymous_uses_different_averaging",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.5,
+      "actual": 1.0,
+      "matches_reference": false,
+      "explanation": "With one deterministic reference column, anonymous expected_score should equal score. Direct/default micro precision is 1/2; anonymous precision conditions only on the positive prediction and returns 1.",
+      "current_source_lines": [
+        754,
+        762,
+        770,
+        806
+      ]
+    },
+    {
+      "name": "multiclass_panel_replacement_policy",
+      "category": "panel_policy_contract",
+      "severity": "high",
+      "expected": 0.6666666666666666,
+      "actual": 0.5625,
+      "matches_reference": false,
+      "explanation": "Uniform three-rater subsets give P(a)=2/3. Exhausting the implemented with-replacement draws and ties gives 9/16. Actual sampler replacement flags: [True]. Binary closed forms instead use without-replacement subsets.",
+      "current_source_lines": [
+        161,
+        478,
+        479,
+        500,
+        614,
+        615
+      ]
+    },
+    {
+      "name": "correlation_anonymous_mean_unimplemented",
+      "category": "unsupported_declared_capability",
+      "severity": "medium",
+      "expected": 1.0,
+      "actual": {
+        "exception": "NotImplementedError",
+        "message": ""
+      },
+      "matches_reference": false,
+      "explanation": "The sole possible numeric reference vector equals the predictions, so Pearson correlation is 1. The default numeric mean combiner is not implemented by the anonymous sampling path.",
+      "current_source_lines": [
+        150,
+        165,
+        342,
+        367
+      ]
+    }
+  ],
+  "baseline_revision": "a4bbe2e",
+  "baseline_scope": "Historical scoring module loaded from git, using current compatible Prediction value classes.",
+  "baseline_cases": [
+    {
+      "name": "auc_perfect_binary_ranking",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 1.0,
+      "actual": 0.5,
+      "matches_reference": false,
+      "explanation": "All four positive-negative pairs rank correctly using P(pos). Maximum-class confidence loses direction.",
+      "current_source_lines": [
+        950
+      ]
+    },
+    {
+      "name": "soft_dmi_static_reordered_labels",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 0.15,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The label-aligned joint matrix is [[.4,.1],[.1,.4]], with determinant .16-.01=.15; per-item vocabulary ordering changes no probabilities.",
+      "current_source_lines": [
+        1186,
+        1230
+      ]
+    },
+    {
+      "name": "soft_dmi_anonymous_reordered_labels",
+      "category": "implementation_bug",
+      "severity": "high",
+      "expected": 0.15,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The label-aligned joint matrix is [[.4,.1],[.1,.4]], with determinant .16-.01=.15; per-item vocabulary ordering changes no probabilities.",
+      "current_source_lines": [
+        1186,
+        1230
+      ]
+    },
+    {
+      "name": "agreement_int64_factorial_overflow_21_raters",
+      "category": "implementation_bug",
+      "severity": "critical",
+      "expected": 0.6666666666666666,
+      "actual": -8.01560442293844,
+      "matches_reference": false,
+      "explanation": "A single reference draw matches 14 of 21 raters. Pandas NumPy-integer counts enter the factorial cache and overflow at 21!.",
+      "current_source_lines": [
+        47,
+        55,
+        65,
+        468,
+        500
+      ]
+    },
+    {
+      "name": "cross_entropy_after_agreement_cache_contamination",
+      "category": "implementation_bug",
+      "severity": "critical",
+      "expected": -0.9885947615540288,
+      "actual": 11.88627681480937,
+      "matches_reference": false,
+      "explanation": "The same valid cross-entropy call changes with previous Agreement calls because the shared factorial cache contains overflowed integers.",
+      "current_source_lines": [
+        45,
+        55,
+        65,
+        636
+      ]
+    },
+    {
+      "name": "cross_entropy_fresh_cache_control",
+      "category": "control",
+      "severity": "none",
+      "expected": -0.9885947615540288,
+      "actual": -0.9885947615540288,
+      "matches_reference": true,
+      "explanation": "A control: Python-integer factorials avoid the NumPy-integer overflow in this small example.",
+      "current_source_lines": [
+        636
+      ]
+    },
+    {
+      "name": "DMIScore_for_Hard_Classifier_expected_score_contract",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.125,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The four equiprobable complete reference vectors give scores [0.0, 0.25, 0.25, 0.0]; their arithmetic mean is 0.125. Current code instead returns abs(det(E[joint])).",
+      "current_source_lines": [
+        1042,
+        1043,
+        1189,
+        1191
+      ]
+    },
+    {
+      "name": "DMIScore_for_Soft_Classifier_expected_score_contract",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.075,
+      "actual": 0.0,
+      "matches_reference": false,
+      "explanation": "The four equiprobable complete reference vectors give scores [0.0, 0.15, 0.15, 0.0]; their arithmetic mean is 0.075. Current code instead returns abs(det(E[joint])).",
+      "current_source_lines": [
+        1042,
+        1043,
+        1189,
+        1191
+      ]
+    },
+    {
+      "name": "precision_anonymous_uses_different_averaging",
+      "category": "estimator_contract",
+      "severity": "high",
+      "expected": 0.5,
+      "actual": 1.0,
+      "matches_reference": false,
+      "explanation": "With one deterministic reference column, anonymous expected_score should equal score. Direct/default micro precision is 1/2; anonymous precision conditions only on the positive prediction and returns 1.",
+      "current_source_lines": [
+        754,
+        762,
+        770,
+        806
+      ]
+    },
+    {
+      "name": "multiclass_panel_replacement_policy",
+      "category": "panel_policy_contract",
+      "severity": "high",
+      "expected": 0.6666666666666666,
+      "actual": 0.5625,
+      "matches_reference": false,
+      "explanation": "Uniform three-rater subsets give P(a)=2/3. Exhausting the implemented with-replacement draws and ties gives 9/16. Actual sampler replacement flags: [True]. Binary closed forms instead use without-replacement subsets.",
+      "current_source_lines": [
+        161,
+        478,
+        479,
+        500,
+        614,
+        615
+      ]
+    },
+    {
+      "name": "correlation_anonymous_mean_unimplemented",
+      "category": "unsupported_declared_capability",
+      "severity": "medium",
+      "expected": 1.0,
+      "actual": {
+        "exception": "NotImplementedError",
+        "message": ""
+      },
+      "matches_reference": false,
+      "explanation": "The sole possible numeric reference vector equals the predictions, so Pearson correlation is 1. The default numeric mean combiner is not implemented by the anonymous sampling path.",
+      "current_source_lines": [
+        150,
+        165,
+        342,
+        367
+      ]
+    }
+  ]
+}

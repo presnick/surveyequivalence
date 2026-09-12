@@ -1,0 +1,39 @@
+{
+  "shape": [
+    500,
+    8
+  ],
+  "max_K": 4,
+  "max_rater_subsets": 30,
+  "seed": 1729,
+  "working_memory_mb": 0.01,
+  "budget_bytes": 10485,
+  "prepared_numeric_bytes": 32016,
+  "prediction_cache_entries": 4509,
+  "cache_graph_bytes": 2362730,
+  "first_block_close": {
+    "blocks": 1,
+    "bytes": 13512
+  },
+  "last_block_close": {
+    "blocks": 57,
+    "bytes": 770184
+  },
+  "execution": [
+    {
+      "ratings_preparation_seconds": 0.003461667000000057,
+      "prediction_seconds": 0.2570292509999985,
+      "preparation_seconds": 0.42345870699999955,
+      "bootstrap_seconds": 0.0018799569999985444,
+      "workers": 1,
+      "blocks": 57,
+      "prepared_subsets": 57,
+      "fallback_subsets": 0,
+      "max_block_bytes": 13000,
+      "shared_array_bytes": 770184,
+      "prediction_cache_hits": 23991,
+      "prediction_cache_misses": 4509
+    }
+  ],
+  "note": "Unique Python object sizes and temporary array files; neither is RSS. Cache retention is instrumented for observation. Caches are already retained throughout normal curve computation."
+}

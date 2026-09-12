@@ -1,0 +1,18 @@
+{
+  "revision": "b6a9846ff3da37c33496c3257ef1b5cbf3b8d92f",
+  "command": ".venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v",
+  "tests_run": 90,
+  "passed": 90,
+  "elapsed_seconds": 36.547,
+  "successful": true,
+  "failures": [],
+  "errors": [],
+  "exit_code": 0,
+  "scope": "Existing regression suite plus 17 independent oracle methods on supported domains. Known counterexamples are separate failing diagnostics; this result is not a mathematical clean bill of health.",
+  "log_sha256": "2e59275168eeac13b422e2d3abd4b22e1e3a56be84805dfd93d4adf8c3aa97fb",
+  "new_test_sha256": {
+    "tests/combiner_math_audit_tests.py": "4e447c233301795ace8d07f1264e5ff3cad7a84166a54641d59bda507e38c675",
+    "tests/scorer_math_audit_tests.py": "fd76e220d1914e0b24afcb60d4fd4472b78ebe4a74ed4c3bc4ca693f2572d87d",
+    "tests/statistics_math_audit_tests.py": "ce9f2c0555592554e4943f0e3b21871266412d2ceec9ec2744299e300e344933"
+  }
+}

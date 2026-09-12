@@ -2,6 +2,8 @@
 
 The CPU implementation prepares deterministic predictions and score contributions once, then reuses them across bootstrap samples. It supports rectangular item-by-rater matrices with uneven numbers of observed ratings. No GPU dependency is required.
 
+**Subsequent audit:** independent checks found unresolved numerical errors and estimator inconsistencies, including wide-panel factorial overflow, AUC direction, and soft-DMI label alignment. Exact historical parity and a passing regression suite do not establish correctness in those cases. See [the mathematical audit and proposed corrections](correctness_audit.md). Runtime repairs are still pending.
+
 ## Usage
 
 ```python
@@ -65,6 +67,8 @@ The fixture has six items with 5 positive/10 negative ratings and three with 3 p
 The stale expectations, `0.2002` and `0.2024`, match the implementation in historical commit `f6b8673`. Its holdout normalization used `9!` where `8!` was required, effectively subtracting only one ninth of the held-out contribution in this case. That historical behavior is not the intended leave-one-out calculation. The original baseline artifacts remain unchanged.
 
 After this test correction, **all 73 tests pass**. The full-suite run completed in 33.455 seconds; see [current validation](../benchmarks/results/leave-one-out-fixed-tests.json).
+
+The later mathematical audit added 17 independent-oracle methods, bringing that suite to **90 passing methods**. Separate counterexample diagnostics fail for the unresolved findings; both results are recorded in the [audit report](correctness_audit.md).
 
 ## Reproducing measurements
 
