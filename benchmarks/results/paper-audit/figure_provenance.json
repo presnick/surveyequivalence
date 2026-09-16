@@ -1,0 +1,22 @@
+{
+  "input_sha256": {
+    "mt_bayesian_power.csv": "a93267a62a08cc43de55dda661af7d7d83c5af0098240745b0164d82fb0d759d",
+    "mt_classifier_scores.csv": "cc94909389a48bcc86f7c86ea8b4e56f96ccf9cd700127240465a070f802729b",
+    "mt_equivalence_summary.json": "40733655af9df3cb30ef0cf12ebfea9e91ddb1570efb22cd2509c601022765cd",
+    "mt_data_audit.json": "1be98c4be506ff65b9227be741b4ee7db3e02657d878dcc2087ab5140b7bcfb0"
+  },
+  "source_script_sha256": "9a0a02ed3622541272b8bdf515351ad28d7adfd9911ed2a2c67e805b6650d166",
+  "actual_rater_equivalence": 0.9361702127659569,
+  "percentile_interval": [
+    0.6843948604586906,
+    1.7005050505050479
+  ],
+  "bootstrap_count": 500,
+  "censored_count": 1,
+  "actual_gpt4_minus_one_human": -0.013215859030837107,
+  "paired_difference_percentile_interval": [
+    -0.06970773278425997,
+    0.040135265700483355
+  ],
+  "note": "Replots frozen scores; no runtime fixes, new labels, calibration, or inference. Bootstrap-only quantiles."
+}

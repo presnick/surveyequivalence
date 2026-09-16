@@ -2,17 +2,20 @@
 
 Run September 16, 2026 in the existing pinned environment. The experiments use released human judgments and AI predictions; no new model inference or GPU was used. Raw data is cached outside version control. Dataset revisions, hashes, runtime-source hashes and seed are recorded in the [manifest](../benchmarks/results/arena-validation/manifest.json).
 
-**The supported experiments ran successfully. A multi-model human-equivalence leaderboard is still not identifiable from these releases alone.** Arena supports a comparison of many AI judges against one observed human vote per battle. MT-Bench supports an exploratory repeated-human comparison, but only one released AI judge, and its votes' independence from judge feedback is unresolved.
+**The supported experiments ran successfully. Positive human-panel equivalence for multiple Arena judges is still not identifiable from these releases alone.** Arena supports a comparison of many AI judges against one observed human vote per battle. MT-Bench supports an exploratory repeated-human comparison, but only one released AI judge, and its votes' independence from judge feedback is unresolved.
 
-**Graphs**
+**Paper-audit correction, September 16:** one vote per battle can identify **zero** empirical equivalence when the zero-human prior already beats the classifier. The new leave-one-out prior scores **−1.5836467 bits**, above all 16 verified judges' released, uncalibrated and clipped probability forecasts. Each therefore has empirical **log-score equivalence 0**, including all 500 paired bootstrap samples. This does not imply zero agreement or no information. Positive Agreement equivalence remains unmeasured. The historical JSON status strings used an overly broad “not identifiable” description; the [paper audit and updated figures](paper_conformance_audit.md#arena-a-correction-to-the-previous-conclusion) supersede that interpretation. Production code was not changed by the audit.
 
-![Arena judge comparison](../benchmarks/results/arena-validation/arena_judge_comparison.png)
+![Arena scores relative to the paper's zero-human benchmark](../benchmarks/results/paper-audit/arena_paper_scorecard.png)
 
-[Download Arena graph as PDF](../benchmarks/results/arena-validation/arena_judge_comparison.pdf).
+**Current graphs**
 
-![MT-Bench human-panel equivalence](../benchmarks/results/arena-validation/mt_human_equivalence.png)
+[Download the Arena graph as SVG](../benchmarks/results/paper-audit/arena_paper_scorecard.svg).
 
-[Download MT-Bench graph as PDF](../benchmarks/results/arena-validation/mt_human_equivalence.pdf).
+![MT-Bench human-panel equivalence](../benchmarks/results/paper-audit/rater_equivalence_paper_view.png)
+
+[Download the MT-Bench graph as SVG](../benchmarks/results/paper-audit/rater_equivalence_paper_view.svg).
+The older PNG/PDF graphs have been superseded by these paper-audit figures.
 
 **Arena: verified real-world agreement**
 
@@ -94,6 +97,6 @@ With the downloads already present:
 
 For a fresh download, create `.cache/arena-validation`, save the pinned AI dataset README from revision `638a7e3be3078e55d2eb0b789d34749747822c49` as `arena-judges-README.md`, run `arena_validation.py --download-config`, and use `curl -L --fail --config .cache/arena-validation/download.conf`. The generated source manifest lists every pinned file. MT-Bench's optional Parquet reader was installed separately using `.venv/bin/python -m pip install --no-deps --target .cache/arena-reader pyarrow==14.0.2`; the project dependency lock was unchanged.
 
-To finish the intended multi-model human-equivalence leaderboard, obtain multiple independent, blinded human votes on the same Arena battles as the AI predictions, or obtain multiple AI judges' probability predictions on a verified repeated-human cohort. Confirm vote provenance, then evaluate calibration on separate prompt groups and repeat the equivalence analysis. Remaining global audit repairs are a separate prerequisite for broader production use.
+To measure positive equivalences for the intended multi-model leaderboard, obtain multiple independent, blinded human votes on the same Arena battles as the AI predictions, or obtain multiple AI judges' probability predictions on a verified repeated-human cohort. Confirm vote provenance, then evaluate calibration on separate prompt groups and repeat the equivalence analysis. Remaining global audit repairs are a separate prerequisite for broader production use. The [paper-conformance audit](paper_conformance_audit.md) specifies the mathematical corrections and recommended leaderboard design.
 
 Sources: [Arena human release](https://huggingface.co/datasets/lmarena-ai/arena-human-preference-55k), [AI judge release](https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges), [MT-Bench judgments](https://huggingface.co/datasets/lmsys/mt_bench_human_judgments), [original paper](https://arxiv.org/html/2306.05685v4).

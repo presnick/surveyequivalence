@@ -513,77 +513,31 @@ def run_mt(args):
     return runs, audit, equivalences
 
 
-def plot_results(output, arena, arena_audit, runs, mt_audit, equivalences):
-    import matplotlib.pyplot as plt
-    plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 10, 'axes.spines.top': False,
-                         'axes.spines.right': False, 'savefig.facecolor': 'white'})
-    ranked = sorted(arena, key=lambda r: r['cross_entropy'])
-    fig, axes = plt.subplots(1, 2, figsize=(14, 8.5), sharey=True)
-    y = np.arange(len(ranked))
-    for ax, key, title, color in [(axes[0], 'cross_entropy', 'Uncalibrated verdict log score', '#156b8a'),
-                                   (axes[1], 'agreement', 'Three-way agreement', '#bc642a')]:
-        scale = 100 if key == 'agreement' else 1
-        for pos, row in enumerate(ranked):
-            ax.plot([row[key + '_low'] * scale, row[key + '_high'] * scale], [pos, pos], color=color, lw=2)
-        ax.scatter([r[key] * scale for r in ranked], y, color=color, s=35, zorder=3)
-        ax.set_title(title, loc='left', weight='bold')
-        ax.grid(axis='x', alpha=.18)
-        ax.set_xlabel('Mean log2 probability of human outcome (higher is better)' if key == 'cross_entropy' else 'Agreement with observed human vote (%)')
-    axes[0].set_yticks(y, [r['judge'] for r in ranked])
-    axes[0].axvline(-math.log2(3), linestyle=':', color='#777777', label='Uniform probabilities (1/3 each)')
-    axes[0].legend(loc='lower right', fontsize=8)
-    fig.suptitle('Arena: how well do AI judges predict human preferences?', x=.03, ha='left', fontsize=17, weight='bold')
-    fig.text(.03, .02, f'{arena_audit["matched_single_turn_rows"]:,} matched real battles · {len(arena)} verified judges · 95% intervals from {arena_audit["bootstrap_replicates"]} paired prompt-cluster bootstraps\n'
-             'Forward presentation; probabilities clipped at .02 and renormalized. One human vote per battle: human-panel equivalence is not identifiable.\n'
-             f'Excluded for a published-baseline mismatch: {", ".join(arena_audit["excluded_judges"])}. Hard agreement uses the released strict-winner/tie rule.', fontsize=9)
-    fig.tight_layout(rect=(.02, .10, .99, .94))
-    for ext in ['png', 'pdf']:
-        fig.savefig(output / f'arena_judge_comparison.{ext}', dpi=180)
-    plt.close(fig)
-    fig, axes = plt.subplots(1, 2, figsize=(13, 6.5), gridspec_kw={'width_ratios': [1.8, 1]})
-    colors = {'Bayesian': '#156b8a', 'Frequency': '#7b6394'}
-    same_curves = runs['Bayesian'].expert_power_curve.df.equals(runs['Frequency'].expert_power_curve.df)
-    for name, analysis in runs.items():
-        if name == 'Frequency' and same_curves:
-            continue
-        frame = analysis.expert_power_curve.df
-        low, high = np.quantile(frame.iloc[1:].to_numpy(), [.025, .975], axis=0)
-        x = np.asarray(frame.columns)
-        label = 'Human panel (Bayesian = Frequency)' if same_curves else f'Human {name.lower()} predictor'
-        axes[0].plot(x, frame.iloc[0], 'o-', color=colors[name], label=label)
-        axes[0].fill_between(x, low, high, color=colors[name], alpha=.12)
-    scores = runs['Bayesian'].classifier_scores.df.iloc[:, 0]
-    lo, hi = interval(scores.iloc[1:])
-    axes[0].axhspan(lo, hi, color='#bc642a', alpha=.12)
-    axes[0].axhline(scores.iloc[0], color='#bc642a', linestyle='--', label='Released GPT-4 judge')
-    axes[0].set(xlabel='Human judgments used to predict one held-out human', ylabel='Agreement', xticks=[0, 1, 2])
-    axes[0].set_title('Human-panel performance', loc='left', weight='bold')
-    axes[0].grid(alpha=.18)
-    axes[0].legend(loc='best', fontsize=9)
-    hist = mt_audit['expert_depth_histogram']
-    axes[1].bar(list(hist), list(hist.values()), color=['#156b8a' if int(k) >= 3 else '#bfc9ce' for k in hist])
-    axes[1].set(xlabel='Distinct external experts per matched item', ylabel='Number of items', xticks=list(hist))
-    axes[1].set_title('Available human coverage', loc='left', weight='bold')
-    result = equivalences['Bayesian']['actual']
-    description = f'{result["estimate"]:.2f} humans' if result['status'] == 'crossing' else f'{result["status"].replace("_", " ")} (bound {result["bound"]})'
-    eq_interval = equivalences['Bayesian']['interval']
-    if eq_interval is not None:
-        description += f' (95% interval {eq_interval[0]:.2f}–{eq_interval[1]:.2f})'
-    fig.suptitle('MT-Bench: exploratory human-panel equivalence', x=.05, ha='left', fontsize=17, weight='bold')
-    fig.text(.05, .045, f'{mt_audit["selected_items"]} exact items · 3 distinct experts per item · GPT-4 Bayesian-reference equivalence: {description}\n'
-             f'{len(scores)-1} question-cluster bootstrap replicates; hard judgments only. Released vote independence from GPT-4 feedback is unverified.\n'
-             'Frequency k=0 uses its full-data prior. This cohort and GPT-4 judge differ from the Arena comparison above.', fontsize=9)
-    fig.tight_layout(rect=(.02, .16, .99, .94))
-    for ext in ['png', 'pdf']:
-        fig.savefig(output / f'mt_human_equivalence.{ext}', dpi=180)
-    plt.close(fig)
+def plot_results(output, cache):
+    """Render the current paper-audit figures through the single plot implementation."""
+    from paper_arena_baseline import main as build_baseline
+    from plot_paper_equivalence import main as render
+    output = Path(output).resolve()
+    figures = (ROOT / 'benchmarks/results/paper-audit'
+               if output == ROOT / 'benchmarks/results/arena-validation'
+               else output / 'figures')
+    prior = figures / 'arena_zero_boundary.json'
+    current = False
+    if prior.exists():
+        record = json.loads(prior.read_text())
+        current = all(digest(output / name) == value
+                      for name, value in record.get('input_hashes', {}).items())
+        current = current and bool(record.get('input_hashes'))
+    if not current:
+        build_baseline(source=output, cache=cache, output=figures)
+    render(source=output, output=figures)
+    print(f'Current graphs saved to {figures}', flush=True)
 
 
 def run_validation(args):
     started = time.perf_counter()
     arena, arena_audit = run_arena(args)
     runs, mt_audit, equivalences = run_mt(args)
-    plot_results(args.output, arena, arena_audit, runs, mt_audit, equivalences)
     sources = json.loads((args.cache / 'sources.json').read_text())
     for source in sources:
         source['sha256'] = digest(args.cache / source['local'])
@@ -594,34 +548,13 @@ def run_validation(args):
                source_sha256={str(p.relative_to(ROOT)): digest(p) for p in [Path(__file__), *sorted((ROOT / 'surveyequivalence').glob('*.py'))]},
                elapsed_seconds=time.perf_counter() - started,
                result_status='Arena agreement validation and exploratory MT-Bench equivalence; full mathematical audit not certified'))
-    print(f'Results and graphs saved to {args.output}', flush=True)
+    plot_results(args.output, args.cache)
+    print(f'Results saved to {args.output}', flush=True)
 
 
 def replot(args):
-    """Re-render saved numerical results without repeating the experiments."""
-    from types import SimpleNamespace
-    arena = json.loads((args.output / 'arena_results.json').read_text())
-    arena_audit = json.loads((args.output / 'arena_data_audit.json').read_text())
-    arena_audit['bootstrap_replicates'] = len(pd.read_csv(args.output / 'arena_bootstraps.csv'))
-    checks = json.loads((args.output / 'baseline_reproduction.json').read_text())
-    arena_audit['excluded_judges'] = [r['judge'] for r in checks if not r['passed']]
-    mt_audit = json.loads((args.output / 'mt_data_audit.json').read_text())
-    scores = pd.read_csv(args.output / 'mt_classifier_scores.csv', index_col=0, float_precision='round_trip')
-    runs, summaries = {}, {}
-    for name in ['Bayesian', 'Frequency']:
-        frame = pd.read_csv(args.output / f'mt_{name.lower()}_power.csv', index_col=0, float_precision='round_trip')
-        frame.columns = frame.columns.astype(int)
-        runs[name] = SimpleNamespace(expert_power_curve=SimpleNamespace(df=frame), classifier_scores=SimpleNamespace(df=scores))
-        entries = [supported_equivalence(float(scores.iloc[i, 0]), frame.iloc[i].to_dict()) for i in range(len(frame))]
-        summaries[name] = equivalence_summary(entries)
-    write_json(args.output / 'arena_data_audit.json', arena_audit)
-    write_json(args.output / 'mt_equivalence_summary.json', summaries)
-    plot_results(args.output, arena, arena_audit, runs, mt_audit, summaries)
-    manifest_path = args.output / 'manifest.json'
-    manifest = json.loads(manifest_path.read_text())
-    manifest['reporting_source_sha256'] = digest(__file__)
-    manifest['reporting_note'] = 'Graphs and censored percentile summaries re-rendered from round-trip saved score cells; original run source digest retained.'
-    write_json(manifest_path, manifest)
+    """Re-render the latest figures without rewriting saved numerical results."""
+    plot_results(args.output, args.cache)
 
 
 def main():

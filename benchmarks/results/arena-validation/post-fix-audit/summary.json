@@ -8,7 +8,9 @@
       "exit_code": 1,
       "elapsed_seconds": 1.641792792,
       "passed": false,
-      "report": "combiners.json"
+      "report": "../../shared-audit-evidence/combiners-e7e65decc397.json",
+      "report_sha256": "e7e65decc3971181a163ca9244b6bc18916f45bb51f6f8d841efa1267f09183d",
+      "storage_note": "Immutable shared evidence; original run metadata retained. Latest audit output may be regenerated independently."
     },
     {
       "name": "scorers",
@@ -24,7 +26,9 @@
       "exit_code": 1,
       "elapsed_seconds": 1.3896265419999998,
       "passed": false,
-      "report": "statistics.json"
+      "report": "../../shared-audit-evidence/statistics-841aaa2d944c.json",
+      "report_sha256": "841aaa2d944c17308a2903aaf3af671b49752256cb6fbc5e9dceb41d8e1d9d93",
+      "storage_note": "Immutable shared evidence; original run metadata retained. Latest audit output may be regenerated independently."
     },
     {
       "name": "execution",
@@ -32,7 +36,9 @@
       "exit_code": 1,
       "elapsed_seconds": 2.0377804170000005,
       "passed": false,
-      "report": "execution.json"
+      "report": "../../shared-audit-evidence/execution-d2079506ed1a.json",
+      "report_sha256": "d2079506ed1ae598140c4f4f28a06023ca2d5af721df91beee11cda342df3f2f",
+      "storage_note": "Immutable shared evidence; original run metadata retained. Latest audit output may be regenerated independently."
     }
   ],
   "passed": false,

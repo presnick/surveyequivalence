@@ -1,0 +1,223 @@
+{
+  "revision": "39c80fc62862181050475787bacb0ad829d986f1",
+  "paper": {
+    "arxiv": "2106.01254v3",
+    "date": "2026-04-22",
+    "pages": 60,
+    "sha256": "9e8ef1828a914882a497521e0768ad61f169dc817478166fe1d57526935568f3"
+  },
+  "cases": [
+    {
+      "name": "paper_worked_ordered_sequence",
+      "expected": 0.027777777777777776,
+      "actual": 0.027777777777777776,
+      "conforms": true,
+      "paper": "p45 worked example; Algorithm 1 p46",
+      "code": "combiners.py:501",
+      "category": "control",
+      "note": "420 matching ordered draws / 15120 distinct-position draws; eligible=1"
+    },
+    {
+      "name": "leave_one_out_interior_posterior",
+      "expected": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "actual": [
+        0.3333333333333333,
+        0.6666666666666667
+      ],
+      "conforms": true,
+      "paper": "Algorithm 2 p46",
+      "code": "combiners.py:405-423,466-479",
+      "category": "control",
+      "note": "Remaining rows have prefix mass 1/2 and aa mass 1/6; ratio=1/3."
+    },
+    {
+      "name": "abc_posterior_clipped_even_with_full_support",
+      "expected": [
+        0.99,
+        0.01
+      ],
+      "actual": [
+        0.98,
+        0.02
+      ],
+      "conforms": false,
+      "paper": "Algorithm 2 p46; Claims 24-25 p24",
+      "code": "combiners.py:64-82,423",
+      "category": "deviation",
+      "note": "Repeating this row distribution indefinitely does not remove the fixed .02 distortion."
+    },
+    {
+      "name": "prediction_object_changes_valid_distribution",
+      "expected": [
+        0.99,
+        0.01
+      ],
+      "actual": [
+        0.98,
+        0.02
+      ],
+      "conforms": false,
+      "paper": "Classifier definition p12",
+      "code": "combiners.py:64-82",
+      "category": "deviation",
+      "note": "Explicit regularization is permissible as a different predictor, but is not the raw input."
+    },
+    {
+      "name": "frequency_combiner_is_regularized",
+      "expected": [
+        1.0,
+        0.0
+      ],
+      "actual": [
+        0.98,
+        0.02
+      ],
+      "conforms": false,
+      "paper": "Frequency combiner \u00a75.1 p17",
+      "code": "combiners.py:343",
+      "category": "deviation",
+      "note": ""
+    },
+    {
+      "name": "disjoint_training_matrix_wrong_holdout",
+      "expected": [
+        0.5,
+        0.5
+      ],
+      "actual": [
+        0.02,
+        0.98
+      ],
+      "conforms": false,
+      "paper": "Algorithm 2 redacts the CURRENT item, p46",
+      "code": "equivalence.py:928-935,1009",
+      "category": "deviation",
+      "note": "No training item matches this evaluation item; positional holdout removes train-a anyway. This input mode extends the paper."
+    },
+    {
+      "name": "pipeline_disjoint_training_position_out_of_bounds",
+      "expected": "completed",
+      "actual": "item_id must be a row position in the rating matrix",
+      "conforms": false,
+      "paper": "Algorithm 2 p46: redact only the current training item",
+      "code": "equivalence.py:928-935,1009",
+      "category": "deviation",
+      "note": "Three evaluation items, two separate training items: the third evaluation position is not a training identity."
+    },
+    {
+      "name": "earliest_equal_crossing",
+      "expected": 1.0,
+      "actual": 2.0,
+      "conforms": false,
+      "paper": "Definitions 9/17 pp18/21",
+      "code": "equivalence.py:328-338",
+      "category": "deviation",
+      "note": ""
+    },
+    {
+      "name": "empirical_range_is_a_bound",
+      "expected": "at least 3",
+      "actual": 3,
+      "conforms": false,
+      "paper": "Remark 18 p21",
+      "code": "equivalence.py:331",
+      "category": "deviation",
+      "note": "The numerical endpoint alone discards censoring; a bound needs a status in addition to its value."
+    },
+    {
+      "name": "arena_helper_below_zero_baseline",
+      "expected": {
+        "status": "crossing",
+        "estimate": 0.0,
+        "bound": null
+      },
+      "actual": {
+        "status": "below_range",
+        "estimate": null,
+        "bound": 0.0
+      },
+      "conforms": false,
+      "paper": "Definition 9: minimum x is zero, p18",
+      "code": "benchmarks/arena_validation.py:146",
+      "category": "deviation",
+      "note": "The Arena reporting helper incorrectly treats this identifiable zero as lower censoring. Existing MT result is not in this case."
+    },
+    {
+      "name": "shared_evaluation_partition",
+      "expected": 0.0,
+      "actual": 0.3333333333333333,
+      "conforms": false,
+      "paper": "Definition 16 p21; shared-panel requirement p29",
+      "code": "equivalence.py:793,803,1021-1027",
+      "category": "deviation",
+      "note": "Human predictor and AI both always predict a. Benchmark is scored on r1/r2 (0); AI also sees r0 (1/3)."
+    },
+    {
+      "name": "subset_budget_lost_after_replacement",
+      "expected": 4,
+      "actual": 3,
+      "conforms": false,
+      "paper": "Definition 13 p20",
+      "code": "equivalence.py:827-846",
+      "category": "deviation",
+      "note": "{\"seed\": 0, \"subsets\": [[0, 3], [1, 2], [2, 3]], \"unique\": 3}"
+    },
+    {
+      "name": "ordered_tuples_duplicate_unordered_subsets",
+      "expected": 3,
+      "actual": 2,
+      "conforms": false,
+      "paper": "Definition 13 p20",
+      "code": "equivalence.py:827-846",
+      "category": "deviation",
+      "note": "{\"seed\": 2, \"subsets\": [[0, 3, 4], [5, 4, 2], [4, 2, 5]], \"unique\": 2}"
+    },
+    {
+      "name": "sparse_item_vs_column_weighting",
+      "expected": 0.5,
+      "actual": 0.8333333333333334,
+      "conforms": false,
+      "paper": "IID uniform items pp12,47; paper assumes fixed rating depth",
+      "code": "scoring_functions.py:197-229",
+      "category": "extension",
+      "note": "Anonymous item-weighted score is .5; default averages column scores (.5+1+1)/3. Neither sparse policy is specified in the paper."
+    }
+  ],
+  "passed": 2,
+  "failed": 12,
+  "paper_errata": {
+    "claim12": "p19 inequality is reversed relative to Def9, Claim11, and its own proof.",
+    "calibration": {
+      "note": "E[Y|prediction]=prediction is weaker than E[Y|all inputs].",
+      "constant_calibrated_log_score": -1.0,
+      "posterior_log_score": -0.4689955935892812
+    },
+    "squared_error": {
+      "note": "p28 claim of linearity in evaluation label is false.",
+      "prediction": 0.5,
+      "labels": [
+        0,
+        1
+      ],
+      "loss_against_mean": 0.0,
+      "mean_loss": 0.25
+    }
+  },
+  "audit_script_sha256": "be29d0d47999eed6d359d02f63652b12a76580b3cdbf2d72ee9bbc7e1692c8d6",
+  "numerical_source_sha256": {
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "0988ae4935224b2f98c11b947d5414eda82c4225495f227b808fc28e0fba7133",
+    "surveyequivalence/combiners.py": "c70b825116188b2aa63cd1bc99835e7a8aa52d9ff58b61568bae3cd4560143a3",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "b6e772cb4d1e09dbd20296108e7b752a9f417c399d6d7a927f609c39e1951766",
+    "surveyequivalence/scoring_functions.py": "f7ea6cb740f4f85c405aea27093574d6164a8e093aa40b4c5110d13ccb150407",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  },
+  "comparison_note": "2e-15 only for independent arithmetic; historical exact-parity fixtures unchanged."
+}

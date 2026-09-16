@@ -2,6 +2,8 @@
 
 Audit completed September 12, 2026 against runtime revision `b6a9846`, in the existing pinned environment. Production numerical code was not changed during this audit.
 
+**Paper-specific follow-up, September 16:** [the audit against the supplied April 2026 paper](paper_conformance_audit.md) maps definitions and Algorithms 1–2 to the implementation, reproduces additional deviations involving clipping, partitions and external-training holdout, and corrects the Arena zero-equivalence interpretation. It includes updated figures and a repair sequence. Runtime revision `39c80fc` still passes 103 regression methods while independent diagnostics fail.
+
 **September 16 follow-up:** the real-data validation fixed finding 1's NumPy factorial overflow/cache contamination, with four independently failing-then-passing regression cases. The wider audit still has unresolved failures. The Arena/MT-Bench experiment uses separately tested reporting helpers for crossing/censoring and intervals; it does not repair every legacy statistics path. See [real-data results and graphs](arena_validation_results.md) and the [post-fix diagnostics](../benchmarks/results/arena-validation/post-fix-audit/summary.json). The findings below preserve the original audit evidence.
 
 **The implementation cannot currently be certified mathematically correct across its advertised inputs.** Independent counterexamples expose incorrect scores, inconsistent estimator definitions, misleading derived results, and reproducibility/identity gaps. Exact parity with historical code preserved some of these pre-existing defects.
@@ -120,7 +122,7 @@ A zero reference information gain makes the ratio denominator zero; a positive c
 
 The confidence summaries also include the original full-data row among bootstrap replicates, and select percentile bounds using total row count rather than valid count per column. These are legacy statistical conventions, not changes introduced by optimization. Separate the point estimate from bootstrap replicates, document interval assumptions, and assess coverage before changing them. With many missing cells, 200 table rows need not mean 200 usable bootstrap estimates.
 
-[Reproducible statistics and plotted-interval findings](../benchmarks/results/correctness-audit/statistics.json). The ratio-domain and bootstrap-coverage recommendations are source-reviewed limitations rather than conclusions from a coverage simulation.
+[Reproducible statistics and plotted-interval findings](../benchmarks/results/shared-audit-evidence/statistics-841aaa2d944c.json). The ratio-domain and bootstrap-coverage recommendations are source-reviewed limitations rather than conclusions from a coverage simulation.
 
 ## Inputs, snapshots, reproducibility, and persistence
 
@@ -128,7 +130,7 @@ The confidence summaries also include the original full-data row among bootstrap
 
 `_data.py:29` uses `np.asarray` without preserving heterogeneous scalar types. Input `[[0,1],[1,'']]` becomes string-valued, although the declared vocabulary is `[0,1]`. Frequency returns `None` instead of `[1/3,2/3]`; ABC raises `KeyError('0')` instead of `[.25,.75]`. Typed object arrays and DataFrames avoid this particular conversion.
 
-Preserve object-valued labels during raw-list normalization and validate vocabulary membership consistently. Include zero, empty padding, declared empty labels, and mixed numeric/categorical input cases. [Input evidence](../benchmarks/results/correctness-audit/combiners.json).
+Preserve object-valued labels during raw-list normalization and validate vocabulary membership consistently. Include zero, empty padding, declared empty labels, and mixed numeric/categorical input cases. [Input evidence](../benchmarks/results/shared-audit-evidence/combiners-e7e65decc397.json).
 
 ### 13. Reruns can misalign classifier rows; prediction snapshots are shallow
 
@@ -136,7 +138,7 @@ Constructor alignment does not repeat in `run()`. Reversing `pipeline.W` and rer
 
 Furthermore, DataFrame copying does not copy the prediction objects inside it. Mutating an external prediction's probability list after pipeline construction changes the pipeline's purported snapshot.
 
-Revalidate and align all identifiers at every new analysis snapshot. Snapshot built-in prediction values into immutable storage; define a copy/snapshot protocol for custom predictions. [Execution evidence](../benchmarks/results/correctness-audit/execution.json).
+Revalidate and align all identifiers at every new analysis snapshot. Snapshot built-in prediction values into immutable storage; define a copy/snapshot protocol for custom predictions. [Execution evidence](../benchmarks/results/shared-audit-evidence/execution-d2079506ed1a.json).
 
 ### 14. Global RNG reproducibility changes with blocking and dispatch
 
@@ -150,7 +152,7 @@ This is a realization/reproducibility issue, not proof that the random-draw dist
 
 A classifier named with integer `17` returns as string `'17'` in loaded score/equivalence/ratio table columns, while its input prediction column retains integer `17`. Floating-point round-trip precision is preserved in tested saves; typed output identifiers are not.
 
-Persist typed result schemas or typed result frames and retain legacy CSV loading. Extend save/load checks to integer, string, and mixed identifiers plus derived-table joins. [Execution evidence](../benchmarks/results/correctness-audit/execution.json).
+Persist typed result schemas or typed result frames and retain legacy CSV loading. Extend save/load checks to integer, string, and mixed identifiers plus derived-table joins. [Execution evidence](../benchmarks/results/shared-audit-evidence/execution-d2079506ed1a.json).
 
 ## Performance and resource improvements
 

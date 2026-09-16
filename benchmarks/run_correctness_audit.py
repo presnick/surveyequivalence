@@ -16,7 +16,7 @@ import time
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output-dir', type=Path, default=Path('benchmarks/results/correctness-audit'))
+    parser.add_argument('--output-dir', type=Path, default=Path('benchmarks/results/paper-audit/legacy-diagnostics'))
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
     directory = args.output_dir.resolve()

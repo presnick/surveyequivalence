@@ -1,0 +1,298 @@
+{
+  "paper_reference": "Definition 17 and Remark 18, p21",
+  "items": 49938,
+  "human_votes_per_item": 1,
+  "seed": 1729,
+  "sample_schedule_sha256": "9774025c568a8d211a53b2939fa8af1d71b61fd02f4e6c41b15a859f846426a8",
+  "zero_human_log_score": -1.5836466987511975,
+  "zero_human_agreement": 0.3466698706395931,
+  "prior_vectors_by_held_out_label": [
+    [
+      0.34665678755231594,
+      0.34012856198810504,
+      0.3132146504595791
+    ],
+    [
+      0.346676812784108,
+      0.340108536756313,
+      0.3132146504595791
+    ],
+    [
+      0.346676812784108,
+      0.34012856198810504,
+      0.313194625227787
+    ]
+  ],
+  "raw_prior_vectors_by_held_out_label": [
+    [
+      0.34665678755231594,
+      0.34012856198810504,
+      0.3132146504595791
+    ],
+    [
+      0.346676812784108,
+      0.340108536756313,
+      0.3132146504595791
+    ],
+    [
+      0.346676812784108,
+      0.34012856198810504,
+      0.313194625227787
+    ]
+  ],
+  "zero_human_score_interval": [
+    -1.5842636962090875,
+    -1.5830637378818886
+  ],
+  "judges": [
+    {
+      "judge": "dolphin-2.1-mistral-7b",
+      "log_score": -1.833434341437951,
+      "information_gain_vs_loo_prior_bits": -0.24978764268675357,
+      "paired_gain_interval": [
+        -0.2600357236127826,
+        -0.24110126834368548
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -1.8392127286334128,
+      "rows_affected_by_clipping": 1007
+    },
+    {
+      "judge": "StableBeluga-7B",
+      "log_score": -2.5075550203766492,
+      "information_gain_vs_loo_prior_bits": -0.9239083216254518,
+      "paired_gain_interval": [
+        -0.9419944021874813,
+        -0.9067702412454088
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.64802784970177,
+      "rows_affected_by_clipping": 23023
+    },
+    {
+      "judge": "Meta-Llama-3-8B",
+      "log_score": -1.6357273673691681,
+      "information_gain_vs_loo_prior_bits": -0.05208066861797067,
+      "paired_gain_interval": [
+        -0.0570494021316252,
+        -0.04714542664418945
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -1.6357273673691681,
+      "rows_affected_by_clipping": 0
+    },
+    {
+      "judge": "Mistral-7B-Instruct-v0.1",
+      "log_score": -2.2964455330156626,
+      "information_gain_vs_loo_prior_bits": -0.7127988342644651,
+      "paired_gain_interval": [
+        -0.730037339757706,
+        -0.6937143931403225
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.477528785547816,
+      "rows_affected_by_clipping": 27870
+    },
+    {
+      "judge": "Mistral-7B-Instruct-v0.2",
+      "log_score": -3.241968104991745,
+      "information_gain_vs_loo_prior_bits": -1.6583214062405476,
+      "paired_gain_interval": [
+        -1.6817233049705733,
+        -1.6338844133766988
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -12.150231451707551,
+      "rows_affected_by_clipping": 49770
+    },
+    {
+      "judge": "zephyr-7b-beta",
+      "log_score": -3.03197159048004,
+      "information_gain_vs_loo_prior_bits": -1.4483248917288425,
+      "paired_gain_interval": [
+        -1.4737866325811262,
+        -1.4256671023281609
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -6.383540761692303,
+      "rows_affected_by_clipping": 45982
+    },
+    {
+      "judge": "Mistral-7B-OpenOrca",
+      "log_score": -2.3333955388615557,
+      "information_gain_vs_loo_prior_bits": -0.7497488401103583,
+      "paired_gain_interval": [
+        -0.769785369486587,
+        -0.7295029772492934
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.6246049310097592,
+      "rows_affected_by_clipping": 34842
+    },
+    {
+      "judge": "Meta-Llama-3-8B-Instruct",
+      "log_score": -2.53588467071339,
+      "information_gain_vs_loo_prior_bits": -0.9522379719621925,
+      "paired_gain_interval": [
+        -0.9733682635473099,
+        -0.9285003301000393
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -4.16992428030093,
+      "rows_affected_by_clipping": 46883
+    },
+    {
+      "judge": "OpenHermes-2-Mistral-7B",
+      "log_score": -2.271005775661374,
+      "information_gain_vs_loo_prior_bits": -0.6873590769101765,
+      "paired_gain_interval": [
+        -0.7066520222161571,
+        -0.6677763408726185
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.462509189877778,
+      "rows_affected_by_clipping": 28973
+    },
+    {
+      "judge": "OpenHermes-2.5-Mistral-7B",
+      "log_score": -2.639629607444528,
+      "information_gain_vs_loo_prior_bits": -1.0559829086933303,
+      "paired_gain_interval": [
+        -1.0781316543900392,
+        -1.0314405688465853
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -3.5149873795821427,
+      "rows_affected_by_clipping": 42770
+    },
+    {
+      "judge": "Meta-Llama-3-70B-Instruct",
+      "log_score": -2.6556940909158264,
+      "information_gain_vs_loo_prior_bits": -1.072047392164629,
+      "paired_gain_interval": [
+        -1.0969371616200108,
+        -1.050405278463855
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -9.729267371629469,
+      "rows_affected_by_clipping": 48787
+    },
+    {
+      "judge": "Mixtral-8x7B-Instruct-v0.1",
+      "log_score": -2.987214008254357,
+      "information_gain_vs_loo_prior_bits": -1.4035673095031596,
+      "paired_gain_interval": [
+        -1.427537741009031,
+        -1.376664246098312
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -14.961231222826076,
+      "rows_affected_by_clipping": 49845
+    },
+    {
+      "judge": "Qwen2-72B-Instruct",
+      "log_score": -2.414482735837135,
+      "information_gain_vs_loo_prior_bits": -0.8308360370859373,
+      "paired_gain_interval": [
+        -0.8522416202614717,
+        -0.8082713753518024
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -4.9173764193795355,
+      "rows_affected_by_clipping": 45060
+    },
+    {
+      "judge": "Hermes-3-Llama-3.1-70B",
+      "log_score": -2.2653840861014176,
+      "information_gain_vs_loo_prior_bits": -0.6817373873502202,
+      "paired_gain_interval": [
+        -0.702148533567825,
+        -0.6609231803289117
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.615251107602537,
+      "rows_affected_by_clipping": 30339
+    },
+    {
+      "judge": "Athene-70B",
+      "log_score": -2.776150136953502,
+      "information_gain_vs_loo_prior_bits": -1.1925034382023048,
+      "paired_gain_interval": [
+        -1.2168335532022383,
+        -1.1681780738757912
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -11.837311664721703,
+      "rows_affected_by_clipping": 49288
+    },
+    {
+      "judge": "dolphin-2.5-mixtral-8x7b",
+      "log_score": -2.0928656583697913,
+      "information_gain_vs_loo_prior_bits": -0.5092189596185939,
+      "paired_gain_interval": [
+        -0.5233038967576481,
+        -0.49570901067654
+      ],
+      "empirical_equivalence": 0.0,
+      "status": "zero_at_baseline",
+      "bootstrap_zero_count": 500,
+      "bootstrap_total": 500,
+      "raw_softmax_log_score": -2.1016201341715246,
+      "rows_affected_by_clipping": 3222
+    }
+  ],
+  "interpretation": "All estimates refer to the released uncalibrated, clipped verdict probabilities on this cohort. Zero equivalence is identifiable; positive equivalence is not identified with one rating. It does not mean absence of information or zero hard-decision agreement.",
+  "original_files_note": "Historical Arena result files retain their original blanket not-identifiable status; this report supersedes that statement for the zero boundary.",
+  "input_hashes": {
+    "manifest.json": "cb4cd726eef87941e6ec98340ed0c27753ae997304f669d411169f96e15f8b20",
+    "arena_items.csv": "4c539aa951a2d109358c4bac55deb2d683335ac7eedbc1c0802f0bb3b779deac",
+    "arena_results.json": "69cb8ff949c38d26a4ad306ddfebdce2f6508227f830e5b4b1cd72c4569b8b98",
+    "arena_bootstraps.csv": "ea0edf16cc67b4afbeb0a36fd0e0c327fc47a092d99a25909cf700791d2edc9a"
+  },
+  "script_sha256": "dec97e9f6abc2006096bd2e4041d4b96a1224032ab836b4cbdc11243bc52d4ec"
+}

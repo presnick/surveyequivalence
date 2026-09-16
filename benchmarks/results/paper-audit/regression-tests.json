@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 40.847154958,
+  "command": ".venv/bin/python -m unittest discover -s tests -p \"*_tests.py\" -v"
+}

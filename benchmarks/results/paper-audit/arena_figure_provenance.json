@@ -1,0 +1,7 @@
+{
+  "input_sha256": {
+    "/Users/brianrabideau/surveyequivalence/benchmarks/results/paper-audit/arena_zero_boundary.json": "4aa0f207e5edd42a3aac650f07504d59c4f7b903bf6443328cb3c7ba2e9cd553",
+    "arena_results.json": "69cb8ff949c38d26a4ad306ddfebdce2f6508227f830e5b4b1cd72c4569b8b98"
+  },
+  "note": "Replots saved estimates with paired gain intervals; no runtime changes."
+}

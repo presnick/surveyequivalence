@@ -1,5 +1,7 @@
 # Real-world validation with Arena and MT-Bench
 
+**Paper-conformance follow-up:** the September 16 [paper audit](paper_conformance_audit.md) updates this plan. **Positive** equivalence requires repeated human labels, but the zero boundary can be identified with one label per item when the prior already outperforms the AI. That occurs for all 16 verified released Arena probability forecasts under the existing log-score protocol. See the [updated results](arena_validation_results.md) before interpreting the original plan below.
+
 Proposed September 15, 2026. **Execution update, September 16:** supported real-data tests and graphs are now available in [the results report](arena_validation_results.md). The Arena join and 16 judge baselines passed; one judge was quarantined. MT-Bench supports an exploratory Agreement-based GPT-4 equivalence, while the intended multi-model probability-based human-equivalence leaderboard still requires additional verified repeated-human data. The stages below record the full plan and its acceptance gates, including work that remains deferred.
 
 Use real human annotations and released AI judgments as the evaluation evidence. Keep small mathematical oracle tests as implementation checks. Real-world agreement alone cannot establish mathematical correctness or make human preference an objective answer key.
