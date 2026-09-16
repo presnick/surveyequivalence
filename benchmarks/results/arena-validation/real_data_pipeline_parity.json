@@ -1,0 +1,41 @@
+[
+  {
+    "n": 50,
+    "bootstrap_replicates": 500,
+    "exact_parity": true,
+    "save_load_exact": true,
+    "classifier_cells": 501,
+    "power_cells": 501,
+    "seconds": {
+      "optimized": 0.09380562500000078,
+      "generic": 0.8191438330000009
+    },
+    "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+  },
+  {
+    "n": 1000,
+    "bootstrap_replicates": 500,
+    "exact_parity": true,
+    "save_load_exact": true,
+    "classifier_cells": 501,
+    "power_cells": 501,
+    "seconds": {
+      "optimized": 0.19492399999999854,
+      "generic": 10.125700041
+    },
+    "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+  },
+  {
+    "n": 2000,
+    "bootstrap_replicates": 500,
+    "exact_parity": true,
+    "save_load_exact": true,
+    "classifier_cells": 501,
+    "power_cells": 501,
+    "seconds": {
+      "optimized": 0.31731837499999926,
+      "generic": 15.306034417
+    },
+    "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+  }
+]

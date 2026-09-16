@@ -2,7 +2,7 @@
 
 The CPU implementation prepares deterministic predictions and score contributions once, then reuses them across bootstrap samples. It supports rectangular item-by-rater matrices with uneven numbers of observed ratings. No GPU dependency is required.
 
-**Subsequent audit:** independent checks found unresolved numerical errors and estimator inconsistencies, including wide-panel factorial overflow, AUC direction, and soft-DMI label alignment. Exact historical parity and a passing regression suite do not establish correctness in those cases. See [the mathematical audit and proposed corrections](correctness_audit.md). Runtime repairs are still pending.
+**Subsequent audit:** independent checks found numerical errors and estimator inconsistencies. The September 16 real-data validation fixed NumPy factorial overflow/cache contamination; AUC direction, soft-DMI alignment and other findings remain unresolved. Exact historical parity and a passing regression suite do not establish correctness in those cases. See [the mathematical audit](correctness_audit.md) and [Arena/MT-Bench results and graphs](arena_validation_results.md).
 
 ## Usage
 

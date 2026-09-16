@@ -1,0 +1,64 @@
+{
+  "regression_command": ".venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v",
+  "regression_tests": 103,
+  "regression_passed": true,
+  "regression_seconds": 37.782,
+  "initial_regression_tests": 90,
+  "new_factorial_cases": 4,
+  "new_adapter_reporting_cases": 9,
+  "before_fix_factorial_cases_failed": 4,
+  "resolved_audit_counterexamples": [
+    "agreement_int64_factorial_overflow_21_raters",
+    "cross_entropy_after_agreement_cache_contamination"
+  ],
+  "full_mathematical_audit_passed": false,
+  "repeat_result_table_digests_exact": true,
+  "result_table_sha256": {
+    "arena_leaderboard.csv": "a12af7adf6fb5aafdc3b000e5d8fbc29b34cda92227557e31e9cb1be7200f83b",
+    "arena_bootstraps.csv": "ea0edf16cc67b4afbeb0a36fd0e0c327fc47a092d99a25909cf700791d2edc9a",
+    "mt_bayesian_power.csv": "a93267a62a08cc43de55dda661af7d7d83c5af0098240745b0164d82fb0d759d",
+    "mt_frequency_power.csv": "a93267a62a08cc43de55dda661af7d7d83c5af0098240745b0164d82fb0d759d",
+    "mt_classifier_scores.csv": "cc94909389a48bcc86f7c86ea8b4e56f96ccf9cd700127240465a070f802729b"
+  },
+  "pipeline_parity": [
+    {
+      "n": 50,
+      "bootstrap_replicates": 500,
+      "exact_parity": true,
+      "save_load_exact": true,
+      "classifier_cells": 501,
+      "power_cells": 501,
+      "seconds": {
+        "optimized": 0.09380562500000078,
+        "generic": 0.8191438330000009
+      },
+      "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+    },
+    {
+      "n": 1000,
+      "bootstrap_replicates": 500,
+      "exact_parity": true,
+      "save_load_exact": true,
+      "classifier_cells": 501,
+      "power_cells": 501,
+      "seconds": {
+        "optimized": 0.19492399999999854,
+        "generic": 10.125700041
+      },
+      "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+    },
+    {
+      "n": 2000,
+      "bootstrap_replicates": 500,
+      "exact_parity": true,
+      "save_load_exact": true,
+      "classifier_cells": 501,
+      "power_cells": 501,
+      "seconds": {
+        "optimized": 0.31731837499999926,
+        "generic": 15.306034417
+      },
+      "note": "Single-human k=0 curve only; derived equivalences are parity checks, not human-equivalence estimates."
+    }
+  ]
+}

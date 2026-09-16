@@ -1,0 +1,46 @@
+Matplotlib created a temporary config/cache directory at /var/folders/hc/33gwh4fn2xx_327xdt3glhnr0000gp/T/matplotlib-8hdzr_em because the default path (/Users/brianrabideau/.matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+test_agreement_cannot_contaminate_cross_entropy (combinatorial_regression_tests.CombinatorialRegressionTests) ... /Users/brianrabideau/surveyequivalence/surveyequivalence/scoring_functions.py:55: RuntimeWarning: overflow encountered in scalar multiply
+  frac_cache[n] = frac(n-1) * n
+FAIL
+test_legacy_numpy_cache_value_is_recomputed (combinatorial_regression_tests.CombinatorialRegressionTests) ... FAIL
+test_numpy_factorials_use_unbounded_integer_arithmetic (combinatorial_regression_tests.CombinatorialRegressionTests) ... FAIL
+test_wide_single_reference_agreement (combinatorial_regression_tests.CombinatorialRegressionTests) ... /Users/brianrabideau/surveyequivalence/surveyequivalence/scoring_functions.py:55: RuntimeWarning: overflow encountered in scalar multiply
+  frac_cache[n] = frac(n-1) * n
+FAIL
+
+======================================================================
+FAIL: test_agreement_cannot_contaminate_cross_entropy (combinatorial_regression_tests.CombinatorialRegressionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/combinatorial_regression_tests.py", line 38, in test_agreement_cannot_contaminate_cross_entropy
+    self.assertEqual(second, expected)
+AssertionError: 11.88627681480937 != -0.9885947615540288
+
+======================================================================
+FAIL: test_legacy_numpy_cache_value_is_recomputed (combinatorial_regression_tests.CombinatorialRegressionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/combinatorial_regression_tests.py", line 42, in test_legacy_numpy_cache_value_is_recomputed
+    self.assertEqual(frac(np.int64(21)), math.factorial(21))
+AssertionError: -1 != 51090942171709440000
+
+======================================================================
+FAIL: test_numpy_factorials_use_unbounded_integer_arithmetic (combinatorial_regression_tests.CombinatorialRegressionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/combinatorial_regression_tests.py", line 21, in test_numpy_factorials_use_unbounded_integer_arithmetic
+    self.assertEqual(frac(np.int64(21)), math.factorial(21))
+AssertionError: -4249290049419214848 != 51090942171709440000
+
+======================================================================
+FAIL: test_wide_single_reference_agreement (combinatorial_regression_tests.CombinatorialRegressionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/combinatorial_regression_tests.py", line 27, in test_wide_single_reference_agreement
+    self.assertEqual(actual, 14 / 21)
+AssertionError: -8.01560442293844 != 0.6666666666666666
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.010s
+
+FAILED (failures=4)

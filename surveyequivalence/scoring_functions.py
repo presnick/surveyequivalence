@@ -1,6 +1,7 @@
 import random
 from abc import ABC, abstractmethod
-from math import log2
+from math import factorial, log2
+from operator import index
 from typing import Sequence
 
 import numpy as np
@@ -48,11 +49,14 @@ def frac(n:int):
     """
     Calculate the frac: n!
     """
+    n = index(n)
     if n <= 0:
         return 1
-    if n in frac_cache:
-        return frac_cache[n]
-    frac_cache[n] = frac(n-1) * n
+    # pandas counts are NumPy integers: multiplying by one used to put
+    # overflowing int64 values into this process-wide cache starting at 21!.
+    # Recompute legacy NumPy entries, keeping comb's floating operations intact.
+    if type(frac_cache.get(n)) is not int:
+        frac_cache[n] = factorial(n)
     return frac_cache[n]
 
 def comb(n:int,m:int):

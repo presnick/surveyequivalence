@@ -1,0 +1,30 @@
+[
+  {
+    "judge": "dolphin-2.1-mistral-7b",
+    "averaged_probability_max_abs_error": 2.220446049250313e-16,
+    "reversed_agreement": 0.3641315230886299,
+    "averaged_agreement": 0.3916055909327566
+  },
+  {
+    "judge": "Meta-Llama-3-8B-Instruct",
+    "averaged_probability_max_abs_error": 2.220446049250313e-16,
+    "reversed_agreement": 0.4537226160438944,
+    "averaged_agreement": 0.4702431014457928
+  },
+  {
+    "judge": "Meta-Llama-3-70B-Instruct",
+    "averaged_probability_max_abs_error": 2.220446049250313e-16,
+    "reversed_agreement": 0.5128959910288758,
+    "averaged_agreement": 0.519043614081461
+  },
+  {
+    "judge": "dolphin-2.5-mixtral-8x7b",
+    "null_expected_from_marginals": 0.3453155071004855,
+    "null_mean": 0.34531238736032693,
+    "null_range": [
+      0.3431655252513116,
+      0.34731066522487886
+    ],
+    "identical_labels_agreement": 1.0
+  }
+]

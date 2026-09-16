@@ -1,0 +1,172 @@
+[
+  {
+    "judge": "dolphin-2.1-mistral-7b",
+    "published_three_way": 36.23,
+    "reproduced_three_way": 36.23493131483039,
+    "published_two_way": 53.23,
+    "reproduced_two_way": 53.2320611132169,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "StableBeluga-7B",
+    "published_three_way": 37.77,
+    "reproduced_three_way": 37.7728383195162,
+    "published_two_way": 55.03,
+    "reproduced_two_way": 55.025220864798676,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Meta-Llama-3-8B",
+    "published_three_way": 37.49,
+    "reproduced_three_way": 37.486483239216625,
+    "published_two_way": 55.03,
+    "reproduced_two_way": 55.03396798553809,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Mistral-7B-Instruct-v0.1",
+    "published_three_way": 43.15,
+    "reproduced_three_way": 43.14750290360047,
+    "published_two_way": 62.68,
+    "reproduced_two_way": 62.67603580488089,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Mistral-7B-Instruct-v0.2",
+    "published_three_way": 41.32,
+    "reproduced_three_way": 41.31523088629901,
+    "published_two_way": 59.92,
+    "reproduced_two_way": 59.917777065049414,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "zephyr-7b-beta",
+    "published_three_way": 42.11,
+    "reproduced_three_way": 42.11422163482719,
+    "published_two_way": 59.03,
+    "reproduced_two_way": 59.025570749628244,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Mistral-7B-OpenOrca",
+    "published_three_way": 43.68,
+    "reproduced_three_way": 43.67816091954023,
+    "published_two_way": 63.31,
+    "reproduced_two_way": 63.311659911945654,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Meta-Llama-3-8B-Instruct",
+    "published_three_way": 45.34,
+    "reproduced_three_way": 45.34222435820418,
+    "published_two_way": 64.68,
+    "reproduced_two_way": 64.68204216112197,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "OpenHermes-2-Mistral-7B",
+    "published_three_way": 44.23,
+    "reproduced_three_way": 44.23284873242821,
+    "published_two_way": 63.22,
+    "reproduced_two_way": 63.21835729072514,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "OpenHermes-2.5-Mistral-7B",
+    "published_three_way": 43.7,
+    "reproduced_three_way": 43.702190716488445,
+    "published_two_way": 61.74,
+    "reproduced_two_way": 61.740093885762604,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Starling-LM-7B-alpha",
+    "published_three_way": 45.34,
+    "reproduced_three_way": 45.98502142656894,
+    "published_two_way": 64.68,
+    "reproduced_two_way": 64.34965157302388,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": false
+  },
+  {
+    "judge": "Meta-Llama-3-70B-Instruct",
+    "published_three_way": 51.37,
+    "reproduced_three_way": 51.37170090912731,
+    "published_two_way": 70.81,
+    "reproduced_two_way": 70.81085809254454,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Mixtral-8x7B-Instruct-v0.1",
+    "published_three_way": 46.72,
+    "reproduced_three_way": 46.71993271656854,
+    "published_two_way": 65.01,
+    "reproduced_two_way": 65.0115170423069,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Qwen2-72B-Instruct",
+    "published_three_way": 52.06,
+    "reproduced_three_way": 52.064560054467535,
+    "published_two_way": 70.66,
+    "reproduced_two_way": 70.66215703997433,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Hermes-3-Llama-3.1-70B",
+    "published_three_way": 50.83,
+    "reproduced_three_way": 50.833032960871485,
+    "published_two_way": 69.52,
+    "reproduced_two_way": 69.52211563693618,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "Athene-70B",
+    "published_three_way": 50.04,
+    "reproduced_three_way": 50.04205214465938,
+    "published_two_way": 69.48,
+    "reproduced_two_way": 69.47838003323906,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  },
+  {
+    "judge": "dolphin-2.5-mixtral-8x7b",
+    "published_three_way": 35.75,
+    "reproduced_three_way": 35.75233289278705,
+    "published_two_way": 52.48,
+    "reproduced_two_way": 52.476893022713355,
+    "exact_both_scorers_vs_independent": true,
+    "semantic_swap_invariant": true,
+    "passed": true
+  }
+]

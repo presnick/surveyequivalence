@@ -2,6 +2,8 @@
 
 Audit completed September 12, 2026 against runtime revision `b6a9846`, in the existing pinned environment. Production numerical code was not changed during this audit.
 
+**September 16 follow-up:** the real-data validation fixed finding 1's NumPy factorial overflow/cache contamination, with four independently failing-then-passing regression cases. The wider audit still has unresolved failures. The Arena/MT-Bench experiment uses separately tested reporting helpers for crossing/censoring and intervals; it does not repair every legacy statistics path. See [real-data results and graphs](arena_validation_results.md) and the [post-fix diagnostics](../benchmarks/results/arena-validation/post-fix-audit/summary.json). The findings below preserve the original audit evidence.
+
 **The implementation cannot currently be certified mathematically correct across its advertised inputs.** Independent counterexamples expose incorrect scores, inconsistent estimator definitions, misleading derived results, and reproducibility/identity gaps. Exact parity with historical code preserved some of these pre-existing defects.
 
 The existing suite plus 17 new independent-oracle methods passes **90/90 tests**. Those tests cover specified domains; separate diagnostic programs deliberately return a nonzero status for unresolved findings. Four diagnostic groups currently fail, reporting 25 counterexamples or contract discrepancies and one passing control. Multiple counterexamples can share one root cause. See [regression results](../benchmarks/results/correctness-audit/regression-tests.json), [diagnostic summary](../benchmarks/results/correctness-audit/summary.json), and the case reports linked below.

@@ -1,0 +1,514 @@
+[
+  {
+    "judge": "dolphin-2.1-mistral-7b",
+    "n": 49938,
+    "agreement": 0.3623493131483039,
+    "agreement_low": 0.3580612027075789,
+    "agreement_high": 0.36671736530781257,
+    "cross_entropy": -1.833434341437951,
+    "cross_entropy_low": -1.8440859511263383,
+    "cross_entropy_high": -1.8240124825583877,
+    "binary_forced_agreement": 0.532320611132169,
+    "binary_n": 34297,
+    "brier_raw": 0.7349231252226329,
+    "predicted_tie_rate": 0.11510272738195362,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        8855,
+        6474,
+        1983
+      ],
+      [
+        7596,
+        7432,
+        1957
+      ],
+      [
+        7707,
+        6126,
+        1808
+      ]
+    ]
+  },
+  {
+    "judge": "StableBeluga-7B",
+    "n": 49938,
+    "agreement": 0.377728383195162,
+    "agreement_low": 0.37334313333777036,
+    "agreement_high": 0.38178371731543237,
+    "cross_entropy": -2.5075550203766492,
+    "cross_entropy_low": -2.5261056686203966,
+    "cross_entropy_high": -2.4899560322881023,
+    "binary_forced_agreement": 0.5502522086479867,
+    "binary_n": 34297,
+    "brier_raw": 0.9295404739912969,
+    "predicted_tie_rate": 0.015078697585005407,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        16199,
+        919,
+        194
+      ],
+      [
+        14318,
+        2386,
+        281
+      ],
+      [
+        14179,
+        1184,
+        278
+      ]
+    ]
+  },
+  {
+    "judge": "Meta-Llama-3-8B",
+    "n": 49938,
+    "agreement": 0.3748648323921663,
+    "agreement_low": 0.37022230276899976,
+    "agreement_high": 0.37892051847366,
+    "cross_entropy": -1.6357273673691681,
+    "cross_entropy_low": -1.640986921917451,
+    "cross_entropy_high": -1.6305339063759248,
+    "binary_forced_agreement": 0.5503396798553809,
+    "binary_n": 34297,
+    "brier_raw": 0.6917411791930057,
+    "predicted_tie_rate": 0.0181625215266931,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        16570,
+        520,
+        222
+      ],
+      [
+        14670,
+        1890,
+        425
+      ],
+      [
+        14600,
+        781,
+        260
+      ]
+    ]
+  },
+  {
+    "judge": "Mistral-7B-Instruct-v0.1",
+    "n": 49938,
+    "agreement": 0.43147502903600465,
+    "agreement_low": 0.427512512615583,
+    "agreement_high": 0.436243344094674,
+    "cross_entropy": -2.2964455330156626,
+    "cross_entropy_low": -2.3142448749549773,
+    "cross_entropy_high": -2.2767878671247748,
+    "binary_forced_agreement": 0.6267603580488089,
+    "binary_n": 34297,
+    "brier_raw": 0.7987590383721866,
+    "predicted_tie_rate": 0.02913612879971164,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        10145,
+        6680,
+        487
+      ],
+      [
+        5633,
+        10893,
+        459
+      ],
+      [
+        7314,
+        7818,
+        509
+      ]
+    ]
+  },
+  {
+    "judge": "Mistral-7B-Instruct-v0.2",
+    "n": 49938,
+    "agreement": 0.4131523088629901,
+    "agreement_low": 0.4086881210712237,
+    "agreement_high": 0.41754516729110047,
+    "cross_entropy": -3.241968104991745,
+    "cross_entropy_low": -3.26582334006733,
+    "cross_entropy_high": -3.2172456675131262,
+    "binary_forced_agreement": 0.5991777706504942,
+    "binary_n": 34297,
+    "brier_raw": 1.1370680310422898,
+    "predicted_tie_rate": 0.005406704313348552,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        14877,
+        2383,
+        52
+      ],
+      [
+        11302,
+        5610,
+        73
+      ],
+      [
+        12693,
+        2803,
+        145
+      ]
+    ]
+  },
+  {
+    "judge": "zephyr-7b-beta",
+    "n": 49938,
+    "agreement": 0.42114221634827187,
+    "agreement_low": 0.41655211085048377,
+    "agreement_high": 0.4252502552786545,
+    "cross_entropy": -3.03197159048004,
+    "cross_entropy_low": -3.0577919568750818,
+    "cross_entropy_high": -3.0089525321009614,
+    "binary_forced_agreement": 0.5902557074962824,
+    "binary_n": 34297,
+    "brier_raw": 1.0719429422814215,
+    "predicted_tie_rate": 0.05006207697544956,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        14596,
+        2171,
+        545
+      ],
+      [
+        11401,
+        5032,
+        552
+      ],
+      [
+        11493,
+        2745,
+        1403
+      ]
+    ]
+  },
+  {
+    "judge": "Mistral-7B-OpenOrca",
+    "n": 49938,
+    "agreement": 0.4367816091954023,
+    "agreement_low": 0.43276330936478025,
+    "agreement_high": 0.4412327007763415,
+    "cross_entropy": -2.3333955388615557,
+    "cross_entropy_low": -2.3541090824884687,
+    "cross_entropy_high": -2.3124622034711693,
+    "binary_forced_agreement": 0.6331165991194565,
+    "binary_n": 34297,
+    "brier_raw": 0.8091244621979455,
+    "predicted_tie_rate": 0.039028395210060476,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        12971,
+        3820,
+        521
+      ],
+      [
+        8246,
+        8076,
+        663
+      ],
+      [
+        9117,
+        5759,
+        765
+      ]
+    ]
+  },
+  {
+    "judge": "Meta-Llama-3-8B-Instruct",
+    "n": 49938,
+    "agreement": 0.45342224358204175,
+    "agreement_low": 0.4491945043078106,
+    "agreement_high": 0.45793329302559,
+    "cross_entropy": -2.53588467071339,
+    "cross_entropy_low": -2.5575998167757903,
+    "cross_entropy_high": -2.5117037822754753,
+    "binary_forced_agreement": 0.6468204216112197,
+    "binary_n": 34297,
+    "brier_raw": 0.8859327532617345,
+    "predicted_tie_rate": 0.03201970443349754,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        11711,
+        5247,
+        354
+      ],
+      [
+        6526,
+        10073,
+        386
+      ],
+      [
+        8281,
+        6501,
+        859
+      ]
+    ]
+  },
+  {
+    "judge": "OpenHermes-2-Mistral-7B",
+    "n": 49938,
+    "agreement": 0.4423284873242821,
+    "agreement_low": 0.438051077080178,
+    "agreement_high": 0.4468176109655663,
+    "cross_entropy": -2.271005775661374,
+    "cross_entropy_low": -2.290803360246586,
+    "cross_entropy_high": -2.2509945175900437,
+    "binary_forced_agreement": 0.6321835729072514,
+    "binary_n": 34297,
+    "brier_raw": 0.8060621281013884,
+    "predicted_tie_rate": 0.04085065481196684,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        12826,
+        4014,
+        472
+      ],
+      [
+        8126,
+        8277,
+        582
+      ],
+      [
+        9232,
+        5423,
+        986
+      ]
+    ]
+  },
+  {
+    "judge": "OpenHermes-2.5-Mistral-7B",
+    "n": 49938,
+    "agreement": 0.4370219071648845,
+    "agreement_low": 0.43265374889652697,
+    "agreement_high": 0.44168817758015244,
+    "cross_entropy": -2.639629607444528,
+    "cross_entropy_low": -2.662070710779543,
+    "cross_entropy_high": -2.6152341397861285,
+    "binary_forced_agreement": 0.617400938857626,
+    "binary_n": 34297,
+    "brier_raw": 0.9398530318743359,
+    "predicted_tie_rate": 0.03264047418799311,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        14555,
+        2471,
+        286
+      ],
+      [
+        10364,
+        6273,
+        348
+      ],
+      [
+        11285,
+        3360,
+        996
+      ]
+    ]
+  },
+  {
+    "judge": "Meta-Llama-3-70B-Instruct",
+    "n": 49938,
+    "agreement": 0.5137170090912732,
+    "agreement_low": 0.5088874164692747,
+    "agreement_high": 0.5181324394841688,
+    "cross_entropy": -2.6556940909158264,
+    "cross_entropy_low": -2.681136021459133,
+    "cross_entropy_high": -2.6335735532771225,
+    "binary_forced_agreement": 0.7081085809254454,
+    "binary_n": 34297,
+    "brier_raw": 0.9298822990552321,
+    "predicted_tie_rate": 0.06155632984901278,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        12623,
+        4152,
+        537
+      ],
+      [
+        5355,
+        11062,
+        568
+      ],
+      [
+        7379,
+        6293,
+        1969
+      ]
+    ]
+  },
+  {
+    "judge": "Mixtral-8x7B-Instruct-v0.1",
+    "n": 49938,
+    "agreement": 0.46719932716568546,
+    "agreement_low": 0.46290129571374694,
+    "agreement_high": 0.47216120012709795,
+    "cross_entropy": -2.987214008254357,
+    "cross_entropy_low": -3.0113116791213836,
+    "cross_entropy_high": -2.9600610279371797,
+    "binary_forced_agreement": 0.6501151704230691,
+    "binary_n": 34297,
+    "brier_raw": 1.0457197315616549,
+    "predicted_tie_rate": 0.06768392807080781,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        13498,
+        3062,
+        752
+      ],
+      [
+        8148,
+        8021,
+        816
+      ],
+      [
+        9718,
+        4111,
+        1812
+      ]
+    ]
+  },
+  {
+    "judge": "Qwen2-72B-Instruct",
+    "n": 49938,
+    "agreement": 0.5206456005446753,
+    "agreement_low": 0.516182755195512,
+    "agreement_high": 0.525367232536549,
+    "cross_entropy": -2.414482735837135,
+    "cross_entropy_low": -2.436276649226153,
+    "cross_entropy_high": -2.391634407018193,
+    "binary_forced_agreement": 0.7066215703997434,
+    "binary_n": 34297,
+    "brier_raw": 0.8586782283561819,
+    "predicted_tie_rate": 0.2914814369818575,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        11006,
+        2623,
+        3683
+      ],
+      [
+        3942,
+        8582,
+        4461
+      ],
+      [
+        5444,
+        3785,
+        6412
+      ]
+    ]
+  },
+  {
+    "judge": "Hermes-3-Llama-3.1-70B",
+    "n": 49938,
+    "agreement": 0.5083303296087148,
+    "agreement_low": 0.5038361260950774,
+    "agreement_high": 0.5134353293724306,
+    "cross_entropy": -2.2653840861014176,
+    "cross_entropy_low": -2.286224835984946,
+    "cross_entropy_high": -2.2438762234476823,
+    "binary_forced_agreement": 0.6952211563693618,
+    "binary_n": 34297,
+    "brier_raw": 0.8202291339754971,
+    "predicted_tie_rate": 0.06820457367135248,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        10992,
+        5666,
+        654
+      ],
+      [
+        4172,
+        12227,
+        586
+      ],
+      [
+        5953,
+        7522,
+        2166
+      ]
+    ]
+  },
+  {
+    "judge": "Athene-70B",
+    "n": 49938,
+    "agreement": 0.5004205214465938,
+    "agreement_low": 0.49578722969482925,
+    "agreement_high": 0.5049289720413596,
+    "cross_entropy": -2.776150136953502,
+    "cross_entropy_low": -2.8009335340326524,
+    "cross_entropy_high": -2.751716413720527,
+    "binary_forced_agreement": 0.6947838003323906,
+    "binary_n": 34297,
+    "brier_raw": 0.9716073441938182,
+    "predicted_tie_rate": 0.04731867515719492,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        12375,
+        4548,
+        389
+      ],
+      [
+        5548,
+        11039,
+        398
+      ],
+      [
+        7322,
+        6743,
+        1576
+      ]
+    ]
+  },
+  {
+    "judge": "dolphin-2.5-mixtral-8x7b",
+    "n": 49938,
+    "agreement": 0.35752332892787053,
+    "agreement_low": 0.3531963170128555,
+    "agreement_high": 0.3616115450458585,
+    "cross_entropy": -2.0928656583697913,
+    "cross_entropy_low": -2.1074820372901004,
+    "cross_entropy_high": -2.079003810431853,
+    "binary_forced_agreement": 0.5247689302271336,
+    "binary_n": 34297,
+    "brier_raw": 0.783023613819643,
+    "predicted_tie_rate": 0.027974688613881214,
+    "equivalence_status": "not_identifiable_one_human_vote_per_battle",
+    "confusion": [
+      [
+        16022,
+        853,
+        437
+      ],
+      [
+        15009,
+        1424,
+        552
+      ],
+      [
+        14320,
+        913,
+        408
+      ]
+    ]
+  }
+]

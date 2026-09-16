@@ -1,0 +1,16 @@
+[
+  {
+    "combiner": "Bayesian",
+    "probability_oracle": "rational ordered draws",
+    "exact_curve_cells": 1503,
+    "exact_classifier_cells": 501,
+    "all_predictions_supported": true
+  },
+  {
+    "combiner": "Frequency",
+    "probability_oracle": "frequency counts",
+    "exact_curve_cells": 1503,
+    "exact_classifier_cells": 501,
+    "all_predictions_supported": true
+  }
+]

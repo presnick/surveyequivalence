@@ -1,0 +1,23 @@
+{
+  "human_rows": 57477,
+  "matched_single_turn_rows": 49938,
+  "outcome_counts": {
+    "tie": 15641,
+    "A": 17312,
+    "B": 16985
+  },
+  "unique_prompt_clusters": 44256,
+  "content_mismatches": 0,
+  "human_votes_per_battle": 1,
+  "equivalence_identifiable": false,
+  "bootstrap_schedule_sha256": "9774025c568a8d211a53b2939fa8af1d71b61fd02f4e6c41b15a859f846426a8",
+  "bootstrap_unit": "exact question text; all battles in a selected question retained",
+  "runtime_seconds": 33.564532166,
+  "bootstrap_replicates": 500,
+  "excluded_judges": [
+    "Starling-LM-7B-alpha"
+  ],
+  "probability_rule": "softmax float64; pipeline clips each probability to [.02,.98] and renormalizes",
+  "hard_decision_rule": "released strict A or B winner, otherwise tie; two-way forces A/B with equality -> B",
+  "uncertainty_limits": "question-cluster bootstrap; no voter/session IDs; fixed judges, no training uncertainty"
+}

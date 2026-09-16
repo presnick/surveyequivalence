@@ -1,0 +1,25 @@
+Arena dolphin-2.1-mistral-7b: 36.2349%; published baseline PASS
+Arena StableBeluga-7B: 37.7728%; published baseline PASS
+Arena Meta-Llama-3-8B: 37.4865%; published baseline PASS
+Arena Mistral-7B-Instruct-v0.1: 43.1475%; published baseline PASS
+Arena Mistral-7B-Instruct-v0.2: 41.3152%; published baseline PASS
+Arena zephyr-7b-beta: 42.1142%; published baseline PASS
+Arena Mistral-7B-OpenOrca: 43.6782%; published baseline PASS
+Arena Meta-Llama-3-8B-Instruct: 45.3422%; published baseline PASS
+Arena OpenHermes-2-Mistral-7B: 44.2328%; published baseline PASS
+Arena OpenHermes-2.5-Mistral-7B: 43.7022%; published baseline PASS
+QUARANTINED Starling-LM-7B-alpha: source baseline differs; see baseline_reproduction.json
+Arena Meta-Llama-3-70B-Instruct: 51.3717%; published baseline PASS
+Arena Mixtral-8x7B-Instruct-v0.1: 46.7199%; published baseline PASS
+Arena Qwen2-72B-Instruct: 52.0646%; published baseline PASS
+Arena Hermes-3-Llama-3.1-70B: 50.8330%; published baseline PASS
+Arena Athene-70B: 50.0421%; published baseline PASS
+Arena dolphin-2.5-mixtral-8x7b: 35.7523%; published baseline PASS
+/Users/voltrondata/github-actions-runner/_work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/voltrondata/github-actions-runner/_work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/voltrondata/github-actions-runner/_work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/voltrondata/github-actions-runner/_work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+MT-Bench: 227 exact items, three distinct experts each, 57 question clusters
+Bayesian human curve: {0: 0.4067547723935391, 1: 0.6138032305433186, 2: 0.6710719530102791}; GPT-4 0.6006; {'status': 'crossing', 'estimate': 0.9361702127659569, 'bound': None}
+Frequency human curve: {0: 0.4067547723935391, 1: 0.6138032305433186, 2: 0.6710719530102791}; GPT-4 0.6006; {'status': 'crossing', 'estimate': 0.9361702127659569, 'bound': None}
+Results and graphs saved to /Users/brianrabideau/surveyequivalence/benchmarks/results/arena-validation

@@ -1,0 +1,556 @@
+test_canonical_items_preserve_response_content_and_flip_winner (arena_validation_tests.ArenaValidationTests) ... ok
+test_censored_interval_retains_out_of_range_replicates (arena_validation_tests.ArenaValidationTests) ... ok
+test_cluster_bootstrap_keeps_related_items_together (arena_validation_tests.ArenaValidationTests) ... ok
+test_equivalence_does_not_fabricate_missing_crossings (arena_validation_tests.ArenaValidationTests) ... ok
+test_equivalence_uses_earliest_plateau_and_interpolates (arena_validation_tests.ArenaValidationTests) ... ok
+test_future_turn_is_not_part_of_first_turn_item (arena_validation_tests.ArenaValidationTests) ... ok
+test_rational_bayesian_oracle_holds_out_exact_item (arena_validation_tests.ArenaValidationTests) ... ok
+test_softmax_is_shift_invariant_and_normalized (arena_validation_tests.ArenaValidationTests) ... ok
+test_source_tie_rules_are_not_argmax (arena_validation_tests.ArenaValidationTests) ... ok
+test_agreement_cannot_contaminate_cross_entropy (combinatorial_regression_tests.CombinatorialRegressionTests) ... ok
+test_legacy_numpy_cache_value_is_recomputed (combinatorial_regression_tests.CombinatorialRegressionTests) ... ok
+test_numpy_factorials_use_unbounded_integer_arithmetic (combinatorial_regression_tests.CombinatorialRegressionTests) ... ok
+test_wide_single_reference_agreement (combinatorial_regression_tests.CombinatorialRegressionTests) ... ok
+test_binary_bayesian_conditionals_exhaust_tiny_sparse_matrices (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_clipping_then_normalization_matches_declared_rule (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_multiclass_conditionals_cover_rectangular_and_sparse_support (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_per_item_probability_exhausts_binary_rows_and_ordered_sequences (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_plurality_draws_uniform_winners_on_each_call (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_prepared_counts_preserve_numeric_and_declared_empty_labels (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_prior_weighting_is_explicit_for_unequal_rating_counts (combiner_math_audit_tests.CombinerMathAuditTests) ... ok
+test_cache_keys_include_ordered_vocabulary (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_explicit_exclusion_matches_physically_removed_row (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_impossible_observation_and_all_missing_data_return_none (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_insufficient_joint_support_returns_none (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_invalid_item_position_has_clear_error (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_missing_observations_and_empty_rows_are_ignored (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_no_item_id_averages_items_without_exclusion (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_numeric_zero_and_declared_empty_string_are_labels (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_rectangular_missing_matrices_have_hand_computed_prediction (combiner_regression_tests.TestBayesianCombinerRegression) ... ok
+test_frequency_ignores_adjacent_missing_observations (combiner_regression_tests.TestCombinerMissingData) ... ok
+test_frequency_no_support_returns_none (combiner_regression_tests.TestCombinerMissingData) ... ok
+test_frequency_numeric_zero_and_declared_empty_label (combiner_regression_tests.TestCombinerMissingData) ... ok
+test_frequency_prior_ignores_every_padding_representation (combiner_regression_tests.TestCombinerMissingData) ... ok
+test_simple_combiners_drop_padding_without_dropping_zero (combiner_regression_tests.TestCombinerMissingData) ... ok
+test_matrix_orientation_and_shape_validation (combiner_regression_tests.TestRatingData) ... ok
+test_scalar_missing_values_preserve_zero_and_declared_empty_label (combiner_regression_tests.TestRatingData) ... ok
+test_mean_combiner (continuous_prediction_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_scoring_functions (continuous_prediction_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_ABC_2 (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_agreement_anonymous_score (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_analysis_pipeline (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.CrossEntropyScore object at 0x136b57670>
+       mean       std
+0 -0.818537  0.074796
+1 -0.661699  0.083701
+2 -0.601255  0.083303
+	survey equivalence for -0.818536932526834 is  0.13776301217215292
+	survey equivalence for -0.808536932526834 is  0.20552096685460164
+	survey equivalence for -0.798536932526834 is  0.27327892153705036
+	survey equivalence for -0.788536932526834 is  0.3410368762194992
+	survey equivalence for -0.778536932526834 is  0.4087948309019479
+	survey equivalence for -0.768536932526834 is  0.47655278558439673
+	survey equivalence for -0.7585369325268341 is  0.5443107402668447
+	survey equivalence for -0.7485369325268341 is  0.6120686949492935
+	survey equivalence for -0.7385369325268341 is  0.6798266496317422
+	survey equivalence for -0.728536932526834 is  0.7475846043141909
+	survey equivalence for -0.718536932526834 is  0.8153425589966397
+	survey equivalence for -0.708536932526834 is  0.8831005136790885
+	survey equivalence for -0.698536932526834 is  0.9508584683615372
+	survey equivalence for -0.688536932526834 is  1.0465169030481463
+	survey equivalence for -0.678536932526834 is  1.2158238747073646
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.AgreementScore object at 0x136b575b0>
+       mean       std
+0  0.739667  0.010263
+1  0.790444  0.005461
+2  0.815944  0.007861
+	survey equivalence for 0.7396666666666666 is  0.04790419161676707
+	survey equivalence for 0.7496666666666666 is  0.22754491017964118
+	survey equivalence for 0.7596666666666666 is  0.4071856287425154
+	survey equivalence for 0.7696666666666666 is  0.5868263473053895
+	survey equivalence for 0.7796666666666666 is  0.7664670658682636
+	survey equivalence for 0.7896666666666666 is  0.9461077844311377
+	survey equivalence for 0.7996666666666665 is  1.2999999999999958
+	survey equivalence for 0.8096666666666665 is  1.728571428571425
+	survey equivalence for 0.8196666666666665 is  2
+	survey equivalence for 0.8296666666666666 is  2
+	survey equivalence for 0.8396666666666666 is  2
+	survey equivalence for 0.8496666666666666 is  2
+	survey equivalence for 0.8596666666666666 is  2
+	survey equivalence for 0.8696666666666666 is  2
+	survey equivalence for 0.8796666666666666 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.RecallScore object at 0x136bac130>
+       mean       std
+0  0.743667  0.026633
+1  0.803185  0.010670
+2  0.828352  0.013145
+	survey equivalence for 0.7436666666666666 is  0.11976047904191678
+	survey equivalence for 0.7536666666666666 is  0.2994011976047909
+	survey equivalence for 0.7636666666666666 is  0.479041916167665
+	survey equivalence for 0.7736666666666666 is  0.6586826347305392
+	survey equivalence for 0.7836666666666666 is  0.8383233532934133
+	survey equivalence for 0.7936666666666666 is  1.042857142857143
+	survey equivalence for 0.8036666666666665 is  1.4714285714285675
+	survey equivalence for 0.8136666666666665 is  1.8999999999999966
+	survey equivalence for 0.8236666666666665 is  2
+	survey equivalence for 0.8336666666666666 is  2
+	survey equivalence for 0.8436666666666666 is  2
+	survey equivalence for 0.8536666666666666 is  2
+	survey equivalence for 0.8636666666666666 is  2
+	survey equivalence for 0.8736666666666666 is  2
+	survey equivalence for 0.8836666666666666 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.AUCScore object at 0x136bac880>
+       mean       std
+0  0.075191  0.006950
+1  0.646088  0.033570
+2  0.672859  0.035225
+	survey equivalence for 0.07519094185376894 is  0
+	survey equivalence for 0.08519094185376894 is  0.008808920234127715
+	survey equivalence for 0.09519094185376895 is  0.026794430105691824
+	survey equivalence for 0.10519094185376894 is  0.044779939977255934
+	survey equivalence for 0.11519094185376894 is  0.06276544984881982
+	survey equivalence for 0.12519094185376894 is  0.08075095972038393
+	survey equivalence for 0.13519094185376895 is  0.09873646959194804
+	survey equivalence for 0.14519094185376896 is  0.11672197946351226
+	survey equivalence for 0.15519094185376894 is  0.13470748933507626
+	survey equivalence for 0.16519094185376892 is  0.15269299920664037
+	survey equivalence for 0.17519094185376893 is  0.17067850907820448
+	survey equivalence for 0.18519094185376894 is  0.1886640189497687
+	survey equivalence for 0.19519094185376895 is  0.2066495288213328
+	survey equivalence for 0.20519094185376896 is  0.22463503869289692
+	survey equivalence for 0.21519094185376897 is  0.24262054856446102
+Cross entropy not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b268b0> <surveyequivalence.scoring_functions.AgreementScore object at 0x136b575b0>
+       mean       std
+0  0.774000  0.034044
+1  0.811111  0.017352
+2  0.836556  0.018164
+	survey equivalence for 0.774 is  0.6646706586826363
+	survey equivalence for 0.784 is  0.8443113772455104
+	survey equivalence for 0.794 is  1.0571428571428605
+	survey equivalence for 0.804 is  1.4857142857142898
+	survey equivalence for 0.8140000000000001 is  1.9142857142857188
+	survey equivalence for 0.8240000000000001 is  2
+	survey equivalence for 0.8340000000000001 is  2
+	survey equivalence for 0.8440000000000001 is  2
+	survey equivalence for 0.854 is  2
+	survey equivalence for 0.864 is  2
+	survey equivalence for 0.874 is  2
+	survey equivalence for 0.884 is  2
+	survey equivalence for 0.894 is  2
+	survey equivalence for 0.904 is  2
+	survey equivalence for 0.914 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b268b0> <surveyequivalence.scoring_functions.RecallScore object at 0x136cd7f10>
+       mean       std
+0  0.752667  0.014295
+1  0.797037  0.004230
+2  0.821759  0.007404
+	survey equivalence for 0.7526666666666667 is  0.28143712574850543
+	survey equivalence for 0.7626666666666667 is  0.46107784431137955
+	survey equivalence for 0.7726666666666667 is  0.6407185628742538
+	survey equivalence for 0.7826666666666667 is  0.8203592814371279
+	survey equivalence for 0.7926666666666667 is  1.0000000000000049
+	survey equivalence for 0.8026666666666668 is  1.4285714285714342
+	survey equivalence for 0.8126666666666666 is  1.8571428571428585
+	survey equivalence for 0.8226666666666667 is  2
+	survey equivalence for 0.8326666666666667 is  2
+	survey equivalence for 0.8426666666666667 is  2
+	survey equivalence for 0.8526666666666667 is  2
+	survey equivalence for 0.8626666666666667 is  2
+	survey equivalence for 0.8726666666666667 is  2
+	survey equivalence for 0.8826666666666667 is  2
+	survey equivalence for 0.8926666666666667 is  2
+AUC not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26370> <surveyequivalence.scoring_functions.CrossEntropyScore object at 0x136b573d0>
+       mean       std
+0 -0.966438  0.000892
+1 -0.966350  0.000674
+2 -0.966431  0.000544
+	survey equivalence for -0.9664380558757166 is  0
+	survey equivalence for -0.9564380558757166 is  2
+	survey equivalence for -0.9464380558757166 is  2
+	survey equivalence for -0.9364380558757166 is  2
+	survey equivalence for -0.9264380558757166 is  2
+	survey equivalence for -0.9164380558757166 is  2
+	survey equivalence for -0.9064380558757166 is  2
+	survey equivalence for -0.8964380558757166 is  2
+	survey equivalence for -0.8864380558757167 is  2
+	survey equivalence for -0.8764380558757167 is  2
+	survey equivalence for -0.8664380558757167 is  2
+	survey equivalence for -0.8564380558757166 is  2
+	survey equivalence for -0.8464380558757166 is  2
+	survey equivalence for -0.8364380558757166 is  2
+	survey equivalence for -0.8264380558757166 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26370> <surveyequivalence.scoring_functions.AgreementScore object at 0x136cb6370>
+       mean       std
+0  0.609333  0.009609
+1  0.609333  0.009609
+2  0.609333  0.009609
+	survey equivalence for 0.6093333333333333 is  0
+	survey equivalence for 0.6193333333333333 is  2
+	survey equivalence for 0.6293333333333333 is  2
+	survey equivalence for 0.6393333333333333 is  2
+	survey equivalence for 0.6493333333333333 is  2
+	survey equivalence for 0.6593333333333333 is  2
+	survey equivalence for 0.6693333333333333 is  2
+	survey equivalence for 0.6793333333333333 is  2
+	survey equivalence for 0.6893333333333332 is  2
+	survey equivalence for 0.6993333333333333 is  2
+	survey equivalence for 0.7093333333333333 is  2
+	survey equivalence for 0.7193333333333333 is  2
+	survey equivalence for 0.7293333333333333 is  2
+	survey equivalence for 0.7393333333333333 is  2
+	survey equivalence for 0.7493333333333333 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26370> <surveyequivalence.scoring_functions.RecallScore object at 0x136cb6160>
+       mean       std
+0  0.616667  0.032868
+1  0.616667  0.032868
+2  0.616667  0.032868
+	survey equivalence for 0.6166666666666666 is  2
+	survey equivalence for 0.6266666666666666 is  2
+	survey equivalence for 0.6366666666666666 is  2
+	survey equivalence for 0.6466666666666666 is  2
+	survey equivalence for 0.6566666666666666 is  2
+	survey equivalence for 0.6666666666666666 is  2
+	survey equivalence for 0.6766666666666665 is  2
+	survey equivalence for 0.6866666666666665 is  2
+	survey equivalence for 0.6966666666666665 is  2
+	survey equivalence for 0.7066666666666666 is  2
+	survey equivalence for 0.7166666666666666 is  2
+	survey equivalence for 0.7266666666666666 is  2
+	survey equivalence for 0.7366666666666666 is  2
+	survey equivalence for 0.7466666666666666 is  2
+	survey equivalence for 0.7566666666666666 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26370> <surveyequivalence.scoring_functions.AUCScore object at 0x136cb69a0>
+       mean       std
+0  0.682786  0.010595
+1  0.598691  0.002560
+2  0.573502  0.006845
+	survey equivalence for 0.6827859189583497 is  0
+	survey equivalence for 0.6927859189583497 is  0
+	survey equivalence for 0.7027859189583497 is  2
+	survey equivalence for 0.7127859189583498 is  2
+	survey equivalence for 0.7227859189583498 is  2
+	survey equivalence for 0.7327859189583498 is  2
+	survey equivalence for 0.7427859189583497 is  2
+	survey equivalence for 0.7527859189583497 is  2
+	survey equivalence for 0.7627859189583497 is  2
+	survey equivalence for 0.7727859189583497 is  2
+	survey equivalence for 0.7827859189583497 is  2
+	survey equivalence for 0.7927859189583497 is  2
+	survey equivalence for 0.8027859189583497 is  2
+	survey equivalence for 0.8127859189583497 is  2
+	survey equivalence for 0.8227859189583497 is  2
+Cross entropy not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b17490> <surveyequivalence.scoring_functions.AgreementScore object at 0x136cd1160>
+       mean       std
+0  0.620000  0.013077
+1  0.539852  0.008945
+2  0.487630  0.005836
+	survey equivalence for 0.62 is  2
+	survey equivalence for 0.63 is  2
+	survey equivalence for 0.64 is  2
+	survey equivalence for 0.65 is  2
+	survey equivalence for 0.66 is  2
+	survey equivalence for 0.67 is  2
+	survey equivalence for 0.6799999999999999 is  2
+	survey equivalence for 0.69 is  2
+	survey equivalence for 0.7 is  2
+	survey equivalence for 0.71 is  2
+	survey equivalence for 0.72 is  2
+	survey equivalence for 0.73 is  2
+	survey equivalence for 0.74 is  2
+	survey equivalence for 0.75 is  2
+	survey equivalence for 0.76 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b17490> <surveyequivalence.scoring_functions.RecallScore object at 0x136cd13d0>
+       mean       std
+0  0.614667  0.004041
+1  0.537333  0.004461
+2  0.486000  0.002698
+	survey equivalence for 0.6146666666666667 is  2
+	survey equivalence for 0.6246666666666667 is  2
+	survey equivalence for 0.6346666666666667 is  2
+	survey equivalence for 0.6446666666666667 is  2
+	survey equivalence for 0.6546666666666667 is  2
+	survey equivalence for 0.6646666666666667 is  2
+	survey equivalence for 0.6746666666666667 is  2
+	survey equivalence for 0.6846666666666668 is  2
+	survey equivalence for 0.6946666666666667 is  2
+	survey equivalence for 0.7046666666666667 is  2
+	survey equivalence for 0.7146666666666667 is  2
+	survey equivalence for 0.7246666666666667 is  2
+	survey equivalence for 0.7346666666666667 is  2
+	survey equivalence for 0.7446666666666667 is  2
+	survey equivalence for 0.7546666666666667 is  2
+AUC not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.CrossEntropyScore object at 0x136b26370>
+       mean       std
+0 -0.977060  0.011240
+1 -0.975072  0.008076
+2 -0.973398  0.005549
+	survey equivalence for -0.9770600300458782 is  1.0895639801160781
+	survey equivalence for -0.9670600300458781 is  2
+	survey equivalence for -0.9570600300458781 is  2
+	survey equivalence for -0.9470600300458781 is  2
+	survey equivalence for -0.9370600300458781 is  2
+	survey equivalence for -0.9270600300458781 is  2
+	survey equivalence for -0.9170600300458782 is  2
+	survey equivalence for -0.9070600300458782 is  2
+	survey equivalence for -0.8970600300458782 is  2
+	survey equivalence for -0.8870600300458782 is  2
+	survey equivalence for -0.8770600300458782 is  2
+	survey equivalence for -0.8670600300458782 is  2
+	survey equivalence for -0.8570600300458782 is  2
+	survey equivalence for -0.8470600300458782 is  2
+	survey equivalence for -0.8370600300458781 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.AgreementScore object at 0x136ccffa0>
+       mean       std
+0  0.586667  0.000577
+1  0.586667  0.000577
+2  0.586667  0.000577
+	survey equivalence for 0.5866666666666668 is  0
+	survey equivalence for 0.5966666666666668 is  2
+	survey equivalence for 0.6066666666666668 is  2
+	survey equivalence for 0.6166666666666668 is  2
+	survey equivalence for 0.6266666666666668 is  2
+	survey equivalence for 0.6366666666666668 is  2
+	survey equivalence for 0.6466666666666667 is  2
+	survey equivalence for 0.6566666666666667 is  2
+	survey equivalence for 0.6666666666666667 is  2
+	survey equivalence for 0.6766666666666667 is  2
+	survey equivalence for 0.6866666666666668 is  2
+	survey equivalence for 0.6966666666666668 is  2
+	survey equivalence for 0.7066666666666668 is  2
+	survey equivalence for 0.7166666666666668 is  2
+	survey equivalence for 0.7266666666666668 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.RecallScore object at 0x136ccfa30>
+       mean       std
+0  0.609667  0.022502
+1  0.609667  0.022502
+2  0.609667  0.022502
+	survey equivalence for 0.6096666666666667 is  2
+	survey equivalence for 0.6196666666666667 is  2
+	survey equivalence for 0.6296666666666667 is  2
+	survey equivalence for 0.6396666666666667 is  2
+	survey equivalence for 0.6496666666666667 is  2
+	survey equivalence for 0.6596666666666667 is  2
+	survey equivalence for 0.6696666666666666 is  2
+ok
+test_anonymous_bayesian_combiner (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_cross_entropy_anonymous_score (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_frequency_combiner (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_leave_one_item_out (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_non_full_rating_matrix (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_precision_anonymous_score (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... ok
+test_scoring_functions (discrete_distribution_tests.TestDiscreteDistributionSurveyEquivalence) ... /Users/brianrabideau/surveyequivalence/.venv/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1344: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+ok
+test_blocks_and_workers_preserve_seeded_outputs (optimization_tests.ExactPipelineFixtureTests) ... 	survey equivalence for 0.6796666666666666 is  2
+	survey equivalence for 0.6896666666666667 is  2
+	survey equivalence for 0.6996666666666667 is  2
+	survey equivalence for 0.7096666666666667 is  2
+	survey equivalence for 0.7196666666666667 is  2
+	survey equivalence for 0.7296666666666667 is  2
+	survey equivalence for 0.7396666666666667 is  2
+	survey equivalence for 0.7496666666666667 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b26700> <surveyequivalence.scoring_functions.AUCScore object at 0x136ccf070>
+       mean       std
+0  0.270341  0.007305
+1  0.416462  0.003437
+2  0.464998  0.006594
+	survey equivalence for 0.2703407971929687 is  0.013740565445275577
+	survey equivalence for 0.2803407971929687 is  0.08080204578668604
+	survey equivalence for 0.29034079719296874 is  0.1478635261280966
+	survey equivalence for 0.3003407971929687 is  0.21492500646950674
+	survey equivalence for 0.3103407971929687 is  0.2819864868109172
+	survey equivalence for 0.3203407971929687 is  0.3490479671523278
+	survey equivalence for 0.3303407971929687 is  0.41610944749373824
+	survey equivalence for 0.3403407971929687 is  0.4831709278351488
+	survey equivalence for 0.35034079719296873 is  0.5502324081765593
+	survey equivalence for 0.36034079719296874 is  0.6172938885179698
+	survey equivalence for 0.37034079719296875 is  0.6843553688593804
+	survey equivalence for 0.3803407971929687 is  0.7514168492007904
+	survey equivalence for 0.3903407971929687 is  0.818478329542201
+	survey equivalence for 0.4003407971929687 is  0.8855398098836116
+	survey equivalence for 0.41034079719296873 is  0.952601290225022
+Cross entropy not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b57700> <surveyequivalence.scoring_functions.AgreementScore object at 0x136c06400>
+       mean       std
+0  0.587000  0.005000
+1  0.546593  0.006593
+2  0.582593  0.002167
+	survey equivalence for 0.587 is  2
+	survey equivalence for 0.597 is  2
+	survey equivalence for 0.607 is  2
+	survey equivalence for 0.617 is  2
+	survey equivalence for 0.627 is  2
+	survey equivalence for 0.637 is  2
+	survey equivalence for 0.647 is  2
+	survey equivalence for 0.657 is  2
+	survey equivalence for 0.6669999999999999 is  2
+	survey equivalence for 0.6769999999999999 is  2
+	survey equivalence for 0.6869999999999999 is  2
+	survey equivalence for 0.697 is  2
+	survey equivalence for 0.707 is  2
+	survey equivalence for 0.717 is  2
+	survey equivalence for 0.727 is  2
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.FrequencyCombiner object at 0x136b57700> <surveyequivalence.scoring_functions.RecallScore object at 0x136c06e80>
+       mean       std
+0  0.591667  0.005686
+1  0.550593  0.003572
+2  0.589315  0.006081
+	survey equivalence for 0.5916666666666667 is  2
+	survey equivalence for 0.6016666666666667 is  2
+	survey equivalence for 0.6116666666666667 is  2
+	survey equivalence for 0.6216666666666667 is  2
+	survey equivalence for 0.6316666666666667 is  2
+	survey equivalence for 0.6416666666666667 is  2
+	survey equivalence for 0.6516666666666666 is  2
+	survey equivalence for 0.6616666666666666 is  2
+	survey equivalence for 0.6716666666666666 is  2
+	survey equivalence for 0.6816666666666666 is  2
+	survey equivalence for 0.6916666666666667 is  2
+	survey equivalence for 0.7016666666666667 is  2
+	survey equivalence for 0.7116666666666667 is  2
+	survey equivalence for 0.7216666666666667 is  2
+	survey equivalence for 0.7316666666666667 is  2
+AUC not well defined for Frequency combiner - no probabilities
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b17c10> <surveyequivalence.scoring_functions.CrossEntropyScore object at 0x136b262e0>
+       mean       std
+0 -0.899058  0.034729
+1 -0.801121  0.044396
+2 -0.746495  0.053177
+	survey equivalence for -0.899058495918562 is  0
+	survey equivalence for -0.889058495918562 is  0
+	survey equivalence for -0.879058495918562 is  0
+	survey equivalence for -0.869058495918562 is  0.04316686956935001
+	survey equivalence for -0.859058495918562 is  0.15902308338438376
+	survey equivalence for -0.849058495918562 is  0.2748792971994175
+	survey equivalence for -0.8390584959185621 is  0.3907355110144499
+	survey equivalence for -0.8290584959185621 is  0.5065917248294836
+	survey equivalence for -0.8190584959185621 is  0.6224479386445174
+	survey equivalence for -0.809058495918562 is  0.738304152459551
+	survey equivalence for -0.799058495918562 is  0.8541603662745848
+	survey equivalence for -0.789058495918562 is  0.9700165800896186
+	survey equivalence for -0.779058495918562 is  1.1531153400350158
+	survey equivalence for -0.769058495918562 is  1.3596925662651889
+	survey equivalence for -0.759058495918562 is  1.5662697924953617
+Computing 56 rater subsets and 3 item samples (1 worker(s))
+*****RESULTS*****
+<surveyequivalence.combiners.AnonymousBayesianCombiner object at 0x136b17c10> <surveyequivalence.scoring_functions.AgreementScore object at 0x136b268b0>
+       mean       std
+0  0.731667  0.018351
+1  0.749660  0.013167
+2  0.777948  0.019501
+	survey equivalence for 0.7316667178028463 is  0.4125385288271337
+	survey equivalence for 0.7416667178028463 is  0.6796055968749559
+	survey equivalence for 0.7516667178028463 is  0.946672664922778
+	survey equivalence for 0.7616667178028463 is  1.3493798532498613
+	survey equivalence for 0.7716667178028463 is  1.7859287894050935
+	survey equivalence for 0.7816667178028464 is  2
+	survey equivalence for 0.7916667178028463 is  2
+	survey equivalence for 0.8016667178028463 is  2
+	survey equivalence for 0.8116667178028463 is  2
+	survey equivalence for 0.8216667178028463 is  2
+	survey equivalence for 0.8316667178028463 is  2
+	survey equivalence for 0.8416667178028463 is  2
+	survey equivalence for 0.8516667178028463 is  2
+	survey equivalence for 0.8616667178028463 is  2
+	survey equivalence for 0.8716667178028463 is  2
+ok
+test_corrected_reference_outputs (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_custom_combiner_retains_row_major_order (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_custom_scorer_state_is_not_reset_at_block_boundaries (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_explicit_bayesian_training_data_remains_authoritative (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_instance_combiner_override_uses_object_fallback (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_instance_scorer_override_receives_fresh_run_state (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_plurality_ties_retain_independent_uniform_draws (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_rerun_rebuilds_dataset_caches (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_serial_path_never_creates_pool (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_subset_sampling_matches_reference_across_seeds_and_branches (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_valid_historical_outputs_are_unchanged (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_worker_exceptions_clean_up_pool_and_files (optimization_tests.ExactPipelineFixtureTests) ... ok
+test_custom_override_and_multiclass_sampling_use_fallback (optimization_tests.PreparedScoreTests) ... ok
+test_explicit_frequency_dataset_overrides_bound_prior (optimization_tests.PreparedScoreTests) ... ok
+test_ordered_reduction_keeps_rounding_and_signed_zero (optimization_tests.PreparedScoreTests) ... ok
+test_prediction_buffers_do_not_renormalize (optimization_tests.PreparedScoreTests) ... ok
+test_prepared_bayesian_counts_match_scalar_arithmetic (optimization_tests.PreparedScoreTests) ... ok
+test_prepared_scores_equal_public_scorers_exactly (optimization_tests.PreparedScoreTests) ... ok
+test_all_missing_inputs_produce_missing_scores (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_anonymization_helpers_use_shared_missing_rules (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_classifier_indices_are_aligned (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_hand_computed_power_curve (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_input_frame_is_not_modified (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_invalid_inputs_have_clear_errors (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_item_identifiers_and_repeated_samples (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_logging_does_not_change_results (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_rater_positions_and_disjoint_amateurs (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_saved_configuration_and_exact_results_round_trip (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_seeded_plurality_is_independent_of_workers_and_caller_rng (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_single_item_column_and_undefined_equivalences (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_sparse_rows_use_remaining_ratings (pipeline_regression_tests.PipelineRegressionTests) ... ok
+test_binary_dmi_of_mean_joint_matches_enumerated_panel_distribution (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_binary_panel_scores_match_exhaustive_rater_subsets (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_hard_and_soft_dmi_match_rational_determinants (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_multiclass_single_rater_expectations_are_item_weighted (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_non_anonymous_agreement_averages_raters_not_cells (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_pearson_matches_centered_rational_products (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_precision_recall_f1_match_rational_confusion_counts (scorer_math_audit_tests.ScorerMathAuditTests) ... ok
+test_declared_empty_string_and_numeric_zero_are_valid_labels (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_missing_labels_are_excluded_from_dmi_vocabulary (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_missing_pairs_are_excluded_by_agreement_and_cross_entropy (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_missing_predictions_do_not_add_dmi_labels (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_no_usable_labels_or_predictions_returns_none (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_reference_panels_are_capped_per_row (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_sampled_empty_rows_keep_prediction_alignment (scorer_regression_tests.ScorerRegressionTests) ... ok
+test_Hard_DMI_expected_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_Hard_DMI_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_Soft_DMI_expected_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_Soft_DMI_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_majority_vote_agreement_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_majority_vote_cross_entropy_score (scoring_function_tests.TestScoringFunctions) ... ok
+test_finite_reliability_matches_enumerated_wins (statistics_math_audit_tests.StatisticsMathAuditTests) ... ok
+test_increasing_curves_match_rational_linear_interpolation (statistics_math_audit_tests.StatisticsMathAuditTests) ... ok
+test_performance_ratio_is_gain_relative_to_baseline (statistics_math_audit_tests.StatisticsMathAuditTests) ... ok
+
+----------------------------------------------------------------------
+Ran 103 tests in 37.782s
+
+OK

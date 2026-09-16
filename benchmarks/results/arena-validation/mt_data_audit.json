@@ -1,0 +1,42 @@
+{
+  "raw_human_annotations": 3355,
+  "raw_gpt4_annotations": 2400,
+  "human_items": 1814,
+  "content_matched_human_items": 1814,
+  "duplicate_human_records": 1,
+  "expert_depth_histogram": {
+    "0": 181,
+    "1": 899,
+    "2": 507,
+    "3": 167,
+    "4": 50,
+    "5": 6,
+    "6": 4
+  },
+  "selected_items": 227,
+  "selected_humans_per_item": 3,
+  "unique_question_clusters": 57,
+  "reference_policy": "one held-out human; exhaustive predictor subsets; equal weight per item",
+  "status": "exploratory released expert annotations; initial-versus-feedback-revised vote provenance unresolved",
+  "probability_limitation": "GPT-4 split contains hard verdicts, no calibrated class probabilities",
+  "paper_table5_reproduced": true,
+  "paper_comparison": [
+    {
+      "turn": 1,
+      "expert_annotations": 1343,
+      "agreement_with_ties": 0.659717051377513,
+      "decisive_annotations": 859,
+      "agreement_non_ties": 0.8463329452852154
+    },
+    {
+      "turn": 2,
+      "expert_annotations": 1325,
+      "agreement_with_ties": 0.6573584905660378,
+      "decisive_annotations": 864,
+      "agreement_non_ties": 0.8460648148148148
+    }
+  ],
+  "worker_and_block_exact_parity": true,
+  "frequency_k0_note": "Built-in Frequency uses the full-dataset prior; Bayesian primary uses leave-one-item-out throughout.",
+  "human_population": "Released external experts only, at least three votes per exact item; authors excluded"
+}

@@ -1,0 +1,74 @@
+{
+  "scope": "statistics and plotted intervals",
+  "findings": [
+    {
+      "id": "equivalence_plateau",
+      "actual": 2.0,
+      "expected": 1,
+      "passes": false,
+      "explanation": "The smallest survey size reaching .5 is 1, not the end of the plateau."
+    },
+    {
+      "id": "equivalence_missing_crossing_returns_baseline",
+      "actual": true,
+      "expected": false,
+      "passes": false,
+      "explanation": "Zero raters score .2, so zero cannot be equivalent to .5. Return missing unless interpolation over the gap is explicitly defined."
+    },
+    {
+      "id": "reliability_missing_pairs",
+      "actual": 0.3333333333333333,
+      "expected": 1,
+      "passes": false,
+      "explanation": "Only one comparison is defined, and it is a win; undefined comparisons are not losses."
+    },
+    {
+      "id": "reliability_no_pairs",
+      "actual": false,
+      "expected": true,
+      "passes": false,
+      "explanation": "A fraction of wins with no defined comparisons is undefined, not zero."
+    },
+    {
+      "id": "equivalence_index_preservation",
+      "actual": [
+        0,
+        1
+      ],
+      "expected": [
+        "actual",
+        "bootstrap-2"
+      ],
+      "passes": false,
+      "explanation": "Derived results must retain the sample identifiers used to align later comparisons."
+    },
+    {
+      "id": "ratio_index_preservation",
+      "actual": [
+        0,
+        1
+      ],
+      "expected": [
+        "actual",
+        "bootstrap-2"
+      ],
+      "passes": false,
+      "explanation": "Ratio results must retain the sample identifiers used to align later comparisons."
+    },
+    {
+      "id": "plotted_confidence_interval_endpoints",
+      "actual": [
+        -0.492820323027551,
+        0.8928203230275511
+      ],
+      "expected": [
+        -0.09282032302755105,
+        1.292820323027551
+      ],
+      "passes": false,
+      "explanation": "Error distances are computed around the bootstrap mean but drawn around the actual score, shifting both endpoints."
+    }
+  ],
+  "passed": 0,
+  "failed": 7
+}

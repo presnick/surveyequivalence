@@ -1,0 +1,241 @@
+{
+  "sources": [
+    {
+      "url": "https://huggingface.co/datasets/lmarena-ai/arena-human-preference-55k/resolve/18c298340948c0e7f7727399fd459cca6ce0ca6f/train.csv",
+      "local": "arena-human.csv",
+      "repo": "lmarena-ai/arena-human-preference-55k",
+      "revision": "18c298340948c0e7f7727399fd459cca6ce0ca6f",
+      "sha256": "0692154aaf20fc6649090c3f49b6b5dd1e693a765ecb5f0856ae0da5946f5be2",
+      "bytes": 184175071
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/train.single-turn.json",
+      "local": "arena-single-turn.json",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "6ed8793f61931637b65c1f348e8cb3a050996eef2a8c5c37c0b42fcfe465c8f3",
+      "bytes": 141856068
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/dolphin-2.1-mistral-7b.jsonl",
+      "local": "dolphin-2.1-mistral-7b.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "1da5f45f04444e2a5cd944c077350d51360a922b67585040dacc1e93f9354299",
+      "bytes": 8657513
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/StableBeluga-7B.jsonl",
+      "local": "StableBeluga-7B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "c27533d5157ad032b765035daadd4c29ecc55e7e6466a7d6dbc1bee8d93110ff",
+      "bytes": 7798516
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Meta-Llama-3-8B.jsonl",
+      "local": "Meta-Llama-3-8B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "d0b4f8bde9141be360791a77c38c6ec70c99f84f010e07b31fea830469ffea61",
+      "bytes": 7861091
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Mistral-7B-Instruct-v0.1.jsonl",
+      "local": "Mistral-7B-Instruct-v0.1.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "b20dcd5944c65fe84d6b22b77d7750ae1df5740ca2cdb159b0ac6a88eeefe630",
+      "bytes": 8236158
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Mistral-7B-Instruct-v0.2.jsonl",
+      "local": "Mistral-7B-Instruct-v0.2.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "9854c076372c674f354925e6fbe29d76a5b2cee931c7eed545591c348231456e",
+      "bytes": 8184704
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/zephyr-7b-beta.jsonl",
+      "local": "zephyr-7b-beta.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "a0c1330937decd0a6a0aecba7a376c3d657aea25b9b1557c15c2052b05f8a776",
+      "bytes": 7889653
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Mistral-7B-OpenOrca.jsonl",
+      "local": "Mistral-7B-OpenOrca.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "983aaff4da902f6f6a373e76b2f237791832de70a55b08b53f8867f20e50903f",
+      "bytes": 7900726
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Meta-Llama-3-8B-Instruct.jsonl",
+      "local": "Meta-Llama-3-8B-Instruct.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "a731d84bdca4cb7ec13ebb6c24ba00414d9c7cafc600a1620b8ade40eccf008f",
+      "bytes": 8199049
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/OpenHermes-2-Mistral-7B.jsonl",
+      "local": "OpenHermes-2-Mistral-7B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "cca45203179b30de73d7b00b1dcbe98e83e14f9e816ee5cbea7bae2dbeb4c534",
+      "bytes": 8000314
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/OpenHermes-2.5-Mistral-7B.jsonl",
+      "local": "OpenHermes-2.5-Mistral-7B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "1c4306feb36ec5b6fa581b0efba1ecb07fac3c8949d549d339ef43ca5389fe53",
+      "bytes": 8100031
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Starling-LM-7B-alpha.jsonl",
+      "local": "Starling-LM-7B-alpha.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "87d000b447146bc658d0484016be11990f03663a649a1b48ab95c2dd437745d6",
+      "bytes": 8154212
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Meta-Llama-3-70B-Instruct.jsonl",
+      "local": "Meta-Llama-3-70B-Instruct.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "a95e1e539d295b1536a8ff331f182223e319ea74c418955e2b609835c89f4e40",
+      "bytes": 8208523
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Mixtral-8x7B-Instruct-v0.1.jsonl",
+      "local": "Mixtral-8x7B-Instruct-v0.1.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "792144a23e8d6520b0f02de3bb9fa9c568e919fe254880f34a01b2c72aa74751",
+      "bytes": 8261492
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Qwen2-72B-Instruct.jsonl",
+      "local": "Qwen2-72B-Instruct.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "689b090e908e7934f8126abfddfe29eec04f386f60a1e34a2129f564b2dbfcd3",
+      "bytes": 7599177
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Hermes-3-Llama-3.1-70B.jsonl",
+      "local": "Hermes-3-Llama-3.1-70B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "60f442edbdbf46b1285e05202bab0641dcc85b64e05d2da4407011a7ec3e464e",
+      "bytes": 8201622
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/Athene-70B.jsonl",
+      "local": "Athene-70B.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "d87c0976a828044695a7835fbc411c7ed9408e456acc0a8266a44b62f45cd270",
+      "bytes": 7419376
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges/dolphin-2.5-mixtral-8x7b.jsonl",
+      "local": "dolphin-2.5-mixtral-8x7b.forward.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "49ee36e98ef0f7ee9d3e0efdbf40c9fbc8024ecbb499429c34fc95a9fd301fd5",
+      "bytes": 8868972
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-reversed/Meta-Llama-3-70B-Instruct.jsonl",
+      "local": "Meta-Llama-3-70B-Instruct.reversed.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "5372036d2c309cf5b06756e7bad2a6b0ab9f1be51c6257e354b1ce3ddba3599d",
+      "bytes": 8209145
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-prob-avg/Meta-Llama-3-70B-Instruct.jsonl",
+      "local": "Meta-Llama-3-70B-Instruct.averaged.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "6a89941a437911fea0f724955092718af43c07242e9d54937303834014c86ff8",
+      "bytes": 9730342
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-reversed/Meta-Llama-3-8B-Instruct.jsonl",
+      "local": "Meta-Llama-3-8B-Instruct.reversed.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "13b2743cc0ace4734cbbf4fde855edefa293a93c3e14215e2e9cbe209a6488e9",
+      "bytes": 8198189
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-prob-avg/Meta-Llama-3-8B-Instruct.jsonl",
+      "local": "Meta-Llama-3-8B-Instruct.averaged.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "3cd14efa0670141e587091032e4a51fefa7aaaf0b95ac84fca7b7aa234b70891",
+      "bytes": 9587005
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-reversed/dolphin-2.1-mistral-7b.jsonl",
+      "local": "dolphin-2.1-mistral-7b.reversed.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "eb508b0b1d87e08f1a643272a62f55aa8bc454bfe81ab19a7188b7bb54c6450d",
+      "bytes": 8657622
+    },
+    {
+      "url": "https://huggingface.co/datasets/potsawee/chatbot-arena-llm-judges/resolve/638a7e3be3078e55d2eb0b789d34749747822c49/llm-judges-prob-avg/dolphin-2.1-mistral-7b.jsonl",
+      "local": "dolphin-2.1-mistral-7b.averaged.jsonl",
+      "repo": "potsawee/chatbot-arena-llm-judges",
+      "revision": "638a7e3be3078e55d2eb0b789d34749747822c49",
+      "sha256": "908f6e914f789f555f6e7a2c61ff351ffd4f8b31438be78e4553c8fba5cdd719",
+      "bytes": 9383483
+    },
+    {
+      "url": "https://huggingface.co/datasets/lmsys/mt_bench_human_judgments/resolve/f7d2896d2cc5d80f8b55c2bbc722613555233c25/data/human-00000-of-00001-25f4910818759289.parquet",
+      "local": "mt-human.parquet",
+      "repo": "lmsys/mt_bench_human_judgments",
+      "revision": "f7d2896d2cc5d80f8b55c2bbc722613555233c25",
+      "sha256": "4877bc46a40929f4082c3c79593700fb897b1d6c7f4c473032694a01322f5769",
+      "bytes": 738612
+    },
+    {
+      "url": "https://huggingface.co/datasets/lmsys/mt_bench_human_judgments/resolve/f7d2896d2cc5d80f8b55c2bbc722613555233c25/data/gpt4_pair-00000-of-00001-c0b431264a82ddc0.parquet",
+      "local": "mt-gpt4.parquet",
+      "repo": "lmsys/mt_bench_human_judgments",
+      "revision": "f7d2896d2cc5d80f8b55c2bbc722613555233c25",
+      "sha256": "57068327ffb5f8fddb15fedbbfe40b26fe862da2326331e5cf64a42320a00e71",
+      "bytes": 649996
+    }
+  ],
+  "seed": 1729,
+  "bootstrap_replicates": 500,
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "numpy": "1.24.4",
+  "pandas": "2.0.3",
+  "revision": "569593f4f82e0f9848eb33a76e86aa8de076d1d1",
+  "source_sha256": {
+    "benchmarks/arena_validation.py": "db63ada25cc1582f085ad9eaebeec38ae65f2526bfc5afdc0b1f02a44d20cfa1",
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "0988ae4935224b2f98c11b947d5414eda82c4225495f227b808fc28e0fba7133",
+    "surveyequivalence/combiners.py": "c70b825116188b2aa63cd1bc99835e7a8aa52d9ff58b61568bae3cd4560143a3",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "b6e772cb4d1e09dbd20296108e7b752a9f417c399d6d7a927f609c39e1951766",
+    "surveyequivalence/scoring_functions.py": "f7ea6cb740f4f85c405aea27093574d6164a8e093aa40b4c5110d13ccb150407",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  },
+  "elapsed_seconds": 44.074634,
+  "result_status": "Arena agreement validation and exploratory MT-Bench equivalence; full mathematical audit not certified"
+}
