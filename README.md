@@ -98,6 +98,13 @@ Within each results folder, you should find:
 
 ## Performance and reproducibility
 
+Repository layout: `surveyequivalence/` contains the library,
+[`tests/`](tests/README.md) contains the original tests and core regressions,
+`benchmarks/` contains performance and correctness diagnostics, and
+[`research/`](research/README.md) contains dataset experiments and their optional
+tests. Start with [the AlpacaEval workflow](docs/alpaca_judge_validation.md) for
+the current AI-judge comparison.
+
 `AnalysisPipeline` accepts `random_state` for reproducible sampling and
 `working_memory_mb` for controlling prepared prediction/score blocks. Automatic
 worker selection uses the serial fast path for deterministic prepared scores;
@@ -123,3 +130,7 @@ Please send us e-mail or leave comments on github if have any questions.
 
 Copyright (c) 2021, Paul Resnick, Yuqing Kong, Grant Schoenebeck, Tim Weninger 
 
+
+Current research validation: [Arena judge calibration, mathematical repairs, and remaining leaderboard requirements](docs/arena_leaderboard_progress.md).
+
+New real-data results: [16-judge DICES safety-equivalence experiment, exploratory calibrated leaderboard, and AlpacaEval human baselines](docs/dices_validation_results.md).

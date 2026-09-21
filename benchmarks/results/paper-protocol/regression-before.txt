@@ -1,0 +1,116 @@
+Matplotlib created a temporary config/cache directory at /var/folders/hc/33gwh4fn2xx_327xdt3glhnr0000gp/T/matplotlib-ol1l8lat because the default path (/Users/brianrabideau/.matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+test_auc_uses_a_fixed_positive_class (paper_protocol_tests.PaperProtocolTests) ... FAIL
+test_below_baseline_is_identified_zero (paper_protocol_tests.PaperProtocolTests) ... FAIL
+test_dmi_aligns_named_probabilities (paper_protocol_tests.PaperProtocolTests) ... FAIL
+test_equal_plateau_is_first_crossing (paper_protocol_tests.PaperProtocolTests) ... FAIL
+test_external_training_uses_item_identity (paper_protocol_tests.PaperProtocolTests) ... ERROR
+test_invalid_probability_vectors_are_rejected (paper_protocol_tests.PaperProtocolTests) ... FAIL
+test_paper_mode_rejects_variable_depth (paper_protocol_tests.PaperProtocolTests) ... ERROR
+test_paper_partitions_share_balanced_individual_references (paper_protocol_tests.PaperProtocolTests) ... ERROR
+test_raw_posterior_and_legacy_regularization_are_explicit (paper_protocol_tests.PaperProtocolTests) ... ERROR
+test_zero_log_probability_and_zero_weight_terms (paper_protocol_tests.PaperProtocolTests) ... ERROR
+
+======================================================================
+ERROR: test_external_training_uses_item_identity (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 64, in test_external_training_uses_item_identity
+    run = AnalysisPipeline(evaluation, combiner=AnonymousBayesianCombiner(W=train),
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/equivalence.py", line 578, in __init__
+    self.run()
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/equivalence.py", line 595, in run
+    self.expert_power_curve = self.compute_power_curve(
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/equivalence.py", line 1009, in compute_power_curve
+    prediction = combiner.combine(self.allowable_labels, labels, self.W_as_array, item_id)
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/combiners.py", line 382, in combine
+    raise ValueError("item_id must be a row position in the rating matrix")
+ValueError: item_id must be a row position in the rating matrix
+
+======================================================================
+ERROR: test_paper_mode_rejects_variable_depth (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 97, in test_paper_mode_rejects_variable_depth
+    AnalysisPipeline(pd.DataFrame([['a','b'],['b',None]]),
+TypeError: __init__() got an unexpected keyword argument 'paper_mode'
+
+======================================================================
+ERROR: test_paper_partitions_share_balanced_individual_references (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 72, in test_paper_partitions_share_balanced_individual_references
+    run = AnalysisPipeline(W, classifier_predictions=predictions,
+TypeError: __init__() got an unexpected keyword argument 'paper_mode'
+
+======================================================================
+ERROR: test_raw_posterior_and_legacy_regularization_are_explicit (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 32, in test_raw_posterior_and_legacy_regularization_are_explicit
+    raw = AnonymousBayesianCombiner(extreme_cutoff=0).combine(['a','b'], [], W, 0)
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/combiners.py", line 351, in __init__
+    super().__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'extreme_cutoff'
+
+======================================================================
+ERROR: test_zero_log_probability_and_zero_weight_terms (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 39, in test_zero_log_probability_and_zero_weight_terms
+    self.assertEqual(CrossEntropyScore.score([p], ['b']), -math.inf)
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/scoring_functions.py", line 701, in score
+    score = item_score(pred, label)
+  File "/Users/brianrabideau/surveyequivalence/surveyequivalence/scoring_functions.py", line 692, in item_score
+    return log2(pred.label_probability(label))
+ValueError: math domain error
+
+======================================================================
+FAIL: test_auc_uses_a_fixed_positive_class (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 50, in test_auc_uses_a_fixed_positive_class
+    self.assertEqual(AUCScore.score(p, ['pos','pos','neg','neg']), 1.)
+AssertionError: 0.5 != 1.0
+
+======================================================================
+FAIL: test_below_baseline_is_identified_zero (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 26, in test_below_baseline_is_identified_zero
+    self.assertEqual(supported_equivalence(.1, {0:.2, 1:.5}),
+AssertionError: {'status': 'below_range', 'estimate': None, 'bound': 0.0} != {'status': 'crossing', 'estimate': 0.0, 'bound': None}
+- {'bound': 0.0, 'estimate': None, 'status': 'below_range'}
+?           ^^^              ^^^^             ^^^ ^^^^  -
+
++ {'bound': None, 'estimate': 0.0, 'status': 'crossing'}
+?           ^^^^              ^^^             ^^ ^^^
+
+
+======================================================================
+FAIL: test_dmi_aligns_named_probabilities (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 57, in test_dmi_aligns_named_probabilities
+    self.assertAlmostEqual(DMIScore_for_Soft_Classifier.score(p, ['a','b']), .15, delta=1e-15)
+AssertionError: 0.0 != 0.15 within 1e-15 delta (0.15 difference)
+
+======================================================================
+FAIL: test_equal_plateau_is_first_crossing (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 20, in test_equal_plateau_is_first_crossing
+    self.assertEqual(curve.compute_one_equivalence(.5), 1.)
+AssertionError: 2.0 != 1.0
+
+======================================================================
+FAIL: test_invalid_probability_vectors_are_rejected (paper_protocol_tests.PaperProtocolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/brianrabideau/surveyequivalence/tests/paper_protocol_tests.py", line 46, in test_invalid_probability_vectors_are_rejected
+    DiscreteDistributionPrediction(['a','b'], values)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.015s
+
+FAILED (failures=5, errors=5)

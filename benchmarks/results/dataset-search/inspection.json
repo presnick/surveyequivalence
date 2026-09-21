@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-16",
+  "scope": "Dataset suitability inspection only; no new rater-equivalence scores or AI inference.",
+  "alpaca": {
+    "revision": "2edc6fad8be6b14ea7230aabfd08188da6b8b814",
+    "human_rows": 2596,
+    "exact_prompt_response_pairs": 648,
+    "panel_depth_histogram": {
+      "4": 645,
+      "6": 1,
+      "5": 2
+    },
+    "distinct_raters": 16,
+    "repeated_item_rater_records": 0,
+    "labels": {
+      "1": 1343,
+      "2": 1253
+    },
+    "gpt4_rows": 10465,
+    "exact_gpt4_overlap": 4,
+    "overlap_including_reversed_outputs": 4,
+    "human_url": "https://huggingface.co/datasets/tatsu-lab/alpaca_eval/resolve/2edc6fad8be6b14ea7230aabfd08188da6b8b814/alpaca_farm_human_crossannotations.json",
+    "ai_url": "https://huggingface.co/datasets/tatsu-lab/alpaca_eval/resolve/2edc6fad8be6b14ea7230aabfd08188da6b8b814/alpaca_eval_annotations_alpaca_eval_gpt4.json",
+    "grouping": "Exact tuple (instruction, output_1, output_2); no normalization or fuzzy matching."
+  },
+  "dices": {
+    "inspected": "JUDGE-BENCH converted crowd version; primary raw release not independently recounted",
+    "revision": "5a0bf500325029efb5dc8adff2c1e991996f0e78",
+    "items": 350,
+    "unique_ids": 350,
+    "individual_rating_depth_histogram": {
+      "123": 350
+    },
+    "url": "https://raw.githubusercontent.com/dmg-illc/JUDGE-BENCH/5a0bf500325029efb5dc8adff2c1e991996f0e78/data/dices/dices_350_crowdsourced.json",
+    "limitation": "Use original per-rater source for final analysis: converted score lists alone do not establish rater identity alignment or label orientation."
+  },
+  "prospective_dices_ai": {
+    "repository": "https://github.com/shasanamin/llm-perspective-taking",
+    "revision": "5f5e6bfd859ebdd25c8e558e65c06a6ce27a0bad",
+    "files": [
+      "data/llm_annotations/dices/main/deepseek-r1:1.5b.jsonl",
+      "data/llm_annotations/dices/main/deepseek-r1:32b.jsonl",
+      "data/llm_annotations/dices/main/deepseek-r1:7b.jsonl",
+      "data/llm_annotations/dices/main/gemma3:12b.jsonl",
+      "data/llm_annotations/dices/main/gemma3:1b.jsonl",
+      "data/llm_annotations/dices/main/gemma3:27b.jsonl",
+      "data/llm_annotations/dices/main/gpt-5.1.jsonl",
+      "data/llm_annotations/dices/main/gpt-5.1_reasoning=high.jsonl",
+      "data/llm_annotations/dices/main/gpt-oss:120b.jsonl",
+      "data/llm_annotations/dices/main/gpt-oss:latest.jsonl",
+      "data/llm_annotations/dices/main/qwen3-r:1.7b.jsonl",
+      "data/llm_annotations/dices/main/qwen3-r:32b.jsonl",
+      "data/llm_annotations/dices/main/qwen3-r:8b.jsonl",
+      "data/llm_annotations/dices/main/qwen3:1.7b.jsonl",
+      "data/llm_annotations/dices/main/qwen3:32b.jsonl",
+      "data/llm_annotations/dices/main/qwen3:8b.jsonl"
+    ],
+    "status": "File existence verified; individual AI files NOT downloaded or matched. Demographic probability-prediction task needs rubric and item-identity audit."
+  },
+  "files_sha256": {
+    "alpaca-gpt4.json": "e73710ff283d5b8f42fe176db791c8a4f4c6eea9641ccbc6117667110848538c",
+    "alpaca-human.json": "e75b70d6176cf50f8d9898065541445050e164ebce3704e6d7becf99e39ed704",
+    "alpaca-metadata.json": "60d60e07095bf859369f56dbebd19eadc12aa74f5b090d3f61df04a8a4e0b85b",
+    "alpaca-tree.json": "1a2be51dc1810ea20102d3d86e86bd0691d754b82fd611680fc292dfac262f06",
+    "dices-350.json": "9f9694948fc4f734220866fc6fdff397b5207058e0c4d4f9a49d5ab98702c2a4",
+    "judge-bench-tree.json": "3e711faec973cdc0c65913df907fac9244e03a8149ee0e885e48367a6ea98dc4",
+    "perspective-tree.json": "eec6e14841816b731778929bfd2f5fa0b743dc02de25b8a575238c51aeb41a2f"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-17",
+  "scope": "Dataset suitability search, after user redirected from model-access setup",
+  "hatexplain": {
+    "repository": "https://github.com/hate-alert/HateXplain",
+    "revision": "01d742279dac941981f53806154481c0e15ee686",
+    "items": 20148,
+    "individual_votes": 60444,
+    "raters": 253,
+    "votes_per_item": {
+      "3": 20148
+    },
+    "all_three_raters_distinct": true,
+    "labels": [
+      "hatespeech",
+      "normal",
+      "offensive"
+    ],
+    "file_sha256": "63bb3340fee0ec469b09690d04cb68f7c187787dd8b83807f071892c084967fb",
+    "astra_predictions_found": false
+  },
+  "cifar10h": {
+    "repository": "https://github.com/jcpeterson/cifar-10h",
+    "revision": "389f22d9d300ec71a4c44735d46f550c94b957ab",
+    "items": 10000,
+    "raw_trials": 539910,
+    "raw_nonattention_votes": 514200,
+    "retained_votes": 511000,
+    "retained_raters": 2555,
+    "attention_accuracy_threshold": 0.8,
+    "threshold_status": "Empirically reproduces all released count cells exactly; not an independent validation of the quality criterion",
+    "minimum_retained_votes": 47,
+    "maximum_retained_votes": 63,
+    "duplicate_item_rater_pairs": 0,
+    "exact_released_counts_match": true,
+    "actual_item_column": "cifar10_test_test_idx",
+    "readme_item_column": "cifar10_test_set_idx",
+    "source_hashes": {
+      "cifar10h-raw.zip": "4b0283f9b2ae72a616eeb4a2a38474cc2a238eb041bfb8df5ead3a8a47f35aa3",
+      "cifar10h-counts.npy": "9b36b4550349af56c79083356312eb4af856cc5fd3caf1f669d40b9d0bbb69ff"
+    },
+    "image_files_downloaded": false,
+    "astra_predictions_found": false
+  },
+  "chaosnli": {
+    "documented_human_depth": 100,
+    "download_status": "Official Dropbox previews say File Deleted; direct download host returns 404; no GitHub releases or Hugging Face dataset search matches found",
+    "human_archive_url": "https://www.dropbox.com/s/h4j7dqszmpt2679/chaosNLI_v1.0.zip",
+    "model_archive_url": "https://www.dropbox.com/s/qy7uk6ajm5x6dl6/model_predictions.zip",
+    "ready_to_run": false
+  },
+  "astra_search": {
+    "matching_released_predictions_found": false,
+    "scope": "Public web queries for gpt-6-astra plus human annotations, DICES, ChaosNLI and HateXplain; no exhaustive absence claim",
+    "new_inference_run": false
+  }
+}

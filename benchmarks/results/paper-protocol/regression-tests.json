@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/Users/brianrabideau/surveyequivalence/.venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "*_tests.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "seconds": 41.185974041,
+  "numerical_source_sha256": {
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_equivalence.py": "40d4611215224d494f1de0c421bdc4dd592b7fc00060476aa00a958009bf999f",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_probability.py": "50e4d1dde222b7a8074c8f164da58cc5fdadc421a641229d3d048296168f5abd",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "837f1a64af19ff05caec61cc59c7f0b7073aa1316c42db07d46eb73f235cebf2",
+    "surveyequivalence/combiners.py": "41c9e02d451379b1fa48c1e6057e4ff0e56e5380af9908a84f70377415252573",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "bc9e9f04368dae92981cd27067c6188f0692278eda01794295781ae372bbc783",
+    "surveyequivalence/scoring_functions.py": "733f8a1213a3a2cd76707523e3dd2d6e447629627c34bbeb1f620012e6119c92",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  }
+}

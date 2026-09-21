@@ -1,0 +1,155 @@
+{
+  "items": 200,
+  "question_clusters": 199,
+  "human_ratings_per_item": 3,
+  "datasets": {
+    "techqa": 200
+  },
+  "seed": 1729,
+  "bootstraps": 500,
+  "human_curve": {
+    "0": 0.7803271592468204,
+    "1": 0.839814076293449,
+    "2": 0.8581510545208509
+  },
+  "judges": {
+    "GPT-4o": {
+      "score": 0.8761458333333333,
+      "score_interval": [
+        0.8565138583542715,
+        0.8942671037479063
+      ],
+      "equivalence": {
+        "actual": {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        "bootstrap_status_counts": {
+          "above_range": 498,
+          "crossing": 2
+        },
+        "interval": null,
+        "interval_note": "Percentile endpoints are not identified by the supported crossings."
+      },
+      "paired_gain_vs_one_human_interval": [
+        0.024196585362545937,
+        0.05041381480539967
+      ],
+      "paired_gain_vs_two_humans_interval": [
+        0.0037237850602365678,
+        0.033329510801369894
+      ]
+    },
+    "Gemini 2.0 Flash": {
+      "score": 0.8756249999999998,
+      "score_interval": [
+        0.8568199751868796,
+        0.8946869765494139
+      ],
+      "equivalence": {
+        "actual": {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        "bootstrap_status_counts": {
+          "above_range": 496,
+          "crossing": 4
+        },
+        "interval": null,
+        "interval_note": "Percentile endpoints are not identified by the supported crossings."
+      },
+      "paired_gain_vs_one_human_interval": [
+        0.023269961934113202,
+        0.04965237171808609
+      ],
+      "paired_gain_vs_two_humans_interval": [
+        0.002801066144871239,
+        0.0312771208803282
+      ]
+    }
+  },
+  "paired_judge_differences": {
+    "GPT-4o minus Gemini 2.0 Flash": {
+      "difference": 0.0005208333333335258,
+      "interval": [
+        -0.009168237018425387,
+        0.010213541666666465
+      ]
+    }
+  },
+  "coverage": {
+    "GPT-4o": {
+      "matched_items": 200,
+      "finite_scores": 200,
+      "missing_item_ids": []
+    },
+    "Claude Sonnet 4": {
+      "matched_items": 200,
+      "finite_scores": 194,
+      "missing_item_ids": [
+        "a31f8c3d9bf821d02bb25b02268f5b1114f17586da6901971422d853773e2ae5",
+        "b2074132c143ab722de8bdf63129673780e981422fe08a357d0ebc8a460654d5",
+        "ed424679e556de209ef0652d1c6cb6b5365f17d07fcdcc2c6e795ccf8d4e02b6",
+        "75828bbcb43e4644510af3bf8e4fa79604027a138e97b8fec88828eddd741228",
+        "057090c7c84a64950f768ae94b14addfb73635f71005a2c98fb50f48d11f1779",
+        "e16f10567af74811033d5316da154986dfa4568a96cd9fd1fb65f655e7d696bd"
+      ]
+    },
+    "Gemini 2.0 Flash": {
+      "matched_items": 200,
+      "finite_scores": 200,
+      "missing_item_ids": []
+    }
+  },
+  "checks": {
+    "checked_item_panels": 1400,
+    "unsupported_predictions": 0,
+    "maximum_probability_error": 2.220446049250313e-16,
+    "maximum_curve_error": 1.4432899320127035e-15,
+    "all_501_samples_checked": true,
+    "comparison_absolute_tolerance": 2e-13,
+    "independent_method": "integer enumeration of all ordered draws; subtract query item"
+  },
+  "sources": [
+    {
+      "judge": "GPT-4o",
+      "filename": "verdict-gpt4o.json",
+      "sha256": "026db89159bc6f1fff4f48a6e56be50cdf9c74a044bbd4101180c855e787ade7",
+      "url": "https://huggingface.co/spaces/nvidia/judges-verdict/resolve/92764ec7e3f742e022b122b32a6739c85da0ed20/benchmark/judge_results/gpt-4o/trial1.json"
+    },
+    {
+      "judge": "Claude Sonnet 4",
+      "filename": "verdict-claude.json",
+      "sha256": "5c6441238d426e060f631d230bcb071d2e76a09a3b906aa13d60dfe518df150b",
+      "url": "https://huggingface.co/spaces/nvidia/judges-verdict/resolve/92764ec7e3f742e022b122b32a6739c85da0ed20/benchmark/judge_results/claude-sonnet-4/trial1.json"
+    },
+    {
+      "judge": "Gemini 2.0 Flash",
+      "filename": "verdict-gemini.json",
+      "sha256": "f2f1650ebbd332c6b9f00b0a72aa48e80365753761f1e3090a2bdcec35685b06",
+      "url": "https://huggingface.co/spaces/nvidia/judges-verdict/resolve/92764ec7e3f742e022b122b32a6739c85da0ed20/benchmark/judge_results/gemini_gemini-2.0-flash/trial1.json"
+    },
+    {
+      "filename": "verdict-train.json",
+      "sha256": "a9183e52aa3b3a3346e04563de0214f3ff7dcaed465a47670ce9d39bb25bb63d",
+      "url": "https://huggingface.co/datasets/nvidia/judges-verdict/resolve/9936c2fc75ac7a093d1a7c42f7fe187226701aff/annotations_train.json"
+    }
+  ],
+  "script_sha256": "87a15c8a8d4cfea8f6e63b942ebdbc59309537374809b487456fd92a72090be0",
+  "scoring": "1 - squared error against individual human ordinal rating",
+  "human_predictor": "Unclipped anonymous Bayesian posterior mean; leave query item out",
+  "protocol": "Enumerate all human input subsets; average score against disjoint remaining humans",
+  "limitations": [
+    "Custom ordinal score; not the restricted Agreement/log-score paper_mode",
+    "Public human-annotated train subset; exploratory, not an untouched test set",
+    "Two complete AI systems plotted; Claude Sonnet 4 excluded for six missing scores",
+    "Released trial 1 only; two-prompt average per system, no trial averaging",
+    "Input-panel range 0..2; do not extrapolate beyond observed crossings",
+    "Bootstrap conditional on fixed annotators, AI outputs, and fitted combiner",
+    "Anonymous slots are not assumed to identify the same person across items",
+    "Squared error treats ordinal steps as equally spaced; not full-distribution agreement",
+    "Annotation independence and benchmark exposure cannot be established from files alone"
+  ]
+}

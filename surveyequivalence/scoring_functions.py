@@ -1,3 +1,4 @@
+from ._probability import log_probability, aligned_probabilities
 import random
 from abc import ABC, abstractmethod
 from math import factorial, log2
@@ -646,7 +647,7 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
                 # If we used the standard cross-entropy, scores would be positive, and higher scores would be worse
                 # Several things would have to be generalized in equivalence.py to allow for higher scores
                 # being worse, including plotting and centering.
-                score = freq * log2(pred.label_probability(label))
+                score = freq * log_probability(pred.label_probability(label)) if freq else 0.0
                 item_tot += score
 
             tot += item_tot
@@ -689,9 +690,9 @@ class CrossEntropyScore(Scorer_for_Soft_Classifier):
             print(f'\n--------\n\t\tlabels: {rater_labels[:10]}')
 
         def item_score(pred, label):
-            return log2(pred.label_probability(label))
+            return log_probability(pred.label_probability(label))
             # if pred.value == label:
-            #     return log2(pred.label_probability(label))
+            #     return log_probability(pred.label_probability(label))
             # else:
             #     return (log2(1-pred.label_probability(label)))
 
@@ -951,7 +952,8 @@ class AUCScore(Scorer):
         if len(set(new_label)) == 1:
             return np.nan
         if len(set(new_label)) == 2:
-            return roc_auc_score(new_label, [p.value_prob for p in new_pred])
+            positive = sorted(set(new_label))[-1]
+            return roc_auc_score(new_label, [p.label_probability(positive) for p in new_pred])
         if len(set(new_label)) > 2:
             print("multiclass AUC not implemented")
             return np.nan
@@ -1187,7 +1189,7 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
 
             # get joint probability distribution of classifier output and target panel output for this item
             # add that to the accumulating overall matrix; we will normalize later to make it a joint probability distribution
-            freqs_matrix += np.array(pred.probabilities).reshape(-1,1) * majority_prob
+            freqs_matrix += np.array(aligned_probabilities(pred, label_idx_map)).reshape(-1,1) * majority_prob
         
         # normalization
         freqs_matrix = freqs_matrix / np.sum(freqs_matrix)
@@ -1231,7 +1233,7 @@ class DMIScore_for_Soft_Classifier(Scorer_for_Soft_Classifier):
         # calculate the freq matrix
         freqs_matrix = np.zeros((idx,idx))
         for (pred, label) in zip(classifier_predictions, rater_labels):
-            freqs_matrix[label_to_idx[label]] += pred.probabilities
+            freqs_matrix[label_to_idx[label]] += aligned_probabilities(pred, label_to_idx)
 
         # normalization
         freqs_matrix = freqs_matrix / np.sum(freqs_matrix)

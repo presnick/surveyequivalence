@@ -164,10 +164,22 @@ class ExactPipelineFixtureTests(unittest.TestCase):
 
     def test_corrected_reference_outputs(self):
         from benchmarks.reference_fixtures import make_case, capture
+        from surveyequivalence import AUCScore
+        from sklearn.metrics import roc_auc_score
+        import contextlib
         filename = Path(__file__).parent / 'fixtures/corrected_pipeline.json'
         expected = json.loads(filename.read_text())['cases']
         for name in expected:
-            with self.subTest(case=name):
+            # Keep the frozen pre-fix fixture intact. For its invalid AUC
+            # definition, test engine parity under that explicit old scoring
+            # rule. Correct AUC has independent pair-enumeration tests.
+            def historical_confidence_auc(predictions, labels, **kwargs):
+                if len(set(labels)) == 1:
+                    return np.nan
+                return roc_auc_score(labels, [p.value_prob for p in predictions])
+            context = (mock.patch.object(AUCScore, 'score', staticmethod(historical_confidence_auc))
+                       if name == 'auc' else contextlib.nullcontext())
+            with self.subTest(case=name), context:
                 pipeline = AnalysisPipeline(**make_case(name))
                 self.assertEqual(capture(pipeline), expected[name])
 

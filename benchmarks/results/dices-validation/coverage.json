@@ -1,0 +1,82 @@
+{
+  "deepseek-r1:1.5b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "deepseek-r1:32b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "deepseek-r1:7b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gemma3:12b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gemma3:1b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gemma3:27b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gpt-5.1": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gpt-5.1_reasoning=high": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gpt-oss:120b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "gpt-oss:latest": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3-r:1.7b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3-r:32b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3-r:8b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3:1.7b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3:32b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  },
+  "qwen3:8b": {
+    "records": 350,
+    "valid": 350,
+    "missing_or_invalid": 0
+  }
+}

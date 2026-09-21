@@ -1,0 +1,508 @@
+{
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "numpy": "1.24.4",
+  "pandas": "2.0.3",
+  "scipy": "1.10.1",
+  "seed": 1729,
+  "bootstraps": 500,
+  "calibration_fraction_groups": 0.3,
+  "calibration_items": 14919,
+  "test_items": 35019,
+  "calibration_groups": 13276,
+  "test_groups": 30980,
+  "prior_probabilities": [
+    0.34707420068369194,
+    0.33903076613714056,
+    0.3138950331791675
+  ],
+  "human_prior_score_bits": -1.5835661876563896,
+  "schedule_sha256": "2375c48cc9cface6bc6fd92141efe2f86ef25d6146e95732cf84533f88019a45",
+  "split_sha256": "4cb5fc3fae887e8828173d9c767be2afb6cc05df50d687a29c9e158d3dd1139e",
+  "source_manifest_sha256": "cb4cd726eef87941e6ec98340ed0c27753ae997304f669d411169f96e15f8b20",
+  "items_sha256": "4c539aa951a2d109358c4bac55deb2d683335ac7eedbc1c0802f0bb3b779deac",
+  "source_files": {
+    "dolphin-2.1-mistral-7b.forward.jsonl": "1da5f45f04444e2a5cd944c077350d51360a922b67585040dacc1e93f9354299",
+    "StableBeluga-7B.forward.jsonl": "c27533d5157ad032b765035daadd4c29ecc55e7e6466a7d6dbc1bee8d93110ff",
+    "Meta-Llama-3-8B.forward.jsonl": "d0b4f8bde9141be360791a77c38c6ec70c99f84f010e07b31fea830469ffea61",
+    "Mistral-7B-Instruct-v0.1.forward.jsonl": "b20dcd5944c65fe84d6b22b77d7750ae1df5740ca2cdb159b0ac6a88eeefe630",
+    "Mistral-7B-Instruct-v0.2.forward.jsonl": "9854c076372c674f354925e6fbe29d76a5b2cee931c7eed545591c348231456e",
+    "zephyr-7b-beta.forward.jsonl": "a0c1330937decd0a6a0aecba7a376c3d657aea25b9b1557c15c2052b05f8a776",
+    "Mistral-7B-OpenOrca.forward.jsonl": "983aaff4da902f6f6a373e76b2f237791832de70a55b08b53f8867f20e50903f",
+    "Meta-Llama-3-8B-Instruct.forward.jsonl": "a731d84bdca4cb7ec13ebb6c24ba00414d9c7cafc600a1620b8ade40eccf008f",
+    "OpenHermes-2-Mistral-7B.forward.jsonl": "cca45203179b30de73d7b00b1dcbe98e83e14f9e816ee5cbea7bae2dbeb4c534",
+    "OpenHermes-2.5-Mistral-7B.forward.jsonl": "1c4306feb36ec5b6fa581b0efba1ecb07fac3c8949d549d339ef43ca5389fe53",
+    "Meta-Llama-3-70B-Instruct.forward.jsonl": "a95e1e539d295b1536a8ff331f182223e319ea74c418955e2b609835c89f4e40",
+    "Mixtral-8x7B-Instruct-v0.1.forward.jsonl": "792144a23e8d6520b0f02de3bb9fa9c568e919fe254880f34a01b2c72aa74751",
+    "Qwen2-72B-Instruct.forward.jsonl": "689b090e908e7934f8126abfddfe29eec04f386f60a1e34a2129f564b2dbfcd3",
+    "Hermes-3-Llama-3.1-70B.forward.jsonl": "60f442edbdbf46b1285e05202bab0641dcc85b64e05d2da4407011a7ec3e464e",
+    "Athene-70B.forward.jsonl": "d87c0976a828044695a7835fbc411c7ed9408e456acc0a8266a44b62f45cd270",
+    "dolphin-2.5-mixtral-8x7b.forward.jsonl": "49ee36e98ef0f7ee9d3e0efdbf40c9fbc8024ecbb499429c34fc95a9fd301fd5"
+  },
+  "implementation_sha256": {
+    "benchmarks/arena_calibration.py": "a6f8179d6c5fee8cfa5fef41c1c9570cef6e0b66f0fe269f727e0f7da5d85a4c",
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_equivalence.py": "40d4611215224d494f1de0c421bdc4dd592b7fc00060476aa00a958009bf999f",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_probability.py": "50e4d1dde222b7a8074c8f164da58cc5fdadc421a641229d3d048296168f5abd",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "837f1a64af19ff05caec61cc59c7f0b7073aa1316c42db07d46eb73f235cebf2",
+    "surveyequivalence/combiners.py": "41c9e02d451379b1fa48c1e6057e4ff0e56e5380af9908a84f70377415252573",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "bc9e9f04368dae92981cd27067c6188f0692278eda01794295781ae372bbc783",
+    "surveyequivalence/scoring_functions.py": "733f8a1213a3a2cd76707523e3dd2d6e447629627c34bbeb1f620012e6119c92",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  },
+  "protocol": "Retrospective fixed prompt-group split. One scalar inverse temperature per judge fitted only on calibration labels, constrained to [0,10]. No clipping. Human prior fitted on the same calibration labels. Positive equivalence is not identified.",
+  "limitations": "Conditional test-prompt bootstrap with fixed fits; no voter/session clustering, calibration-fit uncertainty or multiple-ranking correction. Previously inspected aggregate dataset; not a prospective untouched test. Exact prompt duplicates grouped, near duplicates not detected.",
+  "judges": [
+    {
+      "judge": "dolphin-2.1-mistral-7b",
+      "inverse_temperature": 0.10197890222726157,
+      "temperature": 9.805949840207973,
+      "calibration_nll_nats": 1.09555416229361,
+      "boundary": false,
+      "raw_score_bits": -1.8373454492615875,
+      "calibrated_score_bits": -1.5799585048891918,
+      "raw_gain_bits": -0.2537792616051979,
+      "calibrated_gain_bits": 0.0036076827671978062,
+      "raw_gain_interval": [
+        -0.26587862022088615,
+        -0.24041874967402183
+      ],
+      "calibrated_gain_interval": [
+        0.002763611549157835,
+        0.004521884229081691
+      ],
+      "improvement_bits": 0.25738694437239573,
+      "improvement_interval": [
+        0.24472859052824902,
+        0.26887621332322803
+      ],
+      "hard_agreement": 0.36040435192324166,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "StableBeluga-7B",
+      "inverse_temperature": 0.057878170528065376,
+      "temperature": 17.277671199283944,
+      "calibration_nll_nats": 1.0946890347901688,
+      "boundary": false,
+      "raw_score_bits": -2.6492021471890825,
+      "calibrated_score_bits": -1.5798419273760345,
+      "raw_gain_bits": -1.065635959532693,
+      "calibrated_gain_bits": 0.0037242602803551073,
+      "raw_gain_interval": [
+        -1.0922231732792063,
+        -1.0400066221897748
+      ],
+      "calibrated_gain_interval": [
+        0.0029482312627420906,
+        0.004600242289462914
+      ],
+      "improvement_bits": 1.069360219813048,
+      "improvement_interval": [
+        1.0446993106234324,
+        1.0950893133532047
+      ],
+      "hard_agreement": 0.3764813387018476,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Meta-Llama-3-8B",
+      "inverse_temperature": 0.2674835728609103,
+      "temperature": 3.7385473406996605,
+      "calibration_nll_nats": 1.093178182157019,
+      "boundary": false,
+      "raw_score_bits": -1.6354838504530926,
+      "calibrated_score_bits": -1.57701847008566,
+      "raw_gain_bits": -0.05191766279670307,
+      "calibrated_gain_bits": 0.006547717570729583,
+      "raw_gain_interval": [
+        -0.05744773573506515,
+        -0.04591312401785662
+      ],
+      "calibrated_gain_interval": [
+        0.005360327608169224,
+        0.007920613526242353
+      ],
+      "improvement_bits": 0.05846538036743265,
+      "improvement_interval": [
+        0.05368127432283245,
+        0.06304860777373877
+      ],
+      "hard_agreement": 0.37413975270567407,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Mistral-7B-Instruct-v0.1",
+      "inverse_temperature": 0.09454650015570469,
+      "temperature": 10.576806104436882,
+      "calibration_nll_nats": 1.087047866647402,
+      "boundary": false,
+      "raw_score_bits": -2.473347305113879,
+      "calibrated_score_bits": -1.5678413982807435,
+      "raw_gain_bits": -0.8897811174574894,
+      "calibrated_gain_bits": 0.01572478937564603,
+      "raw_gain_interval": [
+        -0.9151514879261295,
+        -0.8633311978409507
+      ],
+      "calibrated_gain_interval": [
+        0.013768604363684139,
+        0.017861067777319793
+      ],
+      "improvement_bits": 0.9055059068331355,
+      "improvement_interval": [
+        0.8813530039479233,
+        0.929202022177556
+      ],
+      "hard_agreement": 0.43050915217453384,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Mistral-7B-Instruct-v0.2",
+      "inverse_temperature": 0.023542971211709743,
+      "temperature": 42.47552235474096,
+      "calibration_nll_nats": 1.0788621587863347,
+      "boundary": false,
+      "raw_score_bits": -12.124011711991107,
+      "calibrated_score_bits": -1.5565650910112856,
+      "raw_gain_bits": -10.540445524334718,
+      "calibrated_gain_bits": 0.027001096645103972,
+      "raw_gain_interval": [
+        -10.683923130593431,
+        -10.396322352896734
+      ],
+      "calibrated_gain_interval": [
+        0.02417279577180235,
+        0.030080849842816754
+      ],
+      "improvement_bits": 10.567446620979823,
+      "improvement_interval": [
+        10.425995289944266,
+        10.708740974135752
+      ],
+      "hard_agreement": 0.41326137239784116,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "zephyr-7b-beta",
+      "inverse_temperature": 0.04718985525946588,
+      "temperature": 21.190995278575443,
+      "calibration_nll_nats": 1.074823816564595,
+      "boundary": false,
+      "raw_score_bits": -6.373068387670135,
+      "calibrated_score_bits": -1.5510970402966833,
+      "raw_gain_bits": -4.789502200013746,
+      "calibrated_gain_bits": 0.032469147359706296,
+      "raw_gain_interval": [
+        -4.856056366762749,
+        -4.701442709717949
+      ],
+      "calibrated_gain_interval": [
+        0.02962552199941413,
+        0.036028146591313655
+      ],
+      "improvement_bits": 4.821971347373452,
+      "improvement_interval": [
+        4.737578407972296,
+        4.88636849021077
+      ],
+      "hard_agreement": 0.4216568148719267,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Mistral-7B-OpenOrca",
+      "inverse_temperature": 0.10538034093156846,
+      "temperature": 9.489435991190962,
+      "calibration_nll_nats": 1.0804723765494515,
+      "boundary": false,
+      "raw_score_bits": -2.617717415033177,
+      "calibrated_score_bits": -1.558545109237686,
+      "raw_gain_bits": -1.0341512273767874,
+      "calibrated_gain_bits": 0.02502107841870349,
+      "raw_gain_interval": [
+        -1.0634345060218249,
+        -1.0039554571151352
+      ],
+      "calibrated_gain_interval": [
+        0.02237205533843654,
+        0.027767849473328766
+      ],
+      "improvement_bits": 1.059172305795491,
+      "improvement_interval": [
+        1.0315296843611879,
+        1.08553390150644
+      ],
+      "hard_agreement": 0.43719123904166307,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Meta-Llama-3-8B-Instruct",
+      "inverse_temperature": 0.05974890096286803,
+      "temperature": 16.736709527451676,
+      "calibration_nll_nats": 1.0799792819797398,
+      "boundary": false,
+      "raw_score_bits": -4.175326176907994,
+      "calibrated_score_bits": -1.559553543604647,
+      "raw_gain_bits": -2.591759989251605,
+      "calibrated_gain_bits": 0.024012644051742527,
+      "raw_gain_interval": [
+        -2.6456471497789242,
+        -2.5394894879039427
+      ],
+      "calibrated_gain_interval": [
+        0.021512210718619675,
+        0.0268095181882634
+      ],
+      "improvement_bits": 2.6157726333033473,
+      "improvement_interval": [
+        2.5667608035554674,
+        2.6670477423913836
+      ],
+      "hard_agreement": 0.453125446186356,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "OpenHermes-2-Mistral-7B",
+      "inverse_temperature": 0.13340289224250063,
+      "temperature": 7.496089351512662,
+      "calibration_nll_nats": 1.0738840288108382,
+      "boundary": false,
+      "raw_score_bits": -2.461119896251522,
+      "calibrated_score_bits": -1.5502729503005037,
+      "raw_gain_bits": -0.8775537085951324,
+      "calibrated_gain_bits": 0.03329323735588585,
+      "raw_gain_interval": [
+        -0.9053899894126388,
+        -0.8511147784423505
+      ],
+      "calibrated_gain_interval": [
+        0.030117422310699943,
+        0.03676383015835599
+      ],
+      "improvement_bits": 0.9108469459510182,
+      "improvement_interval": [
+        0.8874183462452382,
+        0.9359460890690956
+      ],
+      "hard_agreement": 0.4405608384020103,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "OpenHermes-2.5-Mistral-7B",
+      "inverse_temperature": 0.09157144818515334,
+      "temperature": 10.920434478420011,
+      "calibration_nll_nats": 1.0718427446742513,
+      "boundary": false,
+      "raw_score_bits": -3.5110083197245787,
+      "calibrated_score_bits": -1.5469545957643347,
+      "raw_gain_bits": -1.9274421320681892,
+      "calibrated_gain_bits": 0.03661159189205487,
+      "raw_gain_interval": [
+        -1.9685699298787684,
+        -1.8832412320508647
+      ],
+      "calibrated_gain_interval": [
+        0.03351064522840098,
+        0.0401284251288616
+      ],
+      "improvement_bits": 1.964053723960244,
+      "improvement_interval": [
+        1.9235058892911923,
+        2.002000627756842
+      ],
+      "hard_agreement": 0.4358776664096633,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Meta-Llama-3-70B-Instruct",
+      "inverse_temperature": 0.04814907680308828,
+      "temperature": 20.768830191482717,
+      "calibration_nll_nats": 1.0136663345535137,
+      "boundary": false,
+      "raw_score_bits": -9.699761679315285,
+      "calibrated_score_bits": -1.461739010285785,
+      "raw_gain_bits": -8.116195491658896,
+      "calibrated_gain_bits": 0.12182717737060456,
+      "raw_gain_interval": [
+        -8.254705229005072,
+        -7.97872018869015
+      ],
+      "calibrated_gain_interval": [
+        0.1152866686781428,
+        0.12829512402772136
+      ],
+      "improvement_bits": 8.238022669029501,
+      "improvement_interval": [
+        8.107026621288242,
+        8.370145618485099
+      ],
+      "hard_agreement": 0.5135783431851281,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Mixtral-8x7B-Instruct-v0.1",
+      "inverse_temperature": 0.027311720688267403,
+      "temperature": 36.61431703311103,
+      "calibration_nll_nats": 1.0545036150750327,
+      "boundary": false,
+      "raw_score_bits": -14.946137317979954,
+      "calibrated_score_bits": -1.5198038774412073,
+      "raw_gain_bits": -13.362571130323564,
+      "calibrated_gain_bits": 0.0637623102151823,
+      "raw_gain_interval": [
+        -13.546243598483407,
+        -13.172957099593004
+      ],
+      "calibrated_gain_interval": [
+        0.0593277709869236,
+        0.06868677456172928
+      ],
+      "improvement_bits": 13.426333440538746,
+      "improvement_interval": [
+        13.241901487603691,
+        13.605513099352358
+      ],
+      "hard_agreement": 0.46885976184357064,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Qwen2-72B-Instruct",
+      "inverse_temperature": 0.0961717770488777,
+      "temperature": 10.398060955988853,
+      "calibration_nll_nats": 0.9845349319686291,
+      "boundary": false,
+      "raw_score_bits": -4.899429463976261,
+      "calibrated_score_bits": -1.4190198986695959,
+      "raw_gain_bits": -3.315863276319871,
+      "calibrated_gain_bits": 0.1645462889867937,
+      "raw_gain_interval": [
+        -3.3893127760587665,
+        -3.2401145214252542
+      ],
+      "calibrated_gain_interval": [
+        0.15767363308473542,
+        0.17207091380248585
+      ],
+      "improvement_bits": 3.4804095653066645,
+      "improvement_interval": [
+        3.4128932083462775,
+        3.548465645328402
+      ],
+      "hard_agreement": 0.5219166738056483,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Hermes-3-Llama-3.1-70B",
+      "inverse_temperature": 0.2014038249380566,
+      "temperature": 4.965149000062725,
+      "calibration_nll_nats": 1.0060220050887494,
+      "boundary": false,
+      "raw_score_bits": -2.61708445856801,
+      "calibrated_score_bits": -1.4528266910222456,
+      "raw_gain_bits": -1.0335182709116204,
+      "calibrated_gain_bits": 0.13073949663414397,
+      "raw_gain_interval": [
+        -1.0645919084140338,
+        -0.9963995034167155
+      ],
+      "calibrated_gain_interval": [
+        0.12486957836272458,
+        0.13805373426980447
+      ],
+      "improvement_bits": 1.1642577675457644,
+      "improvement_interval": [
+        1.134055235698434,
+        1.1896937171729371
+      ],
+      "hard_agreement": 0.5088666152659984,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "Athene-70B",
+      "inverse_temperature": 0.03982569801061873,
+      "temperature": 25.10941552696377,
+      "calibration_nll_nats": 1.026639643427559,
+      "boundary": false,
+      "raw_score_bits": -11.821898505313104,
+      "calibrated_score_bits": -1.4815587089778202,
+      "raw_gain_bits": -10.238332317656715,
+      "calibrated_gain_bits": 0.10200747867856941,
+      "raw_gain_interval": [
+        -10.413200524134776,
+        -10.090037917545573
+      ],
+      "calibrated_gain_interval": [
+        0.0956194025293396,
+        0.10773846976792839
+      ],
+      "improvement_bits": 10.340339796335284,
+      "improvement_interval": [
+        10.195961253351507,
+        10.509319367452674
+      ],
+      "hard_agreement": 0.5008138439133042,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    },
+    {
+      "judge": "dolphin-2.5-mixtral-8x7b",
+      "inverse_temperature": 0.05962969080369529,
+      "temperature": 16.770169130879164,
+      "calibration_nll_nats": 1.0964942145979193,
+      "boundary": false,
+      "raw_score_bits": -2.098568553755262,
+      "calibrated_score_bits": -1.5814244829211914,
+      "raw_gain_bits": -0.5150023660988723,
+      "calibrated_gain_bits": 0.0021417047351981466,
+      "raw_gain_interval": [
+        -0.5337517557022109,
+        -0.4984464979018561
+      ],
+      "calibrated_gain_interval": [
+        0.0016941627551769422,
+        0.002572499164918895
+      ],
+      "improvement_bits": 0.5171440708340704,
+      "improvement_interval": [
+        0.5009549556238923,
+        0.5355479057107361
+      ],
+      "hard_agreement": 0.3582341014877638,
+      "equivalence_estimate": null,
+      "equivalence_status": "above_observed_range",
+      "public_log_scorer_exact": true
+    }
+  ]
+}

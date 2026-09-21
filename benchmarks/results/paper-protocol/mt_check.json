@@ -1,0 +1,169 @@
+{
+  "items": 227,
+  "bootstrap_replicates": 500,
+  "curve": {
+    "0": 0.40675477239353897,
+    "1": 0.6138032305433186,
+    "2": 0.671071953010279
+  },
+  "judge_score": 0.6005873715124815,
+  "equivalence": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.9361702127659569,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 499,
+      "above_range": 1
+    },
+    "interval": [
+      0.6843948604586906,
+      1.7005050505050476
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "partitions": {
+    "0": [
+      [
+        [],
+        0
+      ],
+      [
+        [],
+        1
+      ],
+      [
+        [],
+        2
+      ]
+    ],
+    "1": [
+      [
+        [
+          1
+        ],
+        0
+      ],
+      [
+        [
+          2
+        ],
+        0
+      ],
+      [
+        [
+          0
+        ],
+        1
+      ],
+      [
+        [
+          2
+        ],
+        1
+      ],
+      [
+        [
+          0
+        ],
+        2
+      ],
+      [
+        [
+          1
+        ],
+        2
+      ]
+    ],
+    "2": [
+      [
+        [
+          1,
+          2
+        ],
+        0
+      ],
+      [
+        [
+          0,
+          2
+        ],
+        1
+      ],
+      [
+        [
+          0,
+          1
+        ],
+        2
+      ]
+    ]
+  },
+  "exact_enumerated_curve": true,
+  "exact_existing_classifier_scores": true,
+  "exact_worker_block_parity": true,
+  "exact_save_load": true,
+  "probability_oracle_tolerance": 1e-14,
+  "probability_oracle": "rational ordered draws; decisions match exactly",
+  "seconds": 25.378994875,
+  "source_audit": {
+    "raw_human_annotations": 3355,
+    "raw_gpt4_annotations": 2400,
+    "human_items": 1814,
+    "content_matched_human_items": 1814,
+    "duplicate_human_records": 1,
+    "expert_depth_histogram": {
+      "0": 181,
+      "1": 899,
+      "2": 507,
+      "3": 167,
+      "4": 50,
+      "5": 6,
+      "6": 4
+    },
+    "selected_items": 227,
+    "selected_humans_per_item": 3,
+    "unique_question_clusters": 57,
+    "reference_policy": "one held-out human; exhaustive predictor subsets; equal weight per item",
+    "status": "exploratory released expert annotations; initial-versus-feedback-revised vote provenance unresolved",
+    "probability_limitation": "GPT-4 split contains hard verdicts, no calibrated class probabilities",
+    "paper_table5_reproduced": true,
+    "paper_comparison": [
+      {
+        "turn": 1,
+        "expert_annotations": 1343,
+        "agreement_with_ties": 0.659717051377513,
+        "decisive_annotations": 859,
+        "agreement_non_ties": 0.8463329452852154
+      },
+      {
+        "turn": 2,
+        "expert_annotations": 1325,
+        "agreement_with_ties": 0.6573584905660378,
+        "decisive_annotations": 864,
+        "agreement_non_ties": 0.8460648148148148
+      }
+    ]
+  },
+  "source_hashes": {
+    "mt_human_ratings.csv": "de48e1c69c17a44009edc2e6148d154bc1865b9241ca7658e8fdb47ee5e4cbec",
+    "mt_sample_schedule.npz": "95c2fe0218a74e294ac0ad1fd59cfd6a3ace4b02e2870722e0ab7d0cb61c5747",
+    "mt_classifier_scores.csv": "cc94909389a48bcc86f7c86ea8b4e56f96ccf9cd700127240465a070f802729b"
+  },
+  "implementation_sha256": {
+    "benchmarks/paper_protocol_check.py": "20e0c6693d10c7add9194f8b2f08d270d1d45e50c00f9219bc0741eef4f792f7",
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_equivalence.py": "40d4611215224d494f1de0c421bdc4dd592b7fc00060476aa00a958009bf999f",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_probability.py": "50e4d1dde222b7a8074c8f164da58cc5fdadc421a641229d3d048296168f5abd",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "837f1a64af19ff05caec61cc59c7f0b7073aa1316c42db07d46eb73f235cebf2",
+    "surveyequivalence/combiners.py": "41c9e02d451379b1fa48c1e6057e4ff0e56e5380af9908a84f70377415252573",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "bc9e9f04368dae92981cd27067c6188f0692278eda01794295781ae372bbc783",
+    "surveyequivalence/scoring_functions.py": "733f8a1213a3a2cd76707523e3dd2d6e447629627c34bbeb1f620012e6119c92",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  }
+}

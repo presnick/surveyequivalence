@@ -1,0 +1,73 @@
+{
+  "status": "prepared; inference pending",
+  "items": 648,
+  "requests_sha256": "dfd1819b82536011abd47faf1d03277ee06ca9c6de556f7d2d907ebcd2a75a49",
+  "protocol_sha256": "090bd2602c3aa4177e09aedb5aaebbce84aeeceeaad9305ecee27a517133e76f",
+  "script_sha256": "e5bda641e9afe5b397ae0592cca8894961873018f5345d32c183816396808fba",
+  "total_max_output_tokens": 1327104,
+  "request_file_bytes": 1586496,
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "inference_performed": false,
+  "blocker": "No inference API key configured in this environment",
+  "regression": {
+    "command": ".venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v",
+    "tests": 140,
+    "seconds": 37.976,
+    "result": "OK",
+    "log_sha256": "cbe1d1d4728d1c340692e90f3e325a82690129d9f0258120eafd785b1b622837",
+    "new_test_script_sha256": "626cc7c71be4bc559e87ad51832de90c3b569e785dd53c3db4b158ba726ae6e4"
+  },
+  "offline_control": {
+    "label": "Not AI output: constant p(A)=0.5",
+    "items": 648,
+    "human_curve_cells_checked_exactly": 4008,
+    "metrics": {
+      "agreement": {
+        "score": 0.5015432098765432,
+        "score_status": "finite",
+        "equivalence": {
+          "actual": {
+            "status": "crossing",
+            "estimate": 0.0,
+            "bound": null
+          },
+          "bootstrap_status_counts": {
+            "crossing": 500
+          },
+          "interval": [
+            0.0,
+            1.1102230246251565e-15
+          ],
+          "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+        },
+        "human_baseline_exact_replay": true
+      },
+      "log2_score": {
+        "score": -1.0,
+        "score_status": "finite",
+        "equivalence": {
+          "actual": {
+            "status": "crossing",
+            "estimate": 0.023567133921770567,
+            "bound": null
+          },
+          "bootstrap_status_counts": {
+            "crossing": 500
+          },
+          "interval": [
+            0.01653596552297475,
+            0.036512306586832195
+          ],
+          "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+        },
+        "human_baseline_exact_replay": true
+      }
+    },
+    "figure_visually_checked": true
+  },
+  "limitations": [
+    "No live API submission or response handling has been tested.",
+    "No Astra equivalence estimate or AI leaderboard exists for this cohort yet."
+  ]
+}

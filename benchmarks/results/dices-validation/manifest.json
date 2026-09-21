@@ -1,0 +1,160 @@
+{
+  "revision": "5f5e6bfd859ebdd25c8e558e65c06a6ce27a0bad",
+  "target": "people with education college degree or higher",
+  "populations": {
+    "quality": {
+      "items": 350,
+      "raters": 64,
+      "votes": 22400,
+      "context_clusters": 271,
+      "original_labels": {
+        "No": 13862,
+        "Yes": 7371,
+        "Unsure": 1167
+      },
+      "exact_conversation_matches": 350,
+      "quality_filter": true
+    },
+    "all": {
+      "items": 350,
+      "raters": 75,
+      "votes": 26250,
+      "context_clusters": 271,
+      "original_labels": {
+        "No": 16252,
+        "Yes": 8634,
+        "Unsure": 1364
+      },
+      "exact_conversation_matches": 350,
+      "quality_filter": false
+    }
+  },
+  "generation_index": 0,
+  "bootstraps": 500,
+  "seed": 1729,
+  "k_max": 5,
+  "source_files": {
+    "dices-raw.csv": "63cb8620eb04e64957f9e45b1f7cb3d079c4eed8e8b28909f46e0b7038ce4301",
+    "dices-comments.csv": "699256ca7ec8cdf9542989838faf3d25d66e12d4af8ef90c966897625852c47a",
+    "dices-datasets-source.py": "95c5abd3943a88c338e29d5bdaaab758e08f478df380c3e2ce4be9cbc0424931",
+    "dices-prompts.py": "333211bad1638bfa651cf6af3af0e362a1b05f3c746a083baa6d53a4ea84f808",
+    "dices-original-readme.md": "0e9d5b8fa1ae3d102a77ca4f773a2551b9c0a56f88f5cf825e5db2d405ebd5f3",
+    "perspective-tree.json": "eec6e14841816b731778929bfd2f5fa0b743dc02de25b8a575238c51aeb41a2f"
+  },
+  "ai_sources": {
+    "deepseek-r1:1.5b.jsonl": {
+      "sha256": "d91b0aba2f95b3e7180fab856df82bb0afe16cef6590d2070b2c29aa513ea37e",
+      "git_blob_sha1": "abf5e33c941a5606495e992f20e066378e7612c4",
+      "path": "data/llm_annotations/dices/main/deepseek-r1:1.5b.jsonl"
+    },
+    "deepseek-r1:32b.jsonl": {
+      "sha256": "43f0dc194ca7f43b3a8ec58f2c02cd72fb0fc2552dd97e53fe931f04b979ecde",
+      "git_blob_sha1": "330ab8abc1c518bcdef26c6f7697710b98782648",
+      "path": "data/llm_annotations/dices/main/deepseek-r1:32b.jsonl"
+    },
+    "deepseek-r1:7b.jsonl": {
+      "sha256": "df234407fe92f43d717763aeada9b291abfb55f75c82edbbec77708a83cc48a8",
+      "git_blob_sha1": "89ce7e4a105fc3c740940d6caacb55406330cc63",
+      "path": "data/llm_annotations/dices/main/deepseek-r1:7b.jsonl"
+    },
+    "gemma3:12b.jsonl": {
+      "sha256": "54ae9de053ff6c4d34f7a3a16f2042371b6ae1d284cd7c4b602cd19168d0ae84",
+      "git_blob_sha1": "9fae9c784e0060e6426a08339c255abf6cf57b1b",
+      "path": "data/llm_annotations/dices/main/gemma3:12b.jsonl"
+    },
+    "gemma3:1b.jsonl": {
+      "sha256": "a0393ed7d38a69557a7ea630b75525e5c62906e663c02b9d2d7d9394606249c9",
+      "git_blob_sha1": "4f9077a3f33fa0eda49a1235bf8069b12a568644",
+      "path": "data/llm_annotations/dices/main/gemma3:1b.jsonl"
+    },
+    "gemma3:27b.jsonl": {
+      "sha256": "311615205bc7552047cc0396ea4c8e451958ba4cdaa5a18c1a2c9151bacbff7a",
+      "git_blob_sha1": "db4aef9c7b9026f92e6e269d889572f9965925e9",
+      "path": "data/llm_annotations/dices/main/gemma3:27b.jsonl"
+    },
+    "gpt-5.1.jsonl": {
+      "sha256": "7182f1c4eb8cf15eaa1ebbb551fb70b9b0b669f4ffa7c516ee350539e0ef302c",
+      "git_blob_sha1": "d79314d5dd90510f38823207d2c58994e2fe3db0",
+      "path": "data/llm_annotations/dices/main/gpt-5.1.jsonl"
+    },
+    "gpt-5.1_reasoning=high.jsonl": {
+      "sha256": "dc6d152df935b9956850ef6384e5faabd9e33405e356379b04a892b0fff6a7ed",
+      "git_blob_sha1": "69449115f794321c0d444de5ac1ec489268c9e0e",
+      "path": "data/llm_annotations/dices/main/gpt-5.1_reasoning=high.jsonl"
+    },
+    "gpt-oss:120b.jsonl": {
+      "sha256": "edc1bebe09bab851b5fa574741ddd16e9d945e0e0014fee6485d639033ca8185",
+      "git_blob_sha1": "6c79b31f918b73790d9a2dae91e90fcabfb4c6ca",
+      "path": "data/llm_annotations/dices/main/gpt-oss:120b.jsonl"
+    },
+    "gpt-oss:latest.jsonl": {
+      "sha256": "eb98ad13472d7a9144cd553b982b84c0d4e63d48152c1425d9c9363344d29feb",
+      "git_blob_sha1": "ad783518294da5ef43c41690476fce422e1ce185",
+      "path": "data/llm_annotations/dices/main/gpt-oss:latest.jsonl"
+    },
+    "qwen3-r:1.7b.jsonl": {
+      "sha256": "fa38cacc9beb08d110798d9ccb7c87e82ad70769a5521eee18d01ec3ca373126",
+      "git_blob_sha1": "ac0872e77bd750b1818f1aad7d2e5c55f00c3e06",
+      "path": "data/llm_annotations/dices/main/qwen3-r:1.7b.jsonl"
+    },
+    "qwen3-r:32b.jsonl": {
+      "sha256": "363a9c078b10422f5bf67fefd8d4819ea38eb29ce40eb26e57b39fea63b4c0be",
+      "git_blob_sha1": "205edc12eb8c7ddcdd28b0a16693b1970b4cdc8b",
+      "path": "data/llm_annotations/dices/main/qwen3-r:32b.jsonl"
+    },
+    "qwen3-r:8b.jsonl": {
+      "sha256": "0cbb529a57095e2f167e4e5ac324ded3171ac79734c838a6f26db1be8d575f30",
+      "git_blob_sha1": "08f628eac759ca1435185c71dc89480ccea4e029",
+      "path": "data/llm_annotations/dices/main/qwen3-r:8b.jsonl"
+    },
+    "qwen3:1.7b.jsonl": {
+      "sha256": "f605954fc0bae17ef795d511c2dde1b9cefea889673cfd920fe2428149b0197a",
+      "git_blob_sha1": "c45a282e2406030ce2d1edd5098030686456feeb",
+      "path": "data/llm_annotations/dices/main/qwen3:1.7b.jsonl"
+    },
+    "qwen3:32b.jsonl": {
+      "sha256": "e727ab7bbf60db5a204b24f35f9764e4344ca648922f50a1ae664f720279c979",
+      "git_blob_sha1": "4342a15c6d24efd8f366cfe30b53c9d9eb78bd49",
+      "path": "data/llm_annotations/dices/main/qwen3:32b.jsonl"
+    },
+    "qwen3:8b.jsonl": {
+      "sha256": "95b9018811f584e823b55685517bec2f95ce3c9326e6b13ed2c489a189312eaa",
+      "git_blob_sha1": "fd4d0877cf9fd834680b5a0cc6314cf6bd06bd0c",
+      "path": "data/llm_annotations/dices/main/qwen3:8b.jsonl"
+    }
+  },
+  "independent_score_max_absolute_errors": {
+    "quality_log2": 0.0,
+    "quality_agreement": 0.0,
+    "all_log2": 0.0
+  },
+  "independent_score_tolerance": 2e-14,
+  "exact_serial_parallel_replay": true,
+  "replay_scope": "k=0,1; 4 samples; first raw judge; one subset/reference",
+  "seconds": 92.939171375,
+  "protocol_sha256": "04bd44185ae04f6029533aee227893e6f9c080deecd4e587a9dffdaafc4cd200",
+  "implementation_sha256": {
+    "benchmarks/dices_validation.py": "39e0114953dd58ee67ee67f13593b5d011a54c7e081a788b209547898c6ab953",
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_equivalence.py": "40d4611215224d494f1de0c421bdc4dd592b7fc00060476aa00a958009bf999f",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_probability.py": "50e4d1dde222b7a8074c8f164da58cc5fdadc421a641229d3d048296168f5abd",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "837f1a64af19ff05caec61cc59c7f0b7073aa1316c42db07d46eb73f235cebf2",
+    "surveyequivalence/combiners.py": "41c9e02d451379b1fa48c1e6057e4ff0e56e5380af9908a84f70377415252573",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "bc9e9f04368dae92981cd27067c6188f0692278eda01794295781ae372bbc783",
+    "surveyequivalence/scoring_functions.py": "733f8a1213a3a2cd76707523e3dd2d6e447629627c34bbeb1f620012e6119c92",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  },
+  "reporting_script_sha256": "f924a825954bae0a3c0fe255db91f8e386ef01de699909175b6b073b0812c057",
+  "report_input_sha256": {
+    "quality_log2/human_curve.csv": "8aff316d7e63d74fc9823e20d905c67c04bdc21d7a6b23679ae0af62c2ddefdc",
+    "quality_log2/judge_scores.csv": "4c963db2d7713fc682541485f07d53baf5ceb16167aa928becbfba089f6f51eb",
+    "all_log2/human_curve.csv": "f3d2cbf1cacff808436550c095b35e8f12830b7d71ebe5b05df5252fbb445eb7",
+    "all_log2/judge_scores.csv": "1fd275ef7575c863e90140c0334f4c0c8085135e7ee76cf40ab85967fcf615a8",
+    "quality_agreement/human_curve.csv": "2383e7fefb73bec03e716fb06e2658c94ee31621459ba3aefe66c72a8213d7ef",
+    "quality_agreement/judge_scores.csv": "45e6de8fd743f1f474fe681210e6ee156d0f7d8072112b2095195646cc346a12"
+  }
+}

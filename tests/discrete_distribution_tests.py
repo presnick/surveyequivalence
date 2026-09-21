@@ -323,7 +323,9 @@ class TestDiscreteDistributionSurveyEquivalence(unittest.TestCase):
         # self.assertAlmostEqual(score, 0.4, places=3)
         # ROC doesn't make sense with only one class
         score = AUCScore.score(small_dataset, ['b', 'b', 'a'])
-        self.assertAlmostEqual(score, 0.75, places=3)
+        # P(b) ranks both positive items above the negative item: AUC=1.
+        # The old .75 expectation ranked confidence in whichever class won.
+        self.assertAlmostEqual(score, 1.0, places=3)
 
     def test_non_full_rating_matrix(self):
         datasets = [synthetic_datasets.make_non_full_dataset_1(num_items_per_dataset=100).dataset]

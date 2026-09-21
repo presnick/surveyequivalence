@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "HateXplain": {
+      "curve_sha256": "fef3a7761b8f06f9828e2d7594758e7adc6a6917c385a17458136efa9042396a",
+      "manifest_sha256": "3133bea8b6389e4e931117542914d5c421bfdf405c2b1dd0739666a1b0803cd0"
+    },
+    "CIFAR-10H": {
+      "curve_sha256": "248a42463f3c4c9c9bea7aec60e661f264b6cee88a167b10675d23bddc3a20b9",
+      "manifest_sha256": "e555da83638f78db3e58df67474abeddcf3ac112b352fafb2a6d8e65f8e70790"
+    },
+    "AlpacaEval": {
+      "curve_sha256": "65d9c868a9643293606725670a382c888b5d7d5f65b4cdaf73aab38259ee9982",
+      "manifest_sha256": "02f37ed72f1763e6184f24e1495d67278c11a85f7c4e61e8797695a92f866137"
+    }
+  },
+  "plotting_script_sha256": "e2f356a2452f678f0b1579af103b416671bb3520b5acbb7649b647bc7ff8da69",
+  "actual_sample": 0,
+  "bootstrap_samples": "1..500",
+  "quantiles": [
+    0.025,
+    0.975
+  ],
+  "astra_plotted": false
+}

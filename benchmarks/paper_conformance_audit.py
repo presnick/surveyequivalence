@@ -22,7 +22,7 @@ import pandas as pd
 from surveyequivalence import AnalysisPipeline, AnonymousBayesianCombiner, FrequencyCombiner, AgreementScore
 from surveyequivalence.combiners import DiscreteDistributionPrediction, DiscretePrediction
 from surveyequivalence.equivalence import PowerCurve
-from arena_validation import supported_equivalence
+from surveyequivalence._equivalence import supported_equivalence
 
 
 def pipeline(W, **kwargs):

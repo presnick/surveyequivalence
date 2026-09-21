@@ -1,5 +1,8 @@
 # Real-data Arena and MT-Bench validation
 
+**Follow-up:** [Held-out calibration and paper-protocol repairs](arena_leaderboard_progress.md) now show positive held-out log-score gains for all 16 calibrated judges. This page records the earlier uncalibrated experiment; its graphs remain specific to that configuration. Positive multi-human Arena equivalences remain unmeasured.
+
+
 Run September 16, 2026 in the existing pinned environment. The experiments use released human judgments and AI predictions; no new model inference or GPU was used. Raw data is cached outside version control. Dataset revisions, hashes, runtime-source hashes and seed are recorded in the [manifest](../benchmarks/results/arena-validation/manifest.json).
 
 **The supported experiments ran successfully. Positive human-panel equivalence for multiple Arena judges is still not identifiable from these releases alone.** Arena supports a comparison of many AI judges against one observed human vote per battle. MT-Bench supports an exploratory repeated-human comparison, but only one released AI judge, and its votes' independence from judge feedback is unresolved.
@@ -40,7 +43,7 @@ For the three prespecified pilot judges, reversed-order outputs were mapped back
 
 The plot also reports the package's mean log2 probability of the human outcome, with higher values better. Logits were converted to float64 softmax probabilities, then passed through the package's existing .02 clipping and normalization. These are **uncalibrated verdict probabilities**, not established human-vote probabilities.
 
-The best log score was the base Meta-Llama-3-8B model at −1.6357 bits, despite only 37.49% hard agreement. Every evaluated judge scored below the uniform-probability baseline of −log2(3) = −1.5850. This shows why hard-decision agreement and probabilistic prediction quality cannot be conflated: confident wrong judgments are costly under log scoring. It does not establish that the base model is the best calibrated judge. Temperature calibration on separate prompt groups is a future experiment; no calibration was fitted on this evaluation set.
+The best log score was the base Meta-Llama-3-8B model at −1.6357 bits, despite only 37.49% hard agreement. Every evaluated judge scored below the uniform-probability baseline of −log2(3) = −1.5850. This shows why hard-decision agreement and probabilistic prediction quality cannot be conflated: confident wrong judgments are costly under log scoring. It does not establish that the base model is the best calibrated judge. No calibration was fitted in this original experiment. The [subsequent prompt-held-out calibration experiment](arena_leaderboard_progress.md) uses a separate fixed split and changes that result.
 
 For every downloaded judge, public pipeline classifier scores matched independent agreement counts and ordered `math.log2` reductions exactly. This validates the used scoring path on these data, not every advertised scorer.
 
@@ -90,9 +93,8 @@ With the downloads already present:
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -p '*_tests.py' -v
-.venv/bin/python benchmarks/arena_validation.py --bootstraps 500
-.venv/bin/python benchmarks/arena_pipeline_checks.py --bootstraps 500
-.venv/bin/python benchmarks/arena_validation.py --plot-only
+.venv/bin/python research/arena.py --bootstraps 500
+.venv/bin/python research/arena.py --plot-only
 ```
 
 For a fresh download, create `.cache/arena-validation`, save the pinned AI dataset README from revision `638a7e3be3078e55d2eb0b789d34749747822c49` as `arena-judges-README.md`, run `arena_validation.py --download-config`, and use `curl -L --fail --config .cache/arena-validation/download.conf`. The generated source manifest lists every pinned file. MT-Bench's optional Parquet reader was installed separately using `.venv/bin/python -m pip install --no-deps --target .cache/arena-reader pyarrow==14.0.2`; the project dependency lock was unchanged.

@@ -25,7 +25,7 @@ def main():
                        OMP_NUM_THREADS='1', VECLIB_MAXIMUM_THREADS='1')
     checks = []
     for name, script in (
-        ('combiners', 'tests/combiner_input_audit.py'),
+        ('combiners', 'benchmarks/combiner_input_audit.py'),
         ('scorers', 'benchmarks/scorer_math_audit.py'),
         ('statistics', 'benchmarks/statistics_audit.py'),
         ('execution', 'benchmarks/execution_audit.py'),

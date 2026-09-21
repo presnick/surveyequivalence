@@ -1,0 +1,30 @@
+{
+  "items": 648,
+  "selected_votes": 2592,
+  "available_votes": 2596,
+  "unique_humans": 16,
+  "prompt_clusters": 605,
+  "seed": 1729,
+  "bootstraps": 500,
+  "curves": {
+    "Agreement": {
+      "0": 0.5015432098765432,
+      "1": 0.6177983539094649,
+      "2": 0.6239711934156379,
+      "3": 0.6566358024691358
+    },
+    "Log2 score": {
+      "0": -1.0009453119319205,
+      "1": -0.9608338611692445,
+      "2": -0.9351135605964876,
+      "3": -0.9188130818117496
+    }
+  },
+  "source_sha256": "e75b70d6176cf50f8d9898065541445050e164ebce3704e6d7becf99e39ed704",
+  "batch_sha256": "1d221c94c6d68aee36a46b77cc381ef4465e976aaaaf4dfda072c191f97737b7",
+  "batch_path": ".cache/dataset-search/alpaca-judge-batch.jsonl",
+  "batch_status": "prepared; no inference or AI equivalence computed",
+  "script_sha256": "708a9ab0f99dafdc4cf0c030feb49139ce337649d73bc744ce738b67ce5a9e42",
+  "revision": "2edc6fad8be6b14ea7230aabfd08188da6b8b814",
+  "slot_policy": "Per-item random selection and ordering of four distinct humans; slots are not global rater identities"
+}

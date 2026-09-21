@@ -74,6 +74,14 @@ class DiscreteDistributionPrediction(Prediction):
         normalize: If true, then probabilities will be re-normalized, after extreme_cutoff is applied.
         """
         super().__init__()
+        probabilities = list(probabilities)
+        if (not len(label_names) or len(label_names) != len(probabilities)
+                or len(set(label_names)) != len(label_names)
+                or not np.all(np.isfinite(probabilities))
+                or any(pr < 0 for pr in probabilities) or sum(probabilities) <= 0):
+            raise ValueError('probabilities require unique labels, finite nonnegative weights and positive mass')
+        if not np.isfinite(extreme_cutoff) or not 0 <= extreme_cutoff < .5:
+            raise ValueError('extreme_cutoff must be finite and in [0, .5)')
         self.label_names = label_names
         self.probabilities = [min(1 - extreme_cutoff, max(extreme_cutoff, pr)) for pr in probabilities]
 
@@ -155,7 +163,7 @@ class Combiner(ABC):
     function. For example, the PluralityCombiner accepts a bag of labels and returns the label that is most frequent.
     """
 
-    def __init__(self, allowable_labels: Sequence[str] = None, W = None, verbosity=0):
+    def __init__(self, allowable_labels: Sequence[str] = None, W = None, verbosity=0, extreme_cutoff=0.02):
         """
         Constructor
 
@@ -165,6 +173,8 @@ class Combiner(ABC):
         verbosity: verbosity parameter. Takes values 1, 2, or 3 for increasing verbosity.
         W: if W is not None, memoization will be performed
         """
+        self.extreme_cutoff = extreme_cutoff
+        self._training_has_ids = isinstance(W, pd.DataFrame)
         self.allowable_labels = allowable_labels
         self.verbosity = verbosity
         self.W = W
@@ -340,7 +350,7 @@ class FrequencyCombiner(Combiner):
         tot = sum(freqs.values())
         if tot == 0:
             return None
-        return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels])
+        return DiscreteDistributionPrediction(allowable_labels, [freqs[k] / tot for k in allowable_labels], extreme_cutoff=self.extreme_cutoff)
 
 
 class AnonymousBayesianCombiner(Combiner):
@@ -420,7 +430,7 @@ class AnonymousBayesianCombiner(Combiner):
             return None
         prediction = prediction / total
 
-        output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist())
+        output = DiscreteDistributionPrediction(allowable_labels, prediction.tolist(), extreme_cutoff=self.extreme_cutoff)
 
         if memo_flag:
             self.combined[cache_key] = output

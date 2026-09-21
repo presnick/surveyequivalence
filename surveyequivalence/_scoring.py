@@ -4,7 +4,7 @@ This module deliberately recognizes exact built-in classes only. Subclasses,
 nonlinear metrics, and Monte Carlo expectations retain the public scorer path.
 """
 
-from math import log2
+from ._probability import log_probability
 
 import numpy as np
 
@@ -93,7 +93,7 @@ def prepare_scores(scorer, predictions, W, anonymous):
                 if is_missing(label, vocabulary):
                     continue
                 values[position, column] = (pred.value == label if agreement
-                                             else log2(pred.label_probability(label)))
+                                             else log_probability(pred.label_probability(label)))
                 valid[position, column] = True
             continue
         counts = {}
@@ -124,7 +124,8 @@ def prepare_scores(scorer, predictions, W, anonymous):
                 key = (count, total, panel)
                 if key not in probabilities:
                     probabilities[key] = _majority_probability(count, total, panel)
-                term += probabilities[key] * log2(pred.label_probability(label))
+                if probabilities[key]:
+                    term += probabilities[key] * log_probability(pred.label_probability(label))
             values[position] = term
         valid[position] = True
     return values, valid, ('anonymous' if anonymous else 'agreement' if agreement else 'cross_entropy')

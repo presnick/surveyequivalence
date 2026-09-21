@@ -1,0 +1,49 @@
+{
+  "items": 10000,
+  "panel_depth": 47,
+  "labels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "seed": 1729,
+  "bootstraps": 500,
+  "clusters": 10000,
+  "k_max": 2,
+  "requested_k_max": 2,
+  "support_restriction": null,
+  "source": {
+    "source_sha256": "4b0283f9b2ae72a616eeb4a2a38474cc2a238eb041bfb8df5ead3a8a47f35aa3",
+    "count_file_sha256": "9b36b4550349af56c79083356312eb4af856cc5fd3caf1f669d40b9d0bbb69ff",
+    "exact_released_counts_match": true,
+    "attention_threshold": 0.8,
+    "available_votes": 511000,
+    "selected_votes": 470000,
+    "selected_humans_per_item": 47
+  },
+  "astra_status": "No predictions available; no Astra score or equivalence calculated",
+  "slot_policy": "Distinct people sampled/ordered per item without conditioning on labels; slots are not global identities",
+  "interval_scope": "Conditional on fitted combiner, fixed human selection and sampled partitions; bootstrap items/groups only",
+  "implementation_sha256": {
+    "benchmarks/plot_dataset_human_curves.py": "e2f356a2452f678f0b1579af103b416671bb3520b5acbb7649b647bc7ff8da69",
+    "surveyequivalence/__init__.py": "e2abd0f056def7ef282729009d58edc2ca5b9a9193bef1ce7d00c5ffedf7ce2f",
+    "surveyequivalence/_data.py": "78b05684a6e2725706e88d8105cb4eacacd437b369bb76cad28cc883dc09e03d",
+    "surveyequivalence/_equivalence.py": "40d4611215224d494f1de0c421bdc4dd592b7fc00060476aa00a958009bf999f",
+    "surveyequivalence/_execution.py": "fc66f03d27f53385f99d4471df3c5e4d2cef1b41b016b7c1cf8d87425ade21e4",
+    "surveyequivalence/_probability.py": "50e4d1dde222b7a8074c8f164da58cc5fdadc421a641229d3d048296168f5abd",
+    "surveyequivalence/_random.py": "d31c0588aa7cf9f1a9f4901451746b2909944e92685cd08d1d66a3f6cd6dad59",
+    "surveyequivalence/_scoring.py": "837f1a64af19ff05caec61cc59c7f0b7073aa1316c42db07d46eb73f235cebf2",
+    "surveyequivalence/combiners.py": "41c9e02d451379b1fa48c1e6057e4ff0e56e5380af9908a84f70377415252573",
+    "surveyequivalence/data_noise_generator.py": "f3447e1cc77242a3ac8711deecd01c2b5c4d7569b0cfbc735ea5b2ca3481ea0f",
+    "surveyequivalence/equivalence.py": "bc9e9f04368dae92981cd27067c6188f0692278eda01794295781ae372bbc783",
+    "surveyequivalence/scoring_functions.py": "733f8a1213a3a2cd76707523e3dd2d6e447629627c34bbeb1f620012e6119c92",
+    "surveyequivalence/synthetic_datasets.py": "1398970c484bfc76a01e6f10d0e9feecf922a82aac1018c1b874fb23ebe09aa6"
+  }
+}

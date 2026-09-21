@@ -1,0 +1,482 @@
+{
+  "deepseek-r1:1.5b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.08876931772643107
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "deepseek-r1:32b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.2551452379554738
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "deepseek-r1:7b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0863576369927579
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:12b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.16974482926133258
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:1b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0863576369927579
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:27b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.24794028115050426
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-5.1|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.11944545274564933,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.4953139156364609
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-5.1_reasoning=high|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.8012673382606246,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.13353410668876242,
+      1.360823960054588
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-oss:120b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.514577505678043
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-oss:latest|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.3905088777005278,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.8185489518035423
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:1.7b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.1515910143186031
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:32b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.14799396358340147
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:8b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0863576369927579
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:1.7b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.045062709625932035
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:32b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.24353345735884416
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:8b|clip=0": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0863576369927579
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "deepseek-r1:1.5b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "deepseek-r1:32b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "deepseek-r1:7b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:12b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:1b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gemma3:27b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-5.1|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-5.1_reasoning=high|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-oss:120b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "gpt-oss:latest|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:1.7b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:32b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3-r:8b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:1.7b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:32b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  },
+  "qwen3:8b|clip=0.01": {
+    "actual": {
+      "status": "crossing",
+      "estimate": 0.0,
+      "bound": null
+    },
+    "bootstrap_status_counts": {
+      "crossing": 500
+    },
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "interval_note": "Paired percentile interval; all censored samples retained. Both endpoint ranks are within observed crossings."
+  }
+}

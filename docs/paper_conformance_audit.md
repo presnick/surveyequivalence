@@ -1,5 +1,8 @@
 # Audit against the rater-equivalence paper
 
+**Implementation follow-up:** the [paper-protocol repairs and real-data replay](arena_leaderboard_progress.md) address several findings below. This document preserves the original audit; the [new diagnostic run](../benchmarks/results/paper-protocol/diagnostics/summary.json) records current remaining failures.
+
+
 **Verdict: the software implements the central framework, but it does not strictly implement every mechanism in the attached paper and cannot yet be certified mathematically correct across its supported inputs.** Some differences are deliberate extensions; others are confirmed defects. Exact agreement with historical software does not establish agreement with the paper.
 
 Audited September 16, 2026 against runtime revision `39c80fc`, using **Principled Evaluation with Human Labels: One Rater at a Time and Rater Equivalence**, Paul Resnick, Yuqing Kong, Grant Schoenebeck, and Tim Weninger, **arXiv:2106.01254v3, April 22, 2026**, 60 pages. Page numbers below are printed/PDF page numbers. The supplied `rater.pdf` has SHA-256 `9e8ef1828a914882a497521e0768ad61f169dc817478166fe1d57526935568f3`.
@@ -20,8 +23,8 @@ This audit changes no production implementation, existing tests, tolerances, or 
 .venv/bin/python benchmarks/run_correctness_audit.py --output-dir benchmarks/results/paper-audit/legacy-diagnostics
 .venv/bin/python benchmarks/paper_conformance_audit.py
 # Existing validated Arena files and ignored raw-data cache are required:
-.venv/bin/python benchmarks/paper_arena_baseline.py
-.venv/bin/python benchmarks/plot_paper_equivalence.py
+.venv/bin/python research/arena_baseline.py
+.venv/bin/python research/arena_figures.py
 ```
 
 ## What the paper actually measures
@@ -82,7 +85,7 @@ Algorithm 2 returns the posterior itself. Its convergence/optimality claims do n
 
 [`compute_one_equivalence`](../surveyequivalence/equivalence.py#L312) looks for strict `>` rather than `>=`. For `{0:.2, 1:.5, 2:.5, 3:.8}` and score `.5`, it returns **2 instead of 1**. A missing crossing can produce a fabricated zero. An above-range score returns the final size as an ordinary number, losing the lower-bound interpretation.
 
-The newer [`supported_equivalence`](../benchmarks/arena_validation.py#L129) handles several of those problems, but has another boundary error: with `{0:.2, 1:.5}` and score `.1`, it reports lower censoring at 0 instead of **identified equivalence 0**. This does not affect the existing MT point estimate or its saved replicates. It does matter for interpreting Arena.
+The newer [`supported_equivalence`](../research/arena.py#L129) handles several of those problems, but has another boundary error: with `{0:.2, 1:.5}` and score `.1`, it reports lower censoring at 0 instead of **identified equivalence 0**. This does not affect the existing MT point estimate or its saved replicates. It does matter for interpreting Arena.
 
 **Repair:** one shared, independently tested result API for point estimates, lower/upper bounds, missing support, and reasons. Start at zero, scan ordered segments, return the earliest equality/crossing, and preserve missingness. When `min_k>0`, distinguish unsupported lower sizes from an identified zero. Preserve sample identities. Test plateaus, descending segments, equality, empty/gapped curves, and both boundaries. Do not enforce monotonicity silently; it changes the empirical curve.
 
