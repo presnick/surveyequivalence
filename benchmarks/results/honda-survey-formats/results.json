@@ -1,0 +1,171 @@
+{
+  "data_kind": "Observed individual human responses; no synthetic labels",
+  "source": "https://osf.io/sxdf9/",
+  "paper": "https://www.nature.com/articles/s41598-022-11900-7",
+  "download": "https://osf.io/download/uxrhd/",
+  "source_sha256": "eab733c6545403e8eba3c63bdac9501d95225d81ceb87cf0ccf3311a25f63f5f",
+  "people": 901,
+  "items": 9,
+  "truth": [
+    183.0,
+    287.0,
+    360.0,
+    453.0,
+    554.0,
+    633.0,
+    719.0,
+    807.0,
+    986.0
+  ],
+  "score": "sqrt(E_panel[mean_image((panel_mean - truth)^2)]) in dots; lower is better",
+  "formula": "MSE_g(k) = mean_q[(mean_gq-truth_q)^2 + sample_variance_gq*(1/k - 1/n_g)]",
+  "sampling": "Uniform without replacement among distinct released participant rows; same people across all nine images",
+  "weighting": "Equal weight for each of nine images; all formats share the same targets",
+  "reference": {
+    "format": "Number",
+    "panel_size": 10,
+    "rms_error": 140.29652261299947
+  },
+  "equivalence": "Smallest integer k with expected MSE no greater than Number at k=10; no extrapolation beyond k=100",
+  "uncertainty": "2000 percentile bootstrap replicates of whole people within format, nine images fixed; target recomputed in each draw; order-statistic bounds retain >100 draws",
+  "seed": 23092026,
+  "bootstrap_replicates": 2000,
+  "format_results": [
+    {
+      "format": "Number",
+      "description": "Type a number",
+      "people": 128,
+      "rms_error_k1": 281.42666210903565,
+      "rms_error_k10": 140.29652261299947,
+      "rms_error_k100": 117.18075383119245,
+      "needed_to_match_10_number": 10,
+      "bootstrap_95_low": 10,
+      "bootstrap_95_high": 10,
+      "bootstrap_fraction_above_100": 0.0
+    },
+    {
+      "format": "Scale 1",
+      "description": "Drag / endpoints",
+      "people": 128,
+      "rms_error_k1": 233.88818887629478,
+      "rms_error_k10": 130.8412471250141,
+      "rms_error_k100": 115.58982072210584,
+      "needed_to_match_10_number": 7,
+      "bootstrap_95_low": 3,
+      "bootstrap_95_high": ">100",
+      "bootstrap_fraction_above_100": 0.045
+    },
+    {
+      "format": "Scale 2",
+      "description": "Click / endpoints",
+      "people": 133,
+      "rms_error_k1": 230.66202350926807,
+      "rms_error_k10": 127.69516572876773,
+      "rms_error_k100": 112.32169860097464,
+      "needed_to_match_10_number": 6,
+      "bootstrap_95_low": 3,
+      "bootstrap_95_high": ">100",
+      "bootstrap_fraction_above_100": 0.0345
+    },
+    {
+      "format": "Scale 3",
+      "description": "Drag / midpoint",
+      "people": 126,
+      "rms_error_k1": 228.21619248305726,
+      "rms_error_k10": 109.55847737821158,
+      "rms_error_k100": 89.41533934862028,
+      "needed_to_match_10_number": 4,
+      "bootstrap_95_low": 2,
+      "bootstrap_95_high": 8,
+      "bootstrap_fraction_above_100": 0.0
+    },
+    {
+      "format": "Scale 4",
+      "description": "Click / midpoint",
+      "people": 126,
+      "rms_error_k1": 224.7868675044633,
+      "rms_error_k10": 123.06809447886813,
+      "rms_error_k100": 107.73772731164632,
+      "needed_to_match_10_number": 5,
+      "bootstrap_95_low": 3,
+      "bootstrap_95_high": 42,
+      "bootstrap_fraction_above_100": 0.016
+    },
+    {
+      "format": "Scale 5",
+      "description": "Drag / quartiles",
+      "people": 130,
+      "rms_error_k1": 227.4297881699065,
+      "rms_error_k10": 108.16318444043962,
+      "rms_error_k100": 87.73124335392357,
+      "needed_to_match_10_number": 4,
+      "bootstrap_95_low": 2,
+      "bootstrap_95_high": 8,
+      "bootstrap_fraction_above_100": 0.0
+    },
+    {
+      "format": "Scale 6",
+      "description": "Click / quartiles",
+      "people": 130,
+      "rms_error_k1": 234.01836439005137,
+      "rms_error_k10": 111.65219892214513,
+      "rms_error_k100": 90.75447861888586,
+      "needed_to_match_10_number": 4,
+      "bootstrap_95_low": 3,
+      "bootstrap_95_high": 9,
+      "bootstrap_fraction_above_100": 0.0
+    }
+  ],
+  "checks": {
+    "Number": {
+      "k1_direct": 79200.96614583333,
+      "k2_all_pairs": 46135.49287442585,
+      "all_person_pairs": 8128,
+      "full_pool_mse": 13586.667622884115
+    },
+    "Scale 1": {
+      "k1_direct": 54703.684895833336,
+      "k2_all_pairs": 33823.544369942036,
+      "all_person_pairs": 8128,
+      "full_pool_mse": 13269.656039767795
+    },
+    "Scale 2": {
+      "k1_direct": 53204.96908939014,
+      "k2_all_pairs": 32705.572567783092,
+      "all_person_pairs": 8778,
+      "full_pool_mse": 12514.437648004725
+    },
+    "Scale 3": {
+      "k1_direct": 52082.630511463845,
+      "k2_all_pairs": 29816.202430335095,
+      "all_person_pairs": 7875,
+      "full_pool_mse": 7903.20971557347
+    },
+    "Scale 4": {
+      "k1_direct": 50529.135802469136,
+      "k2_all_pairs": 30871.702511463845,
+      "all_person_pairs": 7875,
+      "full_pool_mse": 11526.291971109435
+    },
+    "Scale 5": {
+      "k1_direct": 51724.30854700855,
+      "k2_all_pairs": 29488.178503279665,
+      "all_person_pairs": 8385,
+      "full_pool_mse": 7594.142767915841
+    },
+    "Scale 6": {
+      "k1_direct": 54764.59487179487,
+      "k2_all_pairs": 31265.494123103424,
+      "all_person_pairs": 8385,
+      "full_pool_mse": 8127.918001314926
+    }
+  },
+  "limitations": [
+    "Finite observed respondent pools and only nine deliberately chosen images",
+    "Bootstrap does not measure uncertainty across new images",
+    "Response formats differ, not substantive question content",
+    "Distinct row records cannot establish identities across experiments",
+    "No causal assignment claim or future-event forecasting claim",
+    "Primary RMS scoring differs from the earlier proposed MAE; chosen for exact finite-pool curves"
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "sources": [
+    {
+      "name": "bluebirds_labels.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/labels.yaml",
+      "sha256": "8b1b28e4b869b19bb03beac476c7073149cef784f9524ebe17380a1292a6126c",
+      "bytes": 58941
+    },
+    {
+      "name": "bluebirds_gt.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/gt.yaml",
+      "sha256": "c9eb769c845ca99495a07b5c28c4290c78436fd8eac65c0747736c4ef8126340",
+      "bytes": 1533
+    },
+    {
+      "name": "ducks_labels.txt",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/labels.txt",
+      "sha256": "00584030f5edcbf125053046021a638da344911fecb797ab19c2efb5efe4fec0",
+      "bytes": 79932
+    },
+    {
+      "name": "ducks_classes.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/classes.yaml",
+      "sha256": "7cf1dcf477e7c06d6186180c34ed275ac76e42ba24ffbef444a165aa06d64d55",
+      "bytes": 1960
+    },
+    {
+      "name": "S3_CityTask.csv",
+      "url": "https://osf.io/download/vyx8a/",
+      "sha256": "68bd4c618ecc34700038dedd695bc28daef84d9bf54b91810e91bef4fa9fc2eb",
+      "bytes": 24282721
+    },
+    {
+      "name": ".cache/sports-survey-data/nba_complete_responses.jsonl",
+      "sha256": "8b933bf5b6ddf140c8311015d163680d35a1285f40637079c11a23b9339cb6e5",
+      "url": "https://osf.io/download/zwsgu/"
+    }
+  ],
+  "datasets": {
+    "bluebirds": {
+      "truth_source": "Original gt.yaml, not derived from crowd vote.",
+      "task": "Indigo Bunting versus Blue Grosbeak; original Boolean label coding retained.",
+      "items": 108,
+      "raters": 39,
+      "votes": 4212,
+      "min_depth": 39,
+      "max_depth": 39,
+      "truth_counts": {
+        "0": 60,
+        "1": 48
+      }
+    },
+    "ducks": {
+      "truth_source": "Original species classes; Mallard and American Black Duck are positive.",
+      "species_names": {
+        "0": "Mallard",
+        "1": "Canada Goose",
+        "2": "American Black Duck",
+        "3": "Non Bird",
+        "4": "Red-necked Grebe"
+      },
+      "items": 240,
+      "raters": 53,
+      "votes": 9600,
+      "min_depth": 40,
+      "max_depth": 40,
+      "truth_counts": {
+        "0": 140,
+        "1": 100
+      }
+    },
+    "cities": {
+      "raw_rows": 109500,
+      "raw_raters": 120,
+      "retained_raters": 99,
+      "retained_trials": 99000,
+      "missing_decisions_excluded": 213,
+      "valid_votes": 98787,
+      "rule": "Keep subjects with 1000 trials over two sessions; exclude absent decisions; no confidence filter.",
+      "orientation": "Vote/truth 1 means lexicographically second city; use recorded historical populations.",
+      "dependence": "Repeated city identities; main curve is fixed-item descriptive, without item-iid intervals.",
+      "items": 1000,
+      "raters": 99,
+      "votes": 98787,
+      "min_depth": 97,
+      "max_depth": 99,
+      "truth_counts": {
+        "0": 513,
+        "1": 487
+      }
+    },
+    "nba": {
+      "rule": "Existing complete three-answer cohort; game codes retained.",
+      "truth_source": "Actual winner code from released workbook.",
+      "waves": 11,
+      "items": 465,
+      "raters": 113,
+      "votes": 9788,
+      "min_depth": 10,
+      "max_depth": 61,
+      "truth_counts": {
+        "1": 265,
+        "0": 200
+      }
+    }
+  },
+  "prepared_sha256": "93e57d16e3047bfa7ab0c4d21e2f489ce77b5a3cedcb241fd21a23a584f68035",
+  "license_note": "Source provenance retained; CUBAM software license does not establish image rights; city OSF license unspecified.",
+  "input_adapter_sha256": "505c200b38776bba649a9c26ae08cc49e0b1ded1d55939ecaacc09fa1252270b"
+}

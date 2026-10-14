@@ -1,0 +1,199 @@
+{
+  "seed": 20261006,
+  "bootstrap_replicates": 4000,
+  "nba_bootstrap_replicates": 10000,
+  "summary": [
+    {
+      "dataset": "nba",
+      "items": 465,
+      "raters": 113,
+      "max_panel": 10,
+      "single_accuracy": 0.6309486189744582,
+      "max_panel_accuracy": 0.6589461626394882,
+      "iid_accuracy_at_max": 0.7945455570174442,
+      "gap_pp": 13.559939437795599,
+      "model_whole_equivalent": "3",
+      "model_interpolated_equivalent": "2.46",
+      "model_equivalent_95_lower": "3",
+      "model_equivalent_95_upper": "3",
+      "model_no_crossing_fraction": 0.0,
+      "bootstrap_below_chance_fraction": 0.0,
+      "majority_wrong_items": 151,
+      "majority_tied_items": 16,
+      "uncertainty": "10000 paired wave resamples; conditional on people"
+    },
+    {
+      "dataset": "bluebirds",
+      "items": 108,
+      "raters": 39,
+      "max_panel": 39,
+      "single_accuracy": 0.6355650522317186,
+      "max_panel_accuracy": 0.7592592592592593,
+      "iid_accuracy_at_max": 0.9587882657668086,
+      "gap_pp": 19.952900650754934,
+      "model_whole_equivalent": "7",
+      "model_interpolated_equivalent": "6.51",
+      "model_equivalent_95_lower": "5",
+      "model_equivalent_95_upper": "11",
+      "model_no_crossing_fraction": 0.0,
+      "bootstrap_below_chance_fraction": 0.0,
+      "majority_wrong_items": 26,
+      "majority_tied_items": 0,
+      "uncertainty": "4000 class-stratified image resamples; conditional on workers"
+    },
+    {
+      "dataset": "cities",
+      "items": 1000,
+      "raters": 99,
+      "max_panel": 97,
+      "single_accuracy": 0.6771508244659963,
+      "max_panel_accuracy": 0.7602424242424242,
+      "iid_accuracy_at_max": 0.9998507090376314,
+      "gap_pp": 23.960828479520725,
+      "model_whole_equivalent": "5",
+      "model_interpolated_equivalent": "4.11",
+      "model_equivalent_95_lower": null,
+      "model_equivalent_95_upper": null,
+      "model_no_crossing_fraction": null,
+      "bootstrap_below_chance_fraction": null,
+      "majority_wrong_items": 239,
+      "majority_tied_items": 0,
+      "uncertainty": "Fixed-item descriptive; none estimated"
+    },
+    {
+      "dataset": "ducks",
+      "items": 240,
+      "raters": 53,
+      "max_panel": 40,
+      "single_accuracy": 0.6726041666666666,
+      "max_panel_accuracy": 0.6875,
+      "iid_accuracy_at_max": 0.9874225999638803,
+      "gap_pp": 29.992259996388025,
+      "model_whole_equivalent": "3",
+      "model_interpolated_equivalent": "2.20",
+      "model_equivalent_95_lower": "1",
+      "model_equivalent_95_upper": "3",
+      "model_no_crossing_fraction": 0.0,
+      "bootstrap_below_chance_fraction": 0.0,
+      "majority_wrong_items": 72,
+      "majority_tied_items": 6,
+      "uncertainty": "4000 class-stratified image resamples; conditional on workers"
+    }
+  ],
+  "nba_equivalence": [
+    {
+      "dataset": "nba",
+      "method": "winner_only",
+      "target_panel": 10,
+      "target_accuracy": 0.6589461626394881,
+      "whole": "9",
+      "fractional": "9.00",
+      "lower": "5",
+      "upper": "9",
+      "no_crossing_fraction": 0.0,
+      "delta_at_target_pp": 0.0,
+      "delta_lower_pp": 0.0,
+      "delta_upper_pp": 0.0
+    },
+    {
+      "dataset": "nba",
+      "method": "confidence_weighted",
+      "target_panel": 10,
+      "target_accuracy": 0.6589461626394881,
+      "whole": "10",
+      "fractional": "9.22",
+      "lower": "3",
+      "upper": ">10",
+      "no_crossing_fraction": 0.2613,
+      "delta_at_target_pp": 0.1396584935339229,
+      "delta_lower_pp": -0.5925899638044907,
+      "delta_upper_pp": 1.3251965471158391
+    },
+    {
+      "dataset": "nba",
+      "method": "surprisingly_popular",
+      "target_panel": 10,
+      "target_accuracy": 0.6589461626394881,
+      "whole": "9",
+      "fractional": "8.62",
+      "lower": "7",
+      "upper": ">10",
+      "no_crossing_fraction": 0.2116,
+      "delta_at_target_pp": 0.4322966359741165,
+      "delta_lower_pp": -0.5727342412835268,
+      "delta_upper_pp": 1.5939131696548496
+    }
+  ],
+  "learning": {
+    "bluebirds": {
+      "complete_items": 108,
+      "train_items": 54,
+      "test_items": 54,
+      "cross_city_excluded": 0,
+      "incomplete_items_excluded": 0,
+      "raters": 39,
+      "selected_raters": 19,
+      "kmax": 15,
+      "weighting": "round(3*max(0,logit((training_correct+2)/(training_n+4)))) clipped to [0,10]; exact integer subset DP.",
+      "uncertainty": "Conditional on trained policy and workers; image resampling only",
+      "split": "50% within each truth class"
+    },
+    "cities": {
+      "complete_items": 802,
+      "train_items": 200,
+      "test_items": 215,
+      "cross_city_excluded": 387,
+      "incomplete_items_excluded": 198,
+      "raters": 99,
+      "selected_raters": 49,
+      "kmax": 15,
+      "weighting": "round(3*max(0,logit((training_correct+2)/(training_n+4)))) clipped to [0,10]; exact integer subset DP.",
+      "uncertainty": "Fixed test city-pairs; no confidence intervals",
+      "split": "Disjoint city identities: within-train-city pairs for training, within-test-city pairs for test; cross pairs excluded"
+    }
+  },
+  "script_sha256": "9738728eda95a1e58847bf514955e07851266c0d64cc174e5241884a76564b0a",
+  "data_audit_sha256": "48c74c40555926ae708eef2d0bfeb81bf3ad8b42541885aae94b1e5c1c852c19",
+  "interpretation": "Objective-outcome adaptation of rater equivalence; iid-model gaps do not isolate dependence.",
+  "conditional_on": "Recorded rater pools. City curves have no item-iid confidence intervals.",
+  "reference": "Empirical finite-pool random juries or explicitly hypothetical iid jurors; never interchangeable.",
+  "bootstrap_scope": "Bird images stratified by truth; NBA entire waves; learned-policy bands conditional on fixed training.",
+  "numerical_method": "Exact hypergeometric majority tails; exact integer subset DP for trained weights; no panel Monte Carlo.",
+  "source_files": [
+    {
+      "name": "bluebirds_labels.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/labels.yaml",
+      "sha256": "8b1b28e4b869b19bb03beac476c7073149cef784f9524ebe17380a1292a6126c",
+      "bytes": 58941
+    },
+    {
+      "name": "bluebirds_gt.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/gt.yaml",
+      "sha256": "c9eb769c845ca99495a07b5c28c4290c78436fd8eac65c0747736c4ef8126340",
+      "bytes": 1533
+    },
+    {
+      "name": "ducks_labels.txt",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/labels.txt",
+      "sha256": "00584030f5edcbf125053046021a638da344911fecb797ab19c2efb5efe4fec0",
+      "bytes": 79932
+    },
+    {
+      "name": "ducks_classes.yaml",
+      "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/classes.yaml",
+      "sha256": "7cf1dcf477e7c06d6186180c34ed275ac76e42ba24ffbef444a165aa06d64d55",
+      "bytes": 1960
+    },
+    {
+      "name": "S3_CityTask.csv",
+      "url": "https://osf.io/download/vyx8a/",
+      "sha256": "68bd4c618ecc34700038dedd695bc28daef84d9bf54b91810e91bef4fa9fc2eb",
+      "bytes": 24282721
+    },
+    {
+      "name": ".cache/sports-survey-data/nba_complete_responses.jsonl",
+      "sha256": "8b933bf5b6ddf140c8311015d163680d35a1285f40637079c11a23b9339cb6e5",
+      "url": "https://osf.io/download/zwsgu/"
+    }
+  ]
+}

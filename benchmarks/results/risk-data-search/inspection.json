@@ -1,0 +1,695 @@
+{
+  "checked_date": "2026-09-27",
+  "analysis_status": "Dataset search and inspection only; no risk equivalence calculated",
+  "price": {
+    "price_exp2": {
+      "source_url": "https://osf.io/download/frbtn/",
+      "repository": "https://osf.io/wtndc/",
+      "paper": "https://sjdm.org/~baron/journal/21/210615/jdm210615.html",
+      "file": ".cache/risk-survey-data/price_exp2.sav",
+      "sha256": "10176756bd18c319487f795d95c008c102db28baf99bf48fcbe52781e0e8c8b5",
+      "record_count": 113,
+      "variable_count": 34,
+      "columns": [
+        "subject",
+        "condition",
+        "SNS",
+        "points",
+        "risk_5_pos",
+        "risk_5_zero",
+        "risk_5_neg",
+        "risk_10_pos",
+        "risk_10_zero",
+        "risk_10_neg",
+        "risk_15_pos",
+        "risk_15_zero",
+        "risk_15_neg",
+        "risk_20_pos",
+        "risk_20_zero",
+        "risk_20_neg",
+        "risk_25_pos",
+        "risk_25_zero",
+        "risk_25_neg",
+        "rt_5_pos",
+        "rt_5_zero",
+        "rt_5_neg",
+        "rt_10_pos",
+        "rt_10_zero",
+        "rt_10_neg",
+        "rt_15_pos",
+        "rt_15_zero",
+        "rt_15_neg",
+        "rt_20_pos",
+        "rt_20_zero",
+        "rt_20_neg",
+        "rt_25_pos",
+        "rt_25_zero",
+        "rt_25_neg"
+      ],
+      "spss_long_variable_names": {
+        "SUBJECT": "subject",
+        "CONDITIO": "condition",
+        "SNS": "SNS",
+        "POINTS": "points",
+        "RISK_5_P": "risk_5_pos",
+        "RISK_5_Z": "risk_5_zero",
+        "RISK_5_N": "risk_5_neg",
+        "RISK_10": "risk_10_pos",
+        "V9_A": "risk_10_zero",
+        "V10_A": "risk_10_neg",
+        "RISK_15": "risk_15_pos",
+        "V12_A": "risk_15_zero",
+        "V13_A": "risk_15_neg",
+        "RISK_20": "risk_20_pos",
+        "V15_A": "risk_20_zero",
+        "V16_A": "risk_20_neg",
+        "RISK_25": "risk_25_pos",
+        "V18_A": "risk_25_zero",
+        "V19_A": "risk_25_neg",
+        "RT_5_POS": "rt_5_pos",
+        "RT_5_ZER": "rt_5_zero",
+        "RT_5_NEG": "rt_5_neg",
+        "RT_10_PO": "rt_10_pos",
+        "RT_10_ZE": "rt_10_zero",
+        "RT_10_NE": "rt_10_neg",
+        "RT_15_PO": "rt_15_pos",
+        "RT_15_ZE": "rt_15_zero",
+        "RT_15_NE": "rt_15_neg",
+        "RT_20_PO": "rt_20_pos",
+        "RT_20_ZE": "rt_20_zero",
+        "RT_20_NE": "rt_20_neg",
+        "RT_25_PO": "rt_25_pos",
+        "RT_25_ZE": "rt_25_zero",
+        "RT_25_NE": "rt_25_neg"
+      },
+      "variable_labels": {
+        "subject": "subject",
+        "condition": "condition",
+        "SNS": "numeracy",
+        "points": "points"
+      },
+      "value_labels": {
+        "condition": {
+          "1": "Numerical Probabilities",
+          "2": "Random Icon Arrays",
+          "3": "Grouped Icon Arrays"
+        }
+      },
+      "group_columns": [
+        "condition"
+      ],
+      "group_counts": [
+        {
+          "values": [
+            1.0
+          ],
+          "n": 37
+        },
+        {
+          "values": [
+            2.0
+          ],
+          "n": 38
+        },
+        {
+          "values": [
+            3.0
+          ],
+          "n": 38
+        }
+      ],
+      "missing_counts": {
+        "subject": 0,
+        "condition": 0,
+        "SNS": 0,
+        "points": 0,
+        "risk_5_pos": 0,
+        "risk_5_zero": 0,
+        "risk_5_neg": 0,
+        "risk_10_pos": 0,
+        "risk_10_zero": 0,
+        "risk_10_neg": 0,
+        "risk_15_pos": 0,
+        "risk_15_zero": 0,
+        "risk_15_neg": 0,
+        "risk_20_pos": 0,
+        "risk_20_zero": 0,
+        "risk_20_neg": 0,
+        "risk_25_pos": 0,
+        "risk_25_zero": 0,
+        "risk_25_neg": 0,
+        "rt_5_pos": 0,
+        "rt_5_zero": 0,
+        "rt_5_neg": 0,
+        "rt_10_pos": 0,
+        "rt_10_zero": 0,
+        "rt_10_neg": 0,
+        "rt_15_pos": 0,
+        "rt_15_zero": 0,
+        "rt_15_neg": 0,
+        "rt_20_pos": 0,
+        "rt_20_zero": 0,
+        "rt_20_neg": 0,
+        "rt_25_pos": 0,
+        "rt_25_zero": 0,
+        "rt_25_neg": 0
+      },
+      "numeric_ranges_excluding_subject": {
+        "condition": {
+          "min": 1.0,
+          "max": 3.0
+        },
+        "SNS": {
+          "min": 1.875,
+          "max": 5.625
+        },
+        "points": {
+          "min": -465.0,
+          "max": 314.0
+        },
+        "risk_5_pos": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_5_zero": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_5_neg": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_10_pos": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_10_zero": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_10_neg": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_15_pos": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_15_zero": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_15_neg": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_20_pos": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_20_zero": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_20_neg": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_25_pos": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_25_zero": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "risk_25_neg": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "rt_5_pos": {
+          "min": 758.0,
+          "max": 7274.75
+        },
+        "rt_5_zero": {
+          "min": 774.8,
+          "max": 7701.666667
+        },
+        "rt_5_neg": {
+          "min": 859.0,
+          "max": 7418.0
+        },
+        "rt_10_pos": {
+          "min": 876.0,
+          "max": 6713.0
+        },
+        "rt_10_zero": {
+          "min": 617.2,
+          "max": 7218.0
+        },
+        "rt_10_neg": {
+          "min": 727.25,
+          "max": 6874.5
+        },
+        "rt_15_pos": {
+          "min": 564.6,
+          "max": 7241.75
+        },
+        "rt_15_zero": {
+          "min": 801.8,
+          "max": 7470.333333
+        },
+        "rt_15_neg": {
+          "min": 635.5,
+          "max": 7994.5
+        },
+        "rt_20_pos": {
+          "min": 303.2,
+          "max": 7312.0
+        },
+        "rt_20_zero": {
+          "min": 804.0,
+          "max": 7794.5
+        },
+        "rt_20_neg": {
+          "min": 844.4,
+          "max": 7512.666667
+        },
+        "rt_25_pos": {
+          "min": 633.8,
+          "max": 6553.8
+        },
+        "rt_25_zero": {
+          "min": 379.4,
+          "max": 6364.4
+        },
+        "rt_25_neg": {
+          "min": 703.8,
+          "max": 6385.8
+        }
+      },
+      "unique_subject_count": 113,
+      "release_granularity": "participant-level averages over repeated trials, not trial-level raw responses",
+      "inspection_date": "2026-09-27",
+      "inspection_method": "standard-library SPSS binary header/dictionary/decompression inspection; all variables numeric; no equivalence calculations"
+    },
+    "price_exp3": {
+      "source_url": "https://osf.io/download/dgksf/",
+      "repository": "https://osf.io/wtndc/",
+      "paper": "https://sjdm.org/~baron/journal/21/210615/jdm210615.html",
+      "file": ".cache/risk-survey-data/price_exp3.sav",
+      "sha256": "fd432243c5643dec6217790ffe74dd845ddf5da94d3ce3f6bcd76e25a80c7c9c",
+      "record_count": 218,
+      "variable_count": 9,
+      "columns": [
+        "subject",
+        "array_type",
+        "question_type",
+        "SNS",
+        "judgment_5",
+        "judgment_10",
+        "judgment_15",
+        "judgment_20",
+        "judgment_25"
+      ],
+      "spss_long_variable_names": {
+        "SUBJECT": "subject",
+        "ARRAY_TY": "array_type",
+        "QUESTION": "question_type",
+        "SNS": "SNS",
+        "JUDGMENT": "judgment_5",
+        "V6_A": "judgment_10",
+        "V7_A": "judgment_15",
+        "V8_A": "judgment_20",
+        "V9_A": "judgment_25"
+      },
+      "variable_labels": {
+        "array_type": "array type",
+        "question_type": "question type",
+        "SNS": "SNS",
+        "judgment_5": "five",
+        "judgment_10": "ten",
+        "judgment_15": "fifteen",
+        "judgment_20": "twenty",
+        "judgment_25": "twentyfive"
+      },
+      "value_labels": {
+        "array_type": {
+          "1": "Random",
+          "2": "Grouped"
+        },
+        "question_type": {
+          "1": "Percentage",
+          "2": "Probability"
+        }
+      },
+      "group_columns": [
+        "array_type",
+        "question_type"
+      ],
+      "group_counts": [
+        {
+          "values": [
+            1.0,
+            1.0
+          ],
+          "n": 55
+        },
+        {
+          "values": [
+            1.0,
+            2.0
+          ],
+          "n": 56
+        },
+        {
+          "values": [
+            2.0,
+            1.0
+          ],
+          "n": 55
+        },
+        {
+          "values": [
+            2.0,
+            2.0
+          ],
+          "n": 52
+        }
+      ],
+      "missing_counts": {
+        "subject": 0,
+        "array_type": 0,
+        "question_type": 0,
+        "SNS": 0,
+        "judgment_5": 0,
+        "judgment_10": 0,
+        "judgment_15": 0,
+        "judgment_20": 0,
+        "judgment_25": 0
+      },
+      "numeric_ranges_excluding_subject": {
+        "array_type": {
+          "min": 1.0,
+          "max": 2.0
+        },
+        "question_type": {
+          "min": 1.0,
+          "max": 2.0
+        },
+        "SNS": {
+          "min": 1.0,
+          "max": 6.0
+        },
+        "judgment_5": {
+          "min": 1.0,
+          "max": 26.0
+        },
+        "judgment_10": {
+          "min": 2.5,
+          "max": 55.0
+        },
+        "judgment_15": {
+          "min": 2.75,
+          "max": 50.75
+        },
+        "judgment_20": {
+          "min": 4.75,
+          "max": 60.25
+        },
+        "judgment_25": {
+          "min": 7.25,
+          "max": 84.25
+        }
+      },
+      "unique_subject_count": 218,
+      "release_granularity": "participant-level averages over repeated trials, not trial-level raw responses",
+      "inspection_date": "2026-09-27",
+      "inspection_method": "standard-library SPSS binary header/dictionary/decompression inspection; all variables numeric; no equivalence calculations"
+    }
+  },
+  "spf": {
+    "verified_at": "2026-09-27",
+    "source": "Federal Reserve Bank of Philadelphia Survey of Professional Forecasters",
+    "landing_page": "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research/individual-forecasts",
+    "documentation": "https://www.philadelphiafed.org/-/media/FRBP/Assets/Surveys-And-Data/survey-of-professional-forecasters/spf-documentation.pdf",
+    "id_caveats_source": "https://www.philadelphiafed.org/-/media/FRBP/Assets/Surveys-And-Data/survey-of-professional-forecasters/spf-caveats.pdf",
+    "files": [
+      {
+        "path": ".cache/risk-survey-data/spf_individual_recess.xlsx",
+        "source_url": "https://www.philadelphiafed.org/-/media/FRBP/Assets/Surveys-And-Data/survey-of-professional-forecasters/data-files/files/Individual_RECESS.xlsx",
+        "sha256": "562a03f9cab7e68f3075ad955e90dcfdfb25967c195f8f07ea393ae6a47756ca",
+        "rows": 9280,
+        "fields": [
+          "YEAR",
+          "QUARTER",
+          "ID",
+          "INDUSTRY",
+          "RECESS1",
+          "RECESS2",
+          "RECESS3",
+          "RECESS4",
+          "RECESS5"
+        ],
+        "first_survey": "1968Q4",
+        "last_survey": "2026Q3"
+      },
+      {
+        "path": ".cache/risk-survey-data/spf_individual_rgdp.xlsx",
+        "source_url": "https://www.philadelphiafed.org/-/media/FRBP/Assets/Surveys-And-Data/survey-of-professional-forecasters/data-files/files/Individual_RGDP.xlsx",
+        "sha256": "78ff68387e6624db44c237bcb33def697bead4394681adca60086a1f4acab27b",
+        "rows": 9280,
+        "fields": [
+          "YEAR",
+          "QUARTER",
+          "ID",
+          "INDUSTRY",
+          "RGDP1",
+          "RGDP2",
+          "RGDP3",
+          "RGDP4",
+          "RGDP5",
+          "RGDP6",
+          "RGDPA",
+          "RGDPB",
+          "RGDPC",
+          "RGDPD"
+        ],
+        "first_survey": "1968Q4",
+        "last_survey": "2026Q3"
+      }
+    ],
+    "paired_sample": {
+      "restriction": "YEAR>=1992, numeric RECESS2 in [0,100], numeric RGDP2 and RGDP3, inner join on YEAR QUARTER ID",
+      "response_rows": 4745,
+      "survey_quarters": 139,
+      "unique_identifiers": 188,
+      "minimum_paired_responses_per_quarter": 23,
+      "maximum_paired_responses_per_quarter": 51,
+      "coverage_by_quarter": {
+        "1992Q1": 37,
+        "1992Q2": 36,
+        "1992Q3": 32,
+        "1992Q4": 37,
+        "1993Q1": 31,
+        "1993Q2": 33,
+        "1993Q3": 33,
+        "1993Q4": 32,
+        "1994Q1": 27,
+        "1994Q2": 33,
+        "1994Q3": 28,
+        "1994Q4": 26,
+        "1995Q1": 27,
+        "1995Q2": 44,
+        "1995Q3": 44,
+        "1995Q4": 41,
+        "1996Q1": 32,
+        "1996Q2": 37,
+        "1996Q3": 38,
+        "1996Q4": 32,
+        "1997Q1": 34,
+        "1997Q2": 37,
+        "1997Q3": 35,
+        "1997Q4": 35,
+        "1998Q1": 28,
+        "1998Q2": 26,
+        "1998Q3": 29,
+        "1998Q4": 29,
+        "1999Q1": 30,
+        "1999Q2": 33,
+        "1999Q3": 34,
+        "1999Q4": 38,
+        "2000Q1": 33,
+        "2000Q2": 31,
+        "2000Q3": 29,
+        "2000Q4": 32,
+        "2001Q1": 31,
+        "2001Q2": 28,
+        "2001Q3": 29,
+        "2001Q4": 25,
+        "2002Q1": 32,
+        "2002Q2": 31,
+        "2002Q3": 28,
+        "2002Q4": 28,
+        "2003Q1": 33,
+        "2003Q2": 30,
+        "2003Q3": 26,
+        "2003Q4": 31,
+        "2004Q1": 28,
+        "2004Q2": 29,
+        "2004Q3": 28,
+        "2004Q4": 31,
+        "2005Q1": 33,
+        "2005Q2": 45,
+        "2005Q3": 51,
+        "2005Q4": 48,
+        "2006Q1": 50,
+        "2006Q2": 49,
+        "2006Q3": 46,
+        "2006Q4": 45,
+        "2007Q1": 46,
+        "2007Q2": 48,
+        "2007Q3": 44,
+        "2007Q4": 44,
+        "2008Q1": 45,
+        "2008Q2": 45,
+        "2008Q3": 44,
+        "2008Q4": 49,
+        "2009Q1": 41,
+        "2009Q2": 47,
+        "2009Q3": 33,
+        "2009Q4": 40,
+        "2010Q1": 39,
+        "2010Q2": 39,
+        "2010Q3": 31,
+        "2010Q4": 42,
+        "2011Q1": 40,
+        "2011Q2": 41,
+        "2011Q3": 32,
+        "2011Q4": 43,
+        "2012Q1": 41,
+        "2012Q2": 35,
+        "2012Q3": 43,
+        "2012Q4": 36,
+        "2013Q1": 40,
+        "2013Q2": 37,
+        "2013Q3": 37,
+        "2013Q4": 40,
+        "2014Q1": 41,
+        "2014Q2": 36,
+        "2014Q3": 40,
+        "2014Q4": 37,
+        "2015Q1": 33,
+        "2015Q2": 38,
+        "2015Q3": 37,
+        "2015Q4": 38,
+        "2016Q1": 37,
+        "2016Q2": 38,
+        "2016Q3": 34,
+        "2016Q4": 35,
+        "2017Q1": 36,
+        "2017Q2": 31,
+        "2017Q3": 35,
+        "2017Q4": 32,
+        "2018Q1": 30,
+        "2018Q2": 30,
+        "2018Q3": 30,
+        "2018Q4": 30,
+        "2019Q1": 33,
+        "2019Q2": 33,
+        "2019Q3": 30,
+        "2019Q4": 31,
+        "2020Q1": 29,
+        "2020Q2": 34,
+        "2020Q3": 28,
+        "2020Q4": 28,
+        "2021Q1": 30,
+        "2021Q2": 29,
+        "2021Q3": 30,
+        "2021Q4": 29,
+        "2022Q1": 27,
+        "2022Q2": 26,
+        "2022Q3": 26,
+        "2022Q4": 30,
+        "2023Q1": 28,
+        "2023Q2": 29,
+        "2023Q3": 29,
+        "2023Q4": 26,
+        "2024Q1": 26,
+        "2024Q2": 27,
+        "2024Q3": 27,
+        "2024Q4": 27,
+        "2025Q1": 31,
+        "2025Q2": 29,
+        "2025Q3": 25,
+        "2025Q4": 26,
+        "2026Q1": 27,
+        "2026Q2": 24,
+        "2026Q3": 23
+      }
+    },
+    "target_mapping": {
+      "RECESS2": "Respondent probability in percent of negative quarter-over-quarter real GDP growth in the next quarter",
+      "RGDP2": "Point forecast of real GDP level for survey quarter",
+      "RGDP3": "Point forecast of real GDP level for next quarter",
+      "comparison": "Explicit probability RECESS2/100 versus indicator(RGDP3<RGDP2). The latter is a categorical decision derived from a point forecast, not an elicited probability; aggregated proportion is a vote fraction."
+    },
+    "limitations": [
+      "No outcomes have been joined; recent unresolved forecasts must be excluded before evaluation.",
+      "Specify observed GDP vintage in advance; first-release and revised outcomes can differ.",
+      "This is a within-survey question-type comparison, not randomized assignment to separate survey formats.",
+      "ID may follow a firm rather than a single person after job changes; pre-1990 IDs may be reused. Counts of IDs are not guaranteed counts of unique people.",
+      "Same people recur across quarters and macroeconomic outcomes are serially dependent; use time-block uncertainty estimates.",
+      "RECESS denotes one negative GDP-growth quarter, not an NBER recession."
+    ]
+  },
+  "sce": {
+    "source": "New York Fed Survey of Consumer Expectations",
+    "source_url": "https://www.newyorkfed.org/medialibrary/interactives/sce/sce/downloads/data/frbny-sce-public-microdata-20-24.xlsx",
+    "questionnaire": "https://www.newyorkfed.org/medialibrary/interactives/sce/sce/downloads/data/frbny-sce-survey-core-module-public-questionnaire.pdf",
+    "file": ".cache/risk-survey-data/sce_public_microdata_2020_2024.xlsx",
+    "sha256": "1b57ffb75c2170d767f46a001002db8c40c228fe5691f6dd19e39777ffe469c6",
+    "sheets": [
+      "Data"
+    ],
+    "header_row": 2,
+    "verified_header_fields": [
+      "date",
+      "userid",
+      "tenure",
+      "weight",
+      "Q8v2",
+      "Q8v2part2",
+      "Q9_mean",
+      "Q9_bin1",
+      "Q9_bin2",
+      "Q9_bin3",
+      "Q9_bin4",
+      "Q9_bin5",
+      "Q9_bin6",
+      "Q9_bin7",
+      "Q9_bin8",
+      "Q9_bin9",
+      "Q9_bin10"
+    ],
+    "status": "Download and header schema verified; full completeness, historical codebook mapping, and outcome join pending",
+    "limitations": [
+      "Generic inflation question does not name CPI or PCE; select and disclose an external outcome definition.",
+      "Same respondents provide point estimates and probability bins; no randomized questionnaire assignment.",
+      "Distribution-derived estimates require explicit treatment of bins/tails and validation of supplied fitted summaries."
+    ]
+  },
+  "sandia": {
+    "source": "Sandia Decision Making Under Uncertainty, Fire Evacuation Task",
+    "source_url": "https://www.sandia.gov/research/datasets/details/decision-making-under-uncertainty-human-subjects-data-fire-evacuation-task-2025-02-13/",
+    "paper": "https://doi.org/10.2312/evs.20251077",
+    "status": "Public codebook and paper verified; CSV download returned HTML Request Rejected, not data",
+    "attempted_url": "https://g-7c4021.globus.sandia.gov/lematze/31/data/OrangeMaps_LightBackground.csv?download=true",
+    "raw_records_inspected": false,
+    "participant_count": null,
+    "limitations": [
+      "Experimental outcomes, not actual wildfire losses.",
+      "Case mapping and decision/payoff scoring must be verified before panel analysis."
+    ]
+  }
+}

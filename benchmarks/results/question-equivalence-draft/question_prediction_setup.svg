@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="576pt" viewBox="0 0 864 576" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-22T20:24:49.327711</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.7.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 576 
+L 864 576 
+L 864 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 73.85472 194.2272 
+L 255.15648 194.2272 
+Q 266.30208 194.2272 266.30208 189.0432 
+L 266.30208 125.4528 
+Q 266.30208 120.2688 255.15648 120.2688 
+L 73.85472 120.2688 
+Q 62.70912 120.2688 62.70912 125.4528 
+L 62.70912 189.0432 
+Q 62.70912 194.2272 73.85472 194.2272 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #f1f5f7; stroke: #126d91; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 73.85472 304.8192 
+L 255.15648 304.8192 
+Q 266.30208 304.8192 266.30208 299.6352 
+L 266.30208 236.0448 
+Q 266.30208 230.8608 255.15648 230.8608 
+L 73.85472 230.8608 
+Q 62.70912 230.8608 62.70912 236.0448 
+L 62.70912 299.6352 
+Q 62.70912 304.8192 73.85472 304.8192 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #f1f5f7; stroke: #b45b32; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 73.85472 415.4112 
+L 255.15648 415.4112 
+Q 266.30208 415.4112 266.30208 410.2272 
+L 266.30208 346.6368 
+Q 266.30208 341.4528 255.15648 341.4528 
+L 73.85472 341.4528 
+Q 62.70912 341.4528 62.70912 346.6368 
+L 62.70912 410.2272 
+Q 62.70912 415.4112 73.85472 415.4112 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #f1f5f7; stroke: #7063a3; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 359.92512 308.2752 
+L 526.36608 308.2752 
+Q 537.51168 308.2752 537.51168 303.0912 
+L 537.51168 215.3088 
+Q 537.51168 210.1248 526.36608 210.1248 
+L 359.92512 210.1248 
+Q 348.77952 210.1248 348.77952 215.3088 
+L 348.77952 303.0912 
+Q 348.77952 308.2752 359.92512 308.2752 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #f1f5f7; stroke: #172a39; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 627.41952 308.2752 
+L 790.14528 308.2752 
+Q 801.29088 308.2752 801.29088 303.0912 
+L 801.29088 215.3088 
+Q 801.29088 210.1248 790.14528 210.1248 
+L 627.41952 210.1248 
+Q 616.27392 210.1248 616.27392 215.3088 
+L 616.27392 303.0912 
+Q 616.27392 308.2752 627.41952 308.2752 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #f1f5f7; stroke: #172a39; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 627.41952 443.0592 
+L 790.14528 443.0592 
+Q 801.29088 443.0592 801.29088 437.8752 
+L 801.29088 363.9168 
+Q 801.29088 358.7328 790.14528 358.7328 
+L 627.41952 358.7328 
+Q 616.27392 358.7328 616.27392 363.9168 
+L 616.27392 437.8752 
+Q 616.27392 443.0592 627.41952 443.0592 
+z
+" clip-path="url(#p1849f50cd5)" style="fill: #eff6f2; stroke: #426b60; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #126d91; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="164.5056" y="148.08309" transform="rotate(-0 164.5056 148.08309)">Question 1</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(93.166538 166.401503)">Responses or a market price</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(91.278256 179.878847)">recorded before the outcome</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 271.691524 162.851238 
+Q 309.399551 209.089411 345.977022 253.941279 
+" style="fill: none; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 344.901152 249.141018 
+L 345.977022 253.941279 
+L 341.491292 251.921818 
+z
+" style="fill: #536674; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="fill: #b45b32; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="164.5056" y="258.67509" transform="rotate(-0 164.5056 258.67509)">Question 2</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(93.166538 276.993503)">Responses or a market price</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(91.278256 290.470847)">recorded before the outcome</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 273.492434 268.938668 
+Q 309.397853 264.384069 343.528638 260.054583 
+" style="fill: none; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 338.886765 258.425775 
+L 343.528638 260.054583 
+L 339.440468 262.790796 
+z
+" style="fill: #536674; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="fill: #7063a3; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="164.5056" y="369.26709" transform="rotate(-0 164.5056 369.26709)">Question 3</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(93.166538 387.585503)">Responses or a market price</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(91.278256 401.062847)">recorded before the outcome</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 271.332339 376.014551 
+Q 309.398222 319.680263 346.462563 264.828174 
+" style="fill: none; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 342.17623 267.242165 
+L 346.462563 264.828174 
+L 345.821956 269.705635 
+z
+" style="fill: #536674; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="fill: #172a39; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="443.1456" y="245.43861" transform="rotate(-0 443.1456 245.43861)">Predict the same outcome</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(380.238569 266.453231)">One question or a subset</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(384.303412 279.930575)">Prediction rule fitted on</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(395.922163 293.407919)">training cases only</text>
+   </g>
+   <g id="patch_11">
+    <path d="M 544.736048 259.2 
+Q 578.74986 259.2 610.974817 259.2 
+" style="fill: none; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 606.574817 257 
+L 610.974817 259.2 
+L 606.574817 261.4 
+z
+" style="fill: #536674; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="fill: #172a39; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="708.7824" y="245.43861" transform="rotate(-0 708.7824 245.43861)">Score on held-out cases</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(657.047244 266.453231)">Predicted probability</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(671.475369 279.930575)">compared with</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(662.069119 293.407919)">observed outcome</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #426b60; font: 700 12px 'DejaVu Sans'; text-anchor: middle" x="708.7824" y="389.76117" transform="rotate(-0 708.7824 389.76117)">Observed outcome</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(671.998806 412.123103)">Collected after</text>
+    <text style="fill: #172a39; font: 10px 'DejaVu Sans'" transform="translate(662.723806 425.600447)">the forecast cutoff</text>
+   </g>
+   <g id="patch_12">
+    <path d="M 706.9248 354.421617 
+Q 706.9248 333.502778 706.9248 314.372793 
+" style="fill: none; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 704.7248 318.772793 
+L 706.9248 314.372793 
+L 709.1248 318.772793 
+z
+" style="fill: #536674; stroke: #536674; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_13">
+    <text style="fill: #172a39; font: 700 12px 'DejaVu Sans'; text-anchor: start" x="357.696" y="155.52" transform="rotate(-0 357.696 155.52)">Repeat over many independent outcome cases</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #172a39; font: 12px 'DejaVu Sans'" transform="translate(357.696 352.707375)">Compare a single question with</text>
+    <text style="fill: #172a39; font: 12px 'DejaVu Sans'" transform="translate(357.696 369.792)">panels drawn from the other questions.</text>
+   </g>
+  </g>
+  <g id="text_15">
+   <text style="fill: #172a39; font: 700 22px 'DejaVu Sans'; text-anchor: start" x="60.48" y="48.396563" transform="rotate(-0 60.48 48.396563)">How predictive is a question?</text>
+  </g>
+  <g id="text_16">
+   <text style="fill: #536674; font: 11px 'DejaVu Sans'; text-anchor: start" x="60.48" y="73.446281" transform="rotate(-0 60.48 73.446281)">Working interpretation: questions supply signals; a later observed outcome is the target.</text>
+  </g>
+  <g id="text_17">
+   <text style="fill: #536674; font: 700 9px 'DejaVu Sans'; text-anchor: end" x="803.52" y="15.552" transform="rotate(-0 803.52 15.552)">CONCEPTUAL DRAFT / PANEL DEFINITION PENDING</text>
+  </g>
+  <g id="text_18">
+   <text style="fill: #172a39; font: 700 13px 'DejaVu Sans'; text-anchor: start" x="60.48" y="486.72" transform="rotate(-0 60.48 486.72)">Equivalence asks: what reference-panel size matches the question's predictive score?</text>
+  </g>
+  <g id="text_19">
+   <text style="fill: #536674; font: 9px 'DejaVu Sans'" transform="translate(60.48 540.110672)">Provisional unit: one question. A market price aggregates traders; it is not one human rating.</text>
+   <text style="fill: #536674; font: 9px 'DejaVu Sans'" transform="translate(60.48 552.240281)">Real data must define the outcome cases, forecast cutoff, question identities, and reference pool before scoring.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1849f50cd5">
+   <rect x="60.48" y="103.68" width="743.04" height="345.6"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,911 @@
+dataset,item_id,split
+bluebirds,11573,train
+bluebirds,11574,train
+bluebirds,11575,test
+bluebirds,11577,train
+bluebirds,11578,train
+bluebirds,11579,train
+bluebirds,11580,test
+bluebirds,11583,train
+bluebirds,11585,train
+bluebirds,11588,test
+bluebirds,11594,train
+bluebirds,11596,test
+bluebirds,11600,train
+bluebirds,11601,test
+bluebirds,11602,test
+bluebirds,11604,test
+bluebirds,11612,test
+bluebirds,11615,train
+bluebirds,11617,train
+bluebirds,11618,train
+bluebirds,11619,train
+bluebirds,11626,test
+bluebirds,11628,test
+bluebirds,11629,test
+bluebirds,11630,train
+bluebirds,11637,test
+bluebirds,11641,train
+bluebirds,11642,test
+bluebirds,11644,test
+bluebirds,11645,test
+bluebirds,11646,test
+bluebirds,11653,train
+bluebirds,11655,test
+bluebirds,11656,train
+bluebirds,11657,test
+bluebirds,11658,train
+bluebirds,11661,test
+bluebirds,11663,train
+bluebirds,11672,train
+bluebirds,11673,test
+bluebirds,11680,test
+bluebirds,11685,train
+bluebirds,11692,test
+bluebirds,11693,train
+bluebirds,11694,test
+bluebirds,11696,train
+bluebirds,11697,test
+bluebirds,11705,train
+bluebirds,12382,test
+bluebirds,14988,test
+bluebirds,36618,train
+bluebirds,36620,train
+bluebirds,36621,train
+bluebirds,36622,train
+bluebirds,36623,test
+bluebirds,36624,train
+bluebirds,36627,train
+bluebirds,36632,test
+bluebirds,36633,test
+bluebirds,36636,test
+bluebirds,36638,test
+bluebirds,36640,test
+bluebirds,36641,train
+bluebirds,36643,train
+bluebirds,36644,train
+bluebirds,36645,test
+bluebirds,36652,test
+bluebirds,36656,test
+bluebirds,36657,train
+bluebirds,36664,train
+bluebirds,36665,test
+bluebirds,36666,test
+bluebirds,36673,train
+bluebirds,36674,train
+bluebirds,36675,train
+bluebirds,36676,test
+bluebirds,36678,test
+bluebirds,36679,test
+bluebirds,36680,test
+bluebirds,36683,train
+bluebirds,36691,train
+bluebirds,36693,train
+bluebirds,36696,train
+bluebirds,36697,test
+bluebirds,36701,test
+bluebirds,36931,train
+bluebirds,36932,train
+bluebirds,36933,test
+bluebirds,36934,test
+bluebirds,36935,test
+bluebirds,36936,train
+bluebirds,36937,train
+bluebirds,36939,train
+bluebirds,36940,train
+bluebirds,36941,test
+bluebirds,36942,test
+bluebirds,36943,test
+bluebirds,36947,train
+bluebirds,36948,test
+bluebirds,36949,test
+bluebirds,36952,test
+bluebirds,36953,train
+bluebirds,36959,train
+bluebirds,36960,train
+bluebirds,36961,test
+bluebirds,36962,train
+bluebirds,36963,test
+bluebirds,36964,train
+cities,"Albuquerque, NM | Chula Vista, CA",cross_city_excluded
+cities,"Albuquerque, NM | Denver, CO",cross_city_excluded
+cities,"Albuquerque, NM | Durham, NC",cross_city_excluded
+cities,"Albuquerque, NM | Honolulu, HI",test
+cities,"Albuquerque, NM | Irvine, CA",test
+cities,"Albuquerque, NM | Jacksonville, FL",cross_city_excluded
+cities,"Albuquerque, NM | Los Angeles, CA",cross_city_excluded
+cities,"Albuquerque, NM | Mesa, AZ",cross_city_excluded
+cities,"Albuquerque, NM | Phoenix, AZ",test
+cities,"Albuquerque, NM | Plano, TX",cross_city_excluded
+cities,"Albuquerque, NM | Reno, NV",test
+cities,"Albuquerque, NM | San Jose, CA",cross_city_excluded
+cities,"Albuquerque, NM | Santa Ana, CA",cross_city_excluded
+cities,"Albuquerque, NM | Seattle, WA",cross_city_excluded
+cities,"Albuquerque, NM | Washington, D.C.",test
+cities,"Albuquerque, NM | Winston-Salem, NC",cross_city_excluded
+cities,"Anaheim, CA | Austin, TX",train
+cities,"Anaheim, CA | Birmingham, AL",train
+cities,"Anaheim, CA | Denver, CO",train
+cities,"Anaheim, CA | Detroit, MI",cross_city_excluded
+cities,"Anaheim, CA | Fort Wayne, IN",cross_city_excluded
+cities,"Anaheim, CA | Lincoln, NE",train
+cities,"Anaheim, CA | Nashville, TN",train
+cities,"Anaheim, CA | New Orleans, LA",cross_city_excluded
+cities,"Anaheim, CA | Phoenix, AZ",cross_city_excluded
+cities,"Anaheim, CA | Plano, TX",train
+cities,"Anaheim, CA | Portland, OR",cross_city_excluded
+cities,"Anaheim, CA | Sacramento, CA",train
+cities,"Anaheim, CA | Santa Ana, CA",train
+cities,"Anaheim, CA | Toledo, OH",cross_city_excluded
+cities,"Anaheim, CA | Winston-Salem, NC",train
+cities,"Anchorage, AK | Arlington, TX",cross_city_excluded
+cities,"Anchorage, AK | Atlanta, GA",test
+cities,"Anchorage, AK | Aurora, CO",test
+cities,"Anchorage, AK | Buffalo, NY",test
+cities,"Anchorage, AK | Chula Vista, CA",cross_city_excluded
+cities,"Anchorage, AK | Fresno, CA",cross_city_excluded
+cities,"Anchorage, AK | Jersey City, NJ",cross_city_excluded
+cities,"Anchorage, AK | Laredo, TX",test
+cities,"Anchorage, AK | Los Angeles, CA",cross_city_excluded
+cities,"Anchorage, AK | New York, NY",test
+cities,"Anchorage, AK | Omaha, NE",test
+cities,"Anchorage, AK | Paradise, NV",test
+cities,"Anchorage, AK | Plano, TX",cross_city_excluded
+cities,"Anchorage, AK | Rochester, NY",test
+cities,"Anchorage, AK | St. Paul, MN",cross_city_excluded
+cities,"Anchorage, AK | Stockton, CA",test
+cities,"Anchorage, AK | Tulsa, OK",test
+cities,"Anchorage, AK | Washington, D.C.",test
+cities,"Arlington, TX | Atlanta, GA",cross_city_excluded
+cities,"Arlington, TX | Austin, TX",train
+cities,"Arlington, TX | Boston, MA",cross_city_excluded
+cities,"Arlington, TX | Charlotte, NC",train
+cities,"Arlington, TX | Chula Vista, CA",train
+cities,"Arlington, TX | Colorado Springs, CO",cross_city_excluded
+cities,"Arlington, TX | Indianapolis, IN",cross_city_excluded
+cities,"Arlington, TX | Irvine, CA",cross_city_excluded
+cities,"Arlington, TX | Jersey City, NJ",train
+cities,"Arlington, TX | Lincoln, NE",train
+cities,"Arlington, TX | Minneapolis, MN",train
+cities,"Arlington, TX | Omaha, NE",cross_city_excluded
+cities,"Arlington, TX | Philadelphia, PA",train
+cities,"Arlington, TX | Riverside, CA",train
+cities,"Arlington, TX | Tulsa, OK",cross_city_excluded
+cities,"Arlington, TX | Winston-Salem, NC",train
+cities,"Atlanta, GA | Aurora, CO",test
+cities,"Atlanta, GA | Chandler, AZ",test
+cities,"Atlanta, GA | Cincinnati, OH",test
+cities,"Atlanta, GA | Glendale, AZ",test
+cities,"Atlanta, GA | Greensboro, NC",cross_city_excluded
+cities,"Atlanta, GA | Houston, TX",test
+cities,"Atlanta, GA | Indianapolis, IN",test
+cities,"Atlanta, GA | Irvine, CA",test
+cities,"Atlanta, GA | Laredo, TX",test
+cities,"Atlanta, GA | Madison, WI",test
+cities,"Atlanta, GA | Miami, FL",test
+cities,"Atlanta, GA | Minneapolis, MN",cross_city_excluded
+cities,"Atlanta, GA | Oakland, CA",cross_city_excluded
+cities,"Atlanta, GA | San Diego, CA",test
+cities,"Atlanta, GA | St. Paul, MN",cross_city_excluded
+cities,"Aurora, CO | Austin, TX",cross_city_excluded
+cities,"Aurora, CO | Baltimore, MD",test
+cities,"Aurora, CO | Chesapeake, VA",test
+cities,"Aurora, CO | Corpus Christi, TX",test
+cities,"Aurora, CO | Dallas, TX",test
+cities,"Aurora, CO | Detroit, MI",test
+cities,"Aurora, CO | El Paso, TX",cross_city_excluded
+cities,"Aurora, CO | Hialeah, FL",test
+cities,"Aurora, CO | Jacksonville, FL",cross_city_excluded
+cities,"Aurora, CO | Minneapolis, MN",cross_city_excluded
+cities,"Aurora, CO | North Las Vegas, NV",cross_city_excluded
+cities,"Aurora, CO | Orlando, FL",test
+cities,"Aurora, CO | Paradise, NV",test
+cities,"Aurora, CO | Tampa, FL",cross_city_excluded
+cities,"Aurora, CO | Tulsa, OK",test
+cities,"Austin, TX | Chandler, AZ",cross_city_excluded
+cities,"Austin, TX | Cincinnati, OH",cross_city_excluded
+cities,"Austin, TX | Detroit, MI",cross_city_excluded
+cities,"Austin, TX | Henderson, NV",train
+cities,"Austin, TX | Indianapolis, IN",cross_city_excluded
+cities,"Austin, TX | Jacksonville, FL",train
+cities,"Austin, TX | Kansas City, MO",train
+cities,"Austin, TX | Omaha, NE",cross_city_excluded
+cities,"Austin, TX | San Bernardino, CA",cross_city_excluded
+cities,"Austin, TX | Virginia Beach, VA",cross_city_excluded
+cities,"Austin, TX | Wichita, KS",cross_city_excluded
+cities,"Bakersfield, CA | Birmingham, AL",cross_city_excluded
+cities,"Bakersfield, CA | Chicago, IL",cross_city_excluded
+cities,"Bakersfield, CA | Chula Vista, CA",cross_city_excluded
+cities,"Bakersfield, CA | Colorado Springs, CO",test
+cities,"Bakersfield, CA | Hialeah, FL",test
+cities,"Bakersfield, CA | Irvine, CA",test
+cities,"Bakersfield, CA | Irving, TX",cross_city_excluded
+cities,"Bakersfield, CA | New York, NY",test
+cities,"Bakersfield, CA | Norfolk, VA",cross_city_excluded
+cities,"Bakersfield, CA | Paradise, NV",test
+cities,"Bakersfield, CA | Reno, NV",test
+cities,"Bakersfield, CA | Rochester, NY",test
+cities,"Bakersfield, CA | San Francisco, CA",cross_city_excluded
+cities,"Bakersfield, CA | St. Paul, MN",cross_city_excluded
+cities,"Bakersfield, CA | Tampa, FL",cross_city_excluded
+cities,"Bakersfield, CA | Toledo, OH",test
+cities,"Bakersfield, CA | Virginia Beach, VA",test
+cities,"Bakersfield, CA | Winston-Salem, NC",cross_city_excluded
+cities,"Baltimore, MD | Corpus Christi, TX",test
+cities,"Baltimore, MD | Detroit, MI",test
+cities,"Baltimore, MD | Fort Worth, TX",cross_city_excluded
+cities,"Baltimore, MD | Jersey City, NJ",cross_city_excluded
+cities,"Baltimore, MD | Laredo, TX",test
+cities,"Baltimore, MD | Lubbock, TX",test
+cities,"Baltimore, MD | Memphis, TN",cross_city_excluded
+cities,"Baltimore, MD | Norfolk, VA",cross_city_excluded
+cities,"Baltimore, MD | Philadelphia, PA",cross_city_excluded
+cities,"Baltimore, MD | Phoenix, AZ",test
+cities,"Baltimore, MD | Portland, OR",test
+cities,"Baltimore, MD | Reno, NV",test
+cities,"Baltimore, MD | Scottsdale, AZ",test
+cities,"Baltimore, MD | Seattle, WA",cross_city_excluded
+cities,"Baltimore, MD | Stockton, CA",test
+cities,"Baltimore, MD | Winston-Salem, NC",cross_city_excluded
+cities,"Baton Rouge, LA | Chandler, AZ",cross_city_excluded
+cities,"Baton Rouge, LA | El Paso, TX",train
+cities,"Baton Rouge, LA | Fort Wayne, IN",cross_city_excluded
+cities,"Baton Rouge, LA | Henderson, NV",train
+cities,"Baton Rouge, LA | Hialeah, FL",cross_city_excluded
+cities,"Baton Rouge, LA | Mesa, AZ",train
+cities,"Baton Rouge, LA | Minneapolis, MN",train
+cities,"Baton Rouge, LA | North Las Vegas, NV",train
+cities,"Baton Rouge, LA | Oklahoma City, OK",train
+cities,"Baton Rouge, LA | Philadelphia, PA",train
+cities,"Baton Rouge, LA | Portland, OR",cross_city_excluded
+cities,"Baton Rouge, LA | Reno, NV",cross_city_excluded
+cities,"Baton Rouge, LA | Rochester, NY",cross_city_excluded
+cities,"Baton Rouge, LA | San Francisco, CA",train
+cities,"Baton Rouge, LA | Stockton, CA",cross_city_excluded
+cities,"Baton Rouge, LA | Wichita, KS",cross_city_excluded
+cities,"Birmingham, AL | Charlotte, NC",train
+cities,"Birmingham, AL | Chesapeake, VA",cross_city_excluded
+cities,"Birmingham, AL | Fremont, CA",train
+cities,"Birmingham, AL | Greensboro, NC",train
+cities,"Birmingham, AL | Honolulu, HI",cross_city_excluded
+cities,"Birmingham, AL | Kansas City, MO",train
+cities,"Birmingham, AL | Los Angeles, CA",train
+cities,"Birmingham, AL | New York, NY",cross_city_excluded
+cities,"Birmingham, AL | Rochester, NY",cross_city_excluded
+cities,"Birmingham, AL | San Bernardino, CA",cross_city_excluded
+cities,"Birmingham, AL | San Diego, CA",cross_city_excluded
+cities,"Birmingham, AL | San Jose, CA",train
+cities,"Birmingham, AL | Tampa, FL",train
+cities,"Boston, MA | Colorado Springs, CO",test
+cities,"Boston, MA | Greensboro, NC",cross_city_excluded
+cities,"Boston, MA | Jacksonville, FL",cross_city_excluded
+cities,"Boston, MA | Jersey City, NJ",cross_city_excluded
+cities,"Boston, MA | Las Vegas, NV",test
+cities,"Boston, MA | Louisville, KY",test
+cities,"Boston, MA | Milwaukee, WI",test
+cities,"Boston, MA | Philadelphia, PA",cross_city_excluded
+cities,"Boston, MA | Riverside, CA",cross_city_excluded
+cities,"Boston, MA | Rochester, NY",test
+cities,"Boston, MA | Santa Ana, CA",cross_city_excluded
+cities,"Boston, MA | St. Louis, MO",cross_city_excluded
+cities,"Boston, MA | Toledo, OH",test
+cities,"Buffalo, NY | Charlotte, NC",cross_city_excluded
+cities,"Buffalo, NY | Columbus, OH",test
+cities,"Buffalo, NY | Durham, NC",cross_city_excluded
+cities,"Buffalo, NY | Garland, TX",test
+cities,"Buffalo, NY | Glendale, AZ",test
+cities,"Buffalo, NY | Jersey City, NJ",cross_city_excluded
+cities,"Buffalo, NY | Laredo, TX",test
+cities,"Buffalo, NY | Las Vegas, NV",test
+cities,"Buffalo, NY | Lexington, KY",cross_city_excluded
+cities,"Buffalo, NY | New Orleans, LA",test
+cities,"Buffalo, NY | Omaha, NE",test
+cities,"Buffalo, NY | Orlando, FL",test
+cities,"Buffalo, NY | San Diego, CA",test
+cities,"Buffalo, NY | San Francisco, CA",cross_city_excluded
+cities,"Buffalo, NY | St. Petersburg, FL",cross_city_excluded
+cities,"Buffalo, NY | Virginia Beach, VA",test
+cities,"Buffalo, NY | Washington, D.C.",test
+cities,"Chandler, AZ | Chesapeake, VA",test
+cities,"Chandler, AZ | Chula Vista, CA",cross_city_excluded
+cities,"Chandler, AZ | Corpus Christi, TX",test
+cities,"Chandler, AZ | Dallas, TX",test
+cities,"Chandler, AZ | Fort Wayne, IN",test
+cities,"Chandler, AZ | Houston, TX",test
+cities,"Chandler, AZ | Lexington, KY",cross_city_excluded
+cities,"Chandler, AZ | Louisville, KY",test
+cities,"Chandler, AZ | Norfolk, VA",cross_city_excluded
+cities,"Chandler, AZ | North Las Vegas, NV",cross_city_excluded
+cities,"Chandler, AZ | Pittsburgh, PA",cross_city_excluded
+cities,"Chandler, AZ | Scottsdale, AZ",test
+cities,"Charlotte, NC | Chesapeake, VA",cross_city_excluded
+cities,"Charlotte, NC | Chicago, IL",train
+cities,"Charlotte, NC | El Paso, TX",train
+cities,"Charlotte, NC | Jersey City, NJ",train
+cities,"Charlotte, NC | Long Beach, CA",cross_city_excluded
+cities,"Charlotte, NC | Louisville, KY",cross_city_excluded
+cities,"Charlotte, NC | Miami, FL",cross_city_excluded
+cities,"Charlotte, NC | Milwaukee, WI",cross_city_excluded
+cities,"Charlotte, NC | New York, NY",cross_city_excluded
+cities,"Charlotte, NC | Phoenix, AZ",cross_city_excluded
+cities,"Charlotte, NC | Riverside, CA",train
+cities,"Charlotte, NC | Rochester, NY",cross_city_excluded
+cities,"Charlotte, NC | Scottsdale, AZ",cross_city_excluded
+cities,"Charlotte, NC | St. Petersburg, FL",train
+cities,"Charlotte, NC | Tucson, AZ",train
+cities,"Charlotte, NC | Wichita, KS",cross_city_excluded
+cities,"Chesapeake, VA | Greensboro, NC",cross_city_excluded
+cities,"Chesapeake, VA | Laredo, TX",test
+cities,"Chesapeake, VA | Memphis, TN",cross_city_excluded
+cities,"Chesapeake, VA | Plano, TX",cross_city_excluded
+cities,"Chesapeake, VA | Rochester, NY",test
+cities,"Chesapeake, VA | San Diego, CA",test
+cities,"Chesapeake, VA | St. Louis, MO",cross_city_excluded
+cities,"Chesapeake, VA | Stockton, CA",test
+cities,"Chesapeake, VA | Tucson, AZ",cross_city_excluded
+cities,"Chicago, IL | Chula Vista, CA",train
+cities,"Chicago, IL | El Paso, TX",train
+cities,"Chicago, IL | Glendale, AZ",cross_city_excluded
+cities,"Chicago, IL | Honolulu, HI",cross_city_excluded
+cities,"Chicago, IL | Jersey City, NJ",train
+cities,"Chicago, IL | Madison, WI",cross_city_excluded
+cities,"Chicago, IL | Minneapolis, MN",train
+cities,"Chicago, IL | Omaha, NE",cross_city_excluded
+cities,"Chicago, IL | Paradise, NV",cross_city_excluded
+cities,"Chicago, IL | Pittsburgh, PA",train
+cities,"Chicago, IL | Rochester, NY",cross_city_excluded
+cities,"Chicago, IL | Santa Ana, CA",train
+cities,"Chicago, IL | Seattle, WA",train
+cities,"Chicago, IL | St. Paul, MN",train
+cities,"Chicago, IL | Toledo, OH",cross_city_excluded
+cities,"Chicago, IL | Wichita, KS",cross_city_excluded
+cities,"Chula Vista, CA | Cincinnati, OH",cross_city_excluded
+cities,"Chula Vista, CA | Corpus Christi, TX",cross_city_excluded
+cities,"Chula Vista, CA | Hialeah, FL",cross_city_excluded
+cities,"Chula Vista, CA | Lexington, KY",train
+cities,"Chula Vista, CA | Norfolk, VA",train
+cities,"Chula Vista, CA | North Las Vegas, NV",train
+cities,"Chula Vista, CA | Omaha, NE",cross_city_excluded
+cities,"Chula Vista, CA | Toledo, OH",cross_city_excluded
+cities,"Chula Vista, CA | Tulsa, OK",cross_city_excluded
+cities,"Cincinnati, OH | Colorado Springs, CO",test
+cities,"Cincinnati, OH | Detroit, MI",test
+cities,"Cincinnati, OH | Glendale, AZ",test
+cities,"Cincinnati, OH | Irving, TX",cross_city_excluded
+cities,"Cincinnati, OH | Kansas City, MO",cross_city_excluded
+cities,"Cincinnati, OH | Newark, NJ",cross_city_excluded
+cities,"Cincinnati, OH | Oakland, CA",cross_city_excluded
+cities,"Cincinnati, OH | Phoenix, AZ",test
+cities,"Cincinnati, OH | Plano, TX",cross_city_excluded
+cities,"Cincinnati, OH | Raleigh, NC",cross_city_excluded
+cities,"Cincinnati, OH | San Diego, CA",test
+cities,"Cincinnati, OH | Toledo, OH",test
+cities,"Cincinnati, OH | Winston-Salem, NC",cross_city_excluded
+cities,"Cleveland, OH | Colorado Springs, CO",cross_city_excluded
+cities,"Cleveland, OH | Denver, CO",train
+cities,"Cleveland, OH | Hialeah, FL",cross_city_excluded
+cities,"Cleveland, OH | Honolulu, HI",cross_city_excluded
+cities,"Cleveland, OH | Milwaukee, WI",cross_city_excluded
+cities,"Cleveland, OH | Nashville, TN",train
+cities,"Cleveland, OH | Newark, NJ",train
+cities,"Cleveland, OH | Norfolk, VA",train
+cities,"Cleveland, OH | Orlando, FL",cross_city_excluded
+cities,"Cleveland, OH | San Antonio, TX",train
+cities,"Cleveland, OH | San Bernardino, CA",cross_city_excluded
+cities,"Cleveland, OH | Wichita, KS",cross_city_excluded
+cities,"Colorado Springs, CO | Fort Worth, TX",cross_city_excluded
+cities,"Colorado Springs, CO | Greensboro, NC",cross_city_excluded
+cities,"Colorado Springs, CO | Hialeah, FL",test
+cities,"Colorado Springs, CO | Las Vegas, NV",test
+cities,"Colorado Springs, CO | Long Beach, CA",test
+cities,"Colorado Springs, CO | Madison, WI",test
+cities,"Colorado Springs, CO | Milwaukee, WI",test
+cities,"Colorado Springs, CO | Minneapolis, MN",cross_city_excluded
+cities,"Colorado Springs, CO | Paradise, NV",test
+cities,"Colorado Springs, CO | Plano, TX",cross_city_excluded
+cities,"Colorado Springs, CO | Riverside, CA",cross_city_excluded
+cities,"Colorado Springs, CO | St. Paul, MN",cross_city_excluded
+cities,"Columbus, OH | Denver, CO",cross_city_excluded
+cities,"Columbus, OH | Durham, NC",cross_city_excluded
+cities,"Columbus, OH | El Paso, TX",cross_city_excluded
+cities,"Columbus, OH | Long Beach, CA",test
+cities,"Columbus, OH | Nashville, TN",cross_city_excluded
+cities,"Columbus, OH | Oklahoma City, OK",cross_city_excluded
+cities,"Columbus, OH | Paradise, NV",test
+cities,"Columbus, OH | Philadelphia, PA",cross_city_excluded
+cities,"Columbus, OH | Phoenix, AZ",test
+cities,"Columbus, OH | Portland, OR",test
+cities,"Columbus, OH | Raleigh, NC",cross_city_excluded
+cities,"Columbus, OH | Sacramento, CA",cross_city_excluded
+cities,"Columbus, OH | San Jose, CA",cross_city_excluded
+cities,"Columbus, OH | St. Petersburg, FL",cross_city_excluded
+cities,"Columbus, OH | Toledo, OH",test
+cities,"Columbus, OH | Tulsa, OK",test
+cities,"Corpus Christi, TX | Detroit, MI",test
+cities,"Corpus Christi, TX | Fremont, CA",cross_city_excluded
+cities,"Corpus Christi, TX | Honolulu, HI",test
+cities,"Corpus Christi, TX | Houston, TX",test
+cities,"Corpus Christi, TX | Irvine, CA",test
+cities,"Corpus Christi, TX | Memphis, TN",cross_city_excluded
+cities,"Corpus Christi, TX | Pittsburgh, PA",cross_city_excluded
+cities,"Corpus Christi, TX | Sacramento, CA",cross_city_excluded
+cities,"Corpus Christi, TX | San Antonio, TX",cross_city_excluded
+cities,"Corpus Christi, TX | San Diego, CA",test
+cities,"Corpus Christi, TX | San Jose, CA",cross_city_excluded
+cities,"Dallas, TX | Long Beach, CA",test
+cities,"Dallas, TX | Los Angeles, CA",cross_city_excluded
+cities,"Dallas, TX | Madison, WI",test
+cities,"Dallas, TX | Miami, FL",test
+cities,"Dallas, TX | Orlando, FL",test
+cities,"Dallas, TX | Pittsburgh, PA",cross_city_excluded
+cities,"Dallas, TX | Reno, NV",test
+cities,"Dallas, TX | San Antonio, TX",cross_city_excluded
+cities,"Dallas, TX | San Bernardino, CA",test
+cities,"Dallas, TX | St. Louis, MO",cross_city_excluded
+cities,"Dallas, TX | Tampa, FL",cross_city_excluded
+cities,"Dallas, TX | Tulsa, OK",test
+cities,"Denver, CO | Durham, NC",train
+cities,"Denver, CO | Fort Worth, TX",train
+cities,"Denver, CO | Fremont, CA",train
+cities,"Denver, CO | Houston, TX",cross_city_excluded
+cities,"Denver, CO | Indianapolis, IN",cross_city_excluded
+cities,"Denver, CO | Jersey City, NJ",train
+cities,"Denver, CO | Los Angeles, CA",train
+cities,"Denver, CO | New York, NY",cross_city_excluded
+cities,"Denver, CO | Norfolk, VA",train
+cities,"Denver, CO | Omaha, NE",cross_city_excluded
+cities,"Denver, CO | Plano, TX",train
+cities,"Denver, CO | Raleigh, NC",train
+cities,"Denver, CO | Wichita, KS",cross_city_excluded
+cities,"Detroit, MI | Fresno, CA",cross_city_excluded
+cities,"Detroit, MI | Greensboro, NC",cross_city_excluded
+cities,"Detroit, MI | Long Beach, CA",test
+cities,"Detroit, MI | Nashville, TN",cross_city_excluded
+cities,"Detroit, MI | San Francisco, CA",cross_city_excluded
+cities,"Detroit, MI | Scottsdale, AZ",test
+cities,"Detroit, MI | St. Petersburg, FL",cross_city_excluded
+cities,"Detroit, MI | Toledo, OH",test
+cities,"Detroit, MI | Tulsa, OK",test
+cities,"Durham, NC | Fort Worth, TX",train
+cities,"Durham, NC | Garland, TX",cross_city_excluded
+cities,"Durham, NC | Glendale, AZ",cross_city_excluded
+cities,"Durham, NC | Houston, TX",cross_city_excluded
+cities,"Durham, NC | Jacksonville, FL",train
+cities,"Durham, NC | Las Vegas, NV",cross_city_excluded
+cities,"Durham, NC | Long Beach, CA",cross_city_excluded
+cities,"Durham, NC | Los Angeles, CA",train
+cities,"Durham, NC | New York, NY",cross_city_excluded
+cities,"Durham, NC | Santa Ana, CA",train
+cities,"El Paso, TX | Fort Worth, TX",train
+cities,"El Paso, TX | Fremont, CA",train
+cities,"El Paso, TX | Greensboro, NC",train
+cities,"El Paso, TX | Henderson, NV",train
+cities,"El Paso, TX | Jersey City, NJ",train
+cities,"El Paso, TX | Long Beach, CA",cross_city_excluded
+cities,"El Paso, TX | Oklahoma City, OK",train
+cities,"El Paso, TX | Omaha, NE",cross_city_excluded
+cities,"El Paso, TX | Sacramento, CA",train
+cities,"El Paso, TX | San Bernardino, CA",cross_city_excluded
+cities,"El Paso, TX | Tucson, AZ",train
+cities,"El Paso, TX | Winston-Salem, NC",train
+cities,"Fort Wayne, IN | Garland, TX",test
+cities,"Fort Wayne, IN | Irving, TX",cross_city_excluded
+cities,"Fort Wayne, IN | Louisville, KY",test
+cities,"Fort Wayne, IN | Mesa, AZ",cross_city_excluded
+cities,"Fort Wayne, IN | Miami, FL",test
+cities,"Fort Wayne, IN | Rochester, NY",test
+cities,"Fort Wayne, IN | San Antonio, TX",cross_city_excluded
+cities,"Fort Wayne, IN | San Francisco, CA",cross_city_excluded
+cities,"Fort Wayne, IN | Stockton, CA",test
+cities,"Fort Worth, TX | Garland, TX",cross_city_excluded
+cities,"Fort Worth, TX | Indianapolis, IN",cross_city_excluded
+cities,"Fort Worth, TX | Irvine, CA",cross_city_excluded
+cities,"Fort Worth, TX | Lexington, KY",train
+cities,"Fort Worth, TX | Lincoln, NE",train
+cities,"Fort Worth, TX | Long Beach, CA",cross_city_excluded
+cities,"Fort Worth, TX | New York, NY",cross_city_excluded
+cities,"Fort Worth, TX | Orlando, FL",cross_city_excluded
+cities,"Fort Worth, TX | Philadelphia, PA",train
+cities,"Fort Worth, TX | Plano, TX",train
+cities,"Fort Worth, TX | Santa Ana, CA",train
+cities,"Fort Worth, TX | St. Paul, MN",train
+cities,"Fort Worth, TX | Washington, D.C.",cross_city_excluded
+cities,"Fremont, CA | Indianapolis, IN",cross_city_excluded
+cities,"Fremont, CA | Laredo, TX",cross_city_excluded
+cities,"Fremont, CA | Lexington, KY",train
+cities,"Fremont, CA | Los Angeles, CA",train
+cities,"Fremont, CA | Milwaukee, WI",cross_city_excluded
+cities,"Fremont, CA | Nashville, TN",train
+cities,"Fremont, CA | New Orleans, LA",cross_city_excluded
+cities,"Fremont, CA | Paradise, NV",cross_city_excluded
+cities,"Fremont, CA | Plano, TX",train
+cities,"Fremont, CA | San Bernardino, CA",cross_city_excluded
+cities,"Fremont, CA | St. Louis, MO",train
+cities,"Fremont, CA | St. Petersburg, FL",train
+cities,"Fremont, CA | Tulsa, OK",cross_city_excluded
+cities,"Fresno, CA | Jacksonville, FL",train
+cities,"Fresno, CA | Kansas City, MO",train
+cities,"Fresno, CA | Laredo, TX",cross_city_excluded
+cities,"Fresno, CA | Lincoln, NE",train
+cities,"Fresno, CA | Los Angeles, CA",train
+cities,"Fresno, CA | New Orleans, LA",cross_city_excluded
+cities,"Fresno, CA | Oklahoma City, OK",train
+cities,"Fresno, CA | Phoenix, AZ",cross_city_excluded
+cities,"Fresno, CA | Riverside, CA",train
+cities,"Fresno, CA | Sacramento, CA",train
+cities,"Fresno, CA | San Bernardino, CA",cross_city_excluded
+cities,"Fresno, CA | San Jose, CA",train
+cities,"Fresno, CA | Seattle, WA",train
+cities,"Fresno, CA | Tucson, AZ",train
+cities,"Garland, TX | Greensboro, NC",cross_city_excluded
+cities,"Garland, TX | Henderson, NV",cross_city_excluded
+cities,"Garland, TX | Honolulu, HI",test
+cities,"Garland, TX | Jacksonville, FL",cross_city_excluded
+cities,"Garland, TX | Memphis, TN",cross_city_excluded
+cities,"Garland, TX | Miami, FL",test
+cities,"Garland, TX | New Orleans, LA",test
+cities,"Garland, TX | Orlando, FL",test
+cities,"Garland, TX | Rochester, NY",test
+cities,"Garland, TX | San Francisco, CA",cross_city_excluded
+cities,"Garland, TX | Santa Ana, CA",cross_city_excluded
+cities,"Garland, TX | Scottsdale, AZ",test
+cities,"Glendale, AZ | Jacksonville, FL",cross_city_excluded
+cities,"Glendale, AZ | Lincoln, NE",cross_city_excluded
+cities,"Glendale, AZ | Los Angeles, CA",cross_city_excluded
+cities,"Glendale, AZ | Milwaukee, WI",test
+cities,"Glendale, AZ | Nashville, TN",cross_city_excluded
+cities,"Glendale, AZ | Omaha, NE",test
+cities,"Glendale, AZ | Orlando, FL",test
+cities,"Glendale, AZ | Sacramento, CA",cross_city_excluded
+cities,"Glendale, AZ | San Jose, CA",cross_city_excluded
+cities,"Glendale, AZ | Scottsdale, AZ",test
+cities,"Glendale, AZ | Seattle, WA",cross_city_excluded
+cities,"Glendale, AZ | Wichita, KS",test
+cities,"Greensboro, NC | Lexington, KY",train
+cities,"Greensboro, NC | Nashville, TN",train
+cities,"Greensboro, NC | Newark, NJ",train
+cities,"Greensboro, NC | Oakland, CA",train
+cities,"Greensboro, NC | Orlando, FL",cross_city_excluded
+cities,"Greensboro, NC | Pittsburgh, PA",train
+cities,"Henderson, NV | Kansas City, MO",train
+cities,"Henderson, NV | Laredo, TX",cross_city_excluded
+cities,"Henderson, NV | Philadelphia, PA",train
+cities,"Henderson, NV | Phoenix, AZ",cross_city_excluded
+cities,"Henderson, NV | Portland, OR",cross_city_excluded
+cities,"Henderson, NV | Rochester, NY",cross_city_excluded
+cities,"Henderson, NV | San Antonio, TX",train
+cities,"Henderson, NV | San Bernardino, CA",cross_city_excluded
+cities,"Henderson, NV | St. Paul, MN",train
+cities,"Henderson, NV | Stockton, CA",cross_city_excluded
+cities,"Hialeah, FL | Irving, TX",cross_city_excluded
+cities,"Hialeah, FL | Kansas City, MO",cross_city_excluded
+cities,"Hialeah, FL | Lexington, KY",cross_city_excluded
+cities,"Hialeah, FL | Long Beach, CA",test
+cities,"Hialeah, FL | Mesa, AZ",cross_city_excluded
+cities,"Hialeah, FL | New York, NY",test
+cities,"Hialeah, FL | Orlando, FL",test
+cities,"Hialeah, FL | Paradise, NV",test
+cities,"Hialeah, FL | San Jose, CA",cross_city_excluded
+cities,"Hialeah, FL | St. Louis, MO",cross_city_excluded
+cities,"Hialeah, FL | Stockton, CA",test
+cities,"Hialeah, FL | Tulsa, OK",test
+cities,"Honolulu, HI | Irving, TX",cross_city_excluded
+cities,"Honolulu, HI | Louisville, KY",test
+cities,"Honolulu, HI | Lubbock, TX",test
+cities,"Honolulu, HI | Omaha, NE",test
+cities,"Honolulu, HI | Plano, TX",cross_city_excluded
+cities,"Honolulu, HI | Reno, NV",test
+cities,"Honolulu, HI | Sacramento, CA",cross_city_excluded
+cities,"Honolulu, HI | Tampa, FL",cross_city_excluded
+cities,"Honolulu, HI | Toledo, OH",test
+cities,"Honolulu, HI | Tucson, AZ",cross_city_excluded
+cities,"Honolulu, HI | Virginia Beach, VA",test
+cities,"Houston, TX | Jacksonville, FL",cross_city_excluded
+cities,"Houston, TX | Kansas City, MO",cross_city_excluded
+cities,"Houston, TX | Lincoln, NE",cross_city_excluded
+cities,"Houston, TX | Louisville, KY",test
+cities,"Houston, TX | Nashville, TN",cross_city_excluded
+cities,"Houston, TX | Oakland, CA",cross_city_excluded
+cities,"Houston, TX | Oklahoma City, OK",cross_city_excluded
+cities,"Houston, TX | Phoenix, AZ",test
+cities,"Houston, TX | Riverside, CA",cross_city_excluded
+cities,"Houston, TX | San Antonio, TX",cross_city_excluded
+cities,"Houston, TX | Scottsdale, AZ",test
+cities,"Houston, TX | St. Paul, MN",cross_city_excluded
+cities,"Houston, TX | Stockton, CA",test
+cities,"Houston, TX | Tucson, AZ",cross_city_excluded
+cities,"Indianapolis, IN | Las Vegas, NV",test
+cities,"Indianapolis, IN | Memphis, TN",cross_city_excluded
+cities,"Indianapolis, IN | New Orleans, LA",test
+cities,"Indianapolis, IN | Phoenix, AZ",test
+cities,"Indianapolis, IN | San Bernardino, CA",test
+cities,"Indianapolis, IN | San Jose, CA",cross_city_excluded
+cities,"Irvine, CA | Kansas City, MO",cross_city_excluded
+cities,"Irvine, CA | Las Vegas, NV",test
+cities,"Irvine, CA | Miami, FL",test
+cities,"Irvine, CA | Orlando, FL",test
+cities,"Irvine, CA | Raleigh, NC",cross_city_excluded
+cities,"Irvine, CA | Reno, NV",test
+cities,"Irvine, CA | Riverside, CA",cross_city_excluded
+cities,"Irving, TX | Louisville, KY",cross_city_excluded
+cities,"Irving, TX | Lubbock, TX",cross_city_excluded
+cities,"Irving, TX | Madison, WI",cross_city_excluded
+cities,"Irving, TX | Memphis, TN",train
+cities,"Irving, TX | New Orleans, LA",cross_city_excluded
+cities,"Irving, TX | North Las Vegas, NV",train
+cities,"Irving, TX | Phoenix, AZ",cross_city_excluded
+cities,"Irving, TX | Portland, OR",cross_city_excluded
+cities,"Irving, TX | Seattle, WA",train
+cities,"Irving, TX | Tampa, FL",train
+cities,"Irving, TX | Toledo, OH",cross_city_excluded
+cities,"Irving, TX | Tucson, AZ",train
+cities,"Jacksonville, FL | Lincoln, NE",train
+cities,"Jacksonville, FL | Memphis, TN",train
+cities,"Jacksonville, FL | Mesa, AZ",train
+cities,"Jacksonville, FL | North Las Vegas, NV",train
+cities,"Jacksonville, FL | Oakland, CA",train
+cities,"Jacksonville, FL | San Bernardino, CA",cross_city_excluded
+cities,"Jacksonville, FL | Scottsdale, AZ",cross_city_excluded
+cities,"Jacksonville, FL | Seattle, WA",train
+cities,"Jacksonville, FL | St. Petersburg, FL",train
+cities,"Jersey City, NJ | Kansas City, MO",train
+cities,"Jersey City, NJ | Lubbock, TX",cross_city_excluded
+cities,"Jersey City, NJ | San Diego, CA",cross_city_excluded
+cities,"Jersey City, NJ | Tulsa, OK",cross_city_excluded
+cities,"Kansas City, MO | Pittsburgh, PA",train
+cities,"Kansas City, MO | Raleigh, NC",train
+cities,"Kansas City, MO | Seattle, WA",train
+cities,"Kansas City, MO | Tulsa, OK",cross_city_excluded
+cities,"Kansas City, MO | Wichita, KS",cross_city_excluded
+cities,"Kansas City, MO | Winston-Salem, NC",train
+cities,"Laredo, TX | Lexington, KY",cross_city_excluded
+cities,"Laredo, TX | Long Beach, CA",test
+cities,"Laredo, TX | Newark, NJ",cross_city_excluded
+cities,"Laredo, TX | Norfolk, VA",cross_city_excluded
+cities,"Laredo, TX | Portland, OR",test
+cities,"Laredo, TX | Sacramento, CA",cross_city_excluded
+cities,"Laredo, TX | Tampa, FL",cross_city_excluded
+cities,"Laredo, TX | Tucson, AZ",cross_city_excluded
+cities,"Laredo, TX | Washington, D.C.",test
+cities,"Las Vegas, NV | New Orleans, LA",test
+cities,"Las Vegas, NV | North Las Vegas, NV",cross_city_excluded
+cities,"Las Vegas, NV | Riverside, CA",cross_city_excluded
+cities,"Las Vegas, NV | Santa Ana, CA",cross_city_excluded
+cities,"Las Vegas, NV | Seattle, WA",cross_city_excluded
+cities,"Las Vegas, NV | St. Louis, MO",cross_city_excluded
+cities,"Lexington, KY | Madison, WI",cross_city_excluded
+cities,"Lexington, KY | Norfolk, VA",train
+cities,"Lexington, KY | Pittsburgh, PA",train
+cities,"Lexington, KY | Plano, TX",train
+cities,"Lexington, KY | San Francisco, CA",train
+cities,"Lexington, KY | St. Petersburg, FL",train
+cities,"Lincoln, NE | Long Beach, CA",cross_city_excluded
+cities,"Lincoln, NE | Nashville, TN",train
+cities,"Lincoln, NE | New Orleans, LA",cross_city_excluded
+cities,"Lincoln, NE | Norfolk, VA",train
+cities,"Lincoln, NE | North Las Vegas, NV",train
+cities,"Lincoln, NE | Phoenix, AZ",cross_city_excluded
+cities,"Lincoln, NE | San Francisco, CA",train
+cities,"Lincoln, NE | Santa Ana, CA",train
+cities,"Lincoln, NE | Tulsa, OK",cross_city_excluded
+cities,"Long Beach, CA | Lubbock, TX",test
+cities,"Long Beach, CA | Memphis, TN",cross_city_excluded
+cities,"Long Beach, CA | Mesa, AZ",cross_city_excluded
+cities,"Long Beach, CA | Philadelphia, PA",cross_city_excluded
+cities,"Long Beach, CA | Pittsburgh, PA",cross_city_excluded
+cities,"Long Beach, CA | Riverside, CA",cross_city_excluded
+cities,"Long Beach, CA | Sacramento, CA",cross_city_excluded
+cities,"Long Beach, CA | San Diego, CA",test
+cities,"Long Beach, CA | San Francisco, CA",cross_city_excluded
+cities,"Los Angeles, CA | Madison, WI",cross_city_excluded
+cities,"Los Angeles, CA | Minneapolis, MN",train
+cities,"Los Angeles, CA | Nashville, TN",train
+cities,"Los Angeles, CA | New York, NY",cross_city_excluded
+cities,"Los Angeles, CA | Raleigh, NC",train
+cities,"Los Angeles, CA | Sacramento, CA",train
+cities,"Los Angeles, CA | St. Paul, MN",train
+cities,"Los Angeles, CA | Tampa, FL",train
+cities,"Louisville, KY | Lubbock, TX",test
+cities,"Louisville, KY | Madison, WI",test
+cities,"Louisville, KY | Nashville, TN",cross_city_excluded
+cities,"Louisville, KY | Newark, NJ",cross_city_excluded
+cities,"Louisville, KY | San Antonio, TX",cross_city_excluded
+cities,"Louisville, KY | San Diego, CA",test
+cities,"Louisville, KY | San Francisco, CA",cross_city_excluded
+cities,"Louisville, KY | Seattle, WA",cross_city_excluded
+cities,"Louisville, KY | Tampa, FL",cross_city_excluded
+cities,"Lubbock, TX | Madison, WI",test
+cities,"Lubbock, TX | Milwaukee, WI",test
+cities,"Lubbock, TX | Paradise, NV",test
+cities,"Lubbock, TX | Plano, TX",cross_city_excluded
+cities,"Lubbock, TX | Rochester, NY",test
+cities,"Lubbock, TX | San Jose, CA",cross_city_excluded
+cities,"Lubbock, TX | Santa Ana, CA",cross_city_excluded
+cities,"Lubbock, TX | Tucson, AZ",cross_city_excluded
+cities,"Madison, WI | Milwaukee, WI",test
+cities,"Madison, WI | Newark, NJ",cross_city_excluded
+cities,"Madison, WI | Oakland, CA",cross_city_excluded
+cities,"Madison, WI | Omaha, NE",test
+cities,"Madison, WI | Paradise, NV",test
+cities,"Madison, WI | Reno, NV",test
+cities,"Madison, WI | Riverside, CA",cross_city_excluded
+cities,"Madison, WI | Washington, D.C.",test
+cities,"Madison, WI | Winston-Salem, NC",cross_city_excluded
+cities,"Memphis, TN | Mesa, AZ",train
+cities,"Memphis, TN | New York, NY",cross_city_excluded
+cities,"Memphis, TN | Oklahoma City, OK",train
+cities,"Memphis, TN | Sacramento, CA",train
+cities,"Memphis, TN | St. Louis, MO",train
+cities,"Memphis, TN | Stockton, CA",cross_city_excluded
+cities,"Mesa, AZ | Nashville, TN",train
+cities,"Mesa, AZ | New York, NY",cross_city_excluded
+cities,"Mesa, AZ | Orlando, FL",cross_city_excluded
+cities,"Mesa, AZ | San Antonio, TX",train
+cities,"Mesa, AZ | Stockton, CA",cross_city_excluded
+cities,"Mesa, AZ | Wichita, KS",cross_city_excluded
+cities,"Miami, FL | New Orleans, LA",test
+cities,"Miami, FL | New York, NY",test
+cities,"Miami, FL | Norfolk, VA",cross_city_excluded
+cities,"Miami, FL | Oakland, CA",cross_city_excluded
+cities,"Miami, FL | Paradise, NV",test
+cities,"Miami, FL | Santa Ana, CA",cross_city_excluded
+cities,"Miami, FL | Scottsdale, AZ",test
+cities,"Miami, FL | St. Paul, MN",cross_city_excluded
+cities,"Miami, FL | Tulsa, OK",test
+cities,"Miami, FL | Washington, D.C.",test
+cities,"Miami, FL | Wichita, KS",test
+cities,"Milwaukee, WI | Minneapolis, MN",cross_city_excluded
+cities,"Milwaukee, WI | Omaha, NE",test
+cities,"Milwaukee, WI | Orlando, FL",test
+cities,"Milwaukee, WI | Reno, NV",test
+cities,"Milwaukee, WI | San Diego, CA",test
+cities,"Milwaukee, WI | San Jose, CA",cross_city_excluded
+cities,"Milwaukee, WI | St. Petersburg, FL",cross_city_excluded
+cities,"Milwaukee, WI | Tucson, AZ",cross_city_excluded
+cities,"Milwaukee, WI | Washington, D.C.",test
+cities,"Minneapolis, MN | New Orleans, LA",cross_city_excluded
+cities,"Minneapolis, MN | North Las Vegas, NV",train
+cities,"Minneapolis, MN | Oklahoma City, OK",train
+cities,"Minneapolis, MN | Portland, OR",cross_city_excluded
+cities,"Minneapolis, MN | Riverside, CA",train
+cities,"Minneapolis, MN | Sacramento, CA",train
+cities,"Minneapolis, MN | St. Petersburg, FL",train
+cities,"Minneapolis, MN | Stockton, CA",cross_city_excluded
+cities,"Minneapolis, MN | Virginia Beach, VA",cross_city_excluded
+cities,"Minneapolis, MN | Washington, D.C.",cross_city_excluded
+cities,"Nashville, TN | New Orleans, LA",cross_city_excluded
+cities,"Nashville, TN | San Diego, CA",cross_city_excluded
+cities,"Nashville, TN | Scottsdale, AZ",cross_city_excluded
+cities,"Nashville, TN | Toledo, OH",cross_city_excluded
+cities,"Nashville, TN | Wichita, KS",cross_city_excluded
+cities,"New Orleans, LA | Reno, NV",test
+cities,"New Orleans, LA | San Diego, CA",test
+cities,"New Orleans, LA | Seattle, WA",cross_city_excluded
+cities,"New Orleans, LA | Virginia Beach, VA",test
+cities,"New York, NY | Newark, NJ",cross_city_excluded
+cities,"New York, NY | Philadelphia, PA",cross_city_excluded
+cities,"New York, NY | Raleigh, NC",cross_city_excluded
+cities,"New York, NY | San Bernardino, CA",test
+cities,"Newark, NJ | Oakland, CA",train
+cities,"Newark, NJ | St. Petersburg, FL",train
+cities,"Newark, NJ | Tampa, FL",train
+cities,"Newark, NJ | Winston-Salem, NC",train
+cities,"Norfolk, VA | North Las Vegas, NV",train
+cities,"Norfolk, VA | Reno, NV",cross_city_excluded
+cities,"Norfolk, VA | San Antonio, TX",train
+cities,"Norfolk, VA | San Francisco, CA",train
+cities,"Norfolk, VA | Tampa, FL",train
+cities,"Norfolk, VA | Virginia Beach, VA",cross_city_excluded
+cities,"North Las Vegas, NV | Oklahoma City, OK",train
+cities,"North Las Vegas, NV | Raleigh, NC",train
+cities,"North Las Vegas, NV | San Bernardino, CA",cross_city_excluded
+cities,"North Las Vegas, NV | San Francisco, CA",train
+cities,"North Las Vegas, NV | Santa Ana, CA",train
+cities,"North Las Vegas, NV | Tucson, AZ",train
+cities,"North Las Vegas, NV | Wichita, KS",cross_city_excluded
+cities,"Oakland, CA | Raleigh, NC",train
+cities,"Oakland, CA | Reno, NV",cross_city_excluded
+cities,"Oakland, CA | Riverside, CA",train
+cities,"Oakland, CA | St. Louis, MO",train
+cities,"Oakland, CA | Virginia Beach, VA",cross_city_excluded
+cities,"Oakland, CA | Washington, D.C.",cross_city_excluded
+cities,"Oakland, CA | Winston-Salem, NC",train
+cities,"Oklahoma City, OK | Pittsburgh, PA",train
+cities,"Oklahoma City, OK | Riverside, CA",train
+cities,"Oklahoma City, OK | San Jose, CA",train
+cities,"Oklahoma City, OK | Santa Ana, CA",train
+cities,"Oklahoma City, OK | St. Louis, MO",train
+cities,"Oklahoma City, OK | St. Petersburg, FL",train
+cities,"Oklahoma City, OK | Stockton, CA",cross_city_excluded
+cities,"Oklahoma City, OK | Tulsa, OK",cross_city_excluded
+cities,"Omaha, NE | Pittsburgh, PA",cross_city_excluded
+cities,"Omaha, NE | Portland, OR",test
+cities,"Omaha, NE | San Antonio, TX",cross_city_excluded
+cities,"Omaha, NE | St. Paul, MN",cross_city_excluded
+cities,"Omaha, NE | Washington, D.C.",test
+cities,"Orlando, FL | Paradise, NV",test
+cities,"Orlando, FL | Philadelphia, PA",cross_city_excluded
+cities,"Orlando, FL | Raleigh, NC",cross_city_excluded
+cities,"Orlando, FL | San Diego, CA",test
+cities,"Orlando, FL | Toledo, OH",test
+cities,"Orlando, FL | Virginia Beach, VA",test
+cities,"Orlando, FL | Wichita, KS",test
+cities,"Paradise, NV | Sacramento, CA",cross_city_excluded
+cities,"Paradise, NV | San Bernardino, CA",test
+cities,"Paradise, NV | Stockton, CA",test
+cities,"Paradise, NV | Toledo, OH",test
+cities,"Paradise, NV | Tulsa, OK",test
+cities,"Philadelphia, PA | Riverside, CA",train
+cities,"Philadelphia, PA | San Diego, CA",cross_city_excluded
+cities,"Philadelphia, PA | San Francisco, CA",train
+cities,"Philadelphia, PA | St. Paul, MN",train
+cities,"Philadelphia, PA | Virginia Beach, VA",cross_city_excluded
+cities,"Philadelphia, PA | Washington, D.C.",cross_city_excluded
+cities,"Philadelphia, PA | Winston-Salem, NC",train
+cities,"Phoenix, AZ | Portland, OR",test
+cities,"Phoenix, AZ | St. Louis, MO",cross_city_excluded
+cities,"Phoenix, AZ | Stockton, CA",test
+cities,"Phoenix, AZ | Washington, D.C.",test
+cities,"Pittsburgh, PA | Seattle, WA",train
+cities,"Pittsburgh, PA | St. Louis, MO",train
+cities,"Pittsburgh, PA | St. Paul, MN",train
+cities,"Pittsburgh, PA | Stockton, CA",cross_city_excluded
+cities,"Pittsburgh, PA | Tampa, FL",train
+cities,"Pittsburgh, PA | Virginia Beach, VA",cross_city_excluded
+cities,"Plano, TX | Riverside, CA",train
+cities,"Plano, TX | San Antonio, TX",train
+cities,"Plano, TX | St. Paul, MN",train
+cities,"Portland, OR | Raleigh, NC",cross_city_excluded
+cities,"Portland, OR | San Bernardino, CA",test
+cities,"Portland, OR | San Jose, CA",cross_city_excluded
+cities,"Portland, OR | Washington, D.C.",test
+cities,"Raleigh, NC | Reno, NV",cross_city_excluded
+cities,"Raleigh, NC | Rochester, NY",cross_city_excluded
+cities,"Raleigh, NC | Scottsdale, AZ",cross_city_excluded
+cities,"Raleigh, NC | Winston-Salem, NC",train
+cities,"Reno, NV | San Antonio, TX",cross_city_excluded
+cities,"Reno, NV | San Bernardino, CA",test
+cities,"Reno, NV | San Diego, CA",test
+cities,"Reno, NV | San Jose, CA",cross_city_excluded
+cities,"Reno, NV | Santa Ana, CA",cross_city_excluded
+cities,"Reno, NV | Washington, D.C.",test
+cities,"Riverside, CA | Rochester, NY",cross_city_excluded
+cities,"Riverside, CA | San Antonio, TX",train
+cities,"Riverside, CA | San Jose, CA",train
+cities,"Riverside, CA | Washington, D.C.",cross_city_excluded
+cities,"Rochester, NY | Scottsdale, AZ",test
+cities,"Rochester, NY | Seattle, WA",cross_city_excluded
+cities,"Rochester, NY | St. Petersburg, FL",cross_city_excluded
+cities,"Rochester, NY | Tucson, AZ",cross_city_excluded
+cities,"San Antonio, TX | St. Petersburg, FL",train
+cities,"San Antonio, TX | Toledo, OH",cross_city_excluded
+cities,"San Antonio, TX | Virginia Beach, VA",cross_city_excluded
+cities,"San Antonio, TX | Washington, D.C.",cross_city_excluded
+cities,"San Antonio, TX | Winston-Salem, NC",train
+cities,"San Bernardino, CA | St. Petersburg, FL",cross_city_excluded
+cities,"San Bernardino, CA | Tampa, FL",cross_city_excluded
+cities,"San Bernardino, CA | Winston-Salem, NC",cross_city_excluded
+cities,"San Diego, CA | Seattle, WA",cross_city_excluded
+cities,"San Diego, CA | Tucson, AZ",cross_city_excluded
+cities,"San Diego, CA | Tulsa, OK",test
+cities,"San Francisco, CA | St. Petersburg, FL",train
+cities,"San Jose, CA | St. Paul, MN",train
+cities,"San Jose, CA | Tulsa, OK",cross_city_excluded
+cities,"Santa Ana, CA | Scottsdale, AZ",cross_city_excluded
+cities,"Scottsdale, AZ | Tucson, AZ",cross_city_excluded
+cities,"Scottsdale, AZ | Virginia Beach, VA",test
+cities,"Seattle, WA | St. Paul, MN",train
+cities,"Seattle, WA | St. Petersburg, FL",train
+cities,"Seattle, WA | Washington, D.C.",cross_city_excluded
+cities,"Seattle, WA | Winston-Salem, NC",train
+cities,"St. Louis, MO | St. Paul, MN",train
+cities,"St. Louis, MO | St. Petersburg, FL",train
+cities,"St. Louis, MO | Wichita, KS",cross_city_excluded
+cities,"St. Paul, MN | Stockton, CA",cross_city_excluded
+cities,"Stockton, CA | Tampa, FL",cross_city_excluded
+cities,"Stockton, CA | Wichita, KS",test
+cities,"Tampa, FL | Toledo, OH",cross_city_excluded
+cities,"Tampa, FL | Tulsa, OK",cross_city_excluded
+cities,"Tampa, FL | Virginia Beach, VA",cross_city_excluded
+cities,"Toledo, OH | Tulsa, OK",test
+cities,"Toledo, OH | Wichita, KS",test

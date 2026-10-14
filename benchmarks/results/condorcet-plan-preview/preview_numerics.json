@@ -1,0 +1,123 @@
+{
+  "status": "Exploratory descriptive preview; not a new empirical study.",
+  "reproduction_command": ".venv/bin/python -B research/condorcet_preview.py",
+  "input": {
+    "curve_path": "benchmarks/results/sports-survey-equivalence/panel_curves.csv",
+    "curve_sha256": "2ab3811150ce12eb7771b56f764a83a38fa7ff77995b8950fe2cd3cd65f2f1f3",
+    "manifest_path": "benchmarks/results/sports-survey-equivalence/results.json",
+    "manifest_sha256": "eedfe30cf611158f084cdee32163bc85c735876d915503e27930e96d3f66b5a4",
+    "dataset": "Rutchick et al. 2020, NBA Study 3 released workbook",
+    "dataset_url": "https://osf.io/download/zwsgu/",
+    "dataset_sha256": "a900bd24143e5bf6692df807a76c9b28bbccaf52031c101b7cc37e7ccd7c2d4f",
+    "method": "winner_only",
+    "games": 465,
+    "participants": 113,
+    "complete_responses": 9788
+  },
+  "script": {
+    "path": "research/condorcet_preview.py",
+    "sha256": "f70d0ad9fa504b4f6d0a589645f46a80de5931f2a9538ad5516a845a7fbaa935"
+  },
+  "model": {
+    "description": "Independent Bernoulli correctness with constant p across jurors and items.",
+    "p": 0.6309486189744582,
+    "p_source": "Observed game-averaged k=1 accuracy, a descriptive plug-in value.",
+    "formula": "P[Binomial(k,p) > k/2] + 0.5 * P[Binomial(k,p) = k/2]",
+    "ties": "Half credit; ties occur only at even k."
+  },
+  "curves": [
+    {
+      "k": 1,
+      "observed_accuracy": 0.6309486189744582,
+      "iid_model_accuracy": 0.6309486189744582,
+      "model_minus_observed_pp": 0.0
+    },
+    {
+      "k": 2,
+      "observed_accuracy": 0.6309486189744582,
+      "iid_model_accuracy": 0.6309486189744582,
+      "model_minus_observed_pp": 0.0
+    },
+    {
+      "k": 3,
+      "observed_accuracy": 0.6507602116442731,
+      "iid_model_accuracy": 0.6919320348855869,
+      "model_minus_observed_pp": 4.117182324131374
+    },
+    {
+      "k": 4,
+      "observed_accuracy": 0.6507602116442731,
+      "iid_model_accuracy": 0.6919320348855869,
+      "model_minus_observed_pp": 4.117182324131374
+    },
+    {
+      "k": 5,
+      "observed_accuracy": 0.6557975815704756,
+      "iid_model_accuracy": 0.7345324499794843,
+      "model_minus_observed_pp": 7.873486840900867
+    },
+    {
+      "k": 6,
+      "observed_accuracy": 0.6557975815704756,
+      "iid_model_accuracy": 0.7345324499794843,
+      "model_minus_observed_pp": 7.873486840900867
+    },
+    {
+      "k": 7,
+      "observed_accuracy": 0.6571468591384264,
+      "iid_model_accuracy": 0.7675978213697267,
+      "model_minus_observed_pp": 11.045096223130024
+    },
+    {
+      "k": 8,
+      "observed_accuracy": 0.6571468591384264,
+      "iid_model_accuracy": 0.7675978213697267,
+      "model_minus_observed_pp": 11.045096223130024
+    },
+    {
+      "k": 9,
+      "observed_accuracy": 0.6589461626394882,
+      "iid_model_accuracy": 0.7945455570174442,
+      "model_minus_observed_pp": 13.559939437795599
+    },
+    {
+      "k": 10,
+      "observed_accuracy": 0.6589461626394882,
+      "iid_model_accuracy": 0.7945455570174442,
+      "model_minus_observed_pp": 13.559939437795599
+    }
+  ],
+  "reference": {
+    "k": 10,
+    "observed_accuracy": 0.6589461626394882,
+    "iid_model_accuracy_at_same_k": 0.7945455570174442,
+    "model_minus_observed_pp": 13.559939437795599,
+    "observed_first_matching_k": 9.0
+  },
+  "equivalence": {
+    "direction": "Number of homogeneous iid model jurors matching observed 10-person NBA accuracy.",
+    "interpolated_size": 2.4591009415712457,
+    "smallest_integer_size": 3,
+    "method": "research.panel_power.first_equivalent_size on full integer k=1..10; no smoothing.",
+    "interpretation": "Descriptive model projection; not a measured number of independent real people.",
+    "uncertainty": "None estimated. This preview does not reuse pointwise curve bands as equivalence intervals."
+  },
+  "caveat": "The gap does not identify social dependence: item difficulty, voter heterogeneity and finite sampling also differ.",
+  "verification": {
+    "binomial_formula": "Direct binomial sum agrees with scipy.stats.binom to absolute tolerance 1e-14.",
+    "additional_p_values": [
+      0,
+      0.2,
+      0.5,
+      0.7,
+      1
+    ],
+    "odd_even_plateaus": "Both curves verified at all adjacent odd/even k to absolute tolerance 1e-14."
+  },
+  "versions": {
+    "python": "3.9.6",
+    "numpy": "1.24.4",
+    "scipy": "1.10.1",
+    "matplotlib": "3.7.1"
+  }
+}

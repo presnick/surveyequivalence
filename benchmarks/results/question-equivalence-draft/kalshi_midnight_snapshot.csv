@@ -1,0 +1,7 @@
+ticker,label,result,last_trade_price_dollars,yes_bid_dollars,yes_ask_dollars,candle_end_ts,floor_strike,cap_strike,strike_type
+KXHIGHNY-26SEP21-T66,65 F or below,no,0.01,0.0,0.01,1789963200,,66.0,less
+KXHIGHNY-26SEP21-B66.5,66-67 F,no,0.02,0.02,0.03,1789963200,66.0,67.0,between
+KXHIGHNY-26SEP21-B68.5,68-69 F,no,0.21,0.2,0.21,1789963200,68.0,69.0,between
+KXHIGHNY-26SEP21-B70.5,70-71 F,no,0.55,0.53,0.54,1789963200,70.0,71.0,between
+KXHIGHNY-26SEP21-B72.5,72-73 F,yes,0.21,0.21,0.22,1789963200,72.0,73.0,between
+KXHIGHNY-26SEP21-T73,74 F or above,no,0.04,0.03,0.05,1789963200,73.0,,greater

@@ -1,0 +1,28 @@
+{
+  "bluebirds": {
+    "complete_items": 108,
+    "train_items": 54,
+    "test_items": 54,
+    "cross_city_excluded": 0,
+    "incomplete_items_excluded": 0,
+    "raters": 39,
+    "selected_raters": 19,
+    "kmax": 15,
+    "weighting": "round(3*max(0,logit((training_correct+2)/(training_n+4)))) clipped to [0,10]; exact integer subset DP.",
+    "uncertainty": "Conditional on trained policy and workers; image resampling only",
+    "split": "50% within each truth class"
+  },
+  "cities": {
+    "complete_items": 802,
+    "train_items": 200,
+    "test_items": 215,
+    "cross_city_excluded": 387,
+    "incomplete_items_excluded": 198,
+    "raters": 99,
+    "selected_raters": 49,
+    "kmax": 15,
+    "weighting": "round(3*max(0,logit((training_correct+2)/(training_n+4)))) clipped to [0,10]; exact integer subset DP.",
+    "uncertainty": "Fixed test city-pairs; no confidence intervals",
+    "split": "Disjoint city identities: within-train-city pairs for training, within-test-city pairs for test; cross pairs excluded"
+  }
+}

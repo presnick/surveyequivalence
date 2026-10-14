@@ -1,0 +1,59 @@
+{
+  "study": "Becker, Brackbill & Centola (2017)",
+  "doi": "10.1073/pnas.1615978114",
+  "article_url": "https://www.pnas.org/doi/10.1073/pnas.1615978114",
+  "author_project_url": "https://ndg.asc.upenn.edu/experiments/collective-intelligence/",
+  "source_zip_url": "https://ndg.asc.upenn.edu/wp-content/uploads/2017/09/NDG_becker_brackbill_centola_collective_intelligence_dataset.zip",
+  "si_url": "https://ndg.asc.upenn.edu/wp-content/uploads/2016/01/Becker-Brackbill-Centola-2017-Collective-Intelligence-SI-Appendix.pdf",
+  "source_csv_path": ".cache/social-influence-data/becker2017/becker_brackbill_centola_supporting_data.csv",
+  "source_csv_sha256": "2c12eac9df56e80bd8d4145b574116a54910e2efa888cf48a190ec1746c16fa1",
+  "source_zip_sha256": "fb6d5ea34fcd88d2fc495527aa628eba268981d43bd48c27c5e0ff98b1f43d41",
+  "observed_subject_task_rows": 5909,
+  "participants": 1360,
+  "tasks": 34,
+  "groups": 34,
+  "conditions": {
+    "Solo": {
+      "rows": 1326,
+      "groups": 8,
+      "group_tasks": 34,
+      "matched_rows": 1286,
+      "min_matched_group_task": 35,
+      "max_matched_group_task": 40,
+      "NA_counts": {
+        "response_1": 32,
+        "response_2": 27,
+        "response_3": 21
+      }
+    },
+    "Decentralized": {
+      "rows": 2309,
+      "groups": 13,
+      "group_tasks": 59,
+      "matched_rows": 2190,
+      "min_matched_group_task": 33,
+      "max_matched_group_task": 40,
+      "NA_counts": {
+        "response_1": 95,
+        "response_2": 68,
+        "response_3": 67
+      }
+    },
+    "Centralized": {
+      "rows": 2274,
+      "groups": 13,
+      "group_tasks": 59,
+      "matched_rows": 2150,
+      "min_matched_group_task": 31,
+      "max_matched_group_task": 40,
+      "NA_counts": {
+        "response_1": 100,
+        "response_2": 80,
+        "response_3": 67
+      }
+    }
+  },
+  "common_max_panel_size_complete_r1_r3": 31,
+  "normalization": "Use supplied sd_pool; it matches sample SD of all observed R1 responses per task, across conditions, max numeric discrepancy 4.4e-11.",
+  "panel_caveat": "Panel size is number of reports sampled from original groups assigned 40 people; social reports already incorporate information from peers, including unsampled people. This is not experimental variation in interacting network size."
+}

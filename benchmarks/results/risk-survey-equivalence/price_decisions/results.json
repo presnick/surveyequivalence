@@ -1,0 +1,82 @@
+{
+  "analysis": "price_decisions",
+  "score": "Expected regret (points per decision)",
+  "lower_is_better": true,
+  "panel_range": [
+    1,
+    37
+  ],
+  "reference_method": "numerical_percentage",
+  "reference_people": 10,
+  "formula": "Exact subset-sum enumeration of thresholded panel-mean take-risk proportions; nominal +/-5 point expected values; five zero-EV cases contribute zero regret",
+  "equivalence": "Smallest supported integer k matching or improving the reference loss; no extrapolation",
+  "panel_sampling": "Uniform distinct respondents without replacement; equal case weights and equal respondent weights",
+  "seed": 20260927,
+  "bootstrap_replicates": 1000,
+  "results": [
+    {
+      "analysis": "price_decisions",
+      "method": "numerical_percentage",
+      "reference_method": "numerical_percentage",
+      "reference_people": 10,
+      "people_to_match": "3",
+      "bootstrap_95_lower": "1",
+      "bootstrap_95_upper": "10",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 1.2522522522522521,
+      "score_at_10": 1.2230273423715485,
+      "reference_score": 1.2230273423715485,
+      "loss_difference_at_10": 0.0,
+      "loss_difference_95_lower": 0.0,
+      "loss_difference_95_upper": 0.0
+    },
+    {
+      "analysis": "price_decisions",
+      "method": "random_icons",
+      "reference_method": "numerical_percentage",
+      "reference_people": 10,
+      "people_to_match": "1",
+      "bootstrap_95_lower": "1",
+      "bootstrap_95_upper": ">37",
+      "bootstrap_no_crossing_fraction": 0.048,
+      "score_at_1": 1.2017543859649122,
+      "score_at_10": 0.9557328233893527,
+      "reference_score": 1.2230273423715485,
+      "loss_difference_at_10": -0.2672945189821958,
+      "loss_difference_95_lower": -0.5798360541613549,
+      "loss_difference_95_upper": 0.11784895463479156
+    },
+    {
+      "analysis": "price_decisions",
+      "method": "grouped_icons",
+      "reference_method": "numerical_percentage",
+      "reference_people": 10,
+      "people_to_match": "3",
+      "bootstrap_95_lower": "1",
+      "bootstrap_95_upper": ">37",
+      "bootstrap_no_crossing_fraction": 0.198,
+      "score_at_1": 1.3333333333333335,
+      "score_at_10": 1.1159445860825448,
+      "reference_score": 1.2230273423715485,
+      "loss_difference_at_10": -0.10708275628900377,
+      "loss_difference_95_lower": -0.4218788400295812,
+      "loss_difference_95_upper": 0.2363948931891961
+    }
+  ],
+  "people": 113,
+  "group_counts": [
+    37,
+    38,
+    38
+  ],
+  "cases": 15,
+  "informative_cases": 10,
+  "aggregation": "Take risk if mean released propensity > 0.5; pass if < 0.5; random action on ties",
+  "uncertainty": "1000 whole-person bootstrap draws within each randomized condition; fixed cases; reference recomputed",
+  "limits": [
+    "Risk-neutral expected-points utility chosen for this analysis, not a measure of all risk preferences.",
+    "Uses repeated-decision summaries, not raw single-trial panel votes.",
+    "Nominal study EVs are used; rounded loss amounts in the paper can differ slightly.",
+    "Thresholding is an analyst-specified aggregation rule; curves may be nonmonotonic."
+  ]
+}

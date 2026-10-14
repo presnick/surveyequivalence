@@ -1,0 +1,80 @@
+{
+  "analysis": "sce_pcepi_bounded_points",
+  "score": "RMS error (percentage points)",
+  "lower_is_better": true,
+  "panel_range": [
+    1,
+    100
+  ],
+  "reference_method": "direct_point_estimate",
+  "reference_people": 10,
+  "formula": "mean_cases[(population_mean-truth)^2 + sample_variance*(1/k - 1/n)]",
+  "equivalence": "Smallest supported integer k matching or improving the reference loss; no extrapolation",
+  "panel_sampling": "Uniform distinct respondents without replacement; equal case weights and equal respondent weights",
+  "seed": 20260927,
+  "bootstrap_replicates": 4000,
+  "results": [
+    {
+      "analysis": "sce_pcepi_bounded_points",
+      "method": "direct_point_estimate",
+      "reference_method": "direct_point_estimate",
+      "reference_people": 10,
+      "people_to_match": "10",
+      "bootstrap_95_lower": "10",
+      "bootstrap_95_upper": "10",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 14.545794940833073,
+      "score_at_10": 5.629336028115065,
+      "reference_score": 5.629336028115065,
+      "loss_difference_at_10": 0.0,
+      "loss_difference_95_lower": 0.0,
+      "loss_difference_95_upper": 0.0
+    },
+    {
+      "analysis": "sce_pcepi_bounded_points",
+      "method": "elicited_density_mean",
+      "reference_method": "direct_point_estimate",
+      "reference_people": 10,
+      "people_to_match": "2",
+      "bootstrap_95_lower": "2",
+      "bootstrap_95_upper": "2",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 6.144114933407985,
+      "score_at_10": 2.63763234590197,
+      "reference_score": 5.629336028115065,
+      "loss_difference_at_10": -24.73231972528597,
+      "loss_difference_95_lower": -31.787831219318768,
+      "loss_difference_95_upper": -18.651697570312663
+    }
+  ],
+  "cases": 59,
+  "responses": 69576,
+  "unique_person_ids": 9630,
+  "initial_response_rows": 71976,
+  "excluded_incomplete_or_invalid_rows": 1327,
+  "sensitivity_filter": "abs(point estimate) <= 100 percentage points",
+  "sensitivity_rows_removed_before_outcome_join": 21,
+  "survey_months_excluded_missing_common_outcomes": [
+    "2024-10"
+  ],
+  "point_estimate_range": [
+    -100.0,
+    100.0
+  ],
+  "min_people_per_case": 950,
+  "max_people_per_case": 1318,
+  "first_survey": "2020-01",
+  "last_survey": "2024-12",
+  "outcome_source": "https://fred.stlouisfed.org/data/PCEPI",
+  "outcome_snapshot": "2026-09-27 download",
+  "outcome_definition": "100*(index at survey month + 12 / index at survey month - 1)",
+  "uncertainty": "Circular moving-block bootstrap of 12 retained survey months; observed people fixed; at most 60 months",
+  "summary": "Q9_mean is the released fitted density mean; Q8v2part2 is already signed in the released file (validated against Q8v2)",
+  "limits": [
+    "Generic inflation question does not specify CPI/PCE; both reported as research benchmarks.",
+    "Equal-person panels, not the official survey-weighted estimates.",
+    "Extreme point estimates are retained in the primary analysis; paired abs(point)<=100 sensitivity reported separately.",
+    "Density elicitation plus publisher fitting is compared with a best guess; these can target different functionals.",
+    "Overlapping 12-month outcomes and repeat respondents; bootstrap does not cover recruitment of new people."
+  ]
+}

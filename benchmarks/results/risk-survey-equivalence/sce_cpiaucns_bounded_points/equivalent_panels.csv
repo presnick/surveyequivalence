@@ -1,0 +1,3 @@
+analysis,method,reference_method,reference_people,people_to_match,bootstrap_95_lower,bootstrap_95_upper,bootstrap_no_crossing_fraction,score_at_1,score_at_10,reference_score,loss_difference_at_10,loss_difference_95_lower,loss_difference_95_upper
+sce_cpiaucns_bounded_points,direct_point_estimate,direct_point_estimate,10,10,10,10,0.0,14.490038588994745,5.483656806112705,5.483656806112705,0.0,0.0,0.0
+sce_cpiaucns_bounded_points,elicited_density_mean,direct_point_estimate,10,2,2,2,0.0,6.228306075010748,2.828206612190329,5.483656806112705,-22.0717393259891,-29.64322204241394,-14.671600572957297

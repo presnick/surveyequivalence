@@ -1,0 +1,522 @@
+{
+  "data_kind": "REAL PUBLIC KALSHI DATA; descriptive single-event example only",
+  "event_ticker": "KXHIGHNY-26SEP21",
+  "title": "Highest temperature in New York City on Sep 21, 2026?",
+  "observed_temperature_f": 72.0,
+  "settlement_sources": [
+    {
+      "name": "The Weather Company",
+      "url": "https://weather.com/kalshi"
+    }
+  ],
+  "snapshot": [
+    {
+      "ticker": "KXHIGHNY-26SEP21-T66",
+      "label": "65 F or below",
+      "result": "no",
+      "last_trade_price_dollars": 0.01,
+      "yes_bid_dollars": 0.0,
+      "yes_ask_dollars": 0.01,
+      "candle_end_ts": 1789963200,
+      "floor_strike": null,
+      "cap_strike": 66,
+      "strike_type": "less"
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B66.5",
+      "label": "66-67 F",
+      "result": "no",
+      "last_trade_price_dollars": 0.02,
+      "yes_bid_dollars": 0.02,
+      "yes_ask_dollars": 0.03,
+      "candle_end_ts": 1789963200,
+      "floor_strike": 66,
+      "cap_strike": 67,
+      "strike_type": "between"
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B68.5",
+      "label": "68-69 F",
+      "result": "no",
+      "last_trade_price_dollars": 0.21,
+      "yes_bid_dollars": 0.2,
+      "yes_ask_dollars": 0.21,
+      "candle_end_ts": 1789963200,
+      "floor_strike": 68,
+      "cap_strike": 69,
+      "strike_type": "between"
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B70.5",
+      "label": "70-71 F",
+      "result": "no",
+      "last_trade_price_dollars": 0.55,
+      "yes_bid_dollars": 0.53,
+      "yes_ask_dollars": 0.54,
+      "candle_end_ts": 1789963200,
+      "floor_strike": 70,
+      "cap_strike": 71,
+      "strike_type": "between"
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B72.5",
+      "label": "72-73 F",
+      "result": "yes",
+      "last_trade_price_dollars": 0.21,
+      "yes_bid_dollars": 0.21,
+      "yes_ask_dollars": 0.22,
+      "candle_end_ts": 1789963200,
+      "floor_strike": 72,
+      "cap_strike": 73,
+      "strike_type": "between"
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-T73",
+      "label": "74 F or above",
+      "result": "no",
+      "last_trade_price_dollars": 0.04,
+      "yes_bid_dollars": 0.03,
+      "yes_ask_dollars": 0.05,
+      "candle_end_ts": 1789963200,
+      "floor_strike": 73,
+      "cap_strike": null,
+      "strike_type": "greater"
+    }
+  ],
+  "histories": [
+    {
+      "ticker": "KXHIGHNY-26SEP21-T66",
+      "label": "65 F or below",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.08
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.06
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": 0.03
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": 0.03
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.01
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.01
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.01
+        }
+      ]
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B66.5",
+      "label": "66-67 F",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.18
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.14
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.09
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.09
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": 0.08
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": 0.08
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": 0.08
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.02
+        }
+      ]
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B68.5",
+      "label": "68-69 F",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.45
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.5
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.51
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.49
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": 0.5
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": 0.49
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": 0.49
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": 0.45
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": 0.41
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.41
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": 0.36
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": 0.34
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.26
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.21
+        }
+      ]
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B70.5",
+      "label": "70-71 F",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.24
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.27
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.3
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.31
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": 0.36
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": 0.38
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": 0.38
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": 0.46
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": 0.5
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.49
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": 0.53
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": 0.51
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.53
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.55
+        }
+      ]
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-B72.5",
+      "label": "72-73 F",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": 0.06
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": 0.11
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.18
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.21
+        }
+      ]
+    },
+    {
+      "ticker": "KXHIGHNY-26SEP21-T73",
+      "label": "74 F or above",
+      "candles": [
+        {
+          "end_period_ts": 1789916400,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789920000,
+          "last_trade_price_dollars": 0.02
+        },
+        {
+          "end_period_ts": 1789923600,
+          "last_trade_price_dollars": 0.01
+        },
+        {
+          "end_period_ts": 1789927200,
+          "last_trade_price_dollars": 0.01
+        },
+        {
+          "end_period_ts": 1789930800,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789934400,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789938000,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789941600,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789945200,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789948800,
+          "last_trade_price_dollars": 0.01
+        },
+        {
+          "end_period_ts": 1789952400,
+          "last_trade_price_dollars": null
+        },
+        {
+          "end_period_ts": 1789956000,
+          "last_trade_price_dollars": 0.04
+        },
+        {
+          "end_period_ts": 1789959600,
+          "last_trade_price_dollars": 0.05
+        },
+        {
+          "end_period_ts": 1789963200,
+          "last_trade_price_dollars": 0.04
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "fetched_at_utc": "2026-09-23T00:17:25.692228+00:00",
+    "base_url": "https://external-api.kalshi.com/trade-api/v2",
+    "requests": [
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY",
+        "file": ".cache/question-equivalence/kalshi/series.json",
+        "sha256": "9762e7b0a2fbe32e61281debe7dc725ae5bb6f4d97e7ffa7104250fb8c350c55"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/historical/cutoff",
+        "file": ".cache/question-equivalence/kalshi/cutoff.json",
+        "sha256": "d94185f237820731792902de8fababa83776b5853bc96958f3e4c866a52c7e9a"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/markets?series_ticker=KXHIGHNY&status=settled&limit=100",
+        "file": ".cache/question-equivalence/kalshi/recent_settled_markets.json",
+        "sha256": "67401bd051f4d926852516ec361950230096ca0e7d8d259cc89212fb462fd64e"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/events/KXHIGHNY-26SEP21",
+        "file": ".cache/question-equivalence/kalshi/event_KXHIGHNY-26SEP21.json",
+        "sha256": "41d96fe95a2c95315d3bf031d99850d5d235d312a2535d2c8c63bcf28883e0ed"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-T66/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-T66.json",
+        "sha256": "820c1ddc049a9d23e64416d7d626475690790c7880bf474b09d7e05e6c88e9a1"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-B66.5/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-B66.5.json",
+        "sha256": "ef206cc483cf92c6a84c55a28a37eeca3b2cddd908be38006fc835322916edc9"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-B68.5/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-B68.5.json",
+        "sha256": "73a2f818533c5e4f57c63a5919789f66bf26338f01ea066ec639eddce3b7a546"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-B70.5/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-B70.5.json",
+        "sha256": "94ccf52e98a2115dfe1843098e4911ac76a04ec7e4f6403d2e009178f62b2551"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-B72.5/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-B72.5.json",
+        "sha256": "043b329525251e10bbc60c3dddd8302f24f920640183ccf34fabea8b354d70ad"
+      },
+      {
+        "url": "https://external-api.kalshi.com/trade-api/v2/series/KXHIGHNY/markets/KXHIGHNY-26SEP21-T73/candlesticks?start_ts=1789912800&end_ts=1790053200&period_interval=60",
+        "file": ".cache/question-equivalence/kalshi/candles_KXHIGHNY-26SEP21-T73.json",
+        "sha256": "b85540ad1f3f6a87db790c2cd9a77c708b916cf88d50f0b4128a26635196f2f3"
+      }
+    ],
+    "selected_event_ticker": "KXHIGHNY-26SEP21",
+    "selection_rule": "Most recent listed event whose complete market set all have yes/no results; no filtering by winning bin or predictive performance.",
+    "pre_event_cutoff_utc": "2026-09-21T04:00:00+00:00",
+    "pre_event_cutoff_local": "2026-09-21T00:00:00-04:00"
+  },
+  "transformation": "raw dollar prices; not normalized or treated as calibrated probabilities",
+  "equivalence_estimated": false
+}

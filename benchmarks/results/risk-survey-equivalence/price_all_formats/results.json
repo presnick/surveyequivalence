@@ -1,0 +1,103 @@
+{
+  "analysis": "price_all_formats",
+  "score": "RMS error (percentage points)",
+  "lower_is_better": true,
+  "panel_range": [
+    1,
+    50
+  ],
+  "reference_method": "random_percentage",
+  "reference_people": 10,
+  "formula": "mean_cases[(population_mean-truth)^2 + sample_variance*(1/k - 1/n)]",
+  "equivalence": "Smallest supported integer k matching or improving the reference loss; no extrapolation",
+  "panel_sampling": "Uniform distinct respondents without replacement; equal case weights and equal respondent weights",
+  "seed": 20260927,
+  "bootstrap_replicates": 4000,
+  "results": [
+    {
+      "analysis": "price_all_formats",
+      "method": "random_percentage",
+      "reference_method": "random_percentage",
+      "reference_people": 10,
+      "people_to_match": "10",
+      "bootstrap_95_lower": "10",
+      "bootstrap_95_upper": "10",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 8.83473545190013,
+      "score_at_10": 4.822472122649457,
+      "reference_score": 4.822472122649457,
+      "loss_difference_at_10": 0.0,
+      "loss_difference_95_lower": 0.0,
+      "loss_difference_95_upper": 0.0
+    },
+    {
+      "analysis": "price_all_formats",
+      "method": "random_probability",
+      "reference_method": "random_percentage",
+      "reference_people": 10,
+      "people_to_match": ">50",
+      "bootstrap_95_lower": ">50",
+      "bootstrap_95_upper": ">50",
+      "bootstrap_no_crossing_fraction": 0.9845,
+      "score_at_1": 12.514451963090197,
+      "score_at_10": 8.29347883675603,
+      "reference_score": 4.822472122649457,
+      "loss_difference_at_10": 45.52555384198898,
+      "loss_difference_95_lower": 8.718506630293763,
+      "loss_difference_95_upper": 95.90282737193196
+    },
+    {
+      "analysis": "price_all_formats",
+      "method": "grouped_percentage",
+      "reference_method": "random_percentage",
+      "reference_people": 10,
+      "people_to_match": "1",
+      "bootstrap_95_lower": "1",
+      "bootstrap_95_upper": "3",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 4.691258257696248,
+      "score_at_10": 1.6440971855573487,
+      "reference_score": 4.822472122649457,
+      "loss_difference_at_10": -20.55318181817357,
+      "loss_difference_95_lower": -38.94056130050424,
+      "loss_difference_95_upper": -7.676939225584749
+    },
+    {
+      "analysis": "price_all_formats",
+      "method": "grouped_probability",
+      "reference_method": "random_percentage",
+      "reference_people": 10,
+      "people_to_match": "4",
+      "bootstrap_95_lower": "2",
+      "bootstrap_95_upper": ">50",
+      "bootstrap_no_crossing_fraction": 0.03725,
+      "score_at_1": 8.042571690790576,
+      "score_at_10": 3.4055767210320034,
+      "reference_score": 4.822472122649457,
+      "loss_difference_at_10": -11.658284570896072,
+      "loss_difference_95_lower": -30.97991778288686,
+      "loss_difference_95_upper": 7.44259986461523
+    }
+  ],
+  "people": 218,
+  "targets": [
+    5,
+    10,
+    15,
+    20,
+    25
+  ],
+  "cases": 5,
+  "group_counts": [
+    55,
+    56,
+    55,
+    52
+  ],
+  "uncertainty": "Whole-person bootstrap within each randomized cell; five fixed targets; reference recomputed per draw",
+  "data_granularity": "Each response is a person-level average over repeated presentations at a target probability",
+  "limits": [
+    "Known stimulus values, not future adverse outcomes.",
+    "Only five target levels; uncertainty is conditional on these targets."
+  ]
+}

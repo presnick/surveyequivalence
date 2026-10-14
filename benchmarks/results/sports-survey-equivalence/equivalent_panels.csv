@@ -1,0 +1,4 @@
+method,people_to_match_10_winner_only,bootstrap_95_lower,bootstrap_95_upper,bootstrap_no_crossing_fraction,accuracy_at_equivalent_k,accuracy_at_10,accuracy_at_10_minus_reference_pp,difference_at_10_95_lower_pp,difference_at_10_95_upper_pp
+winner_only,9,5,9,0.0,0.6589461626394882,0.6589461626394882,0.0,0.0,0.0
+confidence_weighted,10,3,>10,0.2613,0.6603427475748276,0.6603427475748276,0.139658493533934,-0.5925899638044796,1.3251965471158502
+surprisingly_popular,9,7,>10,0.2116,0.6602987653061534,0.6632691289992294,0.4322966359741165,-0.5727342412835373,1.59391316965485

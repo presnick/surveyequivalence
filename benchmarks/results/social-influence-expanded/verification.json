@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "focused_unit_tests": 21,
+  "independent_all_integer_curve_checks": [
+    {
+      "study": "Becker2019_1",
+      "condition": "Control",
+      "phase": "after",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_1",
+      "condition": "Control",
+      "phase": "before",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_1",
+      "condition": "Social",
+      "phase": "after",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_1",
+      "condition": "Social",
+      "phase": "before",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_2",
+      "condition": "Control",
+      "phase": "after",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_2",
+      "condition": "Control",
+      "phase": "before",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_2",
+      "condition": "Social",
+      "phase": "after",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Becker2019_2",
+      "condition": "Social",
+      "phase": "before",
+      "integer_sizes": 25
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "C",
+      "phase": "after",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "C",
+      "phase": "before",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "G",
+      "phase": "after",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "G",
+      "phase": "before",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "I",
+      "phase": "after",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Gurcay2015",
+      "condition": "I",
+      "phase": "before",
+      "integer_sizes": 7
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Aggregated",
+      "phase": "after",
+      "integer_sizes": 12
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Aggregated",
+      "phase": "before",
+      "integer_sizes": 12
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Sorted",
+      "phase": "after",
+      "integer_sizes": 12
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Sorted",
+      "phase": "before",
+      "integer_sizes": 12
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Unsorted",
+      "phase": "after",
+      "integer_sizes": 12
+    },
+    {
+      "study": "Jayles2021",
+      "condition": "Unsorted",
+      "phase": "before",
+      "integer_sizes": 12
+    }
+  ],
+  "maximum_absolute_curve_difference": 1.7053025658242404e-13,
+  "independent_formula": "Mean squared error = mean(e^2)/k + (k-1)/k * mean(e_i*e_j over all distinct pairs)",
+  "whole_group_bootstrap_reconstructed": "All 5000 draws for all nine group-resampled conditions; references, paired changes, integer crossings match.",
+  "stratification": "Every Becker draw preserves equal party counts",
+  "jayles_peer_count": "All 18 gain points match independent pair-product calculation; balanced question coverage verified",
+  "internal_enumeration": {
+    "cell_rounds": 2304,
+    "maximum_absolute_enumeration_error": 4.547473508864641e-13,
+    "exact": "Single report, exhaustive pairs, full pool; bootstrap reference self-equivalence"
+  },
+  "pdf_pages": 5,
+  "pdf_text_within_page": true,
+  "pdf_sha256": "4d7c5fe2790ae8087410ff7aec6e589aca933eb4ac8916047b8720ef9956029d",
+  "visual_review": "All five final PDF pages rendered and inspected: legible labels, legends, notes, and no clipping or overlap.",
+  "local_document_links": "All methods-document file links resolve."
+}

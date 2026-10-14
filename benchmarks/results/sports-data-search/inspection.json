@@ -1,0 +1,62 @@
+{
+  "checked_date": "2026-09-24",
+  "dataset": "Rutchick et al. 2020, NBA Study 3",
+  "paper": "https://link.springer.com/article/10.1186/s41235-020-00256-z",
+  "repository": "https://osf.io/2rzcs/",
+  "download": "https://osf.io/download/zwsgu/",
+  "source_sha256": "a900bd24143e5bf6692df807a76c9b28bbccaf52031c101b7cc37e7ccd7c2d4f",
+  "sheet": "NBA Master SP fixing_SP BR 10.2",
+  "participant_column": "A",
+  "header_row": 1,
+  "participant_rows": 130,
+  "participants_with_valid_picks": 113,
+  "participants_with_complete_answers": 113,
+  "games": 465,
+  "valid_pick_records": 9815,
+  "complete_three_answer_records": 9788,
+  "complete_responses_per_game_min": 10,
+  "complete_responses_per_game_max": 61,
+  "complete_cohort_size_distribution": {
+    "10": 141,
+    "11": 20,
+    "12": 6,
+    "14": 31,
+    "16": 27,
+    "17": 22,
+    "18": 47,
+    "20": 72,
+    "27": 23,
+    "36": 1,
+    "37": 28,
+    "61": 47
+  },
+  "missing_cells": {
+    "PRED": 50634,
+    "CONF": 50634,
+    "OTHERS": 50661
+  },
+  "invalid_nonmissing_cells": {
+    "PRED": 1
+  },
+  "outcome": "The released winner row, code 1 or 2; not bookmaker odds or a model forecast",
+  "analysis_status": "Dataset verified and prepared. Panel scoring is a separate workflow: research/sports_survey_equivalence.py. No betting returns calculated.",
+  "differences_from_paper": [
+    "Release has 113 active complete-answer participants; published text reports 111 making predictions.",
+    "Downloaded Appendix A gives slightly different aggregate accuracy figures from the final paper. Treat release as a version-specific reanalysis, not exact replication."
+  ],
+  "betting_join_status": "Companion file has 465 dates/team pairs and model probabilities, but no explicit mapping to survey wave/game codes and no bookmaker odds. Row-order join not assumed.",
+  "proposed_primary_panel_range": [
+    1,
+    10
+  ],
+  "why_range": "Same 465 games and same eligible person pool per game across all three methods and panel sizes",
+  "checks": {
+    "original_hash_matches_osf": true,
+    "unique_participant_ids": true,
+    "unique_game_ids": true,
+    "unique_person_game_pairs": true,
+    "valid_winner_for_every_game": true,
+    "at_least_ten_complete_people_every_game": true
+  },
+  "prepared_local_file": ".cache/sports-survey-data/nba_complete_responses.jsonl"
+}

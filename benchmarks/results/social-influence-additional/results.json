@@ -1,0 +1,140 @@
+{
+  "sources": {
+    "task-lorenz2011.csv": {
+      "sha256": "76158c03002be8a8f2fcc3ff9a40632c6ee6fef04e1bde1666cdfa5b917acd13",
+      "url": "https://raw.githubusercontent.com/amaatouq/task-dependence/master/data/prior_research_data/lorenz2011.csv",
+      "paper": "https://doi.org/10.1073/pnas.1008636108"
+    },
+    "kao-rsif20180130_si_005.csv": {
+      "sha256": "8a4cf280ba235939f4dd7fd61420486ba35532b05b64292011a3b0182909dd8d",
+      "url": "https://ndownloader.figshare.com/files/11094635",
+      "paper": "https://doi.org/10.1098/rsif.2018.0130"
+    }
+  },
+  "data_kind": "Observed human responses only; no simulated estimates or model-generated social rounds",
+  "seed": 28092027,
+  "bootstrap_replicates": 5000,
+  "reference": "10 initial, pre-feedback reports in the SAME condition",
+  "lorenz": {
+    "people": 144,
+    "sessions": 12,
+    "rows": 852,
+    "group_task_cells": 71,
+    "comparison": "Round 1 before feedback versus round 5 after four opportunities to revise; same 12 people per session-task.",
+    "metric": "Negative expected squared natural-log ratio of panel geometric mean to truth.",
+    "weighting": "Equal tasks within each session-condition, then equal sessions; control session 081121_0739 has only one released question.",
+    "bootstrap": "12 entire sessions resampled together across all conditions, retaining participants, tasks and both scored rounds.",
+    "exclusions": "No additional response exclusions. Only rounds 1 and 5 scored; both entirely positive. A zero in round 3 is not changed or used.",
+    "release_caveat": "2022 authors' respondent file, not a reproduction of the 2011 paper's cleaned analysis. One 12-person control task is absent; original extreme entries remain."
+  },
+  "kao": {
+    "people": 602,
+    "jars": 1,
+    "truth": 659,
+    "comparison": "Actual private guess versus actual revision after a displayed computer-generated social cue; not mutual peer interaction.",
+    "metric": "Negative expected squared error of the arithmetic panel mean, in objects squared.",
+    "bootstrap": "Paired participant rows resampled within each claimed cue-size N stratum; observed stratum counts fixed. Conditional on this one jar and recruitment sample.",
+    "outcomes": {
+      "closer": 170,
+      "farther": 201,
+      "same_error": 231,
+      "unchanged_guess": 231,
+      "initial_mean": 723.9817275747508,
+      "final_mean": 763.8255813953489,
+      "initial_median": 550.0,
+      "final_median": 555.0,
+      "truth": 659
+    },
+    "cue_counts": {
+      "1": 101,
+      "2": 111,
+      "5": 103,
+      "10": 106,
+      "50": 95,
+      "100": 86
+    }
+  },
+  "equivalences": [
+    {
+      "study": "Lorenz2011",
+      "condition": "Solo",
+      "max_k": 12,
+      "reference_k": 10,
+      "reference_mse": 0.6467481176865133,
+      "final_mse_k10": 0.6313718323753379,
+      "final_minus_initial_mse_k10": -0.015376285311175408,
+      "difference_95_low": -0.2440747278500552,
+      "difference_95_high": 0.26280589119482795,
+      "equivalent_k": 9.659801764360193,
+      "equivalent_at_lower_boundary": false,
+      "equivalent_integer_k": 10.0,
+      "equivalent_integer_95_low": 6.0,
+      "equivalent_integer_95_high": ">12",
+      "bootstrap_fraction_above_range": 0.2342
+    },
+    {
+      "study": "Lorenz2011",
+      "condition": "Decentralized_ aggregated",
+      "max_k": 12,
+      "reference_k": 10,
+      "reference_mse": 0.8493757719575012,
+      "final_mse_k10": 0.3436755857074218,
+      "final_minus_initial_mse_k10": -0.5057001862500794,
+      "difference_95_low": -0.8093122771003393,
+      "difference_95_high": -0.22176511049235723,
+      "equivalent_k": 1.0,
+      "equivalent_at_lower_boundary": true,
+      "equivalent_integer_k": 1.0,
+      "equivalent_integer_95_low": 1.0,
+      "equivalent_integer_95_high": 2.0,
+      "bootstrap_fraction_above_range": 0.0
+    },
+    {
+      "study": "Lorenz2011",
+      "condition": "Decentralized_ full_info",
+      "max_k": 12,
+      "reference_k": 10,
+      "reference_mse": 0.5456610996164648,
+      "final_mse_k10": 0.33341337587625186,
+      "final_minus_initial_mse_k10": -0.21224772374021295,
+      "difference_95_low": -0.41029651804880496,
+      "difference_95_high": -0.034850885651571115,
+      "equivalent_k": 4.011002106307559,
+      "equivalent_at_lower_boundary": false,
+      "equivalent_integer_k": 5.0,
+      "equivalent_integer_95_low": 2.0,
+      "equivalent_integer_95_high": 9.0,
+      "bootstrap_fraction_above_range": 0.0028
+    },
+    {
+      "study": "Kao2018",
+      "condition": "Displayed artificial social cue",
+      "max_k": 100,
+      "reference_k": 10,
+      "reference_mse": 52131.622655761996,
+      "final_mse_k10": 67554.19423248076,
+      "final_minus_initial_mse_k10": 15422.571576718765,
+      "difference_95_low": 4510.049065960169,
+      "difference_95_high": 29746.47378171619,
+      "equivalent_k": 13.67977196811366,
+      "equivalent_at_lower_boundary": false,
+      "equivalent_integer_k": 14.0,
+      "equivalent_integer_95_low": 12.0,
+      "equivalent_integer_95_high": 20.0,
+      "bootstrap_fraction_above_range": 0.0
+    }
+  ],
+  "checks": {
+    "one_two_full_pool_checks": 144,
+    "max_absolute_enumeration_error": 1.1641532182693481e-10,
+    "bootstrap_self_equivalence": "Initial k=10 verified in every draw in all four comparisons"
+  },
+  "limitations": [
+    "Panel size counts recorded reports; Lorenz social reports can include information from other original session members.",
+    "Lorenz and Kao use different aggregators and score units. Do not compare their vertical scales or equivalences as a study ranking.",
+    "Within-condition before/after curves are not causal between-condition contrasts.",
+    "Bootstrap intervals are exploratory, not formal equivalence tests; unachieved crossings remain censored.",
+    "The 2022 paper reanalyzes earlier experiments; the Lorenz file is obtained through its repository, not new 2022 participants.",
+    "The Kao paper's fitted correction methods and simulated repeated interactions are not plotted."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "focused_tests": 13,
+  "focused_test_command": ".venv/bin/python -m unittest research.tests.social_influence_tests research.tests.panel_power_tests -v",
+  "numerical_checks": {
+    "group_task_rounds": 304,
+    "largest_absolute_enumeration_error": 5.329070518200751e-15,
+    "verified": "Direct k=1, exhaustive all k=2 pairs, full-pool mean, monotonicity, self-equivalence in all bootstrap draws"
+  },
+  "pdf_pages": 4,
+  "all_pages_visually_inspected": true,
+  "pdf_text_blocks_outside_pages": 0,
+  "independent_review": "Saved bootstrap reference and paired-difference scores reconstructed from raw pairwise cross-products for draws 0,17,99,4999 in all six analyses; matched."
+}

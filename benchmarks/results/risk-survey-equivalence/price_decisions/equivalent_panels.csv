@@ -1,0 +1,4 @@
+analysis,method,reference_method,reference_people,people_to_match,bootstrap_95_lower,bootstrap_95_upper,bootstrap_no_crossing_fraction,score_at_1,score_at_10,reference_score,loss_difference_at_10,loss_difference_95_lower,loss_difference_95_upper
+price_decisions,numerical_percentage,numerical_percentage,10,3,1,10,0.0,1.2522522522522521,1.2230273423715485,1.2230273423715485,0.0,0.0,0.0
+price_decisions,random_icons,numerical_percentage,10,1,1,>37,0.048,1.2017543859649122,0.9557328233893527,1.2230273423715485,-0.2672945189821958,-0.5798360541613549,0.11784895463479156
+price_decisions,grouped_icons,numerical_percentage,10,3,1,>37,0.198,1.3333333333333335,1.1159445860825448,1.2230273423715485,-0.10708275628900377,-0.4218788400295812,0.2363948931891961

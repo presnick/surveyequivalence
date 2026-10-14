@@ -1,0 +1,158 @@
+{
+  "checked_date": "2026-09-23",
+  "source": "https://osf.io/sxdf9/",
+  "paper": "https://www.nature.com/articles/s41598-022-11900-7",
+  "analysis_status": "File structure and completeness only; no equivalence computed",
+  "experiments": [
+    {
+      "experiment": 1,
+      "path": ".cache/survey-type-data/nonpolitical/honda_Experiment1.xlsx",
+      "sha256": "eab733c6545403e8eba3c63bdac9501d95225d81ceb87cf0ccf3311a25f63f5f",
+      "matches_osf_sha256": true,
+      "download": "https://osf.io/download/uxrhd/",
+      "sheets": [
+        "016_SummaryOSF"
+      ],
+      "inspected_sheet": "016_SummaryOSF",
+      "header_row": 3,
+      "first_person_row": 4,
+      "last_person_row": 904,
+      "people": 901,
+      "response_columns": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "headers": {
+        "A": "Q1",
+        "B": "Q2",
+        "C": "Q3",
+        "D": "Q4",
+        "E": "Q5",
+        "F": "Q6",
+        "G": "Q7",
+        "H": "Q8",
+        "I": "Q9"
+      },
+      "group_column": "S",
+      "people_by_format": {
+        "Number": 128,
+        "Scale 1": 128,
+        "Scale 2": 133,
+        "Scale 3": 126,
+        "Scale 4": 126,
+        "Scale 5": 130,
+        "Scale 6": 130
+      },
+      "response_cells": 8109,
+      "missing_response_cells": 0,
+      "nonnumeric_response_cells": 0,
+      "identity": "One participant per row, no explicit participant ID. File/sheet/row key preserves within-file pairing only.",
+      "truth": {
+        "Q1": 183,
+        "Q2": 287,
+        "Q3": 360,
+        "Q4": 453,
+        "Q5": 554,
+        "Q6": 633,
+        "Q7": 719,
+        "Q8": 807,
+        "Q9": 986
+      },
+      "truth_source": "Official supplementary document, Experimental stimuli table",
+      "range_violations": 0
+    },
+    {
+      "experiment": 2,
+      "path": ".cache/survey-type-data/nonpolitical/honda_Experiment2.xlsx",
+      "sha256": "5481a4669b91c2819885cdf3286e3529ff904542da904db7756df803f2542176",
+      "matches_osf_sha256": true,
+      "download": "https://osf.io/download/bjrkg/",
+      "sheets": [
+        "01_013_SummaryOSF_response"
+      ],
+      "inspected_sheet": "01_013_SummaryOSF_response",
+      "header_row": 3,
+      "first_person_row": 4,
+      "last_person_row": 907,
+      "people": 904,
+      "response_columns": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "headers": {
+        "A": "Q1",
+        "B": "Q2",
+        "C": "Q3",
+        "D": "Q4",
+        "E": "Q5",
+        "F": "Q6",
+        "G": "Q7",
+        "H": "Q8",
+        "I": "Q9_s",
+        "J": "Q10_m",
+        "K": "Q10_s"
+      },
+      "group_column": "V",
+      "people_by_format": {
+        "Number": 129,
+        "Scale 1": 131,
+        "Scale 2": 127,
+        "Scale 3": 125,
+        "Scale 4": 131,
+        "Scale 5": 128,
+        "Scale 6": 133
+      },
+      "response_cells": 9944,
+      "missing_response_cells": 0,
+      "nonnumeric_response_cells": 0,
+      "identity": "One participant per row, no explicit participant ID. File/sheet/row key preserves within-file pairing only.",
+      "truth_status": "Supplement provides historical reference values; not independently validated. Q10 minute/second fields are parts of one question, not independent items. Q9 minute responses are excluded in the release."
+    }
+  ],
+  "supplement_sha256": "a5ded2dd31f886775ce16e1046d09535e20b3c89a91d779e45315425fdc48aad",
+  "limitations": [
+    "Formats vary response entry, not the substantive question.",
+    "Experiments contain separate participant groups; do not join people across workbooks by row.",
+    "Experiment 1 has only nine shared items; panel resampling cannot add new items.",
+    "Row keys identify released records, not verified real-world identities."
+  ],
+  "documented_candidates": [
+    {
+      "name": "LISS Tilburg Election Study 2017 week 3",
+      "source": "https://www.dataarchive.lissdata.nl/study-units/view/855",
+      "reported_respondents": 3672,
+      "person_id": "nomem_encr",
+      "types": [
+        "own-vote probabilities",
+        "social-circle vote shares"
+      ],
+      "access": "Actual Stata download redirects to login; codebook downloaded; no microdata inspected"
+    },
+    {
+      "name": "USC UAS 2016 election/social-circle data",
+      "source": "https://uasdata.usc.edu/index.php?pid=UAS+2016+Presidential+Election&type=3",
+      "types": [
+        "own intention",
+        "social-circle expectation",
+        "winner expectation"
+      ],
+      "access": "Documentation verified; individual data require registration/login; microdata not inspected"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "packages": {
+    "numpy": "1.24.4",
+    "scipy": "1.10.1",
+    "pandas": "2.0.3",
+    "matplotlib": "3.7.1",
+    "PyYAML": "6.0.3",
+    "reportlab": "5.0.1",
+    "pypdf": "6.19.0",
+    "PyMuPDF": "1.26.5"
+  },
+  "pdf_renderer": "PyMuPDF (Poppler not installed)",
+  "optional_dependencies": ".cache/condorcet-python"
+}

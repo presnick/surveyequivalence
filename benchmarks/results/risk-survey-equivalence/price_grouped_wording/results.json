@@ -1,0 +1,69 @@
+{
+  "analysis": "price_grouped_wording",
+  "score": "RMS error (percentage points)",
+  "lower_is_better": true,
+  "panel_range": [
+    1,
+    50
+  ],
+  "reference_method": "grouped_percentage",
+  "reference_people": 10,
+  "formula": "mean_cases[(population_mean-truth)^2 + sample_variance*(1/k - 1/n)]",
+  "equivalence": "Smallest supported integer k matching or improving the reference loss; no extrapolation",
+  "panel_sampling": "Uniform distinct respondents without replacement; equal case weights and equal respondent weights",
+  "seed": 20260927,
+  "bootstrap_replicates": 4000,
+  "results": [
+    {
+      "analysis": "price_grouped_wording",
+      "method": "grouped_percentage",
+      "reference_method": "grouped_percentage",
+      "reference_people": 10,
+      "people_to_match": "10",
+      "bootstrap_95_lower": "10",
+      "bootstrap_95_upper": "10",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 4.691258257696248,
+      "score_at_10": 1.6440971855573487,
+      "reference_score": 1.6440971855573487,
+      "loss_difference_at_10": 0.0,
+      "loss_difference_95_lower": 0.0,
+      "loss_difference_95_upper": 0.0
+    },
+    {
+      "analysis": "price_grouped_wording",
+      "method": "grouped_probability",
+      "reference_method": "grouped_percentage",
+      "reference_people": 10,
+      "people_to_match": ">50",
+      "bootstrap_95_lower": "15",
+      "bootstrap_95_upper": ">50",
+      "bootstrap_no_crossing_fraction": 0.85175,
+      "score_at_1": 8.042571690790576,
+      "score_at_10": 3.4055767210320034,
+      "reference_score": 1.6440971855573487,
+      "loss_difference_at_10": 8.894897247277497,
+      "loss_difference_95_lower": 1.247177649543682,
+      "loss_difference_95_upper": 22.680785448834847
+    }
+  ],
+  "people": 107,
+  "targets": [
+    5,
+    10,
+    15,
+    20,
+    25
+  ],
+  "cases": 5,
+  "group_counts": [
+    55,
+    52
+  ],
+  "uncertainty": "Whole-person bootstrap within each randomized cell; five fixed targets; reference recomputed per draw",
+  "data_granularity": "Each response is a person-level average over repeated presentations at a target probability",
+  "limits": [
+    "Known stimulus values, not future adverse outcomes.",
+    "Only five target levels; uncertainty is conditional on these targets."
+  ]
+}

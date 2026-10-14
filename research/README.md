@@ -7,6 +7,15 @@ perform model inference automatically.
 
 | Workflow | Command | Notes |
 | --- | --- | --- |
+| Condorcet jury equivalence | `.venv/bin/python -B research/condorcet_equivalence.py` / `--plot-only` | [Four datasets, six figures, and PDF report](../docs/condorcet_jury_equivalence.md). Run `research/condorcet_data.py --download` once for pinned public inputs. |
+| More social-influence datasets | `.venv/bin/python research/social_influence_expanded.py` / `--plot-only` | [Gurcay, Becker 2019 and Jayles 2021](../docs/social_influence_more_datasets.md). Five figures from real chat, network and peer-display experiments. |
+| Additional social-influence datasets | `.venv/bin/python research/social_influence_additional.py` / `--plot-only` | [Lorenz and Kao graphs](../docs/social_influence_additional_datasets.md). Real before/after responses, panel equivalences and separate PDF. |
+| Independent versus social survey estimates | `.venv/bin/python research/social_influence_equivalence.py` / `--plot-only` | [Real candy-jar and all-task figures](../docs/social_influence_equivalence.md). Exact within-group panel scores, paired group bootstrap, and four-page PDF. |
+| Risk survey equivalence | `python research/risk_survey_equivalence.py` / `.venv/bin/python research/risk_survey_equivalence.py --plot-only` | [Results, required cached inputs, and preparation](../docs/risk_survey_equivalence.md). Price experiments, SPF, and SCE; raw wildfire data unavailable. |
+| Sports survey equivalence | `.venv/bin/python research/sports_survey_equivalence.py` | [NBA results and methods](../docs/sports_survey_equivalence.md). Exact panel accuracy and wave-bootstrap equivalence; no betting returns. |
+| Sports survey data preparation | `.venv/bin/python research/sports_survey_data.py` | Verifies the original NBA release and prepares individual records for the scoring workflow. |
+| Honda survey response formats | `.venv/bin/python research/honda_survey_visualizations.py` | [Real-response figures and methods](../docs/honda_survey_format_equivalence.md). Exact finite-pool RMS curves; `--pdf-only` packages figures using ReportLab. |
+| Earlier questions-as-raters illustration (superseded interpretation) | `.venv/bin/python research/question_equivalence.py` | [Corrected design](../docs/survey_type_equivalence.md): people are raters; existing curves are synthetic and do not answer that design. |
 | AlpacaEval human baseline | `.venv/bin/python research/alpaca.py baseline` | Rebuilds human curves and blinded inputs. |
 | AlpacaEval AI evaluation | `.venv/bin/python research/alpaca.py prepare` / `score --responses FILE` | [Protocol](../docs/alpaca_judge_validation.md); inference is still pending. |
 | Arena / MT-Bench | `.venv/bin/python research/arena.py --help` | Existing evaluation and figure reproduction. |
@@ -17,7 +26,7 @@ perform model inference automatically.
 `arena_baseline.py` and `arena_figures.py` support the Arena runner's `--plot-only`
 command. The Alpaca human-data builder and judge evaluator are now one script.
 
-Run the 25 dataset-specific tests when changing these workflows:
+Run the dataset-specific tests when changing these workflows:
 
 ```sh
 .venv/bin/python -m unittest discover -s research/tests -p '*_tests.py' -v

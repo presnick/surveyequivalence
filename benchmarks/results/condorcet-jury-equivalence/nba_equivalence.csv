@@ -1,0 +1,4 @@
+dataset,method,target_panel,target_accuracy,whole,fractional,lower,upper,no_crossing_fraction,delta_at_target_pp,delta_lower_pp,delta_upper_pp
+nba,winner_only,10,0.6589461626394881,9,9.00,5,9,0.0,0.0,0.0,0.0
+nba,confidence_weighted,10,0.6589461626394881,10,9.22,3,>10,0.2613,0.1396584935339229,-0.5925899638044907,1.3251965471158391
+nba,surprisingly_popular,10,0.6589461626394881,9,8.62,7,>10,0.2116,0.4322966359741165,-0.5727342412835268,1.5939131696548496

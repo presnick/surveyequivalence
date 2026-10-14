@@ -1,0 +1,17 @@
+{
+  "focused_tests_passed": 17,
+  "pdf_pages": 4,
+  "pdf_text_blocks_outside_pages": 0,
+  "lorenz_exhaustive_k10_panels_per_group_question": 66,
+  "lorenz_independent_bootstrap_draws_checked": [
+    0,
+    17,
+    99,
+    4999
+  ],
+  "lorenz_max_absolute_bootstrap_reconstruction_error": 4.440892098500626e-16,
+  "kao_pairwise_crossproduct_k10_check": "passed",
+  "source_checksums": "verified in analysis",
+  "local_report_links": "all resolve",
+  "all_four_pdf_pages_visually_inspected": true
+}

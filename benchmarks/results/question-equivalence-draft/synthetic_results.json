@@ -1,0 +1,7701 @@
+{
+  "data_kind": "SYNTHETIC; no Pew or Kalshi estimates",
+  "seed": 1729,
+  "train_cases": 2400,
+  "test_cases": 1600,
+  "bootstrap_replicates": 500,
+  "scoring": "1 - mean((predicted_probability - binary_outcome)^2)",
+  "model": "standardized response logits -> L2 logistic regression, C=1; fit on train only",
+  "panel_unit": "question; not individual respondent or trader",
+  "combination": "separate supervised predictor fitted for every nonempty subset",
+  "reference_sampling": "uniform average of scores across same-size subsets excluding the target question",
+  "fractional_interpretation": "linear interpolation; randomized mixture of adjacent panel sizes",
+  "uncertainty": "paired test-case bootstrap, conditional on fixed fitted models; no equivalence CI reported",
+  "training_prior": 0.5020833333333333,
+  "models": {
+    "Q1": {
+      "mean": [
+        0.010054408927171335
+      ],
+      "scale": [
+        1.2154434105914345
+      ],
+      "intercept": [
+        0.018603470627320037
+      ],
+      "weights": [
+        [
+          1.2991836933675827
+        ]
+      ]
+    },
+    "Q2": {
+      "mean": [
+        0.008443334181436371
+      ],
+      "scale": [
+        1.3563352061021519
+      ],
+      "intercept": [
+        0.009208171002036433
+      ],
+      "weights": [
+        [
+          1.044660947418417
+        ]
+      ]
+    },
+    "Q3": {
+      "mean": [
+        0.015100693458196505
+      ],
+      "scale": [
+        1.7329875060027449
+      ],
+      "intercept": [
+        0.01038308240877171
+      ],
+      "weights": [
+        [
+          0.7195112903778551
+        ]
+      ]
+    },
+    "Q1 + Q2": {
+      "mean": [
+        0.010054408927171335,
+        0.008443334181436371
+      ],
+      "scale": [
+        1.2154434105914345,
+        1.3563352061021519
+      ],
+      "intercept": [
+        0.019209280432231055
+      ],
+      "weights": [
+        [
+          1.004899957293935,
+          0.5118052816454692
+        ]
+      ]
+    },
+    "Q1 + Q3": {
+      "mean": [
+        0.010054408927171335,
+        0.015100693458196505
+      ],
+      "scale": [
+        1.2154434105914345,
+        1.7329875060027449
+      ],
+      "intercept": [
+        0.019232541567601007
+      ],
+      "weights": [
+        [
+          1.1718541242199272,
+          0.2808196058892828
+        ]
+      ]
+    },
+    "Q2 + Q3": {
+      "mean": [
+        0.008443334181436371,
+        0.015100693458196505
+      ],
+      "scale": [
+        1.3563352061021519,
+        1.7329875060027449
+      ],
+      "intercept": [
+        0.008783055064338042
+      ],
+      "weights": [
+        [
+          0.8882643120930239,
+          0.4251413745018569
+        ]
+      ]
+    },
+    "Q1 + Q2 + Q3": {
+      "mean": [
+        0.010054408927171335,
+        0.008443334181436371,
+        0.015100693458196505
+      ],
+      "scale": [
+        1.2154434105914345,
+        1.3563352061021519,
+        1.7329875060027449
+      ],
+      "intercept": [
+        0.019265822801004924
+      ],
+      "weights": [
+        [
+          0.9306372362095735,
+          0.4707634659669056,
+          0.21339334009873953
+        ]
+      ]
+    }
+  },
+  "equivalences": {
+    "0": {
+      "reference_questions": [
+        "Q2",
+        "Q3"
+      ],
+      "actual": {
+        "status": "above_range",
+        "estimate": null,
+        "bound": 2.0
+      },
+      "bootstrap_status_counts": {
+        "above_range": 500
+      },
+      "bootstrap_equivalences": [
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        },
+        {
+          "status": "above_range",
+          "estimate": null,
+          "bound": 2.0
+        }
+      ]
+    },
+    "1": {
+      "reference_questions": [
+        "Q1",
+        "Q3"
+      ],
+      "actual": {
+        "status": "crossing",
+        "estimate": 0.9188593746176962,
+        "bound": null
+      },
+      "bootstrap_status_counts": {
+        "crossing": 500
+      },
+      "bootstrap_equivalences": [
+        {
+          "status": "crossing",
+          "estimate": 1.0595713763518448,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9511162797087437,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0029300289315832,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7819933444012303,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8673233744902281,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1060432453302265,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.930860279732301,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9709147506977392,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9980614546018306,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.803607075423999,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8464566646998476,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.894334306007103,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9419095920668328,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2396131312760184,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.019825541353865,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0412841739183216,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7742312601014844,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9330723192405559,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9374065436506872,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1449496717479812,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9195177676313339,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9473243954778987,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8108670231186228,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7875454604619914,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7811251121746076,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9661013994873744,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8440400776508306,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9136925968097352,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9333110312483611,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9232854191176623,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8000773307666136,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9969550784622322,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8336630544151025,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8306692699621583,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8659155602159663,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9746355326633941,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9126457344021536,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8702105732507822,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8901466868135383,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.3369927144817566,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8874748706755229,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8530047430782818,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8832888773450114,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8574171250581482,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.989744535633444,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8370628455207847,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1754329060071793,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9032968881073045,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0897079630996998,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0681536707621468,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8246672182398511,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9363657383010688,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.268363669739728,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8917937305067103,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9210195034271361,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8843205016223591,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8205066384826808,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7808927336879936,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8336929927927027,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8203364784838286,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8086698485371671,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0829942351965933,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9927875309147989,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9777610145622042,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.3541319927216324,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.847741520278965,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9102033472574786,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.911136830810934,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9275409485463454,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8913340887177392,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9645910413320683,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8531545515626836,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8924579709779576,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8890376929540749,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9494595388060652,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9863852788614748,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9284728607379256,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9445080912652909,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9696619265200166,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8440906843214255,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1810087981527841,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9165872648410911,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2361932532060744,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8783830148313685,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9309230597632223,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9805565328929002,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9390820824760019,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.87497615215567,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8026422289771764,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9305946332085726,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9095758811846257,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9450984446062086,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7459306676865132,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8031194019003665,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1640569619744452,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8449561270807093,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.19856376941594,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9243846645894017,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9151449391524309,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8846980382985512,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8852414602868011,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8424382703438684,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9288970004673226,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9364065247173805,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9318188580106093,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9419911924337052,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9727007865508904,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9923388659844246,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8482853176882456,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9124644969243659,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9861352355725653,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8897474904952717,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8992462094316068,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9627486416474421,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.881997469776351,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1948045005451506,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9346115655866349,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.974953908269264,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0829299628890605,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.054373342593862,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8881841237193622,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9707758842785499,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9212570970797995,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.856911262316316,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8821364352776258,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9070037533799247,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8314739658364376,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9899659992649055,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9110696283451972,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8597270656953235,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9065117791136759,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9165707407997494,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8422495842163515,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9120735010536467,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8085563956449499,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9077810948426386,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9829140194820096,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9456309620745547,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0364932944889897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9230264035365735,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8528680219769338,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9729200638401583,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8832749515544859,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8825385355973132,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9702827330354447,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9731907551351666,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9925428943946925,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9629272363955628,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8424874318065385,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9700894914387004,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9227136097213078,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9104531552184328,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8802210184192283,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8540445329655378,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1416055325404253,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8324494222088035,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7935649180593024,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9775968502868987,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9206565213539385,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8792273570834761,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8349891422565658,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6698168636867169,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0015852671999612,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0453691781020535,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9403664837082115,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7928427285111637,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9109097170156867,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8587918296639669,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9528364793811879,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.937172722700331,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8973591398058457,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0003307711486045,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8693830086566537,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9664319480083823,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.999210959124727,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9160172921454193,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8840938968399856,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9247704639769697,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0995413460486287,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9215997490477092,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9516934845722113,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0775814258679657,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8798597809384026,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8137080622519185,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.835951950653429,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9319720556971954,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.107443190742401,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0214708235189054,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8838707509213651,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9583651466774603,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9789308245656564,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8704536085246612,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8412972927208175,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9990997876898141,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0271919062655197,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7842998612766827,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7681256480832261,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8001728892276541,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.888260635284566,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9963281521269132,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8604749516402708,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8003686063828572,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8976777496717463,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9402715685833372,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.858867273002782,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8547688466804191,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9926194338517674,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8665639461299016,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9497688350172884,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7989327629521483,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9702645337550508,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9160260481438279,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8877992117008292,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9896906929762693,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8495993930470951,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8695574979605329,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9632194318916416,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9572215211073084,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9358834252082311,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.935920612002975,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9064243893583273,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9253424388074409,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8647739668550954,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7301414462753413,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.925800412557606,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9476171491621181,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1070563293751805,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8551452249048846,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0017776258000475,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8636702274707382,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8174097225799288,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7841056423396745,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2152740992334605,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7986062567172921,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8733090505311718,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8514582701958768,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9059463981677355,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.912022923654935,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7821008892419218,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8237690301853053,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8689905786552027,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8958897419930046,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9577490170779743,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8906175992409749,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8766828337519479,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9271234830005219,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9177793412562261,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.89240043150033,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9164828584393354,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.840208986082959,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9146217906586204,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8837445045792963,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9353052164918677,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9693453841105176,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8671699814959648,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8276982201789772,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9848763095078583,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8641468050643905,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8574731470769645,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.990130035949617,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7515889705206015,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9623230324313743,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.992826908705577,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9725266975820066,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9776268517847475,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0270385771888897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1367502316663,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9179027445122482,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9231364223766567,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8594454872526219,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7225530890460834,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9750176482883081,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.934795863980583,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8913228988362695,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9617682116168413,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8395208667285737,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1359308321279897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8615661774066588,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2341532262564985,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8207203768352873,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9825124946534902,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9327701865651414,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.964569014186432,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7928964676581336,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9162625374351291,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0319689233177964,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9307518829135781,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7680128253388618,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8217698404874059,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9182017209628601,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7947295482127423,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9224471761511853,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.161592414265985,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9554293828401189,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9305886271724999,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9501983299808253,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.89167578824687,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8530983169565629,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9197799156881314,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0671939413015288,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9529781049432446,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8327677397863396,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8852681950236554,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.941351404193987,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7381830388012194,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7938439122559393,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9861988376795808,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9264933652257933,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1618675676173287,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8085485257774596,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8356829708889986,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9764709474637108,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9559286656130032,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.803156683767883,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8863318897435828,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9378699255024923,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7812174975458046,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9490327308016892,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9746557488697379,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9476326505658702,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.995888689953833,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1640973816222027,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8801752491001338,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0692641314306934,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9161351829500336,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9473782012472294,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9338649811595106,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8734433582942072,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9106889773220691,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7972823892731405,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8433733406333356,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7695414999116402,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9272439104296331,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.84930916874685,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7536021427764213,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9806368690745277,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8407623750565173,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8533353841168774,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8624872601943292,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9980294828581107,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0666158881625483,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.788380792884345,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.171855046456094,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9839151504111918,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8888482193855063,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0769133655190144,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.839619016675254,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7773451143538759,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1996318681130207,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9395838581122036,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.871546771217429,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2443047278827788,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9125432418396229,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.811308504105626,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9511635848046724,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0439378430693913,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9851728322186076,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.3549114191214944,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8338702225651806,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9609806774631425,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9364562480647464,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9760594626237518,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.894322165483931,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9776611067079177,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9305062097067063,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8094512400033291,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8616092682410819,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8464724029157774,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9351783114871027,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0893053109401702,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.102840285590185,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7092823012704088,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.952056380033887,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1485029749675664,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.856968637894928,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7983311061236064,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8722932959447213,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.2350390666153457,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9845328748692947,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.924646029464647,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8789767400427303,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9605949167806376,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8484901829381271,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1190566031635414,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0323911673924762,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7673661068695273,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0692371315051865,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8967605414348385,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7736119295386544,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0426826001793774,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1277857916476604,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8661865581012161,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9788340284206788,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9275474163568336,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.951517012496656,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.883477536157197,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9803940761563568,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9070815471224708,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9848034310874689,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8002767348870244,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8049067313438015,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9802256214475789,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8688403011846859,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1161243562239525,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7568196394623656,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8974010189786353,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8922804688039605,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9242385997755809,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9618604680338654,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9835545789402242,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8463007592308525,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0936033340416609,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9991803204930907,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8609861867776877,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1862438189028954,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8798940618721468,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9582678365795627,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0002207828061405,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7737303312104244,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9398228238318497,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8414314266403787,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8682049395646984,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0283172304989856,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9726658366411822,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9715069668151052,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9101695801083168,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9284385835178623,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9559762635023509,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.977302532065923,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8945997315494543,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.947013433024039,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9201474606538308,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9818252568817755,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9422190922852866,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.933670791286781,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8052115007602711,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9818523185378643,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8553087498147822,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9237683814023308,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9070967278568518,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9681067077803766,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.865975703787751,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9313441652511492,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9860453775060164,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8847585615730237,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9660789171543482,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.3427526157353593,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9139556082036028,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9130622859552413,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8940589082462866,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.852920139712755,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8869728179505433,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9474970500373897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9520072015202192,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.900750567522105,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9600825436860824,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8697517411077799,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9769807760610563,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9798543716597587,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9530843419549853,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9945207680878575,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8421062857535092,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8895877336797058,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7831989657288897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9613917545501149,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9999435632176037,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8329434846330455,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0193095973858077,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0626923486783957,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8174351759061278,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.122977170451165,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8226699992909292,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9700983552622545,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8592031454506315,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9483298568023647,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9913346339312582,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9769783690555606,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8777029420306576,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.1464914067984089,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8607041462846489,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9219321603783193,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8044283175562597,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9458601469039636,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8779678936494167,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7107150315537741,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.0128001119088816,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8051301497040613,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9511181990955938,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9697786843106713,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8131252216296581,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8878416032091174,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 1.152334246467985,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9529444062845787,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.779537458646802,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9807821314325486,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8052402497925344,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.8426573260658814,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9158413224344756,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.9295959316838475,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6729110464014105,
+          "bound": null
+        }
+      ]
+    },
+    "2": {
+      "reference_questions": [
+        "Q1",
+        "Q2"
+      ],
+      "actual": {
+        "status": "crossing",
+        "estimate": 0.5377466232141916,
+        "bound": null
+      },
+      "bootstrap_status_counts": {
+        "crossing": 500
+      },
+      "bootstrap_equivalences": [
+        {
+          "status": "crossing",
+          "estimate": 0.5541713778487667,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5566444888694722,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.501422786966793,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5550156967362756,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.42914984599363826,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.502946476285784,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5232358751524897,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5115127687465695,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46336155614732233,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5553216028641091,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6019265516420886,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48922384493772375,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46998107288310065,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4160458543675314,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46021822443784677,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.525547624273879,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.653208848583481,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.536768047088959,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4980193382175949,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4692235899492042,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5675389349739925,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49491552992297316,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5852119818270642,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6014393710533208,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6228874822262687,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5326727724594708,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5675637686759756,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5228490970359627,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5554709364857637,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5265790934313541,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6085003778810714,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4590735381401375,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5318650711299089,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5051489617608302,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5121069976886571,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.45420117747060096,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4471032359521282,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5059671757281692,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5205127957889139,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49272591124554677,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4968930384089162,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5311665582921624,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.561066355606744,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.557432790500868,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.59031992313256,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6308495340153848,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.34643529277346774,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5508061955873299,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5306046345493483,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.42846199795819306,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46125394521157603,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.530329892064461,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5222096591889831,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5871196513837283,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5388338946470298,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.534578962318975,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6900124317516828,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7045277689282298,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48488875704376866,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6280946170728563,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5953233770234241,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4786995764303027,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5699549203018102,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47650832790702113,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4187291224801133,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.566921609651371,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6278941808663321,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.579468311326456,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.40586498956763417,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6059099638685144,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4614630299686314,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5372676708633012,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6263136161761254,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4462276265671612,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46196132765734754,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.514089508221507,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5380689817449933,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6117984716138538,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48989875937837235,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5312071827950382,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5017717127996659,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.535915470133432,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5028091608803387,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.51334197267632,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5082901937950881,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47002145591129085,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5714320627331844,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.537908840330761,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7301547890542242,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5791045584848038,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5489035628058093,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5311390578286719,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5760156251686123,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5086920851899646,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5141944705752381,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5933781285949058,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.38593901382547025,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5852248128968633,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6321792907099641,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5455426442468287,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5765442631267184,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6559442264980939,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4724287063012682,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.544734248041961,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5879962535231024,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4485313011456238,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4993400725493723,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5133583650519322,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5596360756525607,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5429312840238778,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5384829072949264,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5284824352878544,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5918025590468404,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46251387003648503,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4683019931930781,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48675847537598493,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5452705220040386,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5599514377881458,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48207844411683654,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5501794595142637,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5758522761275267,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5114437543758036,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5442789485634429,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5422463691159294,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5661413481984294,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.535638930001195,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5904690479539596,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47850262087544193,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46375003765330935,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5989151806273576,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5624200946171979,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5601303712663108,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5952265630401768,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4795018124772621,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5980840069436028,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5042862287292034,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.511291729643949,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4932675897520976,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4391825463397465,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5639494822922939,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6091001936779893,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5129629171949299,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6116432145254148,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.478140790669498,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4835130448107956,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5353240522267299,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4644236402066859,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5716276188968668,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5625503209373313,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5461754657247943,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5595926736859523,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4865800234580847,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5614735186071289,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5919418732695647,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4772276062711929,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5203623255057424,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6935115333483155,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5039117264280405,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48672875010913874,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5729919838108652,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6214894392812422,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7905742191344323,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47970164213370303,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4758994424999453,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5135370873446903,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5550669232688877,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4911894177376508,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.595589948265174,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4228706675866749,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5863776827687684,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5648515119233495,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5359083367316738,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5255960747018364,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.521717618597461,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5355806784535043,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4885137146377193,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.44084802581040294,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5254641882224151,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5254058272939224,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4957504418562708,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5825940066781641,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4233197182503545,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5081984624549776,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5565865685815825,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.589079723120437,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5555824818113,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.38600936971724875,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5195738049802061,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5725770996068688,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6351126573157906,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5850089340209331,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4965361743133144,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6636856453685255,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5246902276641685,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4408028127784238,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5585945519346511,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5275303574210437,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.684237898010838,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.551326389990023,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46011695546771925,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5564448372017117,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6443690365765258,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5648542141505166,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5278927953636803,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5552252796064758,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5433496266814384,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5310043374511801,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.591541250826406,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5868051456109418,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6661040435058738,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5123902082825651,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47867435449317,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5357747776149577,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5455001448019043,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6555986714230435,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6243032770488933,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49702415252167165,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5159140146984014,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5294667305485232,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5124830534461915,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5046514828614728,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6013863050777238,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6308459151498812,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5962577649656293,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5398400241334864,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4991640318305466,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49106975708498124,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5729476173701809,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5513658220077431,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6214625263412095,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5982226163301863,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5471200482956002,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49538653032711255,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6114715895773378,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5744289935888738,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5199100695594812,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49917469507156176,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5424000925563399,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.559135459584712,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5784898749823152,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5669264191786081,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6363237027579588,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5546469139771341,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48288851935276167,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5202793926612542,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5955267579653774,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5195973278166753,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6488819591105364,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.592430125025464,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6088577038697864,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5313271313554025,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5128100437295093,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5752947718796615,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47687447614076794,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.529402257534992,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.59073706028135,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5061252165955243,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5283799470382309,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.585729733644045,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4976562703007362,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6050663342407636,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5135000281537249,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46734754813855794,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5076856578296429,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5716690585837813,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4985087154977882,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49849782122624253,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5073213433458663,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48220563712444064,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49793382285876164,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7501043308390224,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47463125665861206,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6124633455070481,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5483206082442414,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5558992821494937,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48880259096895207,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.545161063130958,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5531959219624986,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46802572769501605,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6449455948909633,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5851554680080024,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46651969002973415,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5089146274829724,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6453806509051545,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5370473423945663,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47600893582403025,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5769173742245491,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5599339837445458,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49163434590861166,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49595810828975473,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5080488310815514,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.528120581572944,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5392871902538495,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5380458081591137,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.605880296393019,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5741718776327502,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.536772207210801,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5542858949024136,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5823935972142532,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5166999297246677,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5500403957391488,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5979372116910451,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5581895610016478,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5445697926434884,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.682051991576627,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5608787924855045,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5043053962485216,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4503346863580816,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4675084439553113,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5405746790617628,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.505841429703231,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5330452453104917,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5179367859447286,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7094172067312301,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4473966402771654,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5009598209890882,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5725496081172947,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5324461102710597,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5593032899673562,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4332691590025066,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49087233195157354,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.490382273632598,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.601574805580935,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4031031376751738,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4888940582197826,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5200187250755146,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5985278285847668,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4898389287201904,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6487837603378446,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5841083260939788,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6113597771029647,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5039216972897465,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5225632082462677,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5581184120862315,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5309695864618094,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5098701688679137,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5666279183687963,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4673350614054158,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.493274868150536,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4600505803174134,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5527721972205936,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7050418261946149,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5136069518494958,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47080870546944775,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.626972620710543,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46029679011417035,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6229898848131992,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.650563343447162,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5219460164129572,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47632680074418965,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6493386020352544,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47456772884906173,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6435037396413754,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.476747562818457,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5627534032518975,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.502178552686452,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5617532751299208,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4622890919080238,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6085600642211495,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5557215660893025,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6379545561985833,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5755867428448018,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5934099638911178,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5482056928264241,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5787340856849844,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4821734382111392,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5271244028821784,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5756680192331453,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.586649547392985,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4627345062613526,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.42668679301491175,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49217240324400546,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.469817111436841,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4808106031141324,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.44120372204736147,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5537684223690957,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5433306145559924,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4771002768453204,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6049276397477839,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5352140601653409,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5808711366328421,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6186321851795975,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5939551975259134,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.3537079801355003,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5199923305367431,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5314446596401896,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4265499707788234,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5416802080228049,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6068328190665451,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5500447164690568,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5285991811878674,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5023842700573886,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47441525378021987,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5538656070862338,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5023619785677528,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5768797963724817,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5001831624277957,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5642357381752341,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48330695051741046,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5560233527103109,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5506226533357632,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5288460950342949,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5978606613996824,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.44794619840156624,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.660933659041413,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5172065784633506,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5615562676331314,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.538593973369754,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4787654063609128,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5297886366839674,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6019719879395814,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5272052937014966,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4624687939617267,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5418814525257083,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.45866490254011516,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5603959655535431,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5481684767333892,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.43753977151883183,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5497045050740526,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4919166196339174,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5710852219185061,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5394266446425935,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49319094966652255,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5700320190459128,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5752822783533136,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6091621362085152,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.47622514885471723,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4847743756618976,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5068130200003294,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5922081812581608,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5593898159646731,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5154424946058747,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.44026051602418714,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5573177983614599,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5526083928589292,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5401755438652551,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5244312999109031,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5792933738700954,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5957780120607005,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48436435505099695,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5164196843954845,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.569917227705401,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4647027775690844,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.46710490656005754,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4850690718290047,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5541535093401448,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.42891692779189183,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5228182190307558,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4289851259444014,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.512870706518155,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5694198737244738,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5340554499970778,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5108074873836059,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5833852418109118,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5264705420215158,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4698593949253189,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5493513271361189,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4430096136062056,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5530329124137157,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4881452797591884,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5599860526420046,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5449900827953035,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6754917730110238,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5789131005723773,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.593131899801798,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5479059283767849,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5308953321136003,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6460879269621189,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5005172976989631,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5500729920769803,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5034966961828234,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6203867551849339,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4652251680708236,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.546287809632577,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6115474642807412,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5911869986465494,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.48889366174422233,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6114530863275216,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5046411578709501,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5780737519661623,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5567757221489036,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6565530332728475,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.49449358527964826,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5868379479224894,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6163257514351291,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5382002501561101,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5645932880097679,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4918142738400525,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5775196715877425,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7000127996483996,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6458695375781376,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5394800328503617,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5058816487171318,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.6234655759158257,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.4619255117749326,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5758653614271723,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5465518392032456,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.5635636624845124,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.461580408388513,
+          "bound": null
+        },
+        {
+          "status": "crossing",
+          "estimate": 0.7212572920609543,
+          "bound": null
+        }
+      ]
+    }
+  },
+  "checked": {
+    "probability_bounds": true,
+    "optimizer_converged": true,
+    "reference_curve_independent_arithmetic": true,
+    "crossing_reconstruction": true,
+    "train_test_disjoint": true
+  }
+}

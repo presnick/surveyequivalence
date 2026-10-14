@@ -1,0 +1,3 @@
+analysis,method,reference_method,reference_people,people_to_match,bootstrap_95_lower,bootstrap_95_upper,bootstrap_no_crossing_fraction,score_at_1,score_at_10,reference_score,loss_difference_at_10,loss_difference_95_lower,loss_difference_95_upper
+price_grouped_wording,grouped_percentage,grouped_percentage,10,10,10,10,0.0,4.691258257696248,1.6440971855573487,1.6440971855573487,0.0,0.0,0.0
+price_grouped_wording,grouped_probability,grouped_percentage,10,>50,15,>50,0.85175,8.042571690790576,3.4055767210320034,1.6440971855573487,8.894897247277497,1.247177649543682,22.680785448834847

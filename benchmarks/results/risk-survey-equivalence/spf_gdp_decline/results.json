@@ -1,0 +1,70 @@
+{
+  "analysis": "spf_gdp_decline",
+  "score": "Expected Brier score",
+  "lower_is_better": true,
+  "panel_range": [
+    1,
+    25
+  ],
+  "reference_method": "point_implied_decline_votes",
+  "reference_people": 10,
+  "formula": "mean_cases[(population_mean-truth)^2 + sample_variance*(1/k - 1/n)]",
+  "equivalence": "Smallest supported integer k matching or improving the reference loss; no extrapolation",
+  "panel_sampling": "Uniform distinct respondents without replacement; equal case weights and equal respondent weights",
+  "seed": 20260927,
+  "bootstrap_replicates": 4000,
+  "results": [
+    {
+      "analysis": "spf_gdp_decline",
+      "method": "point_implied_decline_votes",
+      "reference_method": "point_implied_decline_votes",
+      "reference_people": 10,
+      "people_to_match": "10",
+      "bootstrap_95_lower": "10",
+      "bootstrap_95_upper": "10",
+      "bootstrap_no_crossing_fraction": 0.0,
+      "score_at_1": 0.1143685789079682,
+      "score_at_10": 0.09224922131557556,
+      "reference_score": 0.09224922131557556,
+      "loss_difference_at_10": 0.0,
+      "loss_difference_95_lower": 0.0,
+      "loss_difference_95_upper": 0.0
+    },
+    {
+      "analysis": "spf_gdp_decline",
+      "method": "explicit_decline_probability",
+      "reference_method": "point_implied_decline_votes",
+      "reference_people": 10,
+      "people_to_match": "5",
+      "bootstrap_95_lower": "1",
+      "bootstrap_95_upper": ">25",
+      "bootstrap_no_crossing_fraction": 0.39475,
+      "score_at_1": 0.10249084276624112,
+      "score_at_10": 0.0906744188024903,
+      "reference_score": 0.09224922131557556,
+      "loss_difference_at_10": -0.001574802513085255,
+      "loss_difference_95_lower": -0.01681048770976153,
+      "loss_difference_95_upper": 0.012049614484224135
+    }
+  ],
+  "cases": 137,
+  "responses": 4698,
+  "unique_forecaster_ids": 188,
+  "first_survey": "1992Q1",
+  "last_survey": "2026Q1",
+  "negative_growth_cases": 14,
+  "incomplete_or_invalid_response_rows": 684,
+  "unresolved_survey_quarters_excluded": [
+    "2026Q2",
+    "2026Q3"
+  ],
+  "outcome_source": "https://fred.stlouisfed.org/data/GDPC1",
+  "outcome_snapshot": "2026-09-27 download; latest revised series, not first-release truth",
+  "uncertainty": "Circular moving-block bootstrap of 8 consecutive survey quarters; observed respondent pools fixed",
+  "limits": [
+    "Forecaster IDs can follow firms rather than individual people.",
+    "Output decline is not an NBER recession.",
+    "Vote fraction from point estimates is an aggregation rule, not individually elicited probabilities.",
+    "Latest revised GDP outcomes; no first-release vintage sensitivity."
+  ]
+}

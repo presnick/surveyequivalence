@@ -1,0 +1,35 @@
+task,family,truth,sd_pool
+1a,Meal calories,550,215.856110434473
+1b,Meal calories,729,276.494490479948
+1c,Meal calories,759,761.003413060852
+1d,Meal calories,819,47200.3660380311
+1e,Meal calories,750,287.300771550188
+1f,Meal calories,729,247.045211007492
+2a,Combined retail cost of three items,3218,2828.41711856482
+2b,Combined retail cost of three items,4000,1040.20355552518
+2c,Combined retail cost of three items,4299,3349.53795769974
+2d,Combined retail cost of three items,4700,1061.10243541171
+2e,Combined retail cost of three items,4389,1653.37453465413
+2f,Combined retail cost of three items,3218,2605.105767461
+3a,Candies in a container,279,292.556907970987
+3b,Candies in a container,259,138.063360473613
+3c,Candies in a container,268,1001.11560842146
+3d,Candies in a container,291,115.390109499979
+3e,Candies in a container,278,212.435628640675
+3f,Candies in a container,278,258.218740460966
+4a,Pennies in a photo,346,145.858865063487
+4b,Pennies in a photo,546,314.65435072514
+4c,Pennies in a photo,346,190.443423289595
+4d,Pennies in a photo,246,165.372131475721
+4e,Pennies in a photo,546,1257.1263990181
+4f,Pennies in a photo,346,337.531873524195
+5a,Percent rectangle area,39,15.7781505958599
+5b,Percent rectangle area,61,16.6716642651771
+6a,Percent people wearing hats,54,21.3528098046169
+6b,Percent people wearing hats,46,21.9101560157441
+7a,Percent dots of color,26,10.0295345826152
+7b,Percent dots of color,74,12.0268230293578
+8a,Percent characters equal to 10,45,16.7517806617527
+8b,Percent characters equal to 10,55,14.5889207636879
+9a,Percent umbrellas solid black,41,15.2079167348062
+9b,Percent umbrellas solid black,59,15.8179046295718

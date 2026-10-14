@@ -1,0 +1,1814 @@
+dataset,item_id,truth,n,c,group,city_a,city_b
+bluebirds,11573,1,39,27,truth 1,,
+bluebirds,11574,1,39,19,truth 1,,
+bluebirds,11575,1,39,26,truth 1,,
+bluebirds,11577,1,39,14,truth 1,,
+bluebirds,11578,1,39,17,truth 1,,
+bluebirds,11579,1,39,28,truth 1,,
+bluebirds,11580,1,39,23,truth 1,,
+bluebirds,11583,1,39,29,truth 1,,
+bluebirds,11585,1,39,27,truth 1,,
+bluebirds,11588,1,39,16,truth 1,,
+bluebirds,11594,1,39,24,truth 1,,
+bluebirds,11596,1,39,26,truth 1,,
+bluebirds,11600,1,39,25,truth 1,,
+bluebirds,11601,1,39,26,truth 1,,
+bluebirds,11602,1,39,10,truth 1,,
+bluebirds,11604,1,39,24,truth 1,,
+bluebirds,11612,1,39,15,truth 1,,
+bluebirds,11615,1,39,8,truth 1,,
+bluebirds,11617,1,39,27,truth 1,,
+bluebirds,11618,1,39,24,truth 1,,
+bluebirds,11619,1,39,25,truth 1,,
+bluebirds,11626,1,39,18,truth 1,,
+bluebirds,11628,1,39,26,truth 1,,
+bluebirds,11629,1,39,28,truth 1,,
+bluebirds,11630,1,39,23,truth 1,,
+bluebirds,11637,1,39,16,truth 1,,
+bluebirds,11641,1,39,20,truth 1,,
+bluebirds,11642,1,39,15,truth 1,,
+bluebirds,11644,1,39,15,truth 1,,
+bluebirds,11645,1,39,18,truth 1,,
+bluebirds,11646,1,39,22,truth 1,,
+bluebirds,11653,1,39,19,truth 1,,
+bluebirds,11655,1,39,18,truth 1,,
+bluebirds,11656,1,39,25,truth 1,,
+bluebirds,11657,1,39,16,truth 1,,
+bluebirds,11658,1,39,7,truth 1,,
+bluebirds,11661,1,39,20,truth 1,,
+bluebirds,11663,1,39,13,truth 1,,
+bluebirds,11672,1,39,15,truth 1,,
+bluebirds,11673,1,39,15,truth 1,,
+bluebirds,11680,1,39,25,truth 1,,
+bluebirds,11685,1,39,26,truth 1,,
+bluebirds,11692,1,39,7,truth 1,,
+bluebirds,11693,1,39,25,truth 1,,
+bluebirds,11694,1,39,21,truth 1,,
+bluebirds,11696,1,39,7,truth 1,,
+bluebirds,11697,1,39,22,truth 1,,
+bluebirds,11705,1,39,25,truth 1,,
+bluebirds,12382,0,39,18,truth 0,,
+bluebirds,14988,0,39,26,truth 0,,
+bluebirds,36618,0,39,27,truth 0,,
+bluebirds,36620,0,39,34,truth 0,,
+bluebirds,36621,0,39,33,truth 0,,
+bluebirds,36622,0,39,26,truth 0,,
+bluebirds,36623,0,39,24,truth 0,,
+bluebirds,36624,0,39,17,truth 0,,
+bluebirds,36627,0,39,30,truth 0,,
+bluebirds,36632,0,39,26,truth 0,,
+bluebirds,36633,0,39,12,truth 0,,
+bluebirds,36636,0,39,30,truth 0,,
+bluebirds,36638,0,39,35,truth 0,,
+bluebirds,36640,0,39,35,truth 0,,
+bluebirds,36641,0,39,32,truth 0,,
+bluebirds,36643,0,39,32,truth 0,,
+bluebirds,36644,0,39,36,truth 0,,
+bluebirds,36645,0,39,25,truth 0,,
+bluebirds,36652,0,39,31,truth 0,,
+bluebirds,36656,0,39,30,truth 0,,
+bluebirds,36657,0,39,16,truth 0,,
+bluebirds,36664,0,39,32,truth 0,,
+bluebirds,36665,0,39,28,truth 0,,
+bluebirds,36666,0,39,29,truth 0,,
+bluebirds,36673,0,39,27,truth 0,,
+bluebirds,36674,0,39,30,truth 0,,
+bluebirds,36675,0,39,34,truth 0,,
+bluebirds,36676,0,39,25,truth 0,,
+bluebirds,36678,0,39,27,truth 0,,
+bluebirds,36679,0,39,26,truth 0,,
+bluebirds,36680,0,39,29,truth 0,,
+bluebirds,36683,0,39,31,truth 0,,
+bluebirds,36691,0,39,28,truth 0,,
+bluebirds,36693,0,39,31,truth 0,,
+bluebirds,36696,0,39,20,truth 0,,
+bluebirds,36697,0,39,29,truth 0,,
+bluebirds,36701,0,39,30,truth 0,,
+bluebirds,36931,0,39,33,truth 0,,
+bluebirds,36932,0,39,31,truth 0,,
+bluebirds,36933,0,39,30,truth 0,,
+bluebirds,36934,0,39,33,truth 0,,
+bluebirds,36935,0,39,27,truth 0,,
+bluebirds,36936,0,39,27,truth 0,,
+bluebirds,36937,0,39,32,truth 0,,
+bluebirds,36939,0,39,29,truth 0,,
+bluebirds,36940,0,39,28,truth 0,,
+bluebirds,36941,0,39,32,truth 0,,
+bluebirds,36942,0,39,30,truth 0,,
+bluebirds,36943,0,39,31,truth 0,,
+bluebirds,36947,0,39,23,truth 0,,
+bluebirds,36948,0,39,17,truth 0,,
+bluebirds,36949,0,39,29,truth 0,,
+bluebirds,36952,0,39,28,truth 0,,
+bluebirds,36953,0,39,31,truth 0,,
+bluebirds,36959,0,39,29,truth 0,,
+bluebirds,36960,0,39,31,truth 0,,
+bluebirds,36961,0,39,30,truth 0,,
+bluebirds,36962,0,39,30,truth 0,,
+bluebirds,36963,0,39,35,truth 0,,
+bluebirds,36964,0,39,33,truth 0,,
+cities,"Albuquerque, NM | Chandler, AZ",0,98,79,city pairs,"Albuquerque, NM","Chandler, AZ"
+cities,"Albuquerque, NM | Chicago, IL",1,98,94,city pairs,"Albuquerque, NM","Chicago, IL"
+cities,"Albuquerque, NM | Chula Vista, CA",0,99,75,city pairs,"Albuquerque, NM","Chula Vista, CA"
+cities,"Albuquerque, NM | Denver, CO",1,99,72,city pairs,"Albuquerque, NM","Denver, CO"
+cities,"Albuquerque, NM | Durham, NC",0,99,64,city pairs,"Albuquerque, NM","Durham, NC"
+cities,"Albuquerque, NM | Fremont, CA",0,98,63,city pairs,"Albuquerque, NM","Fremont, CA"
+cities,"Albuquerque, NM | Hialeah, FL",0,98,82,city pairs,"Albuquerque, NM","Hialeah, FL"
+cities,"Albuquerque, NM | Honolulu, HI",0,99,45,city pairs,"Albuquerque, NM","Honolulu, HI"
+cities,"Albuquerque, NM | Irvine, CA",0,99,78,city pairs,"Albuquerque, NM","Irvine, CA"
+cities,"Albuquerque, NM | Jacksonville, FL",1,99,62,city pairs,"Albuquerque, NM","Jacksonville, FL"
+cities,"Albuquerque, NM | Los Angeles, CA",1,99,94,city pairs,"Albuquerque, NM","Los Angeles, CA"
+cities,"Albuquerque, NM | Mesa, AZ",0,99,74,city pairs,"Albuquerque, NM","Mesa, AZ"
+cities,"Albuquerque, NM | Phoenix, AZ",1,99,77,city pairs,"Albuquerque, NM","Phoenix, AZ"
+cities,"Albuquerque, NM | Plano, TX",0,99,70,city pairs,"Albuquerque, NM","Plano, TX"
+cities,"Albuquerque, NM | Reno, NV",0,99,59,city pairs,"Albuquerque, NM","Reno, NV"
+cities,"Albuquerque, NM | San Jose, CA",1,99,62,city pairs,"Albuquerque, NM","San Jose, CA"
+cities,"Albuquerque, NM | Santa Ana, CA",0,99,61,city pairs,"Albuquerque, NM","Santa Ana, CA"
+cities,"Albuquerque, NM | Seattle, WA",1,99,80,city pairs,"Albuquerque, NM","Seattle, WA"
+cities,"Albuquerque, NM | Washington, D.C.",1,99,85,city pairs,"Albuquerque, NM","Washington, D.C."
+cities,"Albuquerque, NM | Winston-Salem, NC",0,99,82,city pairs,"Albuquerque, NM","Winston-Salem, NC"
+cities,"Anaheim, CA | Austin, TX",1,99,77,city pairs,"Anaheim, CA","Austin, TX"
+cities,"Anaheim, CA | Birmingham, AL",0,99,39,city pairs,"Anaheim, CA","Birmingham, AL"
+cities,"Anaheim, CA | Denver, CO",1,99,74,city pairs,"Anaheim, CA","Denver, CO"
+cities,"Anaheim, CA | Detroit, MI",1,99,87,city pairs,"Anaheim, CA","Detroit, MI"
+cities,"Anaheim, CA | Fort Wayne, IN",0,99,50,city pairs,"Anaheim, CA","Fort Wayne, IN"
+cities,"Anaheim, CA | Glendale, AZ",0,98,59,city pairs,"Anaheim, CA","Glendale, AZ"
+cities,"Anaheim, CA | Lincoln, NE",0,99,52,city pairs,"Anaheim, CA","Lincoln, NE"
+cities,"Anaheim, CA | Mesa, AZ",1,98,38,city pairs,"Anaheim, CA","Mesa, AZ"
+cities,"Anaheim, CA | Nashville, TN",1,99,77,city pairs,"Anaheim, CA","Nashville, TN"
+cities,"Anaheim, CA | New Orleans, LA",1,99,78,city pairs,"Anaheim, CA","New Orleans, LA"
+cities,"Anaheim, CA | North Las Vegas, NV",0,98,58,city pairs,"Anaheim, CA","North Las Vegas, NV"
+cities,"Anaheim, CA | Oakland, CA",1,98,64,city pairs,"Anaheim, CA","Oakland, CA"
+cities,"Anaheim, CA | Omaha, NE",1,97,47,city pairs,"Anaheim, CA","Omaha, NE"
+cities,"Anaheim, CA | Phoenix, AZ",1,99,80,city pairs,"Anaheim, CA","Phoenix, AZ"
+cities,"Anaheim, CA | Plano, TX",0,99,55,city pairs,"Anaheim, CA","Plano, TX"
+cities,"Anaheim, CA | Portland, OR",1,99,65,city pairs,"Anaheim, CA","Portland, OR"
+cities,"Anaheim, CA | Sacramento, CA",1,99,77,city pairs,"Anaheim, CA","Sacramento, CA"
+cities,"Anaheim, CA | Santa Ana, CA",0,99,46,city pairs,"Anaheim, CA","Santa Ana, CA"
+cities,"Anaheim, CA | Toledo, OH",0,99,40,city pairs,"Anaheim, CA","Toledo, OH"
+cities,"Anaheim, CA | Winston-Salem, NC",0,99,73,city pairs,"Anaheim, CA","Winston-Salem, NC"
+cities,"Anchorage, AK | Arlington, TX",1,99,59,city pairs,"Anchorage, AK","Arlington, TX"
+cities,"Anchorage, AK | Atlanta, GA",1,99,89,city pairs,"Anchorage, AK","Atlanta, GA"
+cities,"Anchorage, AK | Aurora, CO",1,99,50,city pairs,"Anchorage, AK","Aurora, CO"
+cities,"Anchorage, AK | Buffalo, NY",0,99,25,city pairs,"Anchorage, AK","Buffalo, NY"
+cities,"Anchorage, AK | Chula Vista, CA",0,99,62,city pairs,"Anchorage, AK","Chula Vista, CA"
+cities,"Anchorage, AK | Fresno, CA",1,99,60,city pairs,"Anchorage, AK","Fresno, CA"
+cities,"Anchorage, AK | Jersey City, NJ",0,99,35,city pairs,"Anchorage, AK","Jersey City, NJ"
+cities,"Anchorage, AK | Laredo, TX",0,99,62,city pairs,"Anchorage, AK","Laredo, TX"
+cities,"Anchorage, AK | Las Vegas, NV",1,98,86,city pairs,"Anchorage, AK","Las Vegas, NV"
+cities,"Anchorage, AK | Los Angeles, CA",1,99,93,city pairs,"Anchorage, AK","Los Angeles, CA"
+cities,"Anchorage, AK | New York, NY",1,99,98,city pairs,"Anchorage, AK","New York, NY"
+cities,"Anchorage, AK | Omaha, NE",1,99,50,city pairs,"Anchorage, AK","Omaha, NE"
+cities,"Anchorage, AK | Paradise, NV",0,99,59,city pairs,"Anchorage, AK","Paradise, NV"
+cities,"Anchorage, AK | Plano, TX",0,99,47,city pairs,"Anchorage, AK","Plano, TX"
+cities,"Anchorage, AK | Rochester, NY",0,99,25,city pairs,"Anchorage, AK","Rochester, NY"
+cities,"Anchorage, AK | St. Paul, MN",0,99,39,city pairs,"Anchorage, AK","St. Paul, MN"
+cities,"Anchorage, AK | Stockton, CA",0,99,53,city pairs,"Anchorage, AK","Stockton, CA"
+cities,"Anchorage, AK | Tucson, AZ",1,98,60,city pairs,"Anchorage, AK","Tucson, AZ"
+cities,"Anchorage, AK | Tulsa, OK",1,99,56,city pairs,"Anchorage, AK","Tulsa, OK"
+cities,"Anchorage, AK | Washington, D.C.",1,99,94,city pairs,"Anchorage, AK","Washington, D.C."
+cities,"Arlington, TX | Atlanta, GA",1,99,87,city pairs,"Arlington, TX","Atlanta, GA"
+cities,"Arlington, TX | Austin, TX",1,99,82,city pairs,"Arlington, TX","Austin, TX"
+cities,"Arlington, TX | Boston, MA",1,99,85,city pairs,"Arlington, TX","Boston, MA"
+cities,"Arlington, TX | Charlotte, NC",1,99,48,city pairs,"Arlington, TX","Charlotte, NC"
+cities,"Arlington, TX | Chula Vista, CA",0,99,78,city pairs,"Arlington, TX","Chula Vista, CA"
+cities,"Arlington, TX | Colorado Springs, CO",1,99,51,city pairs,"Arlington, TX","Colorado Springs, CO"
+cities,"Arlington, TX | Indianapolis, IN",1,99,66,city pairs,"Arlington, TX","Indianapolis, IN"
+cities,"Arlington, TX | Irvine, CA",0,99,73,city pairs,"Arlington, TX","Irvine, CA"
+cities,"Arlington, TX | Jersey City, NJ",0,99,59,city pairs,"Arlington, TX","Jersey City, NJ"
+cities,"Arlington, TX | Lincoln, NE",0,99,68,city pairs,"Arlington, TX","Lincoln, NE"
+cities,"Arlington, TX | Memphis, TN",1,98,71,city pairs,"Arlington, TX","Memphis, TN"
+cities,"Arlington, TX | Minneapolis, MN",1,99,64,city pairs,"Arlington, TX","Minneapolis, MN"
+cities,"Arlington, TX | Omaha, NE",1,99,34,city pairs,"Arlington, TX","Omaha, NE"
+cities,"Arlington, TX | Philadelphia, PA",1,99,84,city pairs,"Arlington, TX","Philadelphia, PA"
+cities,"Arlington, TX | Phoenix, AZ",1,97,80,city pairs,"Arlington, TX","Phoenix, AZ"
+cities,"Arlington, TX | Portland, OR",1,98,59,city pairs,"Arlington, TX","Portland, OR"
+cities,"Arlington, TX | Riverside, CA",0,99,70,city pairs,"Arlington, TX","Riverside, CA"
+cities,"Arlington, TX | Tulsa, OK",1,99,34,city pairs,"Arlington, TX","Tulsa, OK"
+cities,"Arlington, TX | Winston-Salem, NC",0,99,83,city pairs,"Arlington, TX","Winston-Salem, NC"
+cities,"Atlanta, GA | Aurora, CO",0,99,93,city pairs,"Atlanta, GA","Aurora, CO"
+cities,"Atlanta, GA | Chandler, AZ",0,99,91,city pairs,"Atlanta, GA","Chandler, AZ"
+cities,"Atlanta, GA | Cincinnati, OH",0,99,81,city pairs,"Atlanta, GA","Cincinnati, OH"
+cities,"Atlanta, GA | Fort Wayne, IN",0,98,87,city pairs,"Atlanta, GA","Fort Wayne, IN"
+cities,"Atlanta, GA | Glendale, AZ",0,99,94,city pairs,"Atlanta, GA","Glendale, AZ"
+cities,"Atlanta, GA | Greensboro, NC",0,99,89,city pairs,"Atlanta, GA","Greensboro, NC"
+cities,"Atlanta, GA | Houston, TX",1,99,58,city pairs,"Atlanta, GA","Houston, TX"
+cities,"Atlanta, GA | Indianapolis, IN",1,99,16,city pairs,"Atlanta, GA","Indianapolis, IN"
+cities,"Atlanta, GA | Irvine, CA",0,99,94,city pairs,"Atlanta, GA","Irvine, CA"
+cities,"Atlanta, GA | Laredo, TX",0,99,93,city pairs,"Atlanta, GA","Laredo, TX"
+cities,"Atlanta, GA | Madison, WI",0,99,88,city pairs,"Atlanta, GA","Madison, WI"
+cities,"Atlanta, GA | Miami, FL",0,99,49,city pairs,"Atlanta, GA","Miami, FL"
+cities,"Atlanta, GA | Minneapolis, MN",0,99,80,city pairs,"Atlanta, GA","Minneapolis, MN"
+cities,"Atlanta, GA | Norfolk, VA",0,98,93,city pairs,"Atlanta, GA","Norfolk, VA"
+cities,"Atlanta, GA | Oakland, CA",0,99,84,city pairs,"Atlanta, GA","Oakland, CA"
+cities,"Atlanta, GA | Orlando, FL",0,98,73,city pairs,"Atlanta, GA","Orlando, FL"
+cities,"Atlanta, GA | San Diego, CA",1,99,44,city pairs,"Atlanta, GA","San Diego, CA"
+cities,"Atlanta, GA | St. Paul, MN",0,99,93,city pairs,"Atlanta, GA","St. Paul, MN"
+cities,"Aurora, CO | Austin, TX",1,99,91,city pairs,"Aurora, CO","Austin, TX"
+cities,"Aurora, CO | Baltimore, MD",1,99,80,city pairs,"Aurora, CO","Baltimore, MD"
+cities,"Aurora, CO | Chesapeake, VA",0,99,46,city pairs,"Aurora, CO","Chesapeake, VA"
+cities,"Aurora, CO | Cincinnati, OH",0,98,19,city pairs,"Aurora, CO","Cincinnati, OH"
+cities,"Aurora, CO | Corpus Christi, TX",0,99,55,city pairs,"Aurora, CO","Corpus Christi, TX"
+cities,"Aurora, CO | Dallas, TX",1,99,91,city pairs,"Aurora, CO","Dallas, TX"
+cities,"Aurora, CO | Detroit, MI",1,99,94,city pairs,"Aurora, CO","Detroit, MI"
+cities,"Aurora, CO | El Paso, TX",1,99,68,city pairs,"Aurora, CO","El Paso, TX"
+cities,"Aurora, CO | Hialeah, FL",0,99,67,city pairs,"Aurora, CO","Hialeah, FL"
+cities,"Aurora, CO | Jacksonville, FL",1,99,68,city pairs,"Aurora, CO","Jacksonville, FL"
+cities,"Aurora, CO | Memphis, TN",1,98,81,city pairs,"Aurora, CO","Memphis, TN"
+cities,"Aurora, CO | Minneapolis, MN",1,99,87,city pairs,"Aurora, CO","Minneapolis, MN"
+cities,"Aurora, CO | North Las Vegas, NV",0,99,42,city pairs,"Aurora, CO","North Las Vegas, NV"
+cities,"Aurora, CO | Orlando, FL",0,99,6,city pairs,"Aurora, CO","Orlando, FL"
+cities,"Aurora, CO | Paradise, NV",0,99,55,city pairs,"Aurora, CO","Paradise, NV"
+cities,"Aurora, CO | Santa Ana, CA",0,97,31,city pairs,"Aurora, CO","Santa Ana, CA"
+cities,"Aurora, CO | Tampa, FL",1,99,71,city pairs,"Aurora, CO","Tampa, FL"
+cities,"Aurora, CO | Tulsa, OK",1,99,53,city pairs,"Aurora, CO","Tulsa, OK"
+cities,"Austin, TX | Baton Rouge, LA",0,98,89,city pairs,"Austin, TX","Baton Rouge, LA"
+cities,"Austin, TX | Chandler, AZ",0,99,91,city pairs,"Austin, TX","Chandler, AZ"
+cities,"Austin, TX | Cincinnati, OH",0,99,78,city pairs,"Austin, TX","Cincinnati, OH"
+cities,"Austin, TX | Detroit, MI",0,99,30,city pairs,"Austin, TX","Detroit, MI"
+cities,"Austin, TX | Durham, NC",0,98,95,city pairs,"Austin, TX","Durham, NC"
+cities,"Austin, TX | Garland, TX",0,98,93,city pairs,"Austin, TX","Garland, TX"
+cities,"Austin, TX | Henderson, NV",0,99,94,city pairs,"Austin, TX","Henderson, NV"
+cities,"Austin, TX | Indianapolis, IN",1,99,29,city pairs,"Austin, TX","Indianapolis, IN"
+cities,"Austin, TX | Irvine, CA",0,98,91,city pairs,"Austin, TX","Irvine, CA"
+cities,"Austin, TX | Jacksonville, FL",1,99,20,city pairs,"Austin, TX","Jacksonville, FL"
+cities,"Austin, TX | Kansas City, MO",0,99,83,city pairs,"Austin, TX","Kansas City, MO"
+cities,"Austin, TX | Omaha, NE",0,99,92,city pairs,"Austin, TX","Omaha, NE"
+cities,"Austin, TX | San Bernardino, CA",0,99,90,city pairs,"Austin, TX","San Bernardino, CA"
+cities,"Austin, TX | Seattle, WA",0,98,56,city pairs,"Austin, TX","Seattle, WA"
+cities,"Austin, TX | St. Louis, MO",0,98,76,city pairs,"Austin, TX","St. Louis, MO"
+cities,"Austin, TX | Virginia Beach, VA",0,99,87,city pairs,"Austin, TX","Virginia Beach, VA"
+cities,"Austin, TX | Wichita, KS",0,99,90,city pairs,"Austin, TX","Wichita, KS"
+cities,"Bakersfield, CA | Birmingham, AL",0,99,25,city pairs,"Bakersfield, CA","Birmingham, AL"
+cities,"Bakersfield, CA | Chicago, IL",1,99,94,city pairs,"Bakersfield, CA","Chicago, IL"
+cities,"Bakersfield, CA | Chula Vista, CA",0,99,66,city pairs,"Bakersfield, CA","Chula Vista, CA"
+cities,"Bakersfield, CA | Colorado Springs, CO",1,99,66,city pairs,"Bakersfield, CA","Colorado Springs, CO"
+cities,"Bakersfield, CA | Hialeah, FL",0,99,69,city pairs,"Bakersfield, CA","Hialeah, FL"
+cities,"Bakersfield, CA | Indianapolis, IN",1,98,88,city pairs,"Bakersfield, CA","Indianapolis, IN"
+cities,"Bakersfield, CA | Irvine, CA",0,99,61,city pairs,"Bakersfield, CA","Irvine, CA"
+cities,"Bakersfield, CA | Irving, TX",0,99,56,city pairs,"Bakersfield, CA","Irving, TX"
+cities,"Bakersfield, CA | New York, NY",1,99,95,city pairs,"Bakersfield, CA","New York, NY"
+cities,"Bakersfield, CA | Norfolk, VA",0,99,55,city pairs,"Bakersfield, CA","Norfolk, VA"
+cities,"Bakersfield, CA | Paradise, NV",0,99,58,city pairs,"Bakersfield, CA","Paradise, NV"
+cities,"Bakersfield, CA | Reno, NV",0,99,44,city pairs,"Bakersfield, CA","Reno, NV"
+cities,"Bakersfield, CA | Rochester, NY",0,99,38,city pairs,"Bakersfield, CA","Rochester, NY"
+cities,"Bakersfield, CA | Sacramento, CA",1,98,89,city pairs,"Bakersfield, CA","Sacramento, CA"
+cities,"Bakersfield, CA | San Francisco, CA",1,99,93,city pairs,"Bakersfield, CA","San Francisco, CA"
+cities,"Bakersfield, CA | St. Paul, MN",0,99,45,city pairs,"Bakersfield, CA","St. Paul, MN"
+cities,"Bakersfield, CA | Tampa, FL",0,99,9,city pairs,"Bakersfield, CA","Tampa, FL"
+cities,"Bakersfield, CA | Toledo, OH",0,99,27,city pairs,"Bakersfield, CA","Toledo, OH"
+cities,"Bakersfield, CA | Virginia Beach, VA",1,99,69,city pairs,"Bakersfield, CA","Virginia Beach, VA"
+cities,"Bakersfield, CA | Winston-Salem, NC",0,99,65,city pairs,"Bakersfield, CA","Winston-Salem, NC"
+cities,"Baltimore, MD | Corpus Christi, TX",0,99,86,city pairs,"Baltimore, MD","Corpus Christi, TX"
+cities,"Baltimore, MD | Detroit, MI",1,99,92,city pairs,"Baltimore, MD","Detroit, MI"
+cities,"Baltimore, MD | Durham, NC",0,98,85,city pairs,"Baltimore, MD","Durham, NC"
+cities,"Baltimore, MD | Fort Worth, TX",1,99,30,city pairs,"Baltimore, MD","Fort Worth, TX"
+cities,"Baltimore, MD | Irving, TX",0,98,83,city pairs,"Baltimore, MD","Irving, TX"
+cities,"Baltimore, MD | Jersey City, NJ",0,99,64,city pairs,"Baltimore, MD","Jersey City, NJ"
+cities,"Baltimore, MD | Laredo, TX",0,99,81,city pairs,"Baltimore, MD","Laredo, TX"
+cities,"Baltimore, MD | Lubbock, TX",0,99,87,city pairs,"Baltimore, MD","Lubbock, TX"
+cities,"Baltimore, MD | Memphis, TN",1,99,58,city pairs,"Baltimore, MD","Memphis, TN"
+cities,"Baltimore, MD | Mesa, AZ",0,98,81,city pairs,"Baltimore, MD","Mesa, AZ"
+cities,"Baltimore, MD | Norfolk, VA",0,99,84,city pairs,"Baltimore, MD","Norfolk, VA"
+cities,"Baltimore, MD | Philadelphia, PA",1,99,78,city pairs,"Baltimore, MD","Philadelphia, PA"
+cities,"Baltimore, MD | Phoenix, AZ",1,99,59,city pairs,"Baltimore, MD","Phoenix, AZ"
+cities,"Baltimore, MD | Portland, OR",0,99,51,city pairs,"Baltimore, MD","Portland, OR"
+cities,"Baltimore, MD | Reno, NV",0,99,82,city pairs,"Baltimore, MD","Reno, NV"
+cities,"Baltimore, MD | Scottsdale, AZ",0,99,74,city pairs,"Baltimore, MD","Scottsdale, AZ"
+cities,"Baltimore, MD | Seattle, WA",0,99,32,city pairs,"Baltimore, MD","Seattle, WA"
+cities,"Baltimore, MD | Stockton, CA",0,99,81,city pairs,"Baltimore, MD","Stockton, CA"
+cities,"Baltimore, MD | Winston-Salem, NC",0,99,88,city pairs,"Baltimore, MD","Winston-Salem, NC"
+cities,"Baton Rouge, LA | Chandler, AZ",1,99,22,city pairs,"Baton Rouge, LA","Chandler, AZ"
+cities,"Baton Rouge, LA | El Paso, TX",1,99,49,city pairs,"Baton Rouge, LA","El Paso, TX"
+cities,"Baton Rouge, LA | Fort Wayne, IN",1,99,43,city pairs,"Baton Rouge, LA","Fort Wayne, IN"
+cities,"Baton Rouge, LA | Fremont, CA",0,98,60,city pairs,"Baton Rouge, LA","Fremont, CA"
+cities,"Baton Rouge, LA | Henderson, NV",1,99,15,city pairs,"Baton Rouge, LA","Henderson, NV"
+cities,"Baton Rouge, LA | Hialeah, FL",0,99,82,city pairs,"Baton Rouge, LA","Hialeah, FL"
+cities,"Baton Rouge, LA | Lincoln, NE",1,98,41,city pairs,"Baton Rouge, LA","Lincoln, NE"
+cities,"Baton Rouge, LA | Mesa, AZ",1,99,29,city pairs,"Baton Rouge, LA","Mesa, AZ"
+cities,"Baton Rouge, LA | Minneapolis, MN",1,99,81,city pairs,"Baton Rouge, LA","Minneapolis, MN"
+cities,"Baton Rouge, LA | North Las Vegas, NV",0,99,67,city pairs,"Baton Rouge, LA","North Las Vegas, NV"
+cities,"Baton Rouge, LA | Oklahoma City, OK",1,99,68,city pairs,"Baton Rouge, LA","Oklahoma City, OK"
+cities,"Baton Rouge, LA | Philadelphia, PA",1,99,82,city pairs,"Baton Rouge, LA","Philadelphia, PA"
+cities,"Baton Rouge, LA | Portland, OR",1,99,54,city pairs,"Baton Rouge, LA","Portland, OR"
+cities,"Baton Rouge, LA | Raleigh, NC",1,98,38,city pairs,"Baton Rouge, LA","Raleigh, NC"
+cities,"Baton Rouge, LA | Reno, NV",0,99,65,city pairs,"Baton Rouge, LA","Reno, NV"
+cities,"Baton Rouge, LA | Rochester, NY",0,99,46,city pairs,"Baton Rouge, LA","Rochester, NY"
+cities,"Baton Rouge, LA | San Francisco, CA",1,99,90,city pairs,"Baton Rouge, LA","San Francisco, CA"
+cities,"Baton Rouge, LA | Stockton, CA",1,99,44,city pairs,"Baton Rouge, LA","Stockton, CA"
+cities,"Baton Rouge, LA | Wichita, KS",1,99,42,city pairs,"Baton Rouge, LA","Wichita, KS"
+cities,"Birmingham, AL | Charlotte, NC",1,99,48,city pairs,"Birmingham, AL","Charlotte, NC"
+cities,"Birmingham, AL | Chesapeake, VA",1,99,33,city pairs,"Birmingham, AL","Chesapeake, VA"
+cities,"Birmingham, AL | El Paso, TX",1,98,55,city pairs,"Birmingham, AL","El Paso, TX"
+cities,"Birmingham, AL | Fremont, CA",1,99,30,city pairs,"Birmingham, AL","Fremont, CA"
+cities,"Birmingham, AL | Greensboro, NC",1,99,22,city pairs,"Birmingham, AL","Greensboro, NC"
+cities,"Birmingham, AL | Honolulu, HI",1,99,40,city pairs,"Birmingham, AL","Honolulu, HI"
+cities,"Birmingham, AL | Kansas City, MO",1,99,59,city pairs,"Birmingham, AL","Kansas City, MO"
+cities,"Birmingham, AL | Los Angeles, CA",1,99,93,city pairs,"Birmingham, AL","Los Angeles, CA"
+cities,"Birmingham, AL | Memphis, TN",1,98,72,city pairs,"Birmingham, AL","Memphis, TN"
+cities,"Birmingham, AL | New York, NY",1,99,95,city pairs,"Birmingham, AL","New York, NY"
+cities,"Birmingham, AL | Paradise, NV",1,98,22,city pairs,"Birmingham, AL","Paradise, NV"
+cities,"Birmingham, AL | Riverside, CA",1,98,34,city pairs,"Birmingham, AL","Riverside, CA"
+cities,"Birmingham, AL | Rochester, NY",0,99,49,city pairs,"Birmingham, AL","Rochester, NY"
+cities,"Birmingham, AL | San Bernardino, CA",0,99,65,city pairs,"Birmingham, AL","San Bernardino, CA"
+cities,"Birmingham, AL | San Diego, CA",1,99,90,city pairs,"Birmingham, AL","San Diego, CA"
+cities,"Birmingham, AL | San Jose, CA",1,99,55,city pairs,"Birmingham, AL","San Jose, CA"
+cities,"Birmingham, AL | Tampa, FL",1,99,60,city pairs,"Birmingham, AL","Tampa, FL"
+cities,"Birmingham, AL | Tucson, AZ",1,98,40,city pairs,"Birmingham, AL","Tucson, AZ"
+cities,"Boston, MA | Colorado Springs, CO",0,99,89,city pairs,"Boston, MA","Colorado Springs, CO"
+cities,"Boston, MA | Columbus, OH",1,98,29,city pairs,"Boston, MA","Columbus, OH"
+cities,"Boston, MA | Detroit, MI",1,98,55,city pairs,"Boston, MA","Detroit, MI"
+cities,"Boston, MA | Greensboro, NC",0,99,92,city pairs,"Boston, MA","Greensboro, NC"
+cities,"Boston, MA | Jacksonville, FL",1,99,19,city pairs,"Boston, MA","Jacksonville, FL"
+cities,"Boston, MA | Jersey City, NJ",0,99,88,city pairs,"Boston, MA","Jersey City, NJ"
+cities,"Boston, MA | Las Vegas, NV",0,99,47,city pairs,"Boston, MA","Las Vegas, NV"
+cities,"Boston, MA | Louisville, KY",0,99,78,city pairs,"Boston, MA","Louisville, KY"
+cities,"Boston, MA | Milwaukee, WI",0,99,82,city pairs,"Boston, MA","Milwaukee, WI"
+cities,"Boston, MA | Nashville, TN",0,98,60,city pairs,"Boston, MA","Nashville, TN"
+cities,"Boston, MA | Oakland, CA",0,98,78,city pairs,"Boston, MA","Oakland, CA"
+cities,"Boston, MA | Philadelphia, PA",1,99,46,city pairs,"Boston, MA","Philadelphia, PA"
+cities,"Boston, MA | Riverside, CA",0,99,94,city pairs,"Boston, MA","Riverside, CA"
+cities,"Boston, MA | Rochester, NY",0,99,86,city pairs,"Boston, MA","Rochester, NY"
+cities,"Boston, MA | Santa Ana, CA",0,99,86,city pairs,"Boston, MA","Santa Ana, CA"
+cities,"Boston, MA | St. Louis, MO",0,99,85,city pairs,"Boston, MA","St. Louis, MO"
+cities,"Boston, MA | Tampa, FL",0,98,78,city pairs,"Boston, MA","Tampa, FL"
+cities,"Boston, MA | Toledo, OH",0,99,80,city pairs,"Boston, MA","Toledo, OH"
+cities,"Boston, MA | Wichita, KS",0,98,90,city pairs,"Boston, MA","Wichita, KS"
+cities,"Buffalo, NY | Charlotte, NC",1,99,44,city pairs,"Buffalo, NY","Charlotte, NC"
+cities,"Buffalo, NY | Columbus, OH",1,99,50,city pairs,"Buffalo, NY","Columbus, OH"
+cities,"Buffalo, NY | Durham, NC",0,99,88,city pairs,"Buffalo, NY","Durham, NC"
+cities,"Buffalo, NY | Garland, TX",0,99,74,city pairs,"Buffalo, NY","Garland, TX"
+cities,"Buffalo, NY | Glendale, AZ",0,99,82,city pairs,"Buffalo, NY","Glendale, AZ"
+cities,"Buffalo, NY | Jersey City, NJ",0,99,61,city pairs,"Buffalo, NY","Jersey City, NJ"
+cities,"Buffalo, NY | Kansas City, MO",1,98,53,city pairs,"Buffalo, NY","Kansas City, MO"
+cities,"Buffalo, NY | Laredo, TX",0,99,83,city pairs,"Buffalo, NY","Laredo, TX"
+cities,"Buffalo, NY | Las Vegas, NV",1,99,80,city pairs,"Buffalo, NY","Las Vegas, NV"
+cities,"Buffalo, NY | Lexington, KY",1,99,36,city pairs,"Buffalo, NY","Lexington, KY"
+cities,"Buffalo, NY | Lincoln, NE",0,98,75,city pairs,"Buffalo, NY","Lincoln, NE"
+cities,"Buffalo, NY | New Orleans, LA",1,99,64,city pairs,"Buffalo, NY","New Orleans, LA"
+cities,"Buffalo, NY | Omaha, NE",1,99,28,city pairs,"Buffalo, NY","Omaha, NE"
+cities,"Buffalo, NY | Orlando, FL",0,99,33,city pairs,"Buffalo, NY","Orlando, FL"
+cities,"Buffalo, NY | San Diego, CA",1,99,75,city pairs,"Buffalo, NY","San Diego, CA"
+cities,"Buffalo, NY | San Francisco, CA",1,99,79,city pairs,"Buffalo, NY","San Francisco, CA"
+cities,"Buffalo, NY | St. Petersburg, FL",0,99,64,city pairs,"Buffalo, NY","St. Petersburg, FL"
+cities,"Buffalo, NY | Virginia Beach, VA",1,99,37,city pairs,"Buffalo, NY","Virginia Beach, VA"
+cities,"Buffalo, NY | Washington, D.C.",1,99,78,city pairs,"Buffalo, NY","Washington, D.C."
+cities,"Chandler, AZ | Chesapeake, VA",0,99,43,city pairs,"Chandler, AZ","Chesapeake, VA"
+cities,"Chandler, AZ | Chula Vista, CA",1,99,35,city pairs,"Chandler, AZ","Chula Vista, CA"
+cities,"Chandler, AZ | Corpus Christi, TX",1,99,46,city pairs,"Chandler, AZ","Corpus Christi, TX"
+cities,"Chandler, AZ | Dallas, TX",1,99,93,city pairs,"Chandler, AZ","Dallas, TX"
+cities,"Chandler, AZ | Fort Wayne, IN",1,99,70,city pairs,"Chandler, AZ","Fort Wayne, IN"
+cities,"Chandler, AZ | Greensboro, NC",1,97,56,city pairs,"Chandler, AZ","Greensboro, NC"
+cities,"Chandler, AZ | Houston, TX",1,99,97,city pairs,"Chandler, AZ","Houston, TX"
+cities,"Chandler, AZ | Lexington, KY",1,99,68,city pairs,"Chandler, AZ","Lexington, KY"
+cities,"Chandler, AZ | Louisville, KY",1,99,86,city pairs,"Chandler, AZ","Louisville, KY"
+cities,"Chandler, AZ | Miami, FL",1,98,92,city pairs,"Chandler, AZ","Miami, FL"
+cities,"Chandler, AZ | Norfolk, VA",1,99,51,city pairs,"Chandler, AZ","Norfolk, VA"
+cities,"Chandler, AZ | North Las Vegas, NV",0,99,49,city pairs,"Chandler, AZ","North Las Vegas, NV"
+cities,"Chandler, AZ | Pittsburgh, PA",1,99,87,city pairs,"Chandler, AZ","Pittsburgh, PA"
+cities,"Chandler, AZ | San Jose, CA",1,98,86,city pairs,"Chandler, AZ","San Jose, CA"
+cities,"Chandler, AZ | Scottsdale, AZ",0,99,34,city pairs,"Chandler, AZ","Scottsdale, AZ"
+cities,"Chandler, AZ | Tulsa, OK",1,98,62,city pairs,"Chandler, AZ","Tulsa, OK"
+cities,"Charlotte, NC | Chesapeake, VA",0,99,73,city pairs,"Charlotte, NC","Chesapeake, VA"
+cities,"Charlotte, NC | Chicago, IL",1,99,95,city pairs,"Charlotte, NC","Chicago, IL"
+cities,"Charlotte, NC | El Paso, TX",0,99,44,city pairs,"Charlotte, NC","El Paso, TX"
+cities,"Charlotte, NC | Henderson, NV",0,98,86,city pairs,"Charlotte, NC","Henderson, NV"
+cities,"Charlotte, NC | Jersey City, NJ",0,99,55,city pairs,"Charlotte, NC","Jersey City, NJ"
+cities,"Charlotte, NC | Long Beach, CA",0,99,38,city pairs,"Charlotte, NC","Long Beach, CA"
+cities,"Charlotte, NC | Louisville, KY",0,99,36,city pairs,"Charlotte, NC","Louisville, KY"
+cities,"Charlotte, NC | Miami, FL",0,99,3,city pairs,"Charlotte, NC","Miami, FL"
+cities,"Charlotte, NC | Milwaukee, WI",0,99,39,city pairs,"Charlotte, NC","Milwaukee, WI"
+cities,"Charlotte, NC | New York, NY",1,99,97,city pairs,"Charlotte, NC","New York, NY"
+cities,"Charlotte, NC | Phoenix, AZ",1,99,80,city pairs,"Charlotte, NC","Phoenix, AZ"
+cities,"Charlotte, NC | Riverside, CA",0,99,73,city pairs,"Charlotte, NC","Riverside, CA"
+cities,"Charlotte, NC | Rochester, NY",0,99,46,city pairs,"Charlotte, NC","Rochester, NY"
+cities,"Charlotte, NC | Scottsdale, AZ",0,99,61,city pairs,"Charlotte, NC","Scottsdale, AZ"
+cities,"Charlotte, NC | St. Petersburg, FL",0,99,50,city pairs,"Charlotte, NC","St. Petersburg, FL"
+cities,"Charlotte, NC | Tucson, AZ",0,99,56,city pairs,"Charlotte, NC","Tucson, AZ"
+cities,"Charlotte, NC | Wichita, KS",0,99,76,city pairs,"Charlotte, NC","Wichita, KS"
+cities,"Chesapeake, VA | Chula Vista, CA",1,98,31,city pairs,"Chesapeake, VA","Chula Vista, CA"
+cities,"Chesapeake, VA | Corpus Christi, TX",1,97,43,city pairs,"Chesapeake, VA","Corpus Christi, TX"
+cities,"Chesapeake, VA | Greensboro, NC",1,99,54,city pairs,"Chesapeake, VA","Greensboro, NC"
+cities,"Chesapeake, VA | Henderson, NV",1,97,35,city pairs,"Chesapeake, VA","Henderson, NV"
+cities,"Chesapeake, VA | Hialeah, FL",1,98,25,city pairs,"Chesapeake, VA","Hialeah, FL"
+cities,"Chesapeake, VA | Laredo, TX",1,99,46,city pairs,"Chesapeake, VA","Laredo, TX"
+cities,"Chesapeake, VA | Memphis, TN",1,99,90,city pairs,"Chesapeake, VA","Memphis, TN"
+cities,"Chesapeake, VA | Milwaukee, WI",1,98,76,city pairs,"Chesapeake, VA","Milwaukee, WI"
+cities,"Chesapeake, VA | Plano, TX",1,99,42,city pairs,"Chesapeake, VA","Plano, TX"
+cities,"Chesapeake, VA | Rochester, NY",0,99,29,city pairs,"Chesapeake, VA","Rochester, NY"
+cities,"Chesapeake, VA | San Diego, CA",1,99,93,city pairs,"Chesapeake, VA","San Diego, CA"
+cities,"Chesapeake, VA | San Francisco, CA",1,98,94,city pairs,"Chesapeake, VA","San Francisco, CA"
+cities,"Chesapeake, VA | St. Louis, MO",1,99,79,city pairs,"Chesapeake, VA","St. Louis, MO"
+cities,"Chesapeake, VA | Stockton, CA",1,99,46,city pairs,"Chesapeake, VA","Stockton, CA"
+cities,"Chesapeake, VA | Tucson, AZ",1,99,63,city pairs,"Chesapeake, VA","Tucson, AZ"
+cities,"Chesapeake, VA | Winston-Salem, NC",1,98,28,city pairs,"Chesapeake, VA","Winston-Salem, NC"
+cities,"Chicago, IL | Chula Vista, CA",0,99,96,city pairs,"Chicago, IL","Chula Vista, CA"
+cities,"Chicago, IL | El Paso, TX",0,99,93,city pairs,"Chicago, IL","El Paso, TX"
+cities,"Chicago, IL | Glendale, AZ",0,99,97,city pairs,"Chicago, IL","Glendale, AZ"
+cities,"Chicago, IL | Honolulu, HI",0,99,93,city pairs,"Chicago, IL","Honolulu, HI"
+cities,"Chicago, IL | Jersey City, NJ",0,99,93,city pairs,"Chicago, IL","Jersey City, NJ"
+cities,"Chicago, IL | Madison, WI",0,99,94,city pairs,"Chicago, IL","Madison, WI"
+cities,"Chicago, IL | Minneapolis, MN",0,99,94,city pairs,"Chicago, IL","Minneapolis, MN"
+cities,"Chicago, IL | New Orleans, LA",0,98,93,city pairs,"Chicago, IL","New Orleans, LA"
+cities,"Chicago, IL | Omaha, NE",0,99,97,city pairs,"Chicago, IL","Omaha, NE"
+cities,"Chicago, IL | Paradise, NV",0,99,96,city pairs,"Chicago, IL","Paradise, NV"
+cities,"Chicago, IL | Pittsburgh, PA",0,99,91,city pairs,"Chicago, IL","Pittsburgh, PA"
+cities,"Chicago, IL | Rochester, NY",0,99,92,city pairs,"Chicago, IL","Rochester, NY"
+cities,"Chicago, IL | Santa Ana, CA",0,99,94,city pairs,"Chicago, IL","Santa Ana, CA"
+cities,"Chicago, IL | Seattle, WA",0,99,86,city pairs,"Chicago, IL","Seattle, WA"
+cities,"Chicago, IL | St. Paul, MN",0,99,94,city pairs,"Chicago, IL","St. Paul, MN"
+cities,"Chicago, IL | Toledo, OH",0,99,93,city pairs,"Chicago, IL","Toledo, OH"
+cities,"Chicago, IL | Wichita, KS",0,99,97,city pairs,"Chicago, IL","Wichita, KS"
+cities,"Chula Vista, CA | Cincinnati, OH",1,99,87,city pairs,"Chula Vista, CA","Cincinnati, OH"
+cities,"Chula Vista, CA | Corpus Christi, TX",1,99,66,city pairs,"Chula Vista, CA","Corpus Christi, TX"
+cities,"Chula Vista, CA | Henderson, NV",1,98,48,city pairs,"Chula Vista, CA","Henderson, NV"
+cities,"Chula Vista, CA | Hialeah, FL",0,99,54,city pairs,"Chula Vista, CA","Hialeah, FL"
+cities,"Chula Vista, CA | Lexington, KY",1,99,82,city pairs,"Chula Vista, CA","Lexington, KY"
+cities,"Chula Vista, CA | Mesa, AZ",1,98,63,city pairs,"Chula Vista, CA","Mesa, AZ"
+cities,"Chula Vista, CA | Newark, NJ",1,98,71,city pairs,"Chula Vista, CA","Newark, NJ"
+cities,"Chula Vista, CA | Norfolk, VA",0,99,48,city pairs,"Chula Vista, CA","Norfolk, VA"
+cities,"Chula Vista, CA | North Las Vegas, NV",0,99,45,city pairs,"Chula Vista, CA","North Las Vegas, NV"
+cities,"Chula Vista, CA | Omaha, NE",1,99,71,city pairs,"Chula Vista, CA","Omaha, NE"
+cities,"Chula Vista, CA | San Antonio, TX",1,98,87,city pairs,"Chula Vista, CA","San Antonio, TX"
+cities,"Chula Vista, CA | Toledo, OH",1,99,80,city pairs,"Chula Vista, CA","Toledo, OH"
+cities,"Chula Vista, CA | Tulsa, OK",1,99,73,city pairs,"Chula Vista, CA","Tulsa, OK"
+cities,"Cincinnati, OH | Colorado Springs, CO",1,99,36,city pairs,"Cincinnati, OH","Colorado Springs, CO"
+cities,"Cincinnati, OH | Corpus Christi, TX",1,98,13,city pairs,"Cincinnati, OH","Corpus Christi, TX"
+cities,"Cincinnati, OH | Detroit, MI",1,99,87,city pairs,"Cincinnati, OH","Detroit, MI"
+cities,"Cincinnati, OH | El Paso, TX",1,98,34,city pairs,"Cincinnati, OH","El Paso, TX"
+cities,"Cincinnati, OH | Glendale, AZ",0,99,81,city pairs,"Cincinnati, OH","Glendale, AZ"
+cities,"Cincinnati, OH | Irving, TX",0,99,77,city pairs,"Cincinnati, OH","Irving, TX"
+cities,"Cincinnati, OH | Kansas City, MO",1,99,36,city pairs,"Cincinnati, OH","Kansas City, MO"
+cities,"Cincinnati, OH | Las Vegas, NV",1,98,62,city pairs,"Cincinnati, OH","Las Vegas, NV"
+cities,"Cincinnati, OH | Newark, NJ",0,99,76,city pairs,"Cincinnati, OH","Newark, NJ"
+cities,"Cincinnati, OH | Oakland, CA",1,99,37,city pairs,"Cincinnati, OH","Oakland, CA"
+cities,"Cincinnati, OH | Phoenix, AZ",1,99,64,city pairs,"Cincinnati, OH","Phoenix, AZ"
+cities,"Cincinnati, OH | Plano, TX",0,99,77,city pairs,"Cincinnati, OH","Plano, TX"
+cities,"Cincinnati, OH | Raleigh, NC",1,99,23,city pairs,"Cincinnati, OH","Raleigh, NC"
+cities,"Cincinnati, OH | San Diego, CA",1,99,76,city pairs,"Cincinnati, OH","San Diego, CA"
+cities,"Cincinnati, OH | Toledo, OH",0,99,66,city pairs,"Cincinnati, OH","Toledo, OH"
+cities,"Cincinnati, OH | Winston-Salem, NC",0,99,93,city pairs,"Cincinnati, OH","Winston-Salem, NC"
+cities,"Cleveland, OH | Colorado Springs, CO",1,99,24,city pairs,"Cleveland, OH","Colorado Springs, CO"
+cities,"Cleveland, OH | Columbus, OH",1,98,44,city pairs,"Cleveland, OH","Columbus, OH"
+cities,"Cleveland, OH | Dallas, TX",1,98,87,city pairs,"Cleveland, OH","Dallas, TX"
+cities,"Cleveland, OH | Denver, CO",1,99,69,city pairs,"Cleveland, OH","Denver, CO"
+cities,"Cleveland, OH | Detroit, MI",1,98,85,city pairs,"Cleveland, OH","Detroit, MI"
+cities,"Cleveland, OH | Hialeah, FL",0,99,90,city pairs,"Cleveland, OH","Hialeah, FL"
+cities,"Cleveland, OH | Honolulu, HI",0,99,60,city pairs,"Cleveland, OH","Honolulu, HI"
+cities,"Cleveland, OH | Miami, FL",1,98,75,city pairs,"Cleveland, OH","Miami, FL"
+cities,"Cleveland, OH | Milwaukee, WI",1,99,33,city pairs,"Cleveland, OH","Milwaukee, WI"
+cities,"Cleveland, OH | Nashville, TN",1,99,62,city pairs,"Cleveland, OH","Nashville, TN"
+cities,"Cleveland, OH | New Orleans, LA",0,98,34,city pairs,"Cleveland, OH","New Orleans, LA"
+cities,"Cleveland, OH | Newark, NJ",0,99,78,city pairs,"Cleveland, OH","Newark, NJ"
+cities,"Cleveland, OH | Norfolk, VA",0,99,84,city pairs,"Cleveland, OH","Norfolk, VA"
+cities,"Cleveland, OH | Oakland, CA",0,98,53,city pairs,"Cleveland, OH","Oakland, CA"
+cities,"Cleveland, OH | Orlando, FL",0,99,15,city pairs,"Cleveland, OH","Orlando, FL"
+cities,"Cleveland, OH | San Antonio, TX",1,99,65,city pairs,"Cleveland, OH","San Antonio, TX"
+cities,"Cleveland, OH | San Bernardino, CA",0,99,78,city pairs,"Cleveland, OH","San Bernardino, CA"
+cities,"Cleveland, OH | Virginia Beach, VA",1,98,39,city pairs,"Cleveland, OH","Virginia Beach, VA"
+cities,"Cleveland, OH | Wichita, KS",0,99,82,city pairs,"Cleveland, OH","Wichita, KS"
+cities,"Cleveland, OH | Winston-Salem, NC",0,98,88,city pairs,"Cleveland, OH","Winston-Salem, NC"
+cities,"Colorado Springs, CO | Corpus Christi, TX",0,98,77,city pairs,"Colorado Springs, CO","Corpus Christi, TX"
+cities,"Colorado Springs, CO | Fort Worth, TX",1,99,46,city pairs,"Colorado Springs, CO","Fort Worth, TX"
+cities,"Colorado Springs, CO | Greensboro, NC",0,99,74,city pairs,"Colorado Springs, CO","Greensboro, NC"
+cities,"Colorado Springs, CO | Hialeah, FL",0,99,83,city pairs,"Colorado Springs, CO","Hialeah, FL"
+cities,"Colorado Springs, CO | Indianapolis, IN",1,98,68,city pairs,"Colorado Springs, CO","Indianapolis, IN"
+cities,"Colorado Springs, CO | Las Vegas, NV",1,99,82,city pairs,"Colorado Springs, CO","Las Vegas, NV"
+cities,"Colorado Springs, CO | Long Beach, CA",1,99,64,city pairs,"Colorado Springs, CO","Long Beach, CA"
+cities,"Colorado Springs, CO | Madison, WI",0,99,52,city pairs,"Colorado Springs, CO","Madison, WI"
+cities,"Colorado Springs, CO | Milwaukee, WI",1,99,52,city pairs,"Colorado Springs, CO","Milwaukee, WI"
+cities,"Colorado Springs, CO | Minneapolis, MN",0,99,28,city pairs,"Colorado Springs, CO","Minneapolis, MN"
+cities,"Colorado Springs, CO | Paradise, NV",0,99,80,city pairs,"Colorado Springs, CO","Paradise, NV"
+cities,"Colorado Springs, CO | Plano, TX",0,99,76,city pairs,"Colorado Springs, CO","Plano, TX"
+cities,"Colorado Springs, CO | Riverside, CA",0,99,71,city pairs,"Colorado Springs, CO","Riverside, CA"
+cities,"Colorado Springs, CO | St. Paul, MN",0,99,61,city pairs,"Colorado Springs, CO","St. Paul, MN"
+cities,"Colorado Springs, CO | Tampa, FL",0,98,25,city pairs,"Colorado Springs, CO","Tampa, FL"
+cities,"Columbus, OH | Denver, CO",0,99,40,city pairs,"Columbus, OH","Denver, CO"
+cities,"Columbus, OH | Durham, NC",0,99,88,city pairs,"Columbus, OH","Durham, NC"
+cities,"Columbus, OH | El Paso, TX",0,99,57,city pairs,"Columbus, OH","El Paso, TX"
+cities,"Columbus, OH | Long Beach, CA",0,99,56,city pairs,"Columbus, OH","Long Beach, CA"
+cities,"Columbus, OH | Nashville, TN",0,99,40,city pairs,"Columbus, OH","Nashville, TN"
+cities,"Columbus, OH | Oklahoma City, OK",0,99,58,city pairs,"Columbus, OH","Oklahoma City, OK"
+cities,"Columbus, OH | Omaha, NE",0,98,75,city pairs,"Columbus, OH","Omaha, NE"
+cities,"Columbus, OH | Paradise, NV",0,99,92,city pairs,"Columbus, OH","Paradise, NV"
+cities,"Columbus, OH | Philadelphia, PA",1,99,80,city pairs,"Columbus, OH","Philadelphia, PA"
+cities,"Columbus, OH | Phoenix, AZ",1,99,57,city pairs,"Columbus, OH","Phoenix, AZ"
+cities,"Columbus, OH | Portland, OR",0,99,64,city pairs,"Columbus, OH","Portland, OR"
+cities,"Columbus, OH | Raleigh, NC",0,99,80,city pairs,"Columbus, OH","Raleigh, NC"
+cities,"Columbus, OH | Sacramento, CA",0,99,42,city pairs,"Columbus, OH","Sacramento, CA"
+cities,"Columbus, OH | San Jose, CA",1,99,40,city pairs,"Columbus, OH","San Jose, CA"
+cities,"Columbus, OH | St. Petersburg, FL",0,99,69,city pairs,"Columbus, OH","St. Petersburg, FL"
+cities,"Columbus, OH | Toledo, OH",0,99,75,city pairs,"Columbus, OH","Toledo, OH"
+cities,"Columbus, OH | Tulsa, OK",0,99,92,city pairs,"Columbus, OH","Tulsa, OK"
+cities,"Corpus Christi, TX | Detroit, MI",1,99,95,city pairs,"Corpus Christi, TX","Detroit, MI"
+cities,"Corpus Christi, TX | Fremont, CA",0,99,33,city pairs,"Corpus Christi, TX","Fremont, CA"
+cities,"Corpus Christi, TX | Henderson, NV",0,98,66,city pairs,"Corpus Christi, TX","Henderson, NV"
+cities,"Corpus Christi, TX | Honolulu, HI",1,99,77,city pairs,"Corpus Christi, TX","Honolulu, HI"
+cities,"Corpus Christi, TX | Houston, TX",1,99,93,city pairs,"Corpus Christi, TX","Houston, TX"
+cities,"Corpus Christi, TX | Irvine, CA",0,99,41,city pairs,"Corpus Christi, TX","Irvine, CA"
+cities,"Corpus Christi, TX | Memphis, TN",1,99,81,city pairs,"Corpus Christi, TX","Memphis, TN"
+cities,"Corpus Christi, TX | Pittsburgh, PA",1,99,85,city pairs,"Corpus Christi, TX","Pittsburgh, PA"
+cities,"Corpus Christi, TX | Sacramento, CA",1,99,86,city pairs,"Corpus Christi, TX","Sacramento, CA"
+cities,"Corpus Christi, TX | San Antonio, TX",1,99,93,city pairs,"Corpus Christi, TX","San Antonio, TX"
+cities,"Corpus Christi, TX | San Diego, CA",1,99,89,city pairs,"Corpus Christi, TX","San Diego, CA"
+cities,"Corpus Christi, TX | San Jose, CA",1,99,77,city pairs,"Corpus Christi, TX","San Jose, CA"
+cities,"Corpus Christi, TX | Toledo, OH",0,98,23,city pairs,"Corpus Christi, TX","Toledo, OH"
+cities,"Dallas, TX | Las Vegas, NV",0,98,68,city pairs,"Dallas, TX","Las Vegas, NV"
+cities,"Dallas, TX | Long Beach, CA",0,99,81,city pairs,"Dallas, TX","Long Beach, CA"
+cities,"Dallas, TX | Los Angeles, CA",1,99,75,city pairs,"Dallas, TX","Los Angeles, CA"
+cities,"Dallas, TX | Madison, WI",0,99,88,city pairs,"Dallas, TX","Madison, WI"
+cities,"Dallas, TX | Mesa, AZ",0,98,90,city pairs,"Dallas, TX","Mesa, AZ"
+cities,"Dallas, TX | Miami, FL",0,99,56,city pairs,"Dallas, TX","Miami, FL"
+cities,"Dallas, TX | Orlando, FL",0,99,71,city pairs,"Dallas, TX","Orlando, FL"
+cities,"Dallas, TX | Pittsburgh, PA",0,99,82,city pairs,"Dallas, TX","Pittsburgh, PA"
+cities,"Dallas, TX | Reno, NV",0,99,94,city pairs,"Dallas, TX","Reno, NV"
+cities,"Dallas, TX | Rochester, NY",0,98,85,city pairs,"Dallas, TX","Rochester, NY"
+cities,"Dallas, TX | San Antonio, TX",1,99,21,city pairs,"Dallas, TX","San Antonio, TX"
+cities,"Dallas, TX | San Bernardino, CA",0,99,93,city pairs,"Dallas, TX","San Bernardino, CA"
+cities,"Dallas, TX | San Jose, CA",0,98,84,city pairs,"Dallas, TX","San Jose, CA"
+cities,"Dallas, TX | St. Louis, MO",0,99,88,city pairs,"Dallas, TX","St. Louis, MO"
+cities,"Dallas, TX | Tampa, FL",0,99,82,city pairs,"Dallas, TX","Tampa, FL"
+cities,"Dallas, TX | Toledo, OH",0,97,89,city pairs,"Dallas, TX","Toledo, OH"
+cities,"Dallas, TX | Tulsa, OK",0,99,96,city pairs,"Dallas, TX","Tulsa, OK"
+cities,"Denver, CO | Durham, NC",0,99,90,city pairs,"Denver, CO","Durham, NC"
+cities,"Denver, CO | Fort Worth, TX",1,99,26,city pairs,"Denver, CO","Fort Worth, TX"
+cities,"Denver, CO | Fremont, CA",0,99,86,city pairs,"Denver, CO","Fremont, CA"
+cities,"Denver, CO | Houston, TX",1,99,68,city pairs,"Denver, CO","Houston, TX"
+cities,"Denver, CO | Indianapolis, IN",1,99,44,city pairs,"Denver, CO","Indianapolis, IN"
+cities,"Denver, CO | Jersey City, NJ",0,99,74,city pairs,"Denver, CO","Jersey City, NJ"
+cities,"Denver, CO | Laredo, TX",0,98,88,city pairs,"Denver, CO","Laredo, TX"
+cities,"Denver, CO | Lexington, KY",0,98,83,city pairs,"Denver, CO","Lexington, KY"
+cities,"Denver, CO | Los Angeles, CA",1,99,88,city pairs,"Denver, CO","Los Angeles, CA"
+cities,"Denver, CO | New York, NY",1,99,93,city pairs,"Denver, CO","New York, NY"
+cities,"Denver, CO | Norfolk, VA",0,99,91,city pairs,"Denver, CO","Norfolk, VA"
+cities,"Denver, CO | Omaha, NE",0,99,83,city pairs,"Denver, CO","Omaha, NE"
+cities,"Denver, CO | Plano, TX",0,99,84,city pairs,"Denver, CO","Plano, TX"
+cities,"Denver, CO | Raleigh, NC",0,99,89,city pairs,"Denver, CO","Raleigh, NC"
+cities,"Denver, CO | St. Petersburg, FL",0,98,85,city pairs,"Denver, CO","St. Petersburg, FL"
+cities,"Denver, CO | Wichita, KS",0,99,85,city pairs,"Denver, CO","Wichita, KS"
+cities,"Detroit, MI | Fresno, CA",0,99,95,city pairs,"Detroit, MI","Fresno, CA"
+cities,"Detroit, MI | Greensboro, NC",0,99,94,city pairs,"Detroit, MI","Greensboro, NC"
+cities,"Detroit, MI | Long Beach, CA",0,99,80,city pairs,"Detroit, MI","Long Beach, CA"
+cities,"Detroit, MI | Los Angeles, CA",1,98,67,city pairs,"Detroit, MI","Los Angeles, CA"
+cities,"Detroit, MI | Louisville, KY",0,98,83,city pairs,"Detroit, MI","Louisville, KY"
+cities,"Detroit, MI | Nashville, TN",0,99,71,city pairs,"Detroit, MI","Nashville, TN"
+cities,"Detroit, MI | San Francisco, CA",1,99,48,city pairs,"Detroit, MI","San Francisco, CA"
+cities,"Detroit, MI | Scottsdale, AZ",0,99,97,city pairs,"Detroit, MI","Scottsdale, AZ"
+cities,"Detroit, MI | St. Petersburg, FL",0,99,88,city pairs,"Detroit, MI","St. Petersburg, FL"
+cities,"Detroit, MI | Stockton, CA",0,97,93,city pairs,"Detroit, MI","Stockton, CA"
+cities,"Detroit, MI | Toledo, OH",0,99,95,city pairs,"Detroit, MI","Toledo, OH"
+cities,"Detroit, MI | Tulsa, OK",0,99,95,city pairs,"Detroit, MI","Tulsa, OK"
+cities,"Durham, NC | Fort Worth, TX",1,99,72,city pairs,"Durham, NC","Fort Worth, TX"
+cities,"Durham, NC | Garland, TX",0,99,40,city pairs,"Durham, NC","Garland, TX"
+cities,"Durham, NC | Glendale, AZ",0,99,55,city pairs,"Durham, NC","Glendale, AZ"
+cities,"Durham, NC | Greensboro, NC",1,98,58,city pairs,"Durham, NC","Greensboro, NC"
+cities,"Durham, NC | Houston, TX",1,99,93,city pairs,"Durham, NC","Houston, TX"
+cities,"Durham, NC | Jacksonville, FL",1,99,85,city pairs,"Durham, NC","Jacksonville, FL"
+cities,"Durham, NC | Las Vegas, NV",1,99,92,city pairs,"Durham, NC","Las Vegas, NV"
+cities,"Durham, NC | Long Beach, CA",1,99,82,city pairs,"Durham, NC","Long Beach, CA"
+cities,"Durham, NC | Los Angeles, CA",1,99,96,city pairs,"Durham, NC","Los Angeles, CA"
+cities,"Durham, NC | Madison, WI",1,98,81,city pairs,"Durham, NC","Madison, WI"
+cities,"Durham, NC | Miami, FL",1,98,93,city pairs,"Durham, NC","Miami, FL"
+cities,"Durham, NC | New York, NY",1,99,97,city pairs,"Durham, NC","New York, NY"
+cities,"Durham, NC | Omaha, NE",1,98,66,city pairs,"Durham, NC","Omaha, NE"
+cities,"Durham, NC | Santa Ana, CA",1,99,67,city pairs,"Durham, NC","Santa Ana, CA"
+cities,"El Paso, TX | Fort Worth, TX",1,99,41,city pairs,"El Paso, TX","Fort Worth, TX"
+cities,"El Paso, TX | Fremont, CA",0,99,60,city pairs,"El Paso, TX","Fremont, CA"
+cities,"El Paso, TX | Greensboro, NC",0,99,66,city pairs,"El Paso, TX","Greensboro, NC"
+cities,"El Paso, TX | Henderson, NV",0,99,77,city pairs,"El Paso, TX","Henderson, NV"
+cities,"El Paso, TX | Jersey City, NJ",0,99,51,city pairs,"El Paso, TX","Jersey City, NJ"
+cities,"El Paso, TX | Long Beach, CA",0,99,43,city pairs,"El Paso, TX","Long Beach, CA"
+cities,"El Paso, TX | Oklahoma City, OK",0,99,35,city pairs,"El Paso, TX","Oklahoma City, OK"
+cities,"El Paso, TX | Omaha, NE",0,99,64,city pairs,"El Paso, TX","Omaha, NE"
+cities,"El Paso, TX | Pittsburgh, PA",0,98,28,city pairs,"El Paso, TX","Pittsburgh, PA"
+cities,"El Paso, TX | Sacramento, CA",0,99,37,city pairs,"El Paso, TX","Sacramento, CA"
+cities,"El Paso, TX | San Bernardino, CA",0,99,62,city pairs,"El Paso, TX","San Bernardino, CA"
+cities,"El Paso, TX | Tucson, AZ",0,99,58,city pairs,"El Paso, TX","Tucson, AZ"
+cities,"El Paso, TX | Winston-Salem, NC",0,99,79,city pairs,"El Paso, TX","Winston-Salem, NC"
+cities,"Fort Wayne, IN | Garland, TX",0,99,68,city pairs,"Fort Wayne, IN","Garland, TX"
+cities,"Fort Wayne, IN | Irvine, CA",0,98,63,city pairs,"Fort Wayne, IN","Irvine, CA"
+cities,"Fort Wayne, IN | Irving, TX",0,99,64,city pairs,"Fort Wayne, IN","Irving, TX"
+cities,"Fort Wayne, IN | Jersey City, NJ",0,97,39,city pairs,"Fort Wayne, IN","Jersey City, NJ"
+cities,"Fort Wayne, IN | Laredo, TX",0,98,64,city pairs,"Fort Wayne, IN","Laredo, TX"
+cities,"Fort Wayne, IN | Louisville, KY",1,99,70,city pairs,"Fort Wayne, IN","Louisville, KY"
+cities,"Fort Wayne, IN | Mesa, AZ",1,99,29,city pairs,"Fort Wayne, IN","Mesa, AZ"
+cities,"Fort Wayne, IN | Miami, FL",1,99,88,city pairs,"Fort Wayne, IN","Miami, FL"
+cities,"Fort Wayne, IN | Paradise, NV",0,98,74,city pairs,"Fort Wayne, IN","Paradise, NV"
+cities,"Fort Wayne, IN | Rochester, NY",0,99,38,city pairs,"Fort Wayne, IN","Rochester, NY"
+cities,"Fort Wayne, IN | San Antonio, TX",1,99,82,city pairs,"Fort Wayne, IN","San Antonio, TX"
+cities,"Fort Wayne, IN | San Francisco, CA",1,99,91,city pairs,"Fort Wayne, IN","San Francisco, CA"
+cities,"Fort Wayne, IN | Stockton, CA",1,99,30,city pairs,"Fort Wayne, IN","Stockton, CA"
+cities,"Fort Wayne, IN | Tucson, AZ",1,98,47,city pairs,"Fort Wayne, IN","Tucson, AZ"
+cities,"Fort Wayne, IN | Virginia Beach, VA",1,98,55,city pairs,"Fort Wayne, IN","Virginia Beach, VA"
+cities,"Fort Wayne, IN | Washington, D.C.",1,98,88,city pairs,"Fort Wayne, IN","Washington, D.C."
+cities,"Fort Worth, TX | Garland, TX",0,99,70,city pairs,"Fort Worth, TX","Garland, TX"
+cities,"Fort Worth, TX | Indianapolis, IN",1,99,73,city pairs,"Fort Worth, TX","Indianapolis, IN"
+cities,"Fort Worth, TX | Irvine, CA",0,99,77,city pairs,"Fort Worth, TX","Irvine, CA"
+cities,"Fort Worth, TX | Irving, TX",0,97,70,city pairs,"Fort Worth, TX","Irving, TX"
+cities,"Fort Worth, TX | Lexington, KY",0,99,46,city pairs,"Fort Worth, TX","Lexington, KY"
+cities,"Fort Worth, TX | Lincoln, NE",0,99,65,city pairs,"Fort Worth, TX","Lincoln, NE"
+cities,"Fort Worth, TX | Long Beach, CA",0,99,34,city pairs,"Fort Worth, TX","Long Beach, CA"
+cities,"Fort Worth, TX | New York, NY",1,99,89,city pairs,"Fort Worth, TX","New York, NY"
+cities,"Fort Worth, TX | Orlando, FL",0,99,26,city pairs,"Fort Worth, TX","Orlando, FL"
+cities,"Fort Worth, TX | Philadelphia, PA",1,99,84,city pairs,"Fort Worth, TX","Philadelphia, PA"
+cities,"Fort Worth, TX | Plano, TX",0,99,69,city pairs,"Fort Worth, TX","Plano, TX"
+cities,"Fort Worth, TX | Santa Ana, CA",0,99,56,city pairs,"Fort Worth, TX","Santa Ana, CA"
+cities,"Fort Worth, TX | St. Louis, MO",0,98,36,city pairs,"Fort Worth, TX","St. Louis, MO"
+cities,"Fort Worth, TX | St. Paul, MN",0,99,64,city pairs,"Fort Worth, TX","St. Paul, MN"
+cities,"Fort Worth, TX | Washington, D.C.",0,99,11,city pairs,"Fort Worth, TX","Washington, D.C."
+cities,"Fremont, CA | Indianapolis, IN",1,99,83,city pairs,"Fremont, CA","Indianapolis, IN"
+cities,"Fremont, CA | Laredo, TX",1,99,37,city pairs,"Fremont, CA","Laredo, TX"
+cities,"Fremont, CA | Lexington, KY",1,99,61,city pairs,"Fremont, CA","Lexington, KY"
+cities,"Fremont, CA | Los Angeles, CA",1,99,93,city pairs,"Fremont, CA","Los Angeles, CA"
+cities,"Fremont, CA | Milwaukee, WI",1,99,66,city pairs,"Fremont, CA","Milwaukee, WI"
+cities,"Fremont, CA | Nashville, TN",1,99,84,city pairs,"Fremont, CA","Nashville, TN"
+cities,"Fremont, CA | New Orleans, LA",1,99,77,city pairs,"Fremont, CA","New Orleans, LA"
+cities,"Fremont, CA | Paradise, NV",1,99,24,city pairs,"Fremont, CA","Paradise, NV"
+cities,"Fremont, CA | Plano, TX",1,99,45,city pairs,"Fremont, CA","Plano, TX"
+cities,"Fremont, CA | Portland, OR",1,97,78,city pairs,"Fremont, CA","Portland, OR"
+cities,"Fremont, CA | San Bernardino, CA",0,99,46,city pairs,"Fremont, CA","San Bernardino, CA"
+cities,"Fremont, CA | St. Louis, MO",1,99,71,city pairs,"Fremont, CA","St. Louis, MO"
+cities,"Fremont, CA | St. Petersburg, FL",1,99,59,city pairs,"Fremont, CA","St. Petersburg, FL"
+cities,"Fremont, CA | Tulsa, OK",1,99,47,city pairs,"Fremont, CA","Tulsa, OK"
+cities,"Fresno, CA | Jacksonville, FL",1,99,62,city pairs,"Fresno, CA","Jacksonville, FL"
+cities,"Fresno, CA | Kansas City, MO",0,99,30,city pairs,"Fresno, CA","Kansas City, MO"
+cities,"Fresno, CA | Laredo, TX",0,99,71,city pairs,"Fresno, CA","Laredo, TX"
+cities,"Fresno, CA | Lexington, KY",0,98,48,city pairs,"Fresno, CA","Lexington, KY"
+cities,"Fresno, CA | Lincoln, NE",0,99,61,city pairs,"Fresno, CA","Lincoln, NE"
+cities,"Fresno, CA | Los Angeles, CA",1,99,97,city pairs,"Fresno, CA","Los Angeles, CA"
+cities,"Fresno, CA | New Orleans, LA",0,99,11,city pairs,"Fresno, CA","New Orleans, LA"
+cities,"Fresno, CA | Newark, NJ",0,97,56,city pairs,"Fresno, CA","Newark, NJ"
+cities,"Fresno, CA | Oklahoma City, OK",1,99,67,city pairs,"Fresno, CA","Oklahoma City, OK"
+cities,"Fresno, CA | Phoenix, AZ",1,99,81,city pairs,"Fresno, CA","Phoenix, AZ"
+cities,"Fresno, CA | Pittsburgh, PA",0,98,21,city pairs,"Fresno, CA","Pittsburgh, PA"
+cities,"Fresno, CA | Riverside, CA",0,99,63,city pairs,"Fresno, CA","Riverside, CA"
+cities,"Fresno, CA | Sacramento, CA",0,99,22,city pairs,"Fresno, CA","Sacramento, CA"
+cities,"Fresno, CA | San Bernardino, CA",0,99,56,city pairs,"Fresno, CA","San Bernardino, CA"
+cities,"Fresno, CA | San Jose, CA",1,99,82,city pairs,"Fresno, CA","San Jose, CA"
+cities,"Fresno, CA | Seattle, WA",1,99,86,city pairs,"Fresno, CA","Seattle, WA"
+cities,"Fresno, CA | Tucson, AZ",1,99,48,city pairs,"Fresno, CA","Tucson, AZ"
+cities,"Fresno, CA | Washington, D.C.",1,98,86,city pairs,"Fresno, CA","Washington, D.C."
+cities,"Garland, TX | Greensboro, NC",1,99,51,city pairs,"Garland, TX","Greensboro, NC"
+cities,"Garland, TX | Henderson, NV",1,99,39,city pairs,"Garland, TX","Henderson, NV"
+cities,"Garland, TX | Honolulu, HI",1,99,64,city pairs,"Garland, TX","Honolulu, HI"
+cities,"Garland, TX | Jacksonville, FL",1,99,75,city pairs,"Garland, TX","Jacksonville, FL"
+cities,"Garland, TX | Lubbock, TX",1,98,36,city pairs,"Garland, TX","Lubbock, TX"
+cities,"Garland, TX | Memphis, TN",1,99,84,city pairs,"Garland, TX","Memphis, TN"
+cities,"Garland, TX | Miami, FL",1,99,91,city pairs,"Garland, TX","Miami, FL"
+cities,"Garland, TX | New Orleans, LA",1,99,83,city pairs,"Garland, TX","New Orleans, LA"
+cities,"Garland, TX | Orlando, FL",1,99,87,city pairs,"Garland, TX","Orlando, FL"
+cities,"Garland, TX | Rochester, NY",0,99,23,city pairs,"Garland, TX","Rochester, NY"
+cities,"Garland, TX | Sacramento, CA",1,98,86,city pairs,"Garland, TX","Sacramento, CA"
+cities,"Garland, TX | San Francisco, CA",1,99,96,city pairs,"Garland, TX","San Francisco, CA"
+cities,"Garland, TX | Santa Ana, CA",1,99,72,city pairs,"Garland, TX","Santa Ana, CA"
+cities,"Garland, TX | Scottsdale, AZ",0,99,32,city pairs,"Garland, TX","Scottsdale, AZ"
+cities,"Garland, TX | Stockton, CA",1,98,56,city pairs,"Garland, TX","Stockton, CA"
+cities,"Glendale, AZ | Honolulu, HI",1,98,72,city pairs,"Glendale, AZ","Honolulu, HI"
+cities,"Glendale, AZ | Jacksonville, FL",1,99,88,city pairs,"Glendale, AZ","Jacksonville, FL"
+cities,"Glendale, AZ | Lincoln, NE",1,99,59,city pairs,"Glendale, AZ","Lincoln, NE"
+cities,"Glendale, AZ | Los Angeles, CA",1,99,95,city pairs,"Glendale, AZ","Los Angeles, CA"
+cities,"Glendale, AZ | Milwaukee, WI",1,99,76,city pairs,"Glendale, AZ","Milwaukee, WI"
+cities,"Glendale, AZ | Nashville, TN",1,99,92,city pairs,"Glendale, AZ","Nashville, TN"
+cities,"Glendale, AZ | New York, NY",1,98,96,city pairs,"Glendale, AZ","New York, NY"
+cities,"Glendale, AZ | Omaha, NE",1,99,61,city pairs,"Glendale, AZ","Omaha, NE"
+cities,"Glendale, AZ | Orlando, FL",1,99,93,city pairs,"Glendale, AZ","Orlando, FL"
+cities,"Glendale, AZ | Sacramento, CA",1,99,89,city pairs,"Glendale, AZ","Sacramento, CA"
+cities,"Glendale, AZ | San Jose, CA",1,99,83,city pairs,"Glendale, AZ","San Jose, CA"
+cities,"Glendale, AZ | Scottsdale, AZ",0,99,35,city pairs,"Glendale, AZ","Scottsdale, AZ"
+cities,"Glendale, AZ | Seattle, WA",1,99,94,city pairs,"Glendale, AZ","Seattle, WA"
+cities,"Glendale, AZ | Wichita, KS",1,99,48,city pairs,"Glendale, AZ","Wichita, KS"
+cities,"Greensboro, NC | Indianapolis, IN",1,98,84,city pairs,"Greensboro, NC","Indianapolis, IN"
+cities,"Greensboro, NC | Lexington, KY",1,99,70,city pairs,"Greensboro, NC","Lexington, KY"
+cities,"Greensboro, NC | Louisville, KY",1,98,76,city pairs,"Greensboro, NC","Louisville, KY"
+cities,"Greensboro, NC | Lubbock, TX",0,98,61,city pairs,"Greensboro, NC","Lubbock, TX"
+cities,"Greensboro, NC | Nashville, TN",1,99,87,city pairs,"Greensboro, NC","Nashville, TN"
+cities,"Greensboro, NC | Newark, NJ",1,99,62,city pairs,"Greensboro, NC","Newark, NJ"
+cities,"Greensboro, NC | Oakland, CA",1,99,84,city pairs,"Greensboro, NC","Oakland, CA"
+cities,"Greensboro, NC | Orlando, FL",0,99,13,city pairs,"Greensboro, NC","Orlando, FL"
+cities,"Greensboro, NC | Pittsburgh, PA",1,99,83,city pairs,"Greensboro, NC","Pittsburgh, PA"
+cities,"Greensboro, NC | Virginia Beach, VA",1,98,71,city pairs,"Greensboro, NC","Virginia Beach, VA"
+cities,"Henderson, NV | Kansas City, MO",1,99,88,city pairs,"Henderson, NV","Kansas City, MO"
+cities,"Henderson, NV | Laredo, TX",0,99,41,city pairs,"Henderson, NV","Laredo, TX"
+cities,"Henderson, NV | North Las Vegas, NV",0,98,50,city pairs,"Henderson, NV","North Las Vegas, NV"
+cities,"Henderson, NV | Philadelphia, PA",1,99,94,city pairs,"Henderson, NV","Philadelphia, PA"
+cities,"Henderson, NV | Phoenix, AZ",1,99,94,city pairs,"Henderson, NV","Phoenix, AZ"
+cities,"Henderson, NV | Portland, OR",1,99,86,city pairs,"Henderson, NV","Portland, OR"
+cities,"Henderson, NV | Rochester, NY",0,99,22,city pairs,"Henderson, NV","Rochester, NY"
+cities,"Henderson, NV | Sacramento, CA",1,98,89,city pairs,"Henderson, NV","Sacramento, CA"
+cities,"Henderson, NV | San Antonio, TX",1,99,96,city pairs,"Henderson, NV","San Antonio, TX"
+cities,"Henderson, NV | San Bernardino, CA",0,99,23,city pairs,"Henderson, NV","San Bernardino, CA"
+cities,"Henderson, NV | St. Paul, MN",1,99,69,city pairs,"Henderson, NV","St. Paul, MN"
+cities,"Henderson, NV | Stockton, CA",1,99,63,city pairs,"Henderson, NV","Stockton, CA"
+cities,"Hialeah, FL | Irving, TX",0,99,35,city pairs,"Hialeah, FL","Irving, TX"
+cities,"Hialeah, FL | Kansas City, MO",1,99,86,city pairs,"Hialeah, FL","Kansas City, MO"
+cities,"Hialeah, FL | Lexington, KY",1,99,85,city pairs,"Hialeah, FL","Lexington, KY"
+cities,"Hialeah, FL | Long Beach, CA",1,99,86,city pairs,"Hialeah, FL","Long Beach, CA"
+cities,"Hialeah, FL | Mesa, AZ",1,99,64,city pairs,"Hialeah, FL","Mesa, AZ"
+cities,"Hialeah, FL | New York, NY",1,99,96,city pairs,"Hialeah, FL","New York, NY"
+cities,"Hialeah, FL | Orlando, FL",1,99,95,city pairs,"Hialeah, FL","Orlando, FL"
+cities,"Hialeah, FL | Paradise, NV",0,99,38,city pairs,"Hialeah, FL","Paradise, NV"
+cities,"Hialeah, FL | San Jose, CA",1,99,88,city pairs,"Hialeah, FL","San Jose, CA"
+cities,"Hialeah, FL | St. Louis, MO",1,99,84,city pairs,"Hialeah, FL","St. Louis, MO"
+cities,"Hialeah, FL | Stockton, CA",1,99,73,city pairs,"Hialeah, FL","Stockton, CA"
+cities,"Hialeah, FL | Tulsa, OK",1,99,75,city pairs,"Hialeah, FL","Tulsa, OK"
+cities,"Honolulu, HI | Irving, TX",0,99,69,city pairs,"Honolulu, HI","Irving, TX"
+cities,"Honolulu, HI | Jersey City, NJ",0,98,50,city pairs,"Honolulu, HI","Jersey City, NJ"
+cities,"Honolulu, HI | Louisville, KY",1,99,58,city pairs,"Honolulu, HI","Louisville, KY"
+cities,"Honolulu, HI | Lubbock, TX",0,99,75,city pairs,"Honolulu, HI","Lubbock, TX"
+cities,"Honolulu, HI | Oakland, CA",1,98,48,city pairs,"Honolulu, HI","Oakland, CA"
+cities,"Honolulu, HI | Omaha, NE",1,99,35,city pairs,"Honolulu, HI","Omaha, NE"
+cities,"Honolulu, HI | Plano, TX",0,99,70,city pairs,"Honolulu, HI","Plano, TX"
+cities,"Honolulu, HI | Reno, NV",0,99,66,city pairs,"Honolulu, HI","Reno, NV"
+cities,"Honolulu, HI | Sacramento, CA",1,99,66,city pairs,"Honolulu, HI","Sacramento, CA"
+cities,"Honolulu, HI | Tampa, FL",0,99,39,city pairs,"Honolulu, HI","Tampa, FL"
+cities,"Honolulu, HI | Toledo, OH",0,99,48,city pairs,"Honolulu, HI","Toledo, OH"
+cities,"Honolulu, HI | Tucson, AZ",1,99,42,city pairs,"Honolulu, HI","Tucson, AZ"
+cities,"Honolulu, HI | Virginia Beach, VA",1,99,48,city pairs,"Honolulu, HI","Virginia Beach, VA"
+cities,"Houston, TX | Jacksonville, FL",0,99,84,city pairs,"Houston, TX","Jacksonville, FL"
+cities,"Houston, TX | Kansas City, MO",0,99,85,city pairs,"Houston, TX","Kansas City, MO"
+cities,"Houston, TX | Lincoln, NE",0,99,92,city pairs,"Houston, TX","Lincoln, NE"
+cities,"Houston, TX | Louisville, KY",0,99,84,city pairs,"Houston, TX","Louisville, KY"
+cities,"Houston, TX | Nashville, TN",0,99,76,city pairs,"Houston, TX","Nashville, TN"
+cities,"Houston, TX | Oakland, CA",0,99,80,city pairs,"Houston, TX","Oakland, CA"
+cities,"Houston, TX | Oklahoma City, OK",0,99,83,city pairs,"Houston, TX","Oklahoma City, OK"
+cities,"Houston, TX | Phoenix, AZ",0,99,75,city pairs,"Houston, TX","Phoenix, AZ"
+cities,"Houston, TX | Riverside, CA",0,99,91,city pairs,"Houston, TX","Riverside, CA"
+cities,"Houston, TX | San Antonio, TX",0,99,71,city pairs,"Houston, TX","San Antonio, TX"
+cities,"Houston, TX | Santa Ana, CA",0,98,88,city pairs,"Houston, TX","Santa Ana, CA"
+cities,"Houston, TX | Scottsdale, AZ",0,99,92,city pairs,"Houston, TX","Scottsdale, AZ"
+cities,"Houston, TX | St. Paul, MN",0,99,92,city pairs,"Houston, TX","St. Paul, MN"
+cities,"Houston, TX | Stockton, CA",0,99,92,city pairs,"Houston, TX","Stockton, CA"
+cities,"Houston, TX | Tucson, AZ",0,99,94,city pairs,"Houston, TX","Tucson, AZ"
+cities,"Indianapolis, IN | Las Vegas, NV",0,99,26,city pairs,"Indianapolis, IN","Las Vegas, NV"
+cities,"Indianapolis, IN | Memphis, TN",0,99,46,city pairs,"Indianapolis, IN","Memphis, TN"
+cities,"Indianapolis, IN | New Orleans, LA",0,99,54,city pairs,"Indianapolis, IN","New Orleans, LA"
+cities,"Indianapolis, IN | Phoenix, AZ",1,99,56,city pairs,"Indianapolis, IN","Phoenix, AZ"
+cities,"Indianapolis, IN | San Antonio, TX",1,98,57,city pairs,"Indianapolis, IN","San Antonio, TX"
+cities,"Indianapolis, IN | San Bernardino, CA",0,99,76,city pairs,"Indianapolis, IN","San Bernardino, CA"
+cities,"Indianapolis, IN | San Diego, CA",1,98,73,city pairs,"Indianapolis, IN","San Diego, CA"
+cities,"Indianapolis, IN | San Francisco, CA",0,98,23,city pairs,"Indianapolis, IN","San Francisco, CA"
+cities,"Indianapolis, IN | San Jose, CA",1,99,46,city pairs,"Indianapolis, IN","San Jose, CA"
+cities,"Indianapolis, IN | Santa Ana, CA",0,98,76,city pairs,"Indianapolis, IN","Santa Ana, CA"
+cities,"Indianapolis, IN | St. Louis, MO",0,98,72,city pairs,"Indianapolis, IN","St. Louis, MO"
+cities,"Irvine, CA | Kansas City, MO",1,99,79,city pairs,"Irvine, CA","Kansas City, MO"
+cities,"Irvine, CA | Las Vegas, NV",1,99,90,city pairs,"Irvine, CA","Las Vegas, NV"
+cities,"Irvine, CA | Louisville, KY",1,98,76,city pairs,"Irvine, CA","Louisville, KY"
+cities,"Irvine, CA | Miami, FL",1,99,92,city pairs,"Irvine, CA","Miami, FL"
+cities,"Irvine, CA | Milwaukee, WI",1,98,74,city pairs,"Irvine, CA","Milwaukee, WI"
+cities,"Irvine, CA | Oklahoma City, OK",1,98,77,city pairs,"Irvine, CA","Oklahoma City, OK"
+cities,"Irvine, CA | Orlando, FL",1,99,94,city pairs,"Irvine, CA","Orlando, FL"
+cities,"Irvine, CA | Plano, TX",1,98,58,city pairs,"Irvine, CA","Plano, TX"
+cities,"Irvine, CA | Portland, OR",1,98,87,city pairs,"Irvine, CA","Portland, OR"
+cities,"Irvine, CA | Raleigh, NC",1,99,68,city pairs,"Irvine, CA","Raleigh, NC"
+cities,"Irvine, CA | Reno, NV",1,99,48,city pairs,"Irvine, CA","Reno, NV"
+cities,"Irvine, CA | Riverside, CA",1,99,59,city pairs,"Irvine, CA","Riverside, CA"
+cities,"Irving, TX | Louisville, KY",1,99,83,city pairs,"Irving, TX","Louisville, KY"
+cities,"Irving, TX | Lubbock, TX",1,99,31,city pairs,"Irving, TX","Lubbock, TX"
+cities,"Irving, TX | Madison, WI",1,99,65,city pairs,"Irving, TX","Madison, WI"
+cities,"Irving, TX | Memphis, TN",1,99,91,city pairs,"Irving, TX","Memphis, TN"
+cities,"Irving, TX | Minneapolis, MN",1,98,89,city pairs,"Irving, TX","Minneapolis, MN"
+cities,"Irving, TX | New Orleans, LA",1,99,84,city pairs,"Irving, TX","New Orleans, LA"
+cities,"Irving, TX | North Las Vegas, NV",1,99,39,city pairs,"Irving, TX","North Las Vegas, NV"
+cities,"Irving, TX | Phoenix, AZ",1,99,86,city pairs,"Irving, TX","Phoenix, AZ"
+cities,"Irving, TX | Portland, OR",1,99,86,city pairs,"Irving, TX","Portland, OR"
+cities,"Irving, TX | Seattle, WA",1,99,91,city pairs,"Irving, TX","Seattle, WA"
+cities,"Irving, TX | Tampa, FL",1,99,77,city pairs,"Irving, TX","Tampa, FL"
+cities,"Irving, TX | Toledo, OH",1,99,74,city pairs,"Irving, TX","Toledo, OH"
+cities,"Irving, TX | Tucson, AZ",1,99,65,city pairs,"Irving, TX","Tucson, AZ"
+cities,"Jacksonville, FL | Lincoln, NE",0,99,81,city pairs,"Jacksonville, FL","Lincoln, NE"
+cities,"Jacksonville, FL | Memphis, TN",0,99,35,city pairs,"Jacksonville, FL","Memphis, TN"
+cities,"Jacksonville, FL | Mesa, AZ",0,99,81,city pairs,"Jacksonville, FL","Mesa, AZ"
+cities,"Jacksonville, FL | Nashville, TN",0,98,33,city pairs,"Jacksonville, FL","Nashville, TN"
+cities,"Jacksonville, FL | North Las Vegas, NV",0,99,72,city pairs,"Jacksonville, FL","North Las Vegas, NV"
+cities,"Jacksonville, FL | Oakland, CA",0,99,54,city pairs,"Jacksonville, FL","Oakland, CA"
+cities,"Jacksonville, FL | Pittsburgh, PA",0,98,41,city pairs,"Jacksonville, FL","Pittsburgh, PA"
+cities,"Jacksonville, FL | San Bernardino, CA",0,99,71,city pairs,"Jacksonville, FL","San Bernardino, CA"
+cities,"Jacksonville, FL | Scottsdale, AZ",0,99,72,city pairs,"Jacksonville, FL","Scottsdale, AZ"
+cities,"Jacksonville, FL | Seattle, WA",0,99,32,city pairs,"Jacksonville, FL","Seattle, WA"
+cities,"Jacksonville, FL | St. Petersburg, FL",0,99,70,city pairs,"Jacksonville, FL","St. Petersburg, FL"
+cities,"Jersey City, NJ | Kansas City, MO",1,99,56,city pairs,"Jersey City, NJ","Kansas City, MO"
+cities,"Jersey City, NJ | Lexington, KY",1,98,56,city pairs,"Jersey City, NJ","Lexington, KY"
+cities,"Jersey City, NJ | Lubbock, TX",0,99,79,city pairs,"Jersey City, NJ","Lubbock, TX"
+cities,"Jersey City, NJ | Norfolk, VA",0,98,75,city pairs,"Jersey City, NJ","Norfolk, VA"
+cities,"Jersey City, NJ | Phoenix, AZ",1,98,82,city pairs,"Jersey City, NJ","Phoenix, AZ"
+cities,"Jersey City, NJ | San Diego, CA",1,99,88,city pairs,"Jersey City, NJ","San Diego, CA"
+cities,"Jersey City, NJ | Scottsdale, AZ",0,98,59,city pairs,"Jersey City, NJ","Scottsdale, AZ"
+cities,"Jersey City, NJ | St. Louis, MO",1,98,62,city pairs,"Jersey City, NJ","St. Louis, MO"
+cities,"Jersey City, NJ | Tulsa, OK",1,99,40,city pairs,"Jersey City, NJ","Tulsa, OK"
+cities,"Kansas City, MO | New Orleans, LA",0,98,33,city pairs,"Kansas City, MO","New Orleans, LA"
+cities,"Kansas City, MO | Newark, NJ",0,98,69,city pairs,"Kansas City, MO","Newark, NJ"
+cities,"Kansas City, MO | Pittsburgh, PA",0,99,37,city pairs,"Kansas City, MO","Pittsburgh, PA"
+cities,"Kansas City, MO | Raleigh, NC",0,99,69,city pairs,"Kansas City, MO","Raleigh, NC"
+cities,"Kansas City, MO | Sacramento, CA",1,98,66,city pairs,"Kansas City, MO","Sacramento, CA"
+cities,"Kansas City, MO | San Bernardino, CA",0,98,72,city pairs,"Kansas City, MO","San Bernardino, CA"
+cities,"Kansas City, MO | Seattle, WA",1,99,70,city pairs,"Kansas City, MO","Seattle, WA"
+cities,"Kansas City, MO | Tulsa, OK",0,99,75,city pairs,"Kansas City, MO","Tulsa, OK"
+cities,"Kansas City, MO | Wichita, KS",0,99,77,city pairs,"Kansas City, MO","Wichita, KS"
+cities,"Kansas City, MO | Winston-Salem, NC",0,99,84,city pairs,"Kansas City, MO","Winston-Salem, NC"
+cities,"Laredo, TX | Lexington, KY",1,99,76,city pairs,"Laredo, TX","Lexington, KY"
+cities,"Laredo, TX | Long Beach, CA",1,99,77,city pairs,"Laredo, TX","Long Beach, CA"
+cities,"Laredo, TX | Newark, NJ",1,99,63,city pairs,"Laredo, TX","Newark, NJ"
+cities,"Laredo, TX | Norfolk, VA",1,99,41,city pairs,"Laredo, TX","Norfolk, VA"
+cities,"Laredo, TX | Plano, TX",1,98,56,city pairs,"Laredo, TX","Plano, TX"
+cities,"Laredo, TX | Portland, OR",1,99,85,city pairs,"Laredo, TX","Portland, OR"
+cities,"Laredo, TX | Sacramento, CA",1,99,86,city pairs,"Laredo, TX","Sacramento, CA"
+cities,"Laredo, TX | Tampa, FL",1,99,84,city pairs,"Laredo, TX","Tampa, FL"
+cities,"Laredo, TX | Tucson, AZ",1,99,62,city pairs,"Laredo, TX","Tucson, AZ"
+cities,"Laredo, TX | Washington, D.C.",1,99,89,city pairs,"Laredo, TX","Washington, D.C."
+cities,"Las Vegas, NV | Lexington, KY",0,98,86,city pairs,"Las Vegas, NV","Lexington, KY"
+cities,"Las Vegas, NV | Lubbock, TX",0,98,91,city pairs,"Las Vegas, NV","Lubbock, TX"
+cities,"Las Vegas, NV | Milwaukee, WI",1,98,15,city pairs,"Las Vegas, NV","Milwaukee, WI"
+cities,"Las Vegas, NV | New Orleans, LA",0,99,63,city pairs,"Las Vegas, NV","New Orleans, LA"
+cities,"Las Vegas, NV | North Las Vegas, NV",0,99,91,city pairs,"Las Vegas, NV","North Las Vegas, NV"
+cities,"Las Vegas, NV | Riverside, CA",0,99,83,city pairs,"Las Vegas, NV","Riverside, CA"
+cities,"Las Vegas, NV | Sacramento, CA",0,98,60,city pairs,"Las Vegas, NV","Sacramento, CA"
+cities,"Las Vegas, NV | San Jose, CA",1,98,16,city pairs,"Las Vegas, NV","San Jose, CA"
+cities,"Las Vegas, NV | Santa Ana, CA",0,99,79,city pairs,"Las Vegas, NV","Santa Ana, CA"
+cities,"Las Vegas, NV | Seattle, WA",1,99,41,city pairs,"Las Vegas, NV","Seattle, WA"
+cities,"Las Vegas, NV | St. Louis, MO",0,99,70,city pairs,"Las Vegas, NV","St. Louis, MO"
+cities,"Lexington, KY | Madison, WI",0,99,51,city pairs,"Lexington, KY","Madison, WI"
+cities,"Lexington, KY | Newark, NJ",0,98,63,city pairs,"Lexington, KY","Newark, NJ"
+cities,"Lexington, KY | Norfolk, VA",0,99,70,city pairs,"Lexington, KY","Norfolk, VA"
+cities,"Lexington, KY | Phoenix, AZ",1,98,79,city pairs,"Lexington, KY","Phoenix, AZ"
+cities,"Lexington, KY | Pittsburgh, PA",1,99,78,city pairs,"Lexington, KY","Pittsburgh, PA"
+cities,"Lexington, KY | Plano, TX",0,99,69,city pairs,"Lexington, KY","Plano, TX"
+cities,"Lexington, KY | San Francisco, CA",1,99,93,city pairs,"Lexington, KY","San Francisco, CA"
+cities,"Lexington, KY | St. Petersburg, FL",0,99,37,city pairs,"Lexington, KY","St. Petersburg, FL"
+cities,"Lincoln, NE | Long Beach, CA",1,99,70,city pairs,"Lincoln, NE","Long Beach, CA"
+cities,"Lincoln, NE | Nashville, TN",1,99,89,city pairs,"Lincoln, NE","Nashville, TN"
+cities,"Lincoln, NE | New Orleans, LA",1,99,88,city pairs,"Lincoln, NE","New Orleans, LA"
+cities,"Lincoln, NE | Norfolk, VA",0,99,67,city pairs,"Lincoln, NE","Norfolk, VA"
+cities,"Lincoln, NE | North Las Vegas, NV",0,99,59,city pairs,"Lincoln, NE","North Las Vegas, NV"
+cities,"Lincoln, NE | Phoenix, AZ",1,99,89,city pairs,"Lincoln, NE","Phoenix, AZ"
+cities,"Lincoln, NE | San Bernardino, CA",0,98,41,city pairs,"Lincoln, NE","San Bernardino, CA"
+cities,"Lincoln, NE | San Francisco, CA",1,99,94,city pairs,"Lincoln, NE","San Francisco, CA"
+cities,"Lincoln, NE | Santa Ana, CA",1,99,60,city pairs,"Lincoln, NE","Santa Ana, CA"
+cities,"Lincoln, NE | St. Louis, MO",1,98,80,city pairs,"Lincoln, NE","St. Louis, MO"
+cities,"Lincoln, NE | Tulsa, OK",1,99,55,city pairs,"Lincoln, NE","Tulsa, OK"
+cities,"Long Beach, CA | Lubbock, TX",0,99,89,city pairs,"Long Beach, CA","Lubbock, TX"
+cities,"Long Beach, CA | Memphis, TN",1,99,56,city pairs,"Long Beach, CA","Memphis, TN"
+cities,"Long Beach, CA | Mesa, AZ",0,99,86,city pairs,"Long Beach, CA","Mesa, AZ"
+cities,"Long Beach, CA | Philadelphia, PA",1,99,79,city pairs,"Long Beach, CA","Philadelphia, PA"
+cities,"Long Beach, CA | Pittsburgh, PA",0,99,32,city pairs,"Long Beach, CA","Pittsburgh, PA"
+cities,"Long Beach, CA | Riverside, CA",0,99,78,city pairs,"Long Beach, CA","Riverside, CA"
+cities,"Long Beach, CA | Sacramento, CA",1,99,65,city pairs,"Long Beach, CA","Sacramento, CA"
+cities,"Long Beach, CA | San Diego, CA",1,99,86,city pairs,"Long Beach, CA","San Diego, CA"
+cities,"Long Beach, CA | San Francisco, CA",1,99,86,city pairs,"Long Beach, CA","San Francisco, CA"
+cities,"Los Angeles, CA | Madison, WI",0,99,93,city pairs,"Los Angeles, CA","Madison, WI"
+cities,"Los Angeles, CA | Minneapolis, MN",0,99,87,city pairs,"Los Angeles, CA","Minneapolis, MN"
+cities,"Los Angeles, CA | Nashville, TN",0,99,88,city pairs,"Los Angeles, CA","Nashville, TN"
+cities,"Los Angeles, CA | New York, NY",1,99,66,city pairs,"Los Angeles, CA","New York, NY"
+cities,"Los Angeles, CA | Raleigh, NC",0,99,98,city pairs,"Los Angeles, CA","Raleigh, NC"
+cities,"Los Angeles, CA | Sacramento, CA",0,99,90,city pairs,"Los Angeles, CA","Sacramento, CA"
+cities,"Los Angeles, CA | St. Paul, MN",0,99,97,city pairs,"Los Angeles, CA","St. Paul, MN"
+cities,"Los Angeles, CA | Tampa, FL",0,99,91,city pairs,"Los Angeles, CA","Tampa, FL"
+cities,"Los Angeles, CA | Toledo, OH",0,98,92,city pairs,"Los Angeles, CA","Toledo, OH"
+cities,"Los Angeles, CA | Winston-Salem, NC",0,98,96,city pairs,"Los Angeles, CA","Winston-Salem, NC"
+cities,"Louisville, KY | Lubbock, TX",0,99,89,city pairs,"Louisville, KY","Lubbock, TX"
+cities,"Louisville, KY | Madison, WI",0,99,67,city pairs,"Louisville, KY","Madison, WI"
+cities,"Louisville, KY | Nashville, TN",1,99,68,city pairs,"Louisville, KY","Nashville, TN"
+cities,"Louisville, KY | Newark, NJ",0,99,77,city pairs,"Louisville, KY","Newark, NJ"
+cities,"Louisville, KY | San Antonio, TX",1,99,65,city pairs,"Louisville, KY","San Antonio, TX"
+cities,"Louisville, KY | San Diego, CA",1,99,88,city pairs,"Louisville, KY","San Diego, CA"
+cities,"Louisville, KY | San Francisco, CA",1,99,93,city pairs,"Louisville, KY","San Francisco, CA"
+cities,"Louisville, KY | Seattle, WA",1,99,69,city pairs,"Louisville, KY","Seattle, WA"
+cities,"Louisville, KY | Tampa, FL",0,99,50,city pairs,"Louisville, KY","Tampa, FL"
+cities,"Louisville, KY | Wichita, KS",0,98,80,city pairs,"Louisville, KY","Wichita, KS"
+cities,"Lubbock, TX | Madison, WI",1,99,78,city pairs,"Lubbock, TX","Madison, WI"
+cities,"Lubbock, TX | Milwaukee, WI",1,99,83,city pairs,"Lubbock, TX","Milwaukee, WI"
+cities,"Lubbock, TX | Paradise, NV",0,99,36,city pairs,"Lubbock, TX","Paradise, NV"
+cities,"Lubbock, TX | Philadelphia, PA",1,98,93,city pairs,"Lubbock, TX","Philadelphia, PA"
+cities,"Lubbock, TX | Plano, TX",1,99,68,city pairs,"Lubbock, TX","Plano, TX"
+cities,"Lubbock, TX | Portland, OR",1,98,89,city pairs,"Lubbock, TX","Portland, OR"
+cities,"Lubbock, TX | Rochester, NY",0,99,25,city pairs,"Lubbock, TX","Rochester, NY"
+cities,"Lubbock, TX | San Jose, CA",1,99,90,city pairs,"Lubbock, TX","San Jose, CA"
+cities,"Lubbock, TX | Santa Ana, CA",1,99,70,city pairs,"Lubbock, TX","Santa Ana, CA"
+cities,"Lubbock, TX | Tucson, AZ",1,99,78,city pairs,"Lubbock, TX","Tucson, AZ"
+cities,"Lubbock, TX | Virginia Beach, VA",1,98,83,city pairs,"Lubbock, TX","Virginia Beach, VA"
+cities,"Madison, WI | Milwaukee, WI",1,99,60,city pairs,"Madison, WI","Milwaukee, WI"
+cities,"Madison, WI | Newark, NJ",1,99,34,city pairs,"Madison, WI","Newark, NJ"
+cities,"Madison, WI | Oakland, CA",1,99,60,city pairs,"Madison, WI","Oakland, CA"
+cities,"Madison, WI | Omaha, NE",1,99,35,city pairs,"Madison, WI","Omaha, NE"
+cities,"Madison, WI | Paradise, NV",0,99,74,city pairs,"Madison, WI","Paradise, NV"
+cities,"Madison, WI | Reno, NV",0,99,71,city pairs,"Madison, WI","Reno, NV"
+cities,"Madison, WI | Riverside, CA",1,99,34,city pairs,"Madison, WI","Riverside, CA"
+cities,"Madison, WI | Scottsdale, AZ",0,98,61,city pairs,"Madison, WI","Scottsdale, AZ"
+cities,"Madison, WI | Washington, D.C.",1,99,78,city pairs,"Madison, WI","Washington, D.C."
+cities,"Madison, WI | Winston-Salem, NC",0,99,87,city pairs,"Madison, WI","Winston-Salem, NC"
+cities,"Memphis, TN | Mesa, AZ",0,99,90,city pairs,"Memphis, TN","Mesa, AZ"
+cities,"Memphis, TN | New York, NY",1,99,89,city pairs,"Memphis, TN","New York, NY"
+cities,"Memphis, TN | Norfolk, VA",0,98,84,city pairs,"Memphis, TN","Norfolk, VA"
+cities,"Memphis, TN | Oklahoma City, OK",0,99,62,city pairs,"Memphis, TN","Oklahoma City, OK"
+cities,"Memphis, TN | Sacramento, CA",0,99,46,city pairs,"Memphis, TN","Sacramento, CA"
+cities,"Memphis, TN | San Francisco, CA",1,98,75,city pairs,"Memphis, TN","San Francisco, CA"
+cities,"Memphis, TN | St. Louis, MO",0,99,60,city pairs,"Memphis, TN","St. Louis, MO"
+cities,"Memphis, TN | St. Petersburg, FL",0,98,65,city pairs,"Memphis, TN","St. Petersburg, FL"
+cities,"Memphis, TN | Stockton, CA",0,99,85,city pairs,"Memphis, TN","Stockton, CA"
+cities,"Mesa, AZ | Nashville, TN",1,99,83,city pairs,"Mesa, AZ","Nashville, TN"
+cities,"Mesa, AZ | New York, NY",1,99,95,city pairs,"Mesa, AZ","New York, NY"
+cities,"Mesa, AZ | Oakland, CA",0,98,23,city pairs,"Mesa, AZ","Oakland, CA"
+cities,"Mesa, AZ | Orlando, FL",0,99,12,city pairs,"Mesa, AZ","Orlando, FL"
+cities,"Mesa, AZ | San Antonio, TX",1,99,88,city pairs,"Mesa, AZ","San Antonio, TX"
+cities,"Mesa, AZ | Santa Ana, CA",0,98,23,city pairs,"Mesa, AZ","Santa Ana, CA"
+cities,"Mesa, AZ | St. Petersburg, FL",0,98,31,city pairs,"Mesa, AZ","St. Petersburg, FL"
+cities,"Mesa, AZ | Stockton, CA",0,99,42,city pairs,"Mesa, AZ","Stockton, CA"
+cities,"Mesa, AZ | Wichita, KS",0,99,45,city pairs,"Mesa, AZ","Wichita, KS"
+cities,"Miami, FL | New Orleans, LA",0,99,69,city pairs,"Miami, FL","New Orleans, LA"
+cities,"Miami, FL | New York, NY",1,99,87,city pairs,"Miami, FL","New York, NY"
+cities,"Miami, FL | Norfolk, VA",0,99,96,city pairs,"Miami, FL","Norfolk, VA"
+cities,"Miami, FL | Oakland, CA",0,99,84,city pairs,"Miami, FL","Oakland, CA"
+cities,"Miami, FL | Paradise, NV",0,99,97,city pairs,"Miami, FL","Paradise, NV"
+cities,"Miami, FL | Santa Ana, CA",0,99,86,city pairs,"Miami, FL","Santa Ana, CA"
+cities,"Miami, FL | Scottsdale, AZ",0,99,94,city pairs,"Miami, FL","Scottsdale, AZ"
+cities,"Miami, FL | St. Paul, MN",0,99,92,city pairs,"Miami, FL","St. Paul, MN"
+cities,"Miami, FL | Tulsa, OK",0,99,94,city pairs,"Miami, FL","Tulsa, OK"
+cities,"Miami, FL | Washington, D.C.",1,99,48,city pairs,"Miami, FL","Washington, D.C."
+cities,"Miami, FL | Wichita, KS",0,99,93,city pairs,"Miami, FL","Wichita, KS"
+cities,"Milwaukee, WI | Minneapolis, MN",0,99,27,city pairs,"Milwaukee, WI","Minneapolis, MN"
+cities,"Milwaukee, WI | Omaha, NE",0,99,69,city pairs,"Milwaukee, WI","Omaha, NE"
+cities,"Milwaukee, WI | Orlando, FL",0,99,35,city pairs,"Milwaukee, WI","Orlando, FL"
+cities,"Milwaukee, WI | Reno, NV",0,99,77,city pairs,"Milwaukee, WI","Reno, NV"
+cities,"Milwaukee, WI | San Diego, CA",1,99,90,city pairs,"Milwaukee, WI","San Diego, CA"
+cities,"Milwaukee, WI | San Jose, CA",1,99,58,city pairs,"Milwaukee, WI","San Jose, CA"
+cities,"Milwaukee, WI | St. Petersburg, FL",0,99,52,city pairs,"Milwaukee, WI","St. Petersburg, FL"
+cities,"Milwaukee, WI | Tucson, AZ",0,99,64,city pairs,"Milwaukee, WI","Tucson, AZ"
+cities,"Milwaukee, WI | Washington, D.C.",1,99,78,city pairs,"Milwaukee, WI","Washington, D.C."
+cities,"Minneapolis, MN | New Orleans, LA",0,99,49,city pairs,"Minneapolis, MN","New Orleans, LA"
+cities,"Minneapolis, MN | Newark, NJ",0,98,78,city pairs,"Minneapolis, MN","Newark, NJ"
+cities,"Minneapolis, MN | North Las Vegas, NV",0,99,81,city pairs,"Minneapolis, MN","North Las Vegas, NV"
+cities,"Minneapolis, MN | Oklahoma City, OK",1,99,38,city pairs,"Minneapolis, MN","Oklahoma City, OK"
+cities,"Minneapolis, MN | Portland, OR",1,99,42,city pairs,"Minneapolis, MN","Portland, OR"
+cities,"Minneapolis, MN | Riverside, CA",0,99,84,city pairs,"Minneapolis, MN","Riverside, CA"
+cities,"Minneapolis, MN | Sacramento, CA",1,99,54,city pairs,"Minneapolis, MN","Sacramento, CA"
+cities,"Minneapolis, MN | St. Petersburg, FL",0,99,67,city pairs,"Minneapolis, MN","St. Petersburg, FL"
+cities,"Minneapolis, MN | Stockton, CA",0,99,85,city pairs,"Minneapolis, MN","Stockton, CA"
+cities,"Minneapolis, MN | Virginia Beach, VA",1,99,31,city pairs,"Minneapolis, MN","Virginia Beach, VA"
+cities,"Minneapolis, MN | Washington, D.C.",1,99,71,city pairs,"Minneapolis, MN","Washington, D.C."
+cities,"Nashville, TN | New Orleans, LA",0,99,48,city pairs,"Nashville, TN","New Orleans, LA"
+cities,"Nashville, TN | Raleigh, NC",0,97,78,city pairs,"Nashville, TN","Raleigh, NC"
+cities,"Nashville, TN | San Diego, CA",1,99,74,city pairs,"Nashville, TN","San Diego, CA"
+cities,"Nashville, TN | Scottsdale, AZ",0,99,83,city pairs,"Nashville, TN","Scottsdale, AZ"
+cities,"Nashville, TN | Toledo, OH",0,99,76,city pairs,"Nashville, TN","Toledo, OH"
+cities,"Nashville, TN | Wichita, KS",0,99,92,city pairs,"Nashville, TN","Wichita, KS"
+cities,"New Orleans, LA | Raleigh, NC",1,98,24,city pairs,"New Orleans, LA","Raleigh, NC"
+cities,"New Orleans, LA | Reno, NV",0,99,85,city pairs,"New Orleans, LA","Reno, NV"
+cities,"New Orleans, LA | San Diego, CA",1,99,71,city pairs,"New Orleans, LA","San Diego, CA"
+cities,"New Orleans, LA | Seattle, WA",1,99,62,city pairs,"New Orleans, LA","Seattle, WA"
+cities,"New Orleans, LA | Virginia Beach, VA",1,99,23,city pairs,"New Orleans, LA","Virginia Beach, VA"
+cities,"New York, NY | Newark, NJ",0,99,97,city pairs,"New York, NY","Newark, NJ"
+cities,"New York, NY | Norfolk, VA",0,98,92,city pairs,"New York, NY","Norfolk, VA"
+cities,"New York, NY | Philadelphia, PA",0,99,86,city pairs,"New York, NY","Philadelphia, PA"
+cities,"New York, NY | Raleigh, NC",0,99,97,city pairs,"New York, NY","Raleigh, NC"
+cities,"New York, NY | San Bernardino, CA",0,99,94,city pairs,"New York, NY","San Bernardino, CA"
+cities,"New York, NY | San Jose, CA",0,98,86,city pairs,"New York, NY","San Jose, CA"
+cities,"New York, NY | Tucson, AZ",0,98,95,city pairs,"New York, NY","Tucson, AZ"
+cities,"Newark, NJ | Oakland, CA",1,99,70,city pairs,"Newark, NJ","Oakland, CA"
+cities,"Newark, NJ | Paradise, NV",0,98,64,city pairs,"Newark, NJ","Paradise, NV"
+cities,"Newark, NJ | San Francisco, CA",1,98,91,city pairs,"Newark, NJ","San Francisco, CA"
+cities,"Newark, NJ | St. Paul, MN",1,97,49,city pairs,"Newark, NJ","St. Paul, MN"
+cities,"Newark, NJ | St. Petersburg, FL",0,99,35,city pairs,"Newark, NJ","St. Petersburg, FL"
+cities,"Newark, NJ | Tampa, FL",1,99,68,city pairs,"Newark, NJ","Tampa, FL"
+cities,"Newark, NJ | Tucson, AZ",1,98,55,city pairs,"Newark, NJ","Tucson, AZ"
+cities,"Newark, NJ | Winston-Salem, NC",0,99,80,city pairs,"Newark, NJ","Winston-Salem, NC"
+cities,"Norfolk, VA | North Las Vegas, NV",0,99,39,city pairs,"Norfolk, VA","North Las Vegas, NV"
+cities,"Norfolk, VA | Reno, NV",0,99,30,city pairs,"Norfolk, VA","Reno, NV"
+cities,"Norfolk, VA | San Antonio, TX",1,99,88,city pairs,"Norfolk, VA","San Antonio, TX"
+cities,"Norfolk, VA | San Francisco, CA",1,99,95,city pairs,"Norfolk, VA","San Francisco, CA"
+cities,"Norfolk, VA | Tampa, FL",1,99,88,city pairs,"Norfolk, VA","Tampa, FL"
+cities,"Norfolk, VA | Virginia Beach, VA",1,99,82,city pairs,"Norfolk, VA","Virginia Beach, VA"
+cities,"North Las Vegas, NV | Oklahoma City, OK",1,99,82,city pairs,"North Las Vegas, NV","Oklahoma City, OK"
+cities,"North Las Vegas, NV | Raleigh, NC",1,99,62,city pairs,"North Las Vegas, NV","Raleigh, NC"
+cities,"North Las Vegas, NV | San Bernardino, CA",0,99,47,city pairs,"North Las Vegas, NV","San Bernardino, CA"
+cities,"North Las Vegas, NV | San Francisco, CA",1,99,92,city pairs,"North Las Vegas, NV","San Francisco, CA"
+cities,"North Las Vegas, NV | Santa Ana, CA",1,99,73,city pairs,"North Las Vegas, NV","Santa Ana, CA"
+cities,"North Las Vegas, NV | Scottsdale, AZ",1,98,60,city pairs,"North Las Vegas, NV","Scottsdale, AZ"
+cities,"North Las Vegas, NV | Tucson, AZ",1,99,73,city pairs,"North Las Vegas, NV","Tucson, AZ"
+cities,"North Las Vegas, NV | Wichita, KS",1,99,52,city pairs,"North Las Vegas, NV","Wichita, KS"
+cities,"Oakland, CA | Raleigh, NC",1,99,35,city pairs,"Oakland, CA","Raleigh, NC"
+cities,"Oakland, CA | Reno, NV",0,99,76,city pairs,"Oakland, CA","Reno, NV"
+cities,"Oakland, CA | Riverside, CA",0,99,71,city pairs,"Oakland, CA","Riverside, CA"
+cities,"Oakland, CA | St. Louis, MO",0,99,45,city pairs,"Oakland, CA","St. Louis, MO"
+cities,"Oakland, CA | Virginia Beach, VA",1,99,42,city pairs,"Oakland, CA","Virginia Beach, VA"
+cities,"Oakland, CA | Washington, D.C.",1,99,81,city pairs,"Oakland, CA","Washington, D.C."
+cities,"Oakland, CA | Winston-Salem, NC",0,99,85,city pairs,"Oakland, CA","Winston-Salem, NC"
+cities,"Oklahoma City, OK | Pittsburgh, PA",0,99,34,city pairs,"Oklahoma City, OK","Pittsburgh, PA"
+cities,"Oklahoma City, OK | Plano, TX",0,98,81,city pairs,"Oklahoma City, OK","Plano, TX"
+cities,"Oklahoma City, OK | Riverside, CA",0,99,76,city pairs,"Oklahoma City, OK","Riverside, CA"
+cities,"Oklahoma City, OK | San Jose, CA",1,99,52,city pairs,"Oklahoma City, OK","San Jose, CA"
+cities,"Oklahoma City, OK | Santa Ana, CA",0,99,68,city pairs,"Oklahoma City, OK","Santa Ana, CA"
+cities,"Oklahoma City, OK | Scottsdale, AZ",0,98,78,city pairs,"Oklahoma City, OK","Scottsdale, AZ"
+cities,"Oklahoma City, OK | St. Louis, MO",0,99,50,city pairs,"Oklahoma City, OK","St. Louis, MO"
+cities,"Oklahoma City, OK | St. Petersburg, FL",0,99,68,city pairs,"Oklahoma City, OK","St. Petersburg, FL"
+cities,"Oklahoma City, OK | Stockton, CA",0,99,85,city pairs,"Oklahoma City, OK","Stockton, CA"
+cities,"Oklahoma City, OK | Tulsa, OK",0,99,75,city pairs,"Oklahoma City, OK","Tulsa, OK"
+cities,"Oklahoma City, OK | Winston-Salem, NC",0,98,88,city pairs,"Oklahoma City, OK","Winston-Salem, NC"
+cities,"Omaha, NE | Pittsburgh, PA",0,99,16,city pairs,"Omaha, NE","Pittsburgh, PA"
+cities,"Omaha, NE | Portland, OR",1,99,72,city pairs,"Omaha, NE","Portland, OR"
+cities,"Omaha, NE | San Antonio, TX",1,99,88,city pairs,"Omaha, NE","San Antonio, TX"
+cities,"Omaha, NE | St. Paul, MN",0,99,42,city pairs,"Omaha, NE","St. Paul, MN"
+cities,"Omaha, NE | Washington, D.C.",1,99,91,city pairs,"Omaha, NE","Washington, D.C."
+cities,"Orlando, FL | Paradise, NV",0,99,92,city pairs,"Orlando, FL","Paradise, NV"
+cities,"Orlando, FL | Philadelphia, PA",1,99,68,city pairs,"Orlando, FL","Philadelphia, PA"
+cities,"Orlando, FL | Raleigh, NC",1,99,21,city pairs,"Orlando, FL","Raleigh, NC"
+cities,"Orlando, FL | San Diego, CA",1,99,64,city pairs,"Orlando, FL","San Diego, CA"
+cities,"Orlando, FL | Toledo, OH",1,99,18,city pairs,"Orlando, FL","Toledo, OH"
+cities,"Orlando, FL | Virginia Beach, VA",1,99,14,city pairs,"Orlando, FL","Virginia Beach, VA"
+cities,"Orlando, FL | Wichita, KS",1,99,18,city pairs,"Orlando, FL","Wichita, KS"
+cities,"Paradise, NV | Sacramento, CA",1,99,85,city pairs,"Paradise, NV","Sacramento, CA"
+cities,"Paradise, NV | San Bernardino, CA",0,99,29,city pairs,"Paradise, NV","San Bernardino, CA"
+cities,"Paradise, NV | Stockton, CA",1,99,63,city pairs,"Paradise, NV","Stockton, CA"
+cities,"Paradise, NV | Toledo, OH",1,99,79,city pairs,"Paradise, NV","Toledo, OH"
+cities,"Paradise, NV | Tulsa, OK",1,99,63,city pairs,"Paradise, NV","Tulsa, OK"
+cities,"Philadelphia, PA | Reno, NV",0,98,86,city pairs,"Philadelphia, PA","Reno, NV"
+cities,"Philadelphia, PA | Riverside, CA",0,99,93,city pairs,"Philadelphia, PA","Riverside, CA"
+cities,"Philadelphia, PA | Sacramento, CA",0,98,57,city pairs,"Philadelphia, PA","Sacramento, CA"
+cities,"Philadelphia, PA | San Diego, CA",0,99,38,city pairs,"Philadelphia, PA","San Diego, CA"
+cities,"Philadelphia, PA | San Francisco, CA",0,99,31,city pairs,"Philadelphia, PA","San Francisco, CA"
+cities,"Philadelphia, PA | St. Paul, MN",0,99,90,city pairs,"Philadelphia, PA","St. Paul, MN"
+cities,"Philadelphia, PA | Virginia Beach, VA",0,99,80,city pairs,"Philadelphia, PA","Virginia Beach, VA"
+cities,"Philadelphia, PA | Washington, D.C.",0,99,47,city pairs,"Philadelphia, PA","Washington, D.C."
+cities,"Philadelphia, PA | Winston-Salem, NC",0,99,95,city pairs,"Philadelphia, PA","Winston-Salem, NC"
+cities,"Phoenix, AZ | Portland, OR",0,99,72,city pairs,"Phoenix, AZ","Portland, OR"
+cities,"Phoenix, AZ | St. Louis, MO",0,99,67,city pairs,"Phoenix, AZ","St. Louis, MO"
+cities,"Phoenix, AZ | Stockton, CA",0,99,85,city pairs,"Phoenix, AZ","Stockton, CA"
+cities,"Phoenix, AZ | Tampa, FL",0,98,63,city pairs,"Phoenix, AZ","Tampa, FL"
+cities,"Phoenix, AZ | Washington, D.C.",0,99,31,city pairs,"Phoenix, AZ","Washington, D.C."
+cities,"Pittsburgh, PA | Portland, OR",1,98,37,city pairs,"Pittsburgh, PA","Portland, OR"
+cities,"Pittsburgh, PA | Seattle, WA",1,99,57,city pairs,"Pittsburgh, PA","Seattle, WA"
+cities,"Pittsburgh, PA | St. Louis, MO",1,99,35,city pairs,"Pittsburgh, PA","St. Louis, MO"
+cities,"Pittsburgh, PA | St. Paul, MN",0,99,83,city pairs,"Pittsburgh, PA","St. Paul, MN"
+cities,"Pittsburgh, PA | Stockton, CA",0,99,86,city pairs,"Pittsburgh, PA","Stockton, CA"
+cities,"Pittsburgh, PA | Tampa, FL",1,99,44,city pairs,"Pittsburgh, PA","Tampa, FL"
+cities,"Pittsburgh, PA | Virginia Beach, VA",1,99,29,city pairs,"Pittsburgh, PA","Virginia Beach, VA"
+cities,"Plano, TX | Riverside, CA",1,99,50,city pairs,"Plano, TX","Riverside, CA"
+cities,"Plano, TX | Sacramento, CA",1,98,83,city pairs,"Plano, TX","Sacramento, CA"
+cities,"Plano, TX | San Antonio, TX",1,99,88,city pairs,"Plano, TX","San Antonio, TX"
+cities,"Plano, TX | St. Paul, MN",1,99,60,city pairs,"Plano, TX","St. Paul, MN"
+cities,"Plano, TX | Wichita, KS",1,98,47,city pairs,"Plano, TX","Wichita, KS"
+cities,"Portland, OR | Raleigh, NC",0,99,70,city pairs,"Portland, OR","Raleigh, NC"
+cities,"Portland, OR | San Bernardino, CA",0,99,73,city pairs,"Portland, OR","San Bernardino, CA"
+cities,"Portland, OR | San Jose, CA",1,99,53,city pairs,"Portland, OR","San Jose, CA"
+cities,"Portland, OR | St. Paul, MN",0,98,71,city pairs,"Portland, OR","St. Paul, MN"
+cities,"Portland, OR | Washington, D.C.",1,99,75,city pairs,"Portland, OR","Washington, D.C."
+cities,"Raleigh, NC | Reno, NV",0,99,56,city pairs,"Raleigh, NC","Reno, NV"
+cities,"Raleigh, NC | Rochester, NY",0,99,35,city pairs,"Raleigh, NC","Rochester, NY"
+cities,"Raleigh, NC | San Francisco, CA",1,98,94,city pairs,"Raleigh, NC","San Francisco, CA"
+cities,"Raleigh, NC | Scottsdale, AZ",0,99,51,city pairs,"Raleigh, NC","Scottsdale, AZ"
+cities,"Raleigh, NC | Virginia Beach, VA",1,98,61,city pairs,"Raleigh, NC","Virginia Beach, VA"
+cities,"Raleigh, NC | Winston-Salem, NC",0,99,72,city pairs,"Raleigh, NC","Winston-Salem, NC"
+cities,"Reno, NV | San Antonio, TX",1,99,89,city pairs,"Reno, NV","San Antonio, TX"
+cities,"Reno, NV | San Bernardino, CA",0,99,46,city pairs,"Reno, NV","San Bernardino, CA"
+cities,"Reno, NV | San Diego, CA",1,99,88,city pairs,"Reno, NV","San Diego, CA"
+cities,"Reno, NV | San Jose, CA",1,99,82,city pairs,"Reno, NV","San Jose, CA"
+cities,"Reno, NV | Santa Ana, CA",1,99,59,city pairs,"Reno, NV","Santa Ana, CA"
+cities,"Reno, NV | Washington, D.C.",1,99,89,city pairs,"Reno, NV","Washington, D.C."
+cities,"Riverside, CA | Rochester, NY",0,99,25,city pairs,"Riverside, CA","Rochester, NY"
+cities,"Riverside, CA | San Antonio, TX",1,99,90,city pairs,"Riverside, CA","San Antonio, TX"
+cities,"Riverside, CA | San Jose, CA",1,99,78,city pairs,"Riverside, CA","San Jose, CA"
+cities,"Riverside, CA | Washington, D.C.",1,99,89,city pairs,"Riverside, CA","Washington, D.C."
+cities,"Rochester, NY | Scottsdale, AZ",1,99,33,city pairs,"Rochester, NY","Scottsdale, AZ"
+cities,"Rochester, NY | Seattle, WA",1,99,79,city pairs,"Rochester, NY","Seattle, WA"
+cities,"Rochester, NY | St. Petersburg, FL",1,99,47,city pairs,"Rochester, NY","St. Petersburg, FL"
+cities,"Rochester, NY | Tucson, AZ",1,99,40,city pairs,"Rochester, NY","Tucson, AZ"
+cities,"Rochester, NY | Wichita, KS",1,98,23,city pairs,"Rochester, NY","Wichita, KS"
+cities,"San Antonio, TX | St. Petersburg, FL",0,99,77,city pairs,"San Antonio, TX","St. Petersburg, FL"
+cities,"San Antonio, TX | Toledo, OH",0,99,77,city pairs,"San Antonio, TX","Toledo, OH"
+cities,"San Antonio, TX | Virginia Beach, VA",0,99,76,city pairs,"San Antonio, TX","Virginia Beach, VA"
+cities,"San Antonio, TX | Washington, D.C.",0,99,40,city pairs,"San Antonio, TX","Washington, D.C."
+cities,"San Antonio, TX | Winston-Salem, NC",0,99,94,city pairs,"San Antonio, TX","Winston-Salem, NC"
+cities,"San Bernardino, CA | St. Petersburg, FL",1,99,64,city pairs,"San Bernardino, CA","St. Petersburg, FL"
+cities,"San Bernardino, CA | Tampa, FL",1,99,71,city pairs,"San Bernardino, CA","Tampa, FL"
+cities,"San Bernardino, CA | Winston-Salem, NC",1,99,20,city pairs,"San Bernardino, CA","Winston-Salem, NC"
+cities,"San Diego, CA | Seattle, WA",0,99,69,city pairs,"San Diego, CA","Seattle, WA"
+cities,"San Diego, CA | Tucson, AZ",0,99,87,city pairs,"San Diego, CA","Tucson, AZ"
+cities,"San Diego, CA | Tulsa, OK",0,99,94,city pairs,"San Diego, CA","Tulsa, OK"
+cities,"San Diego, CA | Virginia Beach, VA",0,98,90,city pairs,"San Diego, CA","Virginia Beach, VA"
+cities,"San Francisco, CA | Santa Ana, CA",0,97,92,city pairs,"San Francisco, CA","Santa Ana, CA"
+cities,"San Francisco, CA | St. Petersburg, FL",0,99,88,city pairs,"San Francisco, CA","St. Petersburg, FL"
+cities,"San Jose, CA | St. Paul, MN",0,99,75,city pairs,"San Jose, CA","St. Paul, MN"
+cities,"San Jose, CA | Tulsa, OK",0,99,79,city pairs,"San Jose, CA","Tulsa, OK"
+cities,"Santa Ana, CA | Scottsdale, AZ",0,99,63,city pairs,"Santa Ana, CA","Scottsdale, AZ"
+cities,"Scottsdale, AZ | St. Louis, MO",1,98,75,city pairs,"Scottsdale, AZ","St. Louis, MO"
+cities,"Scottsdale, AZ | Tucson, AZ",1,99,60,city pairs,"Scottsdale, AZ","Tucson, AZ"
+cities,"Scottsdale, AZ | Virginia Beach, VA",1,99,64,city pairs,"Scottsdale, AZ","Virginia Beach, VA"
+cities,"Seattle, WA | St. Paul, MN",0,99,84,city pairs,"Seattle, WA","St. Paul, MN"
+cities,"Seattle, WA | St. Petersburg, FL",0,99,91,city pairs,"Seattle, WA","St. Petersburg, FL"
+cities,"Seattle, WA | Tucson, AZ",0,98,79,city pairs,"Seattle, WA","Tucson, AZ"
+cities,"Seattle, WA | Washington, D.C.",0,99,31,city pairs,"Seattle, WA","Washington, D.C."
+cities,"Seattle, WA | Winston-Salem, NC",0,99,96,city pairs,"Seattle, WA","Winston-Salem, NC"
+cities,"St. Louis, MO | St. Paul, MN",0,99,72,city pairs,"St. Louis, MO","St. Paul, MN"
+cities,"St. Louis, MO | St. Petersburg, FL",0,99,64,city pairs,"St. Louis, MO","St. Petersburg, FL"
+cities,"St. Louis, MO | Wichita, KS",1,99,18,city pairs,"St. Louis, MO","Wichita, KS"
+cities,"St. Paul, MN | Stockton, CA",1,99,38,city pairs,"St. Paul, MN","Stockton, CA"
+cities,"Stockton, CA | Tampa, FL",1,99,80,city pairs,"Stockton, CA","Tampa, FL"
+cities,"Stockton, CA | Wichita, KS",1,99,41,city pairs,"Stockton, CA","Wichita, KS"
+cities,"Tampa, FL | Toledo, OH",0,99,71,city pairs,"Tampa, FL","Toledo, OH"
+cities,"Tampa, FL | Tulsa, OK",1,99,15,city pairs,"Tampa, FL","Tulsa, OK"
+cities,"Tampa, FL | Virginia Beach, VA",1,99,30,city pairs,"Tampa, FL","Virginia Beach, VA"
+cities,"Toledo, OH | Tulsa, OK",1,99,28,city pairs,"Toledo, OH","Tulsa, OK"
+cities,"Toledo, OH | Wichita, KS",1,99,19,city pairs,"Toledo, OH","Wichita, KS"
+ducks,0,0,40,23,Canada Goose,,
+ducks,1,1,40,30,Mallard,,
+ducks,10,1,40,32,Mallard,,
+ducks,100,1,40,31,Mallard,,
+ducks,101,0,40,39,Non Bird,,
+ducks,102,0,40,38,Non Bird,,
+ducks,103,1,40,29,American Black Duck,,
+ducks,104,0,40,23,Red-necked Grebe,,
+ducks,105,1,40,25,American Black Duck,,
+ducks,106,0,40,40,Non Bird,,
+ducks,107,1,40,31,Mallard,,
+ducks,108,1,40,38,American Black Duck,,
+ducks,109,0,40,14,Red-necked Grebe,,
+ducks,11,1,40,35,American Black Duck,,
+ducks,110,0,40,17,Red-necked Grebe,,
+ducks,111,0,40,19,Canada Goose,,
+ducks,112,0,40,40,Non Bird,,
+ducks,113,1,40,31,American Black Duck,,
+ducks,114,0,40,23,Canada Goose,,
+ducks,115,1,40,33,Mallard,,
+ducks,116,0,40,18,Red-necked Grebe,,
+ducks,117,0,40,12,Red-necked Grebe,,
+ducks,118,1,40,28,Mallard,,
+ducks,119,1,40,24,Mallard,,
+ducks,12,0,40,40,Non Bird,,
+ducks,120,1,40,20,American Black Duck,,
+ducks,121,0,40,9,Red-necked Grebe,,
+ducks,122,0,40,15,Canada Goose,,
+ducks,123,1,40,31,Mallard,,
+ducks,124,0,40,21,Red-necked Grebe,,
+ducks,125,0,40,15,Red-necked Grebe,,
+ducks,126,1,40,30,Mallard,,
+ducks,127,0,40,21,Canada Goose,,
+ducks,128,0,40,22,Canada Goose,,
+ducks,129,0,40,11,Red-necked Grebe,,
+ducks,13,1,40,29,Mallard,,
+ducks,130,0,40,18,Red-necked Grebe,,
+ducks,131,0,40,30,Red-necked Grebe,,
+ducks,132,1,40,24,American Black Duck,,
+ducks,133,0,40,39,Non Bird,,
+ducks,134,0,40,10,Red-necked Grebe,,
+ducks,135,1,40,36,American Black Duck,,
+ducks,136,1,40,33,Mallard,,
+ducks,137,0,40,16,Red-necked Grebe,,
+ducks,138,0,40,39,Non Bird,,
+ducks,139,0,40,16,Canada Goose,,
+ducks,14,1,40,30,American Black Duck,,
+ducks,140,1,40,29,American Black Duck,,
+ducks,141,1,40,33,Mallard,,
+ducks,142,1,40,31,Mallard,,
+ducks,143,0,40,39,Non Bird,,
+ducks,144,0,40,39,Non Bird,,
+ducks,145,0,40,39,Non Bird,,
+ducks,146,0,40,8,Red-necked Grebe,,
+ducks,147,0,40,19,Red-necked Grebe,,
+ducks,148,0,40,19,Red-necked Grebe,,
+ducks,149,1,40,29,Mallard,,
+ducks,15,0,40,14,Red-necked Grebe,,
+ducks,150,0,40,16,Canada Goose,,
+ducks,151,1,40,31,American Black Duck,,
+ducks,152,0,40,17,Canada Goose,,
+ducks,153,0,40,39,Non Bird,,
+ducks,154,1,40,35,Mallard,,
+ducks,155,0,40,36,Canada Goose,,
+ducks,156,0,40,39,Non Bird,,
+ducks,157,1,40,34,Mallard,,
+ducks,158,1,40,33,Mallard,,
+ducks,159,0,40,10,Red-necked Grebe,,
+ducks,16,0,40,23,Canada Goose,,
+ducks,160,1,40,34,American Black Duck,,
+ducks,161,1,40,35,Mallard,,
+ducks,162,0,40,18,Canada Goose,,
+ducks,163,0,40,20,Canada Goose,,
+ducks,164,1,40,36,Mallard,,
+ducks,165,0,40,40,Non Bird,,
+ducks,166,0,40,15,Red-necked Grebe,,
+ducks,167,0,40,12,Red-necked Grebe,,
+ducks,168,1,40,30,Mallard,,
+ducks,169,0,40,22,Canada Goose,,
+ducks,17,1,40,36,American Black Duck,,
+ducks,170,0,40,40,Non Bird,,
+ducks,171,1,40,27,American Black Duck,,
+ducks,172,1,40,35,Mallard,,
+ducks,173,0,40,16,Red-necked Grebe,,
+ducks,174,1,40,30,American Black Duck,,
+ducks,175,1,40,30,American Black Duck,,
+ducks,176,1,40,36,Mallard,,
+ducks,177,1,40,38,Mallard,,
+ducks,178,0,40,17,Canada Goose,,
+ducks,179,0,40,21,Red-necked Grebe,,
+ducks,18,0,40,16,Red-necked Grebe,,
+ducks,180,1,40,35,Mallard,,
+ducks,181,0,40,18,Canada Goose,,
+ducks,182,1,40,29,Mallard,,
+ducks,183,1,40,17,American Black Duck,,
+ducks,184,0,40,11,Red-necked Grebe,,
+ducks,185,1,40,30,Mallard,,
+ducks,186,1,40,27,American Black Duck,,
+ducks,187,1,40,17,American Black Duck,,
+ducks,188,1,40,36,American Black Duck,,
+ducks,189,0,40,40,Non Bird,,
+ducks,19,0,40,30,Canada Goose,,
+ducks,190,0,40,17,Canada Goose,,
+ducks,191,0,40,39,Non Bird,,
+ducks,192,1,40,28,Mallard,,
+ducks,193,0,40,40,Canada Goose,,
+ducks,194,0,40,19,Canada Goose,,
+ducks,195,0,40,15,Red-necked Grebe,,
+ducks,196,1,40,35,American Black Duck,,
+ducks,197,0,40,18,Canada Goose,,
+ducks,198,1,40,33,American Black Duck,,
+ducks,199,1,40,24,American Black Duck,,
+ducks,2,0,40,40,Non Bird,,
+ducks,20,0,40,21,Canada Goose,,
+ducks,200,1,40,32,Mallard,,
+ducks,201,1,40,34,Mallard,,
+ducks,202,1,40,35,American Black Duck,,
+ducks,203,0,40,11,Red-necked Grebe,,
+ducks,204,1,40,35,American Black Duck,,
+ducks,205,1,40,33,American Black Duck,,
+ducks,206,1,40,35,Mallard,,
+ducks,207,0,40,21,Canada Goose,,
+ducks,208,0,40,19,Canada Goose,,
+ducks,209,0,40,16,Red-necked Grebe,,
+ducks,21,0,40,22,Canada Goose,,
+ducks,210,1,40,33,American Black Duck,,
+ducks,211,0,40,22,Red-necked Grebe,,
+ducks,212,1,40,37,American Black Duck,,
+ducks,213,1,40,22,American Black Duck,,
+ducks,214,0,40,40,Non Bird,,
+ducks,215,1,40,36,Mallard,,
+ducks,216,0,40,28,Canada Goose,,
+ducks,217,0,40,15,Red-necked Grebe,,
+ducks,218,0,40,30,Red-necked Grebe,,
+ducks,219,1,40,35,Mallard,,
+ducks,22,0,40,39,Non Bird,,
+ducks,220,0,40,16,Red-necked Grebe,,
+ducks,221,0,40,40,Non Bird,,
+ducks,222,1,40,34,Mallard,,
+ducks,223,0,40,29,Canada Goose,,
+ducks,224,0,40,37,Non Bird,,
+ducks,225,0,40,19,Canada Goose,,
+ducks,226,0,40,16,Red-necked Grebe,,
+ducks,227,0,40,14,Red-necked Grebe,,
+ducks,228,0,40,22,Canada Goose,,
+ducks,229,1,40,13,American Black Duck,,
+ducks,23,0,40,39,Non Bird,,
+ducks,230,1,40,34,American Black Duck,,
+ducks,231,0,40,40,Non Bird,,
+ducks,232,0,40,22,Canada Goose,,
+ducks,233,1,40,36,Mallard,,
+ducks,234,0,40,15,Red-necked Grebe,,
+ducks,235,0,40,14,Red-necked Grebe,,
+ducks,236,0,40,40,Non Bird,,
+ducks,237,0,40,17,Red-necked Grebe,,
+ducks,238,1,40,26,American Black Duck,,
+ducks,239,1,40,32,American Black Duck,,
+ducks,24,0,40,40,Non Bird,,
+ducks,25,0,40,12,Red-necked Grebe,,
+ducks,26,0,40,40,Non Bird,,
+ducks,27,1,40,36,American Black Duck,,
+ducks,28,1,40,23,Mallard,,
+ducks,29,1,40,34,Mallard,,
+ducks,3,1,40,20,American Black Duck,,
+ducks,30,0,40,40,Non Bird,,
+ducks,31,1,40,34,American Black Duck,,
+ducks,32,1,40,35,American Black Duck,,
+ducks,33,1,40,32,Mallard,,
+ducks,34,0,40,14,Red-necked Grebe,,
+ducks,35,0,40,12,Red-necked Grebe,,
+ducks,36,0,40,40,Non Bird,,
+ducks,37,1,40,30,Mallard,,
+ducks,38,0,40,19,Canada Goose,,
+ducks,39,0,40,21,Canada Goose,,
+ducks,4,1,40,33,American Black Duck,,
+ducks,40,1,40,36,Mallard,,
+ducks,41,1,40,32,Mallard,,
+ducks,42,1,40,35,American Black Duck,,
+ducks,43,0,40,15,Canada Goose,,
+ducks,44,0,40,40,Non Bird,,
+ducks,45,0,40,12,Red-necked Grebe,,
+ducks,46,0,40,40,Non Bird,,
+ducks,47,1,40,32,Mallard,,
+ducks,48,0,40,13,Canada Goose,,
+ducks,49,0,40,40,Non Bird,,
+ducks,5,1,40,34,Mallard,,
+ducks,50,0,40,10,Red-necked Grebe,,
+ducks,51,0,40,20,Canada Goose,,
+ducks,52,1,40,30,Mallard,,
+ducks,53,1,40,6,American Black Duck,,
+ducks,54,1,40,32,Mallard,,
+ducks,55,0,40,21,Canada Goose,,
+ducks,56,1,40,34,Mallard,,
+ducks,57,1,40,35,American Black Duck,,
+ducks,58,0,40,39,Non Bird,,
+ducks,59,1,40,33,Mallard,,
+ducks,6,1,40,34,Mallard,,
+ducks,60,0,40,10,Red-necked Grebe,,
+ducks,61,0,40,21,Canada Goose,,
+ducks,62,1,40,38,American Black Duck,,
+ducks,63,1,40,34,Mallard,,
+ducks,64,1,40,32,Mallard,,
+ducks,65,1,40,29,Mallard,,
+ducks,66,1,40,36,American Black Duck,,
+ducks,67,1,40,21,American Black Duck,,
+ducks,68,0,40,20,Canada Goose,,
+ducks,69,0,40,17,Canada Goose,,
+ducks,7,0,40,11,Canada Goose,,
+ducks,70,0,40,16,Canada Goose,,
+ducks,71,1,40,19,American Black Duck,,
+ducks,72,0,40,16,Canada Goose,,
+ducks,73,0,40,15,Canada Goose,,
+ducks,74,0,40,15,Red-necked Grebe,,
+ducks,75,0,40,40,Non Bird,,
+ducks,76,0,40,12,Red-necked Grebe,,
+ducks,77,0,40,15,Red-necked Grebe,,
+ducks,78,0,40,23,Canada Goose,,
+ducks,79,1,40,36,American Black Duck,,
+ducks,8,0,40,36,Non Bird,,
+ducks,80,0,40,18,Canada Goose,,
+ducks,81,0,40,27,Canada Goose,,
+ducks,82,0,40,21,Red-necked Grebe,,
+ducks,83,0,40,38,Non Bird,,
+ducks,84,0,40,16,Red-necked Grebe,,
+ducks,85,0,40,19,Canada Goose,,
+ducks,86,0,40,21,Red-necked Grebe,,
+ducks,87,0,40,20,Canada Goose,,
+ducks,88,1,40,37,American Black Duck,,
+ducks,89,0,40,17,Red-necked Grebe,,
+ducks,9,0,40,14,Red-necked Grebe,,
+ducks,90,1,40,15,American Black Duck,,
+ducks,91,0,40,40,Non Bird,,
+ducks,92,1,40,22,American Black Duck,,
+ducks,93,0,40,40,Non Bird,,
+ducks,94,0,40,40,Non Bird,,
+ducks,95,0,40,27,Canada Goose,,
+ducks,96,0,40,40,Non Bird,,
+ducks,97,0,40,39,Non Bird,,
+ducks,98,1,40,30,American Black Duck,,
+ducks,99,0,40,18,Canada Goose,,
+nba,W10_0,1,11,0,W10,,
+nba,W10_1,1,11,4,W10,,
+nba,W10_10,0,11,11,W10,,
+nba,W10_11,1,11,9,W10,,
+nba,W10_12,0,11,4,W10,,
+nba,W10_13,1,11,1,W10,,
+nba,W10_14,0,11,9,W10,,
+nba,W10_15,1,11,0,W10,,
+nba,W10_16,0,11,0,W10,,
+nba,W10_17,0,11,10,W10,,
+nba,W10_18,1,11,9,W10,,
+nba,W10_19,1,11,9,W10,,
+nba,W10_2,1,11,11,W10,,
+nba,W10_20,0,11,7,W10,,
+nba,W10_21,0,10,5,W10,,
+nba,W10_22,1,10,8,W10,,
+nba,W10_23,1,10,1,W10,,
+nba,W10_24,1,10,3,W10,,
+nba,W10_25,1,10,9,W10,,
+nba,W10_26,0,10,9,W10,,
+nba,W10_27,0,10,8,W10,,
+nba,W10_28,0,10,1,W10,,
+nba,W10_29,1,10,2,W10,,
+nba,W10_3,0,11,10,W10,,
+nba,W10_30,1,10,3,W10,,
+nba,W10_31,1,10,9,W10,,
+nba,W10_32,1,10,9,W10,,
+nba,W10_33,1,10,3,W10,,
+nba,W10_34,0,10,9,W10,,
+nba,W10_35,0,10,6,W10,,
+nba,W10_36,1,10,9,W10,,
+nba,W10_37,1,10,4,W10,,
+nba,W10_38,0,10,1,W10,,
+nba,W10_39,1,10,8,W10,,
+nba,W10_4,1,12,10,W10,,
+nba,W10_40,0,10,8,W10,,
+nba,W10_41,0,10,3,W10,,
+nba,W10_42,1,10,9,W10,,
+nba,W10_43,0,11,10,W10,,
+nba,W10_44,0,11,10,W10,,
+nba,W10_45,1,11,11,W10,,
+nba,W10_46,0,11,5,W10,,
+nba,W10_47,1,11,11,W10,,
+nba,W10_5,0,12,11,W10,,
+nba,W10_6,0,12,9,W10,,
+nba,W10_7,1,12,10,W10,,
+nba,W10_8,0,12,10,W10,,
+nba,W10_9,1,12,12,W10,,
+nba,W11_0,1,10,9,W11,,
+nba,W11_1,1,10,8,W11,,
+nba,W11_10,1,10,5,W11,,
+nba,W11_11,1,10,1,W11,,
+nba,W11_12,0,10,5,W11,,
+nba,W11_13,1,10,10,W11,,
+nba,W11_14,1,10,6,W11,,
+nba,W11_15,0,10,9,W11,,
+nba,W11_16,1,10,6,W11,,
+nba,W11_17,1,10,10,W11,,
+nba,W11_18,0,10,0,W11,,
+nba,W11_19,1,10,8,W11,,
+nba,W11_2,1,10,9,W11,,
+nba,W11_20,0,10,9,W11,,
+nba,W11_21,0,10,8,W11,,
+nba,W11_22,0,10,5,W11,,
+nba,W11_3,1,10,9,W11,,
+nba,W11_4,1,10,5,W11,,
+nba,W11_5,0,10,9,W11,,
+nba,W11_6,1,10,9,W11,,
+nba,W11_7,1,10,10,W11,,
+nba,W11_8,0,10,9,W11,,
+nba,W11_9,1,10,9,W11,,
+nba,W12_0,0,10,1,W12,,
+nba,W12_1,0,10,9,W12,,
+nba,W12_10,1,10,1,W12,,
+nba,W12_11,1,10,3,W12,,
+nba,W12_12,0,10,0,W12,,
+nba,W12_13,0,10,1,W12,,
+nba,W12_14,1,10,7,W12,,
+nba,W12_15,0,10,8,W12,,
+nba,W12_16,0,10,1,W12,,
+nba,W12_17,1,10,8,W12,,
+nba,W12_18,1,10,1,W12,,
+nba,W12_19,1,10,4,W12,,
+nba,W12_2,1,10,7,W12,,
+nba,W12_20,0,10,8,W12,,
+nba,W12_21,1,10,1,W12,,
+nba,W12_22,1,10,5,W12,,
+nba,W12_23,1,10,6,W12,,
+nba,W12_24,0,10,9,W12,,
+nba,W12_25,0,10,6,W12,,
+nba,W12_26,1,10,10,W12,,
+nba,W12_27,0,10,6,W12,,
+nba,W12_28,1,10,10,W12,,
+nba,W12_29,0,10,3,W12,,
+nba,W12_3,1,10,9,W12,,
+nba,W12_30,0,10,9,W12,,
+nba,W12_31,0,10,0,W12,,
+nba,W12_32,1,10,3,W12,,
+nba,W12_33,1,10,10,W12,,
+nba,W12_34,0,10,1,W12,,
+nba,W12_35,0,10,0,W12,,
+nba,W12_4,0,10,1,W12,,
+nba,W12_5,1,10,3,W12,,
+nba,W12_6,1,10,1,W12,,
+nba,W12_7,0,10,3,W12,,
+nba,W12_8,1,10,9,W12,,
+nba,W12_9,0,10,7,W12,,
+nba,W2_0,1,61,58,W2,,
+nba,W2_1,1,61,56,W2,,
+nba,W2_10,0,61,60,W2,,
+nba,W2_11,1,61,46,W2,,
+nba,W2_12,0,61,14,W2,,
+nba,W2_13,1,61,33,W2,,
+nba,W2_14,1,61,44,W2,,
+nba,W2_15,1,61,48,W2,,
+nba,W2_16,0,61,53,W2,,
+nba,W2_17,1,61,60,W2,,
+nba,W2_18,1,61,61,W2,,
+nba,W2_19,1,61,46,W2,,
+nba,W2_2,0,61,17,W2,,
+nba,W2_20,0,61,27,W2,,
+nba,W2_21,1,61,22,W2,,
+nba,W2_22,0,61,16,W2,,
+nba,W2_23,0,61,28,W2,,
+nba,W2_24,0,61,4,W2,,
+nba,W2_25,0,61,61,W2,,
+nba,W2_26,1,61,51,W2,,
+nba,W2_27,1,61,19,W2,,
+nba,W2_28,0,61,15,W2,,
+nba,W2_29,1,61,47,W2,,
+nba,W2_3,0,61,40,W2,,
+nba,W2_30,0,61,56,W2,,
+nba,W2_31,0,61,59,W2,,
+nba,W2_32,1,61,57,W2,,
+nba,W2_33,0,61,59,W2,,
+nba,W2_34,0,61,54,W2,,
+nba,W2_35,1,61,54,W2,,
+nba,W2_36,1,61,60,W2,,
+nba,W2_37,1,61,27,W2,,
+nba,W2_38,0,61,37,W2,,
+nba,W2_39,1,61,59,W2,,
+nba,W2_4,1,61,57,W2,,
+nba,W2_40,0,61,21,W2,,
+nba,W2_41,1,61,52,W2,,
+nba,W2_42,0,61,45,W2,,
+nba,W2_43,1,61,45,W2,,
+nba,W2_44,1,61,12,W2,,
+nba,W2_45,0,61,30,W2,,
+nba,W2_46,1,61,58,W2,,
+nba,W2_5,1,61,34,W2,,
+nba,W2_6,0,61,32,W2,,
+nba,W2_7,0,61,59,W2,,
+nba,W2_8,0,61,37,W2,,
+nba,W2_9,1,61,60,W2,,
+nba,W3_0,0,37,5,W3,,
+nba,W3_1,0,37,31,W3,,
+nba,W3_10,1,37,34,W3,,
+nba,W3_11,0,37,34,W3,,
+nba,W3_12,0,37,1,W3,,
+nba,W3_13,0,37,36,W3,,
+nba,W3_14,1,37,35,W3,,
+nba,W3_15,1,37,6,W3,,
+nba,W3_16,0,37,33,W3,,
+nba,W3_17,0,37,6,W3,,
+nba,W3_18,0,37,34,W3,,
+nba,W3_19,0,37,32,W3,,
+nba,W3_2,1,36,35,W3,,
+nba,W3_20,1,37,37,W3,,
+nba,W3_21,1,37,36,W3,,
+nba,W3_22,0,37,1,W3,,
+nba,W3_23,1,37,35,W3,,
+nba,W3_24,0,37,26,W3,,
+nba,W3_25,0,37,33,W3,,
+nba,W3_26,1,37,31,W3,,
+nba,W3_27,1,37,35,W3,,
+nba,W3_28,1,37,13,W3,,
+nba,W3_29,1,27,12,W3,,
+nba,W3_3,1,37,23,W3,,
+nba,W3_30,0,27,1,W3,,
+nba,W3_31,0,27,9,W3,,
+nba,W3_32,1,27,10,W3,,
+nba,W3_33,1,27,21,W3,,
+nba,W3_34,0,27,10,W3,,
+nba,W3_35,1,27,21,W3,,
+nba,W3_36,1,27,21,W3,,
+nba,W3_37,0,27,25,W3,,
+nba,W3_38,0,27,25,W3,,
+nba,W3_39,1,27,26,W3,,
+nba,W3_4,1,37,30,W3,,
+nba,W3_40,1,27,23,W3,,
+nba,W3_41,0,27,25,W3,,
+nba,W3_42,0,27,12,W3,,
+nba,W3_43,1,27,26,W3,,
+nba,W3_44,0,27,15,W3,,
+nba,W3_45,0,27,21,W3,,
+nba,W3_46,1,27,8,W3,,
+nba,W3_47,0,27,14,W3,,
+nba,W3_48,1,27,7,W3,,
+nba,W3_49,1,27,23,W3,,
+nba,W3_5,0,37,20,W3,,
+nba,W3_50,0,27,13,W3,,
+nba,W3_51,0,27,26,W3,,
+nba,W3_6,0,37,35,W3,,
+nba,W3_7,1,37,15,W3,,
+nba,W3_8,1,37,36,W3,,
+nba,W3_9,1,37,33,W3,,
+nba,W4_0,1,18,13,W4,,
+nba,W4_1,0,18,12,W4,,
+nba,W4_10,0,18,17,W4,,
+nba,W4_11,1,18,4,W4,,
+nba,W4_12,1,18,8,W4,,
+nba,W4_13,0,18,17,W4,,
+nba,W4_14,1,18,17,W4,,
+nba,W4_15,0,18,5,W4,,
+nba,W4_16,0,18,0,W4,,
+nba,W4_17,1,18,5,W4,,
+nba,W4_18,0,18,17,W4,,
+nba,W4_19,1,18,16,W4,,
+nba,W4_2,1,18,17,W4,,
+nba,W4_20,1,18,18,W4,,
+nba,W4_21,1,18,18,W4,,
+nba,W4_22,0,18,14,W4,,
+nba,W4_23,1,18,15,W4,,
+nba,W4_24,0,18,14,W4,,
+nba,W4_25,0,18,6,W4,,
+nba,W4_26,1,18,10,W4,,
+nba,W4_27,1,18,14,W4,,
+nba,W4_28,1,18,9,W4,,
+nba,W4_29,1,18,13,W4,,
+nba,W4_3,0,18,15,W4,,
+nba,W4_30,0,18,1,W4,,
+nba,W4_31,0,18,13,W4,,
+nba,W4_32,1,18,14,W4,,
+nba,W4_33,1,18,8,W4,,
+nba,W4_34,1,18,8,W4,,
+nba,W4_35,0,18,15,W4,,
+nba,W4_36,1,18,12,W4,,
+nba,W4_37,1,18,18,W4,,
+nba,W4_38,0,18,7,W4,,
+nba,W4_39,0,18,5,W4,,
+nba,W4_4,1,18,4,W4,,
+nba,W4_40,0,18,11,W4,,
+nba,W4_41,0,18,8,W4,,
+nba,W4_42,1,18,16,W4,,
+nba,W4_43,1,18,15,W4,,
+nba,W4_44,0,18,2,W4,,
+nba,W4_45,0,18,14,W4,,
+nba,W4_46,1,18,13,W4,,
+nba,W4_5,0,18,9,W4,,
+nba,W4_6,0,18,18,W4,,
+nba,W4_7,1,18,8,W4,,
+nba,W4_8,0,18,5,W4,,
+nba,W4_9,0,18,11,W4,,
+nba,W5_0,0,20,9,W5,,
+nba,W5_1,1,20,7,W5,,
+nba,W5_10,1,20,12,W5,,
+nba,W5_11,1,20,17,W5,,
+nba,W5_12,1,20,18,W5,,
+nba,W5_13,1,20,19,W5,,
+nba,W5_14,1,20,2,W5,,
+nba,W5_15,1,20,18,W5,,
+nba,W5_16,0,20,18,W5,,
+nba,W5_17,0,20,6,W5,,
+nba,W5_18,0,20,3,W5,,
+nba,W5_19,1,20,18,W5,,
+nba,W5_2,1,20,20,W5,,
+nba,W5_20,1,20,10,W5,,
+nba,W5_21,0,20,20,W5,,
+nba,W5_22,0,20,2,W5,,
+nba,W5_23,1,20,19,W5,,
+nba,W5_24,0,20,20,W5,,
+nba,W5_25,1,20,19,W5,,
+nba,W5_26,1,20,3,W5,,
+nba,W5_27,0,20,20,W5,,
+nba,W5_28,1,20,4,W5,,
+nba,W5_29,1,20,20,W5,,
+nba,W5_3,1,20,19,W5,,
+nba,W5_30,0,20,4,W5,,
+nba,W5_31,1,20,0,W5,,
+nba,W5_32,1,20,8,W5,,
+nba,W5_4,1,20,20,W5,,
+nba,W5_5,0,20,20,W5,,
+nba,W5_6,1,20,14,W5,,
+nba,W5_7,1,20,20,W5,,
+nba,W5_8,1,20,17,W5,,
+nba,W5_9,1,20,18,W5,,
+nba,W6_0,0,16,8,W6,,
+nba,W6_1,1,16,10,W6,,
+nba,W6_10,0,16,13,W6,,
+nba,W6_11,0,16,16,W6,,
+nba,W6_12,1,16,15,W6,,
+nba,W6_13,0,16,2,W6,,
+nba,W6_14,1,16,16,W6,,
+nba,W6_15,1,16,11,W6,,
+nba,W6_16,1,16,0,W6,,
+nba,W6_17,0,16,9,W6,,
+nba,W6_18,1,16,8,W6,,
+nba,W6_19,0,16,1,W6,,
+nba,W6_2,1,16,16,W6,,
+nba,W6_20,0,16,5,W6,,
+nba,W6_21,1,16,16,W6,,
+nba,W6_22,1,16,4,W6,,
+nba,W6_23,0,16,0,W6,,
+nba,W6_24,0,16,0,W6,,
+nba,W6_25,1,16,15,W6,,
+nba,W6_26,0,16,11,W6,,
+nba,W6_3,1,16,4,W6,,
+nba,W6_4,1,16,15,W6,,
+nba,W6_5,1,16,16,W6,,
+nba,W6_6,0,16,11,W6,,
+nba,W6_7,1,16,16,W6,,
+nba,W6_8,0,16,13,W6,,
+nba,W6_9,1,16,13,W6,,
+nba,W7_0,0,20,1,W7,,
+nba,W7_1,1,20,19,W7,,
+nba,W7_10,0,20,17,W7,,
+nba,W7_11,0,20,6,W7,,
+nba,W7_12,1,20,17,W7,,
+nba,W7_13,0,20,17,W7,,
+nba,W7_14,0,20,7,W7,,
+nba,W7_15,0,20,1,W7,,
+nba,W7_16,0,20,5,W7,,
+nba,W7_17,1,20,8,W7,,
+nba,W7_18,0,20,14,W7,,
+nba,W7_19,1,20,1,W7,,
+nba,W7_2,1,20,10,W7,,
+nba,W7_20,1,20,5,W7,,
+nba,W7_21,1,20,4,W7,,
+nba,W7_22,0,14,9,W7,,
+nba,W7_23,0,14,11,W7,,
+nba,W7_24,0,14,13,W7,,
+nba,W7_25,1,14,1,W7,,
+nba,W7_26,1,14,0,W7,,
+nba,W7_27,1,14,13,W7,,
+nba,W7_28,1,14,13,W7,,
+nba,W7_29,1,14,5,W7,,
+nba,W7_3,0,20,7,W7,,
+nba,W7_30,1,14,13,W7,,
+nba,W7_31,0,14,2,W7,,
+nba,W7_32,1,14,13,W7,,
+nba,W7_33,1,14,1,W7,,
+nba,W7_34,1,14,13,W7,,
+nba,W7_35,1,14,4,W7,,
+nba,W7_36,0,14,1,W7,,
+nba,W7_37,0,14,1,W7,,
+nba,W7_38,1,14,14,W7,,
+nba,W7_39,1,14,2,W7,,
+nba,W7_4,0,20,5,W7,,
+nba,W7_40,1,14,3,W7,,
+nba,W7_41,1,14,14,W7,,
+nba,W7_42,0,14,2,W7,,
+nba,W7_43,0,14,13,W7,,
+nba,W7_44,1,14,14,W7,,
+nba,W7_45,1,14,0,W7,,
+nba,W7_46,0,14,9,W7,,
+nba,W7_47,1,14,11,W7,,
+nba,W7_48,0,14,10,W7,,
+nba,W7_49,0,14,9,W7,,
+nba,W7_5,1,20,0,W7,,
+nba,W7_50,1,14,8,W7,,
+nba,W7_51,0,14,7,W7,,
+nba,W7_52,1,14,8,W7,,
+nba,W7_6,0,20,4,W7,,
+nba,W7_7,1,20,19,W7,,
+nba,W7_8,0,20,3,W7,,
+nba,W7_9,0,20,18,W7,,
+nba,W8_0,1,20,18,W8,,
+nba,W8_1,0,20,11,W8,,
+nba,W8_10,1,20,11,W8,,
+nba,W8_11,0,20,15,W8,,
+nba,W8_12,0,20,11,W8,,
+nba,W8_13,1,20,19,W8,,
+nba,W8_14,1,20,17,W8,,
+nba,W8_15,0,20,19,W8,,
+nba,W8_16,1,20,18,W8,,
+nba,W8_17,1,10,5,W8,,
+nba,W8_18,0,10,10,W8,,
+nba,W8_19,1,10,8,W8,,
+nba,W8_2,0,20,18,W8,,
+nba,W8_20,0,10,0,W8,,
+nba,W8_21,1,10,2,W8,,
+nba,W8_22,0,10,10,W8,,
+nba,W8_23,1,10,10,W8,,
+nba,W8_24,1,10,8,W8,,
+nba,W8_25,1,10,2,W8,,
+nba,W8_26,1,10,7,W8,,
+nba,W8_27,1,10,0,W8,,
+nba,W8_28,1,10,10,W8,,
+nba,W8_29,1,10,7,W8,,
+nba,W8_3,1,20,17,W8,,
+nba,W8_30,0,10,6,W8,,
+nba,W8_31,1,10,2,W8,,
+nba,W8_32,0,10,7,W8,,
+nba,W8_33,0,10,8,W8,,
+nba,W8_34,1,10,10,W8,,
+nba,W8_35,1,10,10,W8,,
+nba,W8_36,0,10,8,W8,,
+nba,W8_37,0,10,10,W8,,
+nba,W8_38,1,10,10,W8,,
+nba,W8_39,1,10,6,W8,,
+nba,W8_4,1,20,18,W8,,
+nba,W8_40,0,10,5,W8,,
+nba,W8_41,1,10,7,W8,,
+nba,W8_42,1,10,9,W8,,
+nba,W8_43,0,10,10,W8,,
+nba,W8_44,1,10,3,W8,,
+nba,W8_5,1,20,11,W8,,
+nba,W8_6,1,20,6,W8,,
+nba,W8_7,1,20,1,W8,,
+nba,W8_8,1,20,19,W8,,
+nba,W8_9,0,20,18,W8,,
+nba,W9_0,1,17,15,W9,,
+nba,W9_1,1,17,16,W9,,
+nba,W9_10,0,17,15,W9,,
+nba,W9_11,1,17,13,W9,,
+nba,W9_12,1,17,16,W9,,
+nba,W9_13,0,17,9,W9,,
+nba,W9_14,1,17,16,W9,,
+nba,W9_15,1,17,16,W9,,
+nba,W9_16,1,17,15,W9,,
+nba,W9_17,0,17,3,W9,,
+nba,W9_18,0,17,14,W9,,
+nba,W9_19,1,17,5,W9,,
+nba,W9_2,1,17,3,W9,,
+nba,W9_20,1,17,14,W9,,
+nba,W9_21,1,17,8,W9,,
+nba,W9_22,1,10,1,W9,,
+nba,W9_23,1,10,10,W9,,
+nba,W9_24,1,10,7,W9,,
+nba,W9_25,1,10,10,W9,,
+nba,W9_26,0,10,2,W9,,
+nba,W9_27,1,10,0,W9,,
+nba,W9_28,1,10,6,W9,,
+nba,W9_29,1,10,10,W9,,
+nba,W9_3,1,17,17,W9,,
+nba,W9_30,0,10,6,W9,,
+nba,W9_31,1,10,2,W9,,
+nba,W9_32,0,10,4,W9,,
+nba,W9_33,0,10,2,W9,,
+nba,W9_34,0,10,3,W9,,
+nba,W9_35,1,10,9,W9,,
+nba,W9_36,1,10,1,W9,,
+nba,W9_37,1,10,9,W9,,
+nba,W9_38,0,10,8,W9,,
+nba,W9_39,0,10,9,W9,,
+nba,W9_4,1,17,16,W9,,
+nba,W9_40,0,10,10,W9,,
+nba,W9_41,1,10,8,W9,,
+nba,W9_42,1,10,8,W9,,
+nba,W9_43,0,10,9,W9,,
+nba,W9_44,0,10,4,W9,,
+nba,W9_45,1,10,5,W9,,
+nba,W9_46,1,10,1,W9,,
+nba,W9_47,1,10,2,W9,,
+nba,W9_48,0,10,10,W9,,
+nba,W9_49,0,10,4,W9,,
+nba,W9_5,1,17,12,W9,,
+nba,W9_50,1,10,7,W9,,
+nba,W9_51,1,10,6,W9,,
+nba,W9_52,1,10,10,W9,,
+nba,W9_53,0,10,4,W9,,
+nba,W9_6,1,17,12,W9,,
+nba,W9_7,1,17,16,W9,,
+nba,W9_8,1,17,15,W9,,
+nba,W9_9,0,17,15,W9,,

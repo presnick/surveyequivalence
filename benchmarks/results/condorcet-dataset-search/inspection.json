@@ -1,0 +1,153 @@
+{
+  "checked_date": "2026-10-06",
+  "purpose": "Dataset feasibility inspection for the Condorcet jury / rater-equivalence graphics plan. New datasets have not yet been scored.",
+  "new_file_inspection_method": "Public original-source files downloaded and parsed in memory by the dataset-search agent. Raw new files were not retained in the workspace; import adapters and independent verification remain proposed work.",
+  "datasets": [
+    {
+      "id": "nba",
+      "status": "Existing repository inspection and calculated panel curves reviewed",
+      "source": "https://osf.io/2rzcs/",
+      "inspection": "benchmarks/results/sports-data-search/inspection.json",
+      "curves": "benchmarks/results/sports-survey-equivalence/panel_curves.csv",
+      "games": 465,
+      "raters": 113,
+      "complete_records": 9788,
+      "panel_support": [
+        1,
+        10
+      ]
+    },
+    {
+      "id": "bluebirds",
+      "status": "Original individual votes and truth parsed",
+      "repository": "https://github.com/welinder/cubam",
+      "revision": "fe5ba700f1adbb489c69af311558d64370d73d36",
+      "items": 108,
+      "workers": 39,
+      "votes": 4212,
+      "ratings_per_item": 39,
+      "fully_crossed": true,
+      "schema": "labels.yaml maps worker ID to item ID to Boolean vote. gt.yaml maps item ID to Boolean truth.",
+      "task": "Indigo Bunting versus Blue Grosbeak classification",
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/labels.yaml",
+          "sha256": "8b1b28e4b869b19bb03beac476c7073149cef784f9524ebe17380a1292a6126c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/bluebirds/gt.yaml",
+          "sha256": "c9eb769c845ca99495a07b5c28c4290c78436fd8eac65c0747736c4ef8126340"
+        }
+      ],
+      "license_status": "Repository software is BSD-3-Clause-Clear; no separate dataset-specific license found."
+    },
+    {
+      "id": "ducks",
+      "status": "Original individual votes and species classes parsed",
+      "repository": "https://github.com/welinder/cubam",
+      "revision": "fe5ba700f1adbb489c69af311558d64370d73d36",
+      "items": 240,
+      "workers": 53,
+      "votes": 9600,
+      "ratings_per_item": 40,
+      "fully_crossed": false,
+      "schema": "labels.txt starts with dimensions 240 53 9600, then rows item_id worker_id binary_vote. classes.yaml supplies species.",
+      "positive_species_codes": {
+        "0": "Mallard",
+        "2": "American Black Duck"
+      },
+      "negative_species_codes": {
+        "1": "Canada Goose",
+        "3": "Non Bird",
+        "4": "Red-necked Grebe"
+      },
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/labels.txt",
+          "sha256": "00584030f5edcbf125053046021a638da344911fecb797ab19c2efb5efe4fec0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/welinder/cubam/fe5ba700f1adbb489c69af311558d64370d73d36/demo/ducks/classes.yaml",
+          "sha256": "7cf1dcf477e7c06d6186180c34ed275ac76e42ba24ffbef444a165aa06d64d55"
+        }
+      ],
+      "license_status": "Repository software is BSD-3-Clause-Clear; no separate dataset-specific license found."
+    },
+    {
+      "id": "city_comparisons",
+      "status": "Original CSV parsed and missing-response coding inspected",
+      "source": "https://osf.io/cuzqm/",
+      "file_name": "S3_CityTask.csv",
+      "download": "https://osf.io/download/vyx8a/",
+      "sha256": "68bd4c618ecc34700038dedd695bc28daef84d9bf54b91810e91bef4fa9fc2eb",
+      "bytes": 24282721,
+      "raw_rows": 109500,
+      "raw_subjects": 120,
+      "subjects_with_1000_rows": 99,
+      "subjects_with_500_rows": 21,
+      "retained_trial_rows": 99000,
+      "missing_decisions_excluded": 213,
+      "usable_votes": 98787,
+      "items": 1000,
+      "retained_subjects": 99,
+      "valid_depth_distribution": {
+        "97": 15,
+        "98": 183,
+        "99": 802
+      },
+      "proposed_all_item_max_panel": 97,
+      "schema": [
+        "Subject",
+        "Session",
+        "City1",
+        "City2",
+        "CityLeft",
+        "CityLeftPop",
+        "CityRight",
+        "CityRightPop",
+        "CityResponse",
+        "DecisionResponse",
+        "CorrectResponse",
+        "DecisionAcc",
+        "Conf"
+      ],
+      "checks_and_limits": [
+        "Missing CityResponse and DecisionResponse can have DecisionAcc=0; do not turn these into wrong votes.",
+        "Convert screen-position choices to city identity; derive truth from released historical population fields.",
+        "Full1000-trial cohort matches paper's99; raw120 participant IDs differ from reported109.",
+        "City identities recur across questions; uncertainty and splitting must account for shared cities."
+      ],
+      "license_status": "OSF node metadata node_license is null; no explicit license verified."
+    },
+    {
+      "id": "skin_lesions",
+      "status": "Primary paper and public supplement availability reviewed; raw file not parsed",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4978286/",
+      "reported_items": 108,
+      "reported_raters": 40,
+      "reported_votes": 4320,
+      "reported_positive_cases": 27,
+      "truth": "Histopathology reference",
+      "limitations": [
+        "Access to raw supplement, schema, and terms need checking before import.",
+        "Report class-specific accuracy; raw accuracy can hide minority-class failures."
+      ]
+    },
+    {
+      "id": "rte",
+      "status": "Primary paper/catalog reviewed; original download route redirects to login; raw file not parsed",
+      "source": "https://aclanthology.org/D08-1027/",
+      "catalog": "https://github.com/TrentoCrowdAI/crowdsourced-datasets",
+      "reported_items": 800,
+      "reported_workers": 164,
+      "reported_votes": 8000,
+      "reported_depth": 10
+    }
+  ],
+  "primary_methods_sources": [
+    "https://proceedings.neurips.cc/paper_files/paper/2010/file/0f9cafd014db7a619ddb4276af0d692c-Paper.pdf",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC6957221/",
+    "https://link.springer.com/article/10.1186/s41235-020-00256-z"
+  ],
+  "plan": "docs/condorcet_jury_equivalence_plan.md"
+}

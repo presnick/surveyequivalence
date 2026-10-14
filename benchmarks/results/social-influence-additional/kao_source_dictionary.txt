@@ -1,0 +1,13 @@
+For all datafiles except for rawData_truth659.csv, there is a single column, which lists all of the estimates taken for that numerosity. The true numerosity corresponding to that file is listed in the filename.
+
+For the datafile rawData_truth659.csv, there are several additional columns, due to the additional social influence component of that experiment. Below, each column is described. -1 for any entry indicates data that was not provided by the participant.
+
+1 - AGE - the age in years of the participant
+2 - GENDER - the self-reported gender of the participant, 1 = male, 2 = female
+3 - EDUCATION - the self-reported educational background of the participant, 1 = less than high school, 2 = high school, 3 = college, 4 = advanced degree
+4 - GUESS 1 - the initial estimate of the participant, before social information was presented
+5 - N - the social group size (the number of estimates that the participant was told was averaged to produce the social information)
+6 - S - the social information given to the participant
+7 - GUESS 2 - the second estimate of the participant, after social information was presented
+8 - TIME1 - the time in seconds taken for the participant to make the initial estimate
+9 - TIME2 - the time in seconds taken for the participant to make the second estimate
